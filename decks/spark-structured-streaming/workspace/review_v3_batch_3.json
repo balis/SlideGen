@@ -1,0 +1,99 @@
+{
+  "draft_version": 3,
+  "batch": 3,
+  "slides_checked": "19-25",
+  "verdict": "APPROVED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Complete Clickstream Query",
+      "bullet": "Read from Kafka — stream as unbounded table [claim:sss:unbounded_table:001]",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the 'Input Table'. Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Complete Clickstream Query",
+      "bullet": "Same groupBy/count as batch — Spark incrementalizes it [claim:sss:batch_like_query:002]",
+      "source_excerpt": "This leads to a new stream processing model that is very similar to a batch processing model. You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "slide": "Complete Clickstream Query",
+      "bullet": ".withWatermark(\"event_time\", \"5 minutes\")  # [claim:sss:withwatermark_api:024]",
+      "source_excerpt": "words.withWatermark(\"timestamp\", \"10 minutes\").groupBy(window(words.timestamp, \"10 minutes\", \"5 minutes\"), words.word).count() ... withWatermark must be called on same column as the timestamp column used in the aggregate ... withWatermark must be called before the aggregation",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "What Happens Under the Hood",
+      "bullet": "WAL write: Offset range logged to checkpoint before processing [claim:sss:microbatch_loop:008]",
+      "source_excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: ... 2. latestOffset/getOffset ... 3. walCommit — Persists offsets to write-ahead log 4. getBatch — Creating Logical Query Plans For Unprocessed Data From Sources and MicroBatchReaders",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "What Happens Under the Hood",
+      "bullet": "IncrementalExecution: Plan built with `StatefulAggregationStrategy` — window counts updated in state store [claim:sss:incremental_execution:012]",
+      "source_excerpt": "IncrementalExecution is 'A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution.' It 'overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy).'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_bound:020",
+      "slide": "The Late Data Problem — Unbounded State",
+      "bullet": "Without watermarks, the system must keep state for every window since the application began because a late record might arrive for any window [claim:sss:watermark_state_bound:020]",
+      "source_excerpt": "Allowing arbitrarily late data might require storing arbitrarily large state. For example, if we count data by 1-minute event time window, the system needs to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "slide": "Watermark Definition",
+      "bullet": "Watermark = max(event_time) - threshold ... Naturally robust to backlog: if the system cannot keep up with the input rate, the watermark does not advance arbitrarily — it is anchored to the data actually processed [claim:sss:watermark_definition:019]",
+      "source_excerpt": "the watermark for C is max(C) − t_C, that is, t_C seconds before the maximum event time seen so far in C. Note that this choice of watermark is naturally robust to backlogged data: if the system cannot keep up with the input rate for a period of time, the watermark will not move forward arbitrarily during that time",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "slide": "withWatermark() API and Placement Rules",
+      "bullet": "The withWatermark() API takes two arguments: the event-time column and the delay threshold [claim:sss:withwatermark_api:024]",
+      "source_excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate ... withWatermark must be called before the aggregation for the watermark details to be used ... using withWatermark on a non-streaming Dataset is no-op",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_cleanup:021",
+      "slide": "How Watermarks Clean Up State",
+      "bullet": "In Append mode: engine holds partial counts, waits for watermark to pass the window end, then emits final result and drops the window's state [claim:sss:watermark_state_cleanup:021]",
+      "source_excerpt": "The engine maintains intermediate counts for each window. However, the partial counts are not updated to the Result Table and not written to sink. The engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_guarantee:022",
+      "slide": "How Watermarks Clean Up State",
+      "bullet": "The guarantee is one-sided: Data within the threshold: never dropped (guaranteed); Data beyond the threshold: may or may not be processed (not guaranteed) [claim:sss:watermark_guarantee:022]",
+      "source_excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed. ... However, the guarantee is strict only in one direction. Data delayed by more than 2 hours is not guaranteed to be dropped; it may or may not get aggregated.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "10 claims checked (9 unique, 1 repeated). 10 verified, 0 misrepresented, 0 unverified."
+}

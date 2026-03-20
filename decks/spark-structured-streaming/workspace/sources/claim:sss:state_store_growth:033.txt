@@ -1,0 +1,30 @@
+Source: RocksDB 101: Optimizing stateful streaming in Apache Spark with Amazon EMR and AWS Glue (AWS Blog)
+URL: https://aws.amazon.com/blogs/big-data/rocksdb-101-optimizing-stateful-streaming-in-apache-spark-with-amazon-emr-and-aws-glue/
+Retrieved: 2026-03-20
+
+Excerpt:
+When maintaining millions of keys in stateful operations like streaming aggregation or
+joins, you may face issues related to large JVM garbage collection (GC) pauses. This
+occurs because the default HDFS-based state store maintains state data in JVM memory of
+executors, and a large number of state objects puts memory pressure on the JVM causing
+high GC pauses.
+
+As of Spark 3.2, a new built-in state store implementation, RocksDB state store provider,
+was added. Rather than keeping the state in the JVM memory, this solution uses RocksDB to
+efficiently manage the state in the native memory and the local disk.
+
+RocksDB-based state storage can easily scale up to 100 million keys per executor, which
+is significantly better than the default implementation.
+
+If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely
+and potentially cause OOM (out-of-memory) issues. RocksDB provides a way to limit the
+memory usage for all DB instances running on a single node by using the write buffer
+manager functionality.
+
+To manage this, you can cap RocksDB memory usage in your Spark Structured Streaming
+deployment by setting the spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage
+config to true.
+
+It's important to track the total number of state keys, analyze state size growth over
+time, identify potential state skew (uneven distribution of keys across partitions), and
+understand the distribution of state values.

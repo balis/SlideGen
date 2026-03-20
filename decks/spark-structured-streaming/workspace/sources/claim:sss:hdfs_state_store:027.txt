@@ -1,0 +1,12 @@
+Source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+Section: State Store
+Retrieved: 2026-03-20
+
+Excerpt:
+"State store is a versioned key-value store which provides both read and write operations. In Structured Streaming, we use the state store provider to handle the stateful operations across batches."
+
+"The HDFS backend state store provider is the default implementation of StateStoreProvider and StateStore in which all the data is stored in memory map in the first stage, and then backed by files in an HDFS-compatible file system. All updates to the store have to be done in sets transactionally, and each set of updates increments the store's version. These versions can be used to re-execute the updates (by retries in RDD operations) on the correct version of the store, and regenerate the store version."
+
+On task locality and state reuse:
+"The stateful operations in Structured Streaming queries rely on the preferred location feature of Spark's RDD to run the state store provider on the same executor. If in the next batch the corresponding state store provider is scheduled on this executor again, it could reuse the previous states and save the time of loading checkpointed states."

@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 2,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:trigger_types:007",
+      "statement": "Structured Streaming supports four trigger modes: ProcessingTime (fixed-interval micro-batches; if interval is 0 the query runs as fast as possible), Once (deprecated since 3.4; single batch then stop), AvailableNow (process all available data in possibly multiple batches then stop, with better scalability than Once), and Continuous (experimental low-latency mode with at-least-once semantics, ~1 ms latency versus ~100 ms for micro-batch).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Trigger (Spark 4.1.1 JavaDoc) & Structured Streaming Programming Guide — Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/streaming/Trigger.html",
+        "section": "ProcessingTime / Once / AvailableNow / Continuous methods",
+        "excerpt": "ProcessingTime: 'A trigger policy that runs a query periodically based on an interval in processing time. If interval is 0, the query will run as fast as possible.' Once (deprecated since 3.4.0): 'A trigger that processes all available data in a single batch then terminates the query.' AvailableNow: 'A trigger that processes all available data at the start of the query in one or multiple batches, then terminates the query.' Continuous: 'A trigger that continuously processes streaming data, asynchronously checkpointing at the specified interval.'"
+      }
+    },
+    {
+      "id": "claim:sss:microbatch_loop:008",
+      "statement": "In micro-batch mode the engine processes exactly one batch per trigger interval. Each iteration has two phases: constructNextBatch queries sources for their latest offsets and writes offset ranges to the write-ahead log; runBatch retrieves unprocessed data between committedOffsets and availableOffsets, builds an IncrementalExecution plan, and writes results through the sink's addBatch() method.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming — MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "Execution phases",
+        "excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: triggerExecution, latestOffset/getOffset, walCommit, getBatch, queryPlanning, addBatch. getBatch: 'Creating Logical Query Plans For Unprocessed Data From Sources and MicroBatchReaders'. The system 'requests the Offset Commit Log to persist metadata of the streaming micro-batch (with the current batch ID and event-time watermark).'"
+      }
+    },
+    {
+      "id": "claim:sss:offset_tracking:009",
+      "statement": "The driver maintains two key offset collections — committedOffsets (offsets already processed and committed) and availableOffsets (latest offsets discovered from sources). Each micro-batch the driver calls latestOffset() or getOffset() on each source to discover new data, then calls getBatch(start, end) to retrieve the data range. After sink output completes, the driver commits the offsets, advancing committedOffsets.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Structured Streaming Programming Guide (Spark 3.5)",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Fault Tolerance Semantics",
+        "excerpt": "Every streaming source is assumed to have offsets (similar to Kafka offsets, or Kinesis sequence numbers) to track the read position in the stream. The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger."
+      }
+    },
+    {
+      "id": "claim:sss:wal_exactly_once:010",
+      "statement": "Exactly-once processing is guaranteed by two persistent logs stored in the checkpoint directory: the OffsetSeqLog records the offset range for each batch before execution begins, and the CommitLog records successful completion with watermark metadata. On recovery the engine replays any batch whose offsets were logged but not yet committed. Combined with replayable sources and idempotent sinks this ensures end-to-end exactly-once semantics.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Structured Streaming Programming Guide",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Fault Tolerance Semantics",
+        "excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure."
+      }
+    },
+    {
+      "id": "claim:sss:offset_seq_log:011",
+      "statement": "The OffsetSeqLog persists offsets as versioned files in HDFS-compatible storage, one file per batch ID. Before a micro-batch executes, the available offsets are converted to an OffsetSeq and added to this write-ahead log. On restart, populateStartOffsets reads the latest committed batch ID from this log to determine where to resume processing.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming — MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "WAL and Checkpointing",
+        "excerpt": "Requests the availableOffsets StreamProgress to convert to OffsetSeq (with the BaseStreamingSources and the current batch metadata) that is in turn added to the write-ahead log. On restart, populateStartOffsets requests the Offset Write-Ahead Log for the latest committed batch id with metadata."
+      }
+    },
+    {
+      "id": "claim:sss:incremental_execution:012",
+      "statement": "Each micro-batch is executed via IncrementalExecution, a variant of QueryExecution that allows a LogicalPlan to be executed incrementally while preserving state between executions. It injects streaming-specific planner strategies (StatefulAggregationStrategy, StreamingJoinStrategy, StreamingDeduplicationStrategy) and manages stateful operator checkpointing and watermark propagation across batches.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming — MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "queryPlanning phase",
+        "excerpt": "MicroBatchExecution splits execution into phases including queryPlanning which builds IncrementalExecution for execution. IncrementalExecution is 'A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution.'"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark
+DOI: https://doi.org/10.1145/3183713.3190664
+Authors: Michael Armbrust, Tathagata Das, J. Torres, B. Yavuz, Shixiong Zhu, Reynold Xin, A. Ghodsi, Ion Stoica, M. Zaharia
+Published: SIGMOD 2018
+Retrieved: 2026-03-20
+
+Section: System Design / Optimization
+
+Excerpt:
+"Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others. It uses Spark SQL's Tungsten binary format for data in memory and its runtime code generator to compile chains of operators to Java bytecode."
+
+Additional context:
+"This design means that most of the work in logical and execution optimization for analytical workloads in Spark SQL automatically applies to streaming."
+
+"Structured Streaming achieves high performance via Spark SQL's code generation engine and can outperform Apache Flink by up to 2x and Apache Kafka Streams by 90x."

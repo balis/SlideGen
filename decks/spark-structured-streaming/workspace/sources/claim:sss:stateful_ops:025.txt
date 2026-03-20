@@ -1,0 +1,17 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)
+DOI: https://doi.org/10.1145/3183713.3190664
+Authors: Armbrust, Das, Torres, Yavuz, Zhu, Xin, Ghodsi, Stoica, Zaharia
+Section: 4.3.2 Stateful Operators
+Retrieved: 2026-03-20
+
+Excerpt from paper:
+"For developers who want to write custom stream processing logic, Structured Streaming's stateful operators are 'UDFs with state' that give users control over the computation while fitting into Structured Streaming's semantics and fault tolerance mechanisms. There are two stateful operators, mapGroupsWithState and flatMapGroupsWithState. Both operators act on data that has been assigned a key using groupByKey, and let the developers track and update a state for each key using custom logic, as well as output records for each key. They are closely based on Spark Streaming's updateStateByKey operator."
+
+"The mapGroupsWithState operator, on a grouped dataset with keys of type K and values of type V, takes in a user-defined update function with the following arguments: key of type K, newValues of type Iterator[V], state of type GroupState[S], where S is a user-specified class."
+
+"The second stateful operator, flatMapGroupsWithState, is very similar to mapGroupsWithState, except that the update function can return zero or more values of type R per update instead of one. For example, this operator could be used to manually implement a stream-to-table join."
+
+Additional source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+
+"Many usecases require more advanced stateful operations than aggregations. For example, in many usecases, you have to track sessions from data streams of events. For doing such sessionization, you will have to save arbitrary types of data as state, and perform arbitrary operations on the state using the data stream events in every trigger. Since Spark 2.2, this can be done using the operation mapGroupsWithState and the more powerful operation flatMapGroupsWithState. Both operations allow you to apply user-defined code on grouped Datasets to update user-defined state."

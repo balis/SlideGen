@@ -1,0 +1,23 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)
+DOI: https://doi.org/10.1145/3183713.3190664
+Authors: Armbrust, Das, Torres, Yavuz, Zhu, Xin, Ghodsi, Stoica, Zaharia
+Section: 6.1 State Management and Recovery
+Retrieved: 2026-03-20
+
+Excerpt from paper:
+"Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink, including its start and end offsets. It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store. This just requires loading the old state and running those epochs with the same offsets while disabling output. Finally, the system reruns the last epoch and relies on the sink's idempotence to write its results, then starts defining new epochs."
+
+"Finally, all of the state management in this design is transparent to user code. Both the aggregation operators and custom stateful processing operators (e.g., mapGroupsWithState) automatically checkpoint state to the state store, without requiring custom code to do it. The user's data types only need to be serializable."
+
+On state checkpointing being asynchronous:
+"Stateful operators also checkpoint state asynchronously, marking it with its epoch, but this does not need to happen on every epoch."
+
+Additional source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+
+"Delivering end-to-end exactly-once semantics was one of key goals behind the design of Structured Streaming. To achieve that, we have designed the Structured Streaming sources, the sinks and the execution engine to reliably track the exact progress of the processing so that it can handle any kind of failure by restarting and/or reprocessing."
+
+"The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure."
+
+On state locality optimization:
+"The stateful operations in Structured Streaming queries rely on the preferred location feature of Spark's RDD to run the state store provider on the same executor. If in the next batch the corresponding state store provider is scheduled on this executor again, it could reuse the previous states and save the time of loading checkpointed states."

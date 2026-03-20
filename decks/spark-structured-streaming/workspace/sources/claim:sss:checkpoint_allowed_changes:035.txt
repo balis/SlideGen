@@ -1,0 +1,35 @@
+Source: Structured Streaming checkpoints - Databricks Documentation
+URL: https://docs.databricks.com/aws/en/structured-streaming/checkpoints
+Retrieved: 2026-03-20
+
+Excerpt:
+"Any changes (that is, additions, deletions, or schema modifications) to the stateful
+operations of a streaming query are not allowed between restarts."
+
+Changes that necessitate a new checkpoint include:
+- Number or type of input sources
+- Subscribed Kafka topics or Auto Loader paths
+- Stateful operation types
+- State schema
+- Output sink type
+
+Safe modifications that don't require checkpoint restart:
+- Adding or removing filters
+- Changing rate limits: "Addition, deletion, and modification of rate limits is allowed"
+- Trigger intervals
+- Updating user-defined function logic within mapGroupsWithState (though semantics may change)
+
+Specific allowed changes:
+- Changing between incremental batches and time-interval triggers
+- Adding filters: sdf.selectExpr("a") to sdf.where(...).selectExpr("a").filter(...)
+- Changing Kafka output topic (different topic parameter)
+
+Strictly prohibited:
+- Changes to subscribed topics/files: "Changes to subscribed articles and files are
+  generally not allowed as the results are unpredictable"
+- Modifying output directory for file sinks
+- Kafka sink to file sink conversion
+
+"The stateful operators dropDuplicates() and dropDuplicatesWithinWatermark() can fail to
+restart due to a state schema compatibility check when changing between compute access
+modes."

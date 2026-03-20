@@ -1,0 +1,183 @@
+{
+  "draft_version": 2,
+  "batch": 1,
+  "slides_checked": "Slides 3-10",
+  "verdict": "APPROVED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:declarative_incrementalization:004",
+      "slide": "Why Unify Batch and Streaming?",
+      "bullet": "Structured Streaming takes a declarative approach: users write a static relational query, and the engine automatically incrementalizes it",
+      "source_excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "A live data stream is treated as a table that is being continuously appended — every arriving data item is a new row in an unbounded Input Table",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the 'Input Table'. Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "Users express streaming computations as standard batch-like queries on this table, and Spark runs them as incremental queries on the unbounded input",
+      "source_excerpt": "You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:same_api:003",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "A query on a streaming DataFrame uses the same DataFrame/Dataset API as a static DataFrame, enabling code reuse across batch and streaming workloads",
+      "source_excerpt": "the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame... You can express your streaming computation the same way you would express a batch computation on static data.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:catalyst_reuse:005",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "Structured Streaming reuses Spark SQL's Catalyst optimizer and Tungsten code generation, so most optimizations — such as predicate pushdown, projection pushdown, and expression simplification — apply automatically",
+      "source_excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others. It uses Spark SQL's Tungsten binary format for data in memory and its runtime code generator to compile chains of operators to Java bytecode.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null,
+      "note": "Previously MISREPRESENTED in v1 due to missing 'most' qualifier. The v2 draft now correctly states 'most optimizations' matching the source's 'most of the optimization rules'. Fix confirmed."
+    },
+    {
+      "claim_id": "claim:sss:incremental_state:006",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "The engine does not keep the entire unbounded table in memory — it reads the latest available data, processes it incrementally, keeps only minimal intermediate state, and discards the source data",
+      "source_excerpt": "Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "Each micro-batch is executed via IncrementalExecution, a variant of QueryExecution that injects streaming-specific planner strategies (StatefulAggregationStrategy, StreamingJoinStrategy) and manages stateful checkpointing across batches",
+      "source_excerpt": "IncrementalExecution is 'A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution.' It 'overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy).'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null,
+      "note": "Slide lists two of three strategies (omits StreamingDeduplicationStrategy) but does not claim exhaustiveness. Acceptable."
+    },
+    {
+      "claim_id": "claim:sss:trigger_types:007",
+      "slide": "Trigger Modes Overview",
+      "bullet": "Structured Streaming supports four trigger modes: ProcessingTime(interval) with interval=0 as-fast-as-possible, Once deprecated 3.4, AvailableNow, Continuous(checkpoint_interval) with ~1 ms latency and at-least-once semantics",
+      "source_excerpt": "ProcessingTime: 'A trigger policy that runs a query periodically based on an interval in processing time. If interval is 0, the query will run as fast as possible.' Once (deprecated since 3.4.0). AvailableNow: 'A trigger that processes all available data at the start of the query in one or multiple batches, then terminates.' Continuous: 'low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees.'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "Each micro-batch has two phases: constructNextBatch (discover offsets, write WAL) and runBatch (retrieve data, build IncrementalExecution plan, write through sink)",
+      "source_excerpt": "MicroBatchExecution splits execution of a single micro-batch into phases: triggerExecution, latestOffset/getOffset, walCommit, getBatch, queryPlanning (builds IncrementalExecution), addBatch (writes to sink).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "The driver tracks committedOffsets (already processed) and availableOffsets (latest discovered from sources); each batch processes the range between them",
+      "source_excerpt": "getBatch Phase: processes offset ranges between committedOffsets and availableOffsets. getOffset Phase: Requests each source for 'the latest offset'.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "The driver calls latestOffset() / getOffset() on each source to discover new data, then getBatch(start, end) to retrieve the data range",
+      "source_excerpt": "getOffset Phase: Requests each source for 'the latest offset'; getBatch Phase: processes offset ranges between committedOffsets and availableOffsets.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_seq_log:011",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "Offsets are persisted in the OffsetSeqLog — versioned files in HDFS-compatible storage, one per batch ID",
+      "source_excerpt": "The OffsetSeqLog persists offsets to HDFS-compatible storage as versioned files, one per batch. The walCommit phase persists offsets to the write-ahead log before the getBatch phase retrieves data.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_seq_log:011",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "On restart, populateStartOffsets reads the latest committed batch ID from this log to determine where to resume processing",
+      "source_excerpt": "On restart, populateStartOffsets requests the Offset Write-Ahead Log for the latest committed batch id with metadata.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Micro-Batch Latency",
+      "bullet": "The default micro-batch engine achieves end-to-end latencies as low as ~100 milliseconds with exactly-once guarantees",
+      "source_excerpt": "Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "Exactly-once is guaranteed by the combination of two persistent logs, replayable sources, and idempotent sinks; OffsetSeqLog records offset range before execution, CommitLog records completion after sink output",
+      "source_excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "On recovery, the engine replays any batch whose offsets were logged but not yet committed",
+      "source_excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger... can handle any kind of failure by restarting and/or reprocessing.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:checkpoint_layout:029",
+      "slide": "Checkpoint Directory Layout",
+      "bullet": "offsets/: one file per batch, written at batch start (the intent log); commits/: one file per batch, written at batch end (the completion log); state/: partitioned state-store snapshots; metadata: query ID and configuration",
+      "source_excerpt": "offsets/: batch-wise source offsets, written at the start of each micro-batch; commits/: batch-wise commit records, written at the end of each micro-batch; state/: checkpointed state store data for stateful operators; metadata: query ID and configuration.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:state_checkpoint_recovery:030",
+      "slide": "Recovery Semantics",
+      "bullet": "On recovery, the engine reads the WAL to find the last uncommitted epoch, loads the most recent state-store snapshot and replays intermediate epochs to reconstruct in-memory state, reruns the failed epoch relying on sink idempotence, state checkpointing is asynchronous and does not need to happen every epoch",
+      "source_excerpt": "Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink... It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store. This just requires loading the old state and running those epochs with the same offsets while disabling output. Finally, the system reruns the last epoch and relies on the sink's idempotence... Stateful operators also checkpoint state asynchronously... does not need to happen on every epoch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Running Example Introduction",
+      "bullet": "Every arriving click event is a new row appended to the unbounded Input Table",
+      "source_excerpt": "Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null,
+      "note": "Second use of this claim in the Running Example slide. Consistent with source."
+    }
+  ],
+  "summary": "Full adversarial re-scan of slides 3-10 (Sections A-B plus start of Sections C-D). 19 claim references checked across 8 slides covering 15 unique claims. All 19 VERIFIED. Previously flagged claim:sss:catalyst_reuse:005 now correctly includes the 'most' qualifier matching the source — fix confirmed. No new issues found. Batch verdict: APPROVED."
+}

@@ -1,0 +1,20 @@
+Source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+Section: RocksDB State Store Implementation
+Retrieved: 2026-03-20
+
+Excerpt:
+"If you have stateful operations in your streaming query (for example, streaming aggregation, streaming dropDuplicates, stream-stream joins, mapGroupsWithState, or flatMapGroupsWithState) and you want to maintain millions of keys in the state, then you may face issues related to large JVM garbage collection (GC) pauses causing high variations in the micro-batch processing times. This occurs because, by the implementation of HDFSBackedStateStore, the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses."
+
+"As of Spark 3.2, we add a new built-in state store implementation, RocksDB state store provider...Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk."
+
+Configuration to enable:
+spark.sql.streaming.stateStore.providerClass=org.apache.spark.sql.execution.streaming.state.RocksDBStateStoreProvider
+
+On changelog checkpointing (Spark 3.3+):
+"Instead of uploading data files of RocksDB instances, changelog checkpointing uploads changes made to the state since the last checkpoint for durability. Changelog checkpointing avoids cost of capturing and uploading snapshots of RocksDB instances and significantly reduce streaming query latency."
+
+Enable with: spark.sql.streaming.stateStore.rocksdb.changelogCheckpointing.enabled=true
+
+On memory management:
+"RocksDB allocates memory for different objects such as memtables, block cache and filter/index blocks. If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM (out-of-memory) issues."

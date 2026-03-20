@@ -1,0 +1,16 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark
+Authors: Armbrust et al.
+DOI: https://doi.org/10.1145/3183713.3190664
+Section: 4.3.1 Event Time Watermarks
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"Structured Streaming lets developers set a watermark [2] for event time columns using
+the withWatermark operator. This operator gives the system a delay threshold t_C for a
+given timestamp column C. At any point in time, the watermark for C is max(C) − t_C,
+that is, t_C seconds before the maximum event time seen so far in C. Note that this
+choice of watermark is naturally robust to backlogged data: if the system cannot keep up
+with the input rate for a period of time, the watermark will not move forward arbitrarily
+during that time, and all events that arrived within at most T seconds of being produced
+will still be processed."

@@ -1,0 +1,23 @@
+Source: Structured Streaming Programming Guide - Spark 4.1.1 Documentation
+URL: https://spark.apache.org/docs/latest/streaming/additional-information.html
+Retrieved: 2026-03-20
+
+Excerpt:
+"Several configurations are not modifiable after the query has run. To change them,
+discard the checkpoint and start a new query. These configurations include:
+- spark.sql.shuffle.partitions
+- spark.sql.streaming.stateStore.providerClass
+- spark.sql.streaming.multipleWatermarkPolicy"
+
+Rationale for immutability:
+
+spark.sql.shuffle.partitions: "This is due to the physical partitioning of state: state
+is partitioned via applying hash function to key, hence the number of partitions for
+state should be unchanged."
+
+spark.sql.streaming.stateStore.providerClass: "To read the previous state of the query
+properly, the class of state store provider should be unchanged."
+
+spark.sql.streaming.multipleWatermarkPolicy: "Modification of this would lead
+inconsistent watermark value when query contains multiple watermarks, hence the policy
+should be unchanged."

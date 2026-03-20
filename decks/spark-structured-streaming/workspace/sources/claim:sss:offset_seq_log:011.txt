@@ -1,0 +1,25 @@
+Source: The Internals of Spark Structured Streaming — MicroBatchExecution
+URL: https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"Requests the availableOffsets StreamProgress to convert to OffsetSeq (with the
+BaseStreamingSources and the current batch metadata (event-time watermark and
+timestamp)) that is in turn added to the write-ahead log."
+
+"On restart, populateStartOffsets requests the Offset Write-Ahead Log for the
+latest committed batch id with metadata."
+
+The OffsetSeqLog persists offsets to HDFS-compatible storage as versioned files,
+one per batch. The walCommit phase persists offsets to the write-ahead log
+before the getBatch phase retrieves data, ensuring that offset ranges are
+durably recorded before execution proceeds.
+
+Additional source:
+Source: Apache Spark Structured Streaming Programming Guide
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+"The engine uses checkpointing and write-ahead logs to record the offset range
+of the data being processed in each trigger."

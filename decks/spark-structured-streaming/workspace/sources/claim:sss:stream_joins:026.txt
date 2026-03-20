@@ -1,0 +1,17 @@
+Source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+Section: Stream-stream Joins
+Retrieved: 2026-03-20
+
+Excerpt:
+"Any row received from one input stream can match with any future, yet-to-be-received row from the other input stream. Hence, for both the input streams, we buffer past input as streaming state, so that we can match every future input with past input and accordingly generate joined results."
+
+On outer joins:
+"The outer NULL results will be generated with a delay that depends on the specified watermark delay and the time range condition. This is because the engine has to wait for that long to ensure there were no matches and there will be no more matches in future."
+
+"Outer joins have the same guarantees as inner joins regarding watermark delays and whether data will be dropped or not."
+
+Supported join types include: "inner", "leftOuter", "rightOuter", "fullOuter", "leftSemi".
+
+Watermark guarantees:
+"A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed. But data delayed by more than 2 hours may or may not get processed."

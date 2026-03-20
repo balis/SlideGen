@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 5,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:stateful_ops:025",
+      "statement": "Structured Streaming supports arbitrary stateful processing via mapGroupsWithState and flatMapGroupsWithState, which act on grouped Datasets to update user-defined state, enabling use cases like sessionization. mapGroupsWithState returns one record per key per trigger; flatMapGroupsWithState can return zero or more records, making it suitable for implementing stream-to-table joins or custom session windows.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 4.3.2 Stateful Operators",
+        "excerpt": "Both operators act on data that has been assigned a key using groupByKey, and let the developers track and update a state for each key using custom logic, as well as output records for each key. ... The second stateful operator, flatMapGroupsWithState, is very similar to mapGroupsWithState, except that the update function can return zero or more values of type R per update instead of one."
+      }
+    },
+    {
+      "id": "claim:sss:stream_joins:026",
+      "statement": "Stream-stream joins buffer past input from both streams as streaming state so that every future input can be matched with past input. For inner joins watermarking is optional, but for outer joins (left, right, full) watermarks plus event-time constraints are mandatory to bound the state and determine when an unmatched row can be emitted as NULL.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "Stream-stream Joins",
+        "excerpt": "The challenge of generating join results between two data streams is that, at any point of time, the view of the dataset is incomplete for both sides of the join making it much harder to find matches between inputs. Any row received from one input stream can match with any future, yet-to-be-received row from the other input stream. Hence, for both the input streams, we buffer past input as streaming state, so that we can match every future input with past input and accordingly generate joined results."
+      }
+    },
+    {
+      "id": "claim:sss:hdfs_state_store:027",
+      "statement": "The default HDFS-backed state store provider (HDFSBackedStateStore) keeps all state data in an in-memory map on JVM executors and backs it by files on an HDFS-compatible file system. Each transactional set of updates increments the store's version, which can be used to re-execute updates and regenerate the correct store version on failure.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "State Store",
+        "excerpt": "The HDFS backend state store provider is the default implementation of StateStoreProvider and StateStore in which all the data is stored in memory map in the first stage, and then backed by files in an HDFS-compatible file system. All updates to the store have to be done in sets transactionally, and each set of updates increments the store's version. These versions can be used to re-execute the updates (by retries in RDD operations) on the correct version of the store, and regenerate the store version."
+      }
+    },
+    {
+      "id": "claim:sss:rocksdb_state_store:028",
+      "statement": "Since Spark 3.2, a RocksDB-based state store provider manages state in native memory and local disk instead of JVM heap, avoiding large GC pauses that HDFSBackedStateStore suffers when maintaining millions of keys. RocksDB also supports changelog checkpointing, which uploads only changes since the last checkpoint rather than full snapshots, reducing checkpoint overhead.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "RocksDB State Store Implementation",
+        "excerpt": "If you have stateful operations in your streaming query ... and you want to maintain millions of keys in the state, then you may face issues related to large JVM garbage collection (GC) pauses causing high variations in the micro-batch processing times. This occurs because, by the implementation of HDFSBackedStateStore, the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses. ... Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk. ... Instead of uploading data files of RocksDB instances, changelog checkpointing uploads changes made to the state since the last checkpoint for durability."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_layout:029",
+      "statement": "A Structured Streaming checkpoint uses two durable stores: a write-ahead log that records source offsets per epoch for low-latency atomic writes, and a state store that holds snapshots of operator state for long-running aggregations. The checkpoint directory contains offsets/ (batch-wise source offsets, written at batch start), commits/ (completion records, written at batch end), state/ (operator state), and metadata (query ID).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 6.1 State Management and Recovery",
+        "excerpt": "Structured Streaming uses two forms of durable storage to achieve fault tolerance. First, a write-ahead log keeps track of which data has been processed and reliably written to the output sink from each input source. ... Second, the system uses a larger-scale state store to hold snapshots of operator states for long-running aggregation operators. These are written asynchronously, and may be 'behind' the latest data written to the output sink."
+      }
+    },
+    {
+      "id": "claim:sss:state_checkpoint_recovery:030",
+      "statement": "On recovery, Structured Streaming reads the write-ahead log to find the last uncommitted epoch, loads state from the most recent state-store snapshot, replays any epochs between the snapshot and the failed epoch to reconstruct in-memory state, reruns the failed epoch with output disabled, then relies on sink idempotence to write results. State checkpointing is asynchronous and does not need to happen every epoch.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 6.1 State Management and Recovery",
+        "excerpt": "Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink, including its start and end offsets. It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store. This just requires loading the old state and running those epochs with the same offsets while disabling output. Finally, the system reruns the last epoch and relies on the sink's idempotence to write its results, then starts defining new epochs."
+      }
+    }
+  ]
+}

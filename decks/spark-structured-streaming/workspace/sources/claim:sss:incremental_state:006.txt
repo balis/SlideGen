@@ -1,0 +1,11 @@
+Source: Structured Streaming Programming Guide - Apache Spark Documentation
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Section: Programming Model / Basic Concepts
+
+Excerpt:
+"Note that Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result (e.g. intermediate counts in the earlier example)."
+
+Additional context:
+"Spark is responsible for updating the Result Table when there is new data, thus relieving the users from reasoning about it."

@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 1,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:unbounded_table:001",
+      "statement": "Structured Streaming treats a live data stream as a table that is being continuously appended, where every data item arriving on the stream is like a new row being appended to an unbounded Input Table.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the \"Input Table\". Every data item that is arriving on the stream is like a new row being appended to the Input Table."
+      }
+    },
+    {
+      "id": "claim:sss:batch_like_query:002",
+      "statement": "Users express streaming computations as standard batch-like queries on a static table, and Spark runs them as incremental queries on the unbounded input table, making the streaming programming model very similar to the batch processing model.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "This leads to a new stream processing model that is very similar to a batch processing model. You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table."
+      }
+    },
+    {
+      "id": "claim:sss:same_api:003",
+      "statement": "A query written on a streaming DataFrame using the DataFrame/Dataset API is exactly the same as it would be on a static DataFrame, allowing code reuse across batch and streaming workloads.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Quick Example",
+        "excerpt": "Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame."
+      }
+    },
+    {
+      "id": "claim:sss:declarative_incrementalization:004",
+      "statement": "Structured Streaming is a purely declarative API based on automatically incrementalizing a static relational query expressed using SQL or DataFrames, in contrast to APIs that ask the user to build a DAG of physical operators.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Abstract",
+        "excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators."
+      }
+    },
+    {
+      "id": "claim:sss:catalyst_reuse:005",
+      "statement": "Structured Streaming reuses Spark SQL's Catalyst optimizer and Tungsten code generation engine, so optimizations such as predicate pushdown, projection pushdown, and expression simplification automatically apply to streaming queries.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "System Design / Optimization",
+        "excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others. It uses Spark SQL's Tungsten binary format for data in memory and its runtime code generator to compile chains of operators to Java bytecode."
+      }
+    },
+    {
+      "id": "claim:sss:incremental_state:006",
+      "statement": "Structured Streaming does not materialize the entire unbounded table; it reads the latest available data from the streaming source, processes it incrementally to update the result, keeps only minimal intermediate state data, and then discards the source data.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "Note that Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result."
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+Source: Structured Streaming Programming Guide — Handling Late Data and Watermarking
+URL: https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html
+Retrieved: 2026-03-20
+
+Excerpt (API usage):
+"words = ...  # streaming DataFrame of schema { timestamp: Timestamp, word: String }
+
+# Group the data by window and word and compute the count of each group
+windowedCounts = words \
+    .withWatermark("timestamp", "10 minutes") \
+    .groupBy(
+        window(words.timestamp, "10 minutes", "5 minutes"),
+        words.word) \
+    .count()"
+
+Excerpt (Conditions for watermarking to clean aggregation state):
+"The following conditions must be satisfied for watermarking to clean aggregation state:
+- Output mode must be Append or Update (not Complete)
+- Aggregation must have event-time column or window on event-time column
+- withWatermark must be called on same column as the timestamp column used in the
+  aggregate. For example, df.withWatermark('time', '1 min').groupBy('time2').count()
+  is invalid in the Append output mode.
+- withWatermark must be called before the aggregation for the watermark details to be
+  used. For example, df.groupBy('time').count().withWatermark('time', '1 min') is
+  invalid in the Append output mode."
+
+Excerpt (no-op on batch):
+"Note that using withWatermark on a non-streaming Dataset is no-op. As the watermark
+should not affect any batch query in any way, we will ignore it directly."

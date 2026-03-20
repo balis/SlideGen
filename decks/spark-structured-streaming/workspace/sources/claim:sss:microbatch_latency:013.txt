@@ -1,0 +1,10 @@
+Source: Structured Streaming Programming Guide — Apache Spark Documentation
+URL: https://spark.apache.org/docs/latest/streaming/index.html
+Section: Overview
+Retrieved: 2026-03-20
+
+Excerpt:
+"Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees."
+
+Additional context from the same page:
+"However, since Spark 2.3, we have introduced a new low-latency processing mode called Continuous Processing, which can achieve end-to-end latencies as low as 1 millisecond with at-least-once guarantees."

@@ -1,0 +1,29 @@
+Source: The Internals of Spark Structured Streaming — MicroBatchExecution
+URL: https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"MicroBatchExecution splits execution of a single micro-batch into the following
+execution phases (and tracks their duration):"
+1. triggerExecution — Initializes trigger and constructs batches
+2. latestOffset/getOffset — Retrieves current source positions
+3. walCommit — Persists offsets to write-ahead log
+4. getBatch — "Creating Logical Query Plans For Unprocessed Data From Sources
+   and MicroBatchReaders"
+5. queryPlanning — Builds IncrementalExecution for execution
+6. addBatch — Writes results to sink
+
+"The system requests the Offset Commit Log to persist metadata of the streaming
+micro-batch (with the current batch ID and event-time watermark)."
+
+The isCurrentBatchConstructed flag prevents duplicate batch processing between
+trigger cycles.
+
+Additional source:
+Source: Apache Spark Structured Streaming Programming Guide
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+"Every trigger interval (say, every 1 second), new rows get appended to the
+Input Table, which eventually updates the Result Table."

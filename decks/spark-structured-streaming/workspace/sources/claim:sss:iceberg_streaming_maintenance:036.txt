@@ -1,0 +1,30 @@
+Source: Spark Structured Streaming - Apache Iceberg Documentation / Apache Iceberg Maintenance
+URL: https://iceberg.apache.org/docs/latest/spark-structured-streaming/
+Additional URL: https://iceberg.apache.org/docs/latest/maintenance/
+Retrieved: 2026-03-20
+
+Excerpt (streaming maintenance):
+The Apache Iceberg documentation for Spark Structured Streaming includes a dedicated
+section on "Maintenance for streaming tables" with the following subsections:
+
+- Tune the rate of commits: Addresses frequency of snapshot creation from micro-batch
+  writes. Each micro-batch triggers a commit that creates a new snapshot.
+- Expire old snapshots: Manages retention of historical versions to prevent unbounded
+  metadata growth.
+- Compacting data files: Handles consolidation of small files produced by frequent
+  micro-batch writes into larger files for better read performance.
+- Rewrite manifests: Optimizes metadata structure for efficient query planning.
+
+Excerpt (maintenance docs):
+"Each write to an Iceberg table creates a new snapshot, or version, of a table."
+
+"Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly
+expiring snapshots is recommended to delete data files that are no longer needed, and to
+keep the size of table metadata small."
+
+Tables receiving continuous streaming ingestion benefit from compaction every 1-4 hours.
+
+Iceberg tables used as streaming sinks accumulate snapshots and small data files rapidly
+because each micro-batch commit produces a new table snapshot with its own set of data
+files. Without periodic maintenance (compaction, snapshot expiry), read performance
+degrades and metadata storage grows unboundedly.

@@ -1,0 +1,21 @@
+Source: The Internals of Spark Structured Streaming — MicroBatchExecution
+URL: https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/
+Retrieved: 2026-03-20
+
+Excerpt:
+
+MicroBatchExecution's queryPlanning phase "builds IncrementalExecution for
+execution."
+
+IncrementalExecution is "A variant of QueryExecution that allows the execution
+of the given LogicalPlan plan incrementally. Possibly preserving state in
+between each execution."
+
+It "overrides the planner with a custom SparkPlanner that includes streaming-
+specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy,
+StreamingDeduplicationStrategy)."
+
+The queryPlanning phase transforms the logical plan by replacing streaming
+source relations with actual batch data ranges, then applies these streaming-
+specific planner strategies to handle stateful operations like aggregations,
+joins, and deduplication across micro-batches.

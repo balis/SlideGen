@@ -1,0 +1,102 @@
+{
+  "batch": 3,
+  "draft": "draft_v1.md",
+  "sections_checked": [
+    "E: Watermarks and Late Data",
+    "F: Stateful Operations and State Stores"
+  ],
+  "slides_checked": "17-24",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:watermark_state_bound:020",
+      "verdict": "VERIFIED",
+      "bullet_text": "Without watermarks, every window since the application began must be kept in state because a late record could arrive for any window",
+      "source_excerpt": "the system needs to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute",
+      "notes": "Direct match between slide and source."
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "verdict": "VERIFIED",
+      "bullet_text": "Watermark = max(event_time) - delay_threshold; Naturally robust to backlog: if the system falls behind, max(event_time) stops advancing, so the watermark does not jump forward and drop valid data",
+      "source_excerpt": "the watermark for C is max(C) - t_C, that is, t_C seconds before the maximum event time seen so far in C. Note that this choice of watermark is naturally robust to backlogged data: if the system cannot keep up with the input rate for a period of time, the watermark will not move forward arbitrarily during that time",
+      "notes": "Both the formula and the backlog robustness property are directly supported by the source."
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "verdict": "VERIFIED",
+      "bullet_text": "withWatermark() must be on the same column as the aggregation and must precede the groupBy; calling it on a non-streaming Dataset is silently a no-op",
+      "source_excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate ... withWatermark must be called before the aggregation ... using withWatermark on a non-streaming Dataset is no-op",
+      "notes": "All three constraints are explicitly stated in the Spark programming guide source."
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_cleanup:021",
+      "verdict": "VERIFIED",
+      "bullet_text": "In Append mode: the engine holds partial aggregation results, waits for the watermark to pass the window end time, then emits the final result and drops the window state",
+      "source_excerpt": "The engine maintains intermediate counts for each window. However, the partial counts are not updated to the Result Table and not written to sink. The engine waits for 10 mins for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink.",
+      "notes": "Direct match. The source describes the exact Append mode behavior stated in the slide."
+    },
+    {
+      "claim_id": "claim:sss:watermark_guarantee:022",
+      "verdict": "VERIFIED",
+      "bullet_text": "The guarantee is one-sided: data within the threshold is never dropped; data beyond the threshold may or may not be processed -- more-delayed data is less likely to be included",
+      "source_excerpt": "A watermark delay of 2 hours guarantees that the engine will never drop any data that is less than 2 hours delayed ... the guarantee is strict only in one direction. Data delayed by more than 2 hours is not guaranteed to be dropped; it may or may not get aggregated. More delayed is the data, less likely is the engine going to process it.",
+      "notes": "Exact match including the nuance about more-delayed data being less likely to be processed."
+    },
+    {
+      "claim_id": "claim:sss:watermark_output_modes:023",
+      "verdict": "VERIFIED",
+      "bullet_text": "Append emits once after watermark passes window end; Update uses watermark to prune old state; Complete does not drop old aggregation state",
+      "source_excerpt": "Append: appends the final counts to the Result Table/sink after watermark passes. Update: uses watermark to drop old aggregation state. Complete: does not drop old aggregation state since by definition this mode preserves all data in the Result Table.",
+      "notes": "All three output mode behaviors are directly supported by the source excerpts."
+    },
+    {
+      "claim_id": "claim:sss:stream_joins:026",
+      "verdict": "VERIFIED",
+      "bullet_text": "Stream-stream joins: buffer both sides as state so every future input can be matched with past input; outer joins: watermarks + event-time constraints are mandatory",
+      "source_excerpt": "for both the input streams, we buffer past input as streaming state, so that we can match every future input with past input ... The outer NULL results will be generated with a delay that depends on the specified watermark delay and the time range condition",
+      "notes": "The buffering behavior and outer join watermark requirement are directly stated in the source."
+    },
+    {
+      "claim_id": "claim:sss:stateful_ops:025",
+      "verdict": "VERIFIED",
+      "bullet_text": "mapGroupsWithState: returns one record per key per trigger; flatMapGroupsWithState: returns zero or more records per key",
+      "source_excerpt": "flatMapGroupsWithState, is very similar to mapGroupsWithState, except that the update function can return zero or more values of type R per update instead of one",
+      "notes": "The instead of one phrasing in the source confirms mapGroupsWithState returns exactly one record, and flatMapGroupsWithState returns zero or more."
+    },
+    {
+      "claim_id": "claim:sss:hdfs_state_store:027",
+      "verdict": "VERIFIED",
+      "bullet_text": "HDFS-backed state store: all state in JVM heap, backed by versioned HDFS files -- simple but prone to GC pauses with millions of keys",
+      "source_excerpt": "all the data is stored in memory map in the first stage, and then backed by files in an HDFS-compatible file system ... the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses",
+      "notes": "The JVM heap storage, HDFS backing, and GC pause issue are all directly supported by the combined sources."
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "verdict": "MISREPRESENTED",
+      "bullet_text": "RocksDB state store: off-heap native memory + local disk, changelog checkpointing uploads only deltas",
+      "source_excerpt": "Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk ... Instead of uploading data files of RocksDB instances, changelog checkpointing uploads changes made to the state since the last checkpoint ... Enable with: spark.sql.streaming.stateStore.rocksdb.changelogCheckpointing.enabled=true",
+      "issue": "The slide and comparison table present changelog checkpointing as the default RocksDB behavior (table row: Changelog -- only deltas uploaded). However, the source clearly states changelog checkpointing is an optional feature introduced in Spark 3.3+ that must be explicitly enabled via a configuration flag. Without enabling it, RocksDB uses full snapshot checkpointing. The slide misleads students into thinking they automatically get delta-only checkpointing by switching to RocksDB.",
+      "suggested_fix": "Change the table row to: Full snapshot (default) or changelog (Spark 3.3+, opt-in) -- deltas only when enabled. In the bullet below the table, mention that changelog checkpointing requires setting spark.sql.streaming.stateStore.rocksdb.changelogCheckpointing.enabled=true."
+    },
+    {
+      "claim_id": "claim:sss:state_store_growth:033",
+      "verdict": "VERIFIED",
+      "bullet_text": "RocksDB memory must be explicitly bounded via spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage to prevent unbounded native memory growth",
+      "source_excerpt": "If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM ... you can cap RocksDB memory usage by setting the spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage config to true",
+      "notes": "Direct match between the slide statement and the source."
+    }
+  ],
+  "summary": {
+    "total_claims_checked": 11,
+    "verified": 10,
+    "misrepresented": 1,
+    "unverified": 0,
+    "verdict": "NEEDS_REVISION",
+    "misrepresented_claims": [
+      "claim:sss:rocksdb_state_store:028"
+    ],
+    "issues": [
+      "Slide 24 (State Store comparison table) presents changelog checkpointing as the default RocksDB behavior. The source shows it is an opt-in feature (Spark 3.3+) requiring explicit configuration. Without it, RocksDB uses full snapshot checkpointing like the HDFS-backed store."
+    ]
+  }
+}

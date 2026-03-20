@@ -1,0 +1,8 @@
+Source: Structured Streaming Programming Guide - Apache Spark Documentation
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Section: Programming Model / Basic Concepts
+
+Excerpt:
+"The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the 'Input Table'. Every data item that is arriving on the stream is like a new row being appended to the Input Table."

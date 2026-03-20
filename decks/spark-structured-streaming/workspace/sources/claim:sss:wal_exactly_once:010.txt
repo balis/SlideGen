@@ -1,0 +1,26 @@
+Source: Apache Spark Structured Streaming Programming Guide
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"Delivering end-to-end exactly-once semantics was one of key goals behind the
+design of Structured Streaming."
+
+"The engine uses checkpointing and write-ahead logs to record the offset range
+of the data being processed in each trigger. The streaming sinks are designed to
+be idempotent for handling reprocessing. Together, using replayable sources and
+idempotent sinks, Structured Streaming can ensure end-to-end exactly-once
+semantics under any failure."
+
+Additional source:
+Source: The Internals of Spark Structured Streaming — MicroBatchExecution
+URL: https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/
+Retrieved: 2026-03-20
+
+The system maintains two logs:
+- OffsetSeqLog: Tracks offset ranges per batch
+- CommitLog: Records successfully processed batches with watermark metadata
+
+"On restart, populateStartOffsets requests the Offset Write-Ahead Log for the
+latest committed batch id with metadata."

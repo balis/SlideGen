@@ -1,0 +1,438 @@
+{
+  "topic": "spark-structured-streaming",
+  "generated_at": "2026-03-20T13:44:17Z",
+  "claims": [
+    {
+      "id": "claim:sss:unbounded_table:001",
+      "statement": "Structured Streaming treats a live data stream as a table that is being continuously appended, where every data item arriving on the stream is like a new row being appended to an unbounded Input Table.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the \"Input Table\". Every data item that is arriving on the stream is like a new row being appended to the Input Table."
+      }
+    },
+    {
+      "id": "claim:sss:batch_like_query:002",
+      "statement": "Users express streaming computations as standard batch-like queries on a static table, and Spark runs them as incremental queries on the unbounded input table, making the streaming programming model very similar to the batch processing model.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "This leads to a new stream processing model that is very similar to a batch processing model. You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table."
+      }
+    },
+    {
+      "id": "claim:sss:same_api:003",
+      "statement": "A query written on a streaming DataFrame using the DataFrame/Dataset API is exactly the same as it would be on a static DataFrame, allowing code reuse across batch and streaming workloads.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Quick Example",
+        "excerpt": "Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame."
+      }
+    },
+    {
+      "id": "claim:sss:declarative_incrementalization:004",
+      "statement": "Structured Streaming is a purely declarative API based on automatically incrementalizing a static relational query expressed using SQL or DataFrames, in contrast to APIs that ask the user to build a DAG of physical operators.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Abstract",
+        "excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators."
+      }
+    },
+    {
+      "id": "claim:sss:catalyst_reuse:005",
+      "statement": "Structured Streaming reuses Spark SQL's Catalyst optimizer and Tungsten code generation engine, so optimizations such as predicate pushdown, projection pushdown, and expression simplification automatically apply to streaming queries.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "System Design / Optimization",
+        "excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others. It uses Spark SQL's Tungsten binary format for data in memory and its runtime code generator to compile chains of operators to Java bytecode."
+      }
+    },
+    {
+      "id": "claim:sss:incremental_state:006",
+      "statement": "Structured Streaming does not materialize the entire unbounded table; it reads the latest available data from the streaming source, processes it incrementally to update the result, keeps only minimal intermediate state data, and then discards the source data.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Apache Spark Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Programming Model / Basic Concepts",
+        "excerpt": "Note that Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result."
+      }
+    },
+    {
+      "id": "claim:sss:trigger_types:007",
+      "statement": "Structured Streaming supports four trigger modes: ProcessingTime (fixed-interval micro-batches; if interval is 0 the query runs as fast as possible), Once (deprecated since 3.4; single batch then stop), AvailableNow (process all available data in possibly multiple batches then stop, with better scalability than Once), and Continuous (experimental low-latency mode with at-least-once semantics, ~1 ms latency versus ~100 ms for micro-batch).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Trigger (Spark 4.1.1 JavaDoc) & Structured Streaming Programming Guide \u2014 Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/streaming/Trigger.html",
+        "section": "ProcessingTime / Once / AvailableNow / Continuous methods",
+        "excerpt": "ProcessingTime: 'A trigger policy that runs a query periodically based on an interval in processing time. If interval is 0, the query will run as fast as possible.' Once (deprecated since 3.4.0): 'A trigger that processes all available data in a single batch then terminates the query.' AvailableNow: 'A trigger that processes all available data at the start of the query in one or multiple batches, then terminates the query.' Continuous: 'A trigger that continuously processes streaming data, asynchronously checkpointing at the specified interval.'"
+      }
+    },
+    {
+      "id": "claim:sss:microbatch_loop:008",
+      "statement": "In micro-batch mode the engine processes exactly one batch per trigger interval. Each iteration has two phases: constructNextBatch queries sources for their latest offsets and writes offset ranges to the write-ahead log; runBatch retrieves unprocessed data between committedOffsets and availableOffsets, builds an IncrementalExecution plan, and writes results through the sink's addBatch() method.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming \u2014 MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "Execution phases",
+        "excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: triggerExecution, latestOffset/getOffset, walCommit, getBatch, queryPlanning, addBatch. getBatch: 'Creating Logical Query Plans For Unprocessed Data From Sources and MicroBatchReaders'. The system 'requests the Offset Commit Log to persist metadata of the streaming micro-batch (with the current batch ID and event-time watermark).'"
+      }
+    },
+    {
+      "id": "claim:sss:offset_tracking:009",
+      "statement": "The driver maintains two key offset collections \u2014 committedOffsets (offsets already processed and committed) and availableOffsets (latest offsets discovered from sources). Each micro-batch the driver calls latestOffset() or getOffset() on each source to discover new data, then calls getBatch(start, end) to retrieve the data range. After sink output completes, the driver commits the offsets, advancing committedOffsets.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Structured Streaming Programming Guide (Spark 3.5)",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Fault Tolerance Semantics",
+        "excerpt": "Every streaming source is assumed to have offsets (similar to Kafka offsets, or Kinesis sequence numbers) to track the read position in the stream. The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger."
+      }
+    },
+    {
+      "id": "claim:sss:wal_exactly_once:010",
+      "statement": "Exactly-once processing is guaranteed by two persistent logs stored in the checkpoint directory: the OffsetSeqLog records the offset range for each batch before execution begins, and the CommitLog records successful completion with watermark metadata. On recovery the engine replays any batch whose offsets were logged but not yet committed. Combined with replayable sources and idempotent sinks this ensures end-to-end exactly-once semantics.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Structured Streaming Programming Guide",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/getting-started.html",
+        "section": "Fault Tolerance Semantics",
+        "excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure."
+      }
+    },
+    {
+      "id": "claim:sss:offset_seq_log:011",
+      "statement": "The OffsetSeqLog persists offsets as versioned files in HDFS-compatible storage, one file per batch ID. Before a micro-batch executes, the available offsets are converted to an OffsetSeq and added to this write-ahead log. On restart, populateStartOffsets reads the latest committed batch ID from this log to determine where to resume processing.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming \u2014 MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "WAL and Checkpointing",
+        "excerpt": "Requests the availableOffsets StreamProgress to convert to OffsetSeq (with the BaseStreamingSources and the current batch metadata) that is in turn added to the write-ahead log. On restart, populateStartOffsets requests the Offset Write-Ahead Log for the latest committed batch id with metadata."
+      }
+    },
+    {
+      "id": "claim:sss:incremental_execution:012",
+      "statement": "Each micro-batch is executed via IncrementalExecution, a variant of QueryExecution that allows a LogicalPlan to be executed incrementally while preserving state between executions. It injects streaming-specific planner strategies (StatefulAggregationStrategy, StreamingJoinStrategy, StreamingDeduplicationStrategy) and manages stateful operator checkpointing and watermark propagation across batches.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "The Internals of Spark Structured Streaming \u2014 MicroBatchExecution",
+        "url_or_doi": "https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/",
+        "section": "queryPlanning phase",
+        "excerpt": "MicroBatchExecution splits execution into phases including queryPlanning which builds IncrementalExecution for execution. IncrementalExecution is 'A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution.'"
+      }
+    },
+    {
+      "id": "claim:sss:microbatch_latency:013",
+      "statement": "Spark Structured Streaming's default micro-batch engine processes data streams as a series of small batch jobs, achieving end-to-end latencies as low as 100 milliseconds with exactly-once fault-tolerance guarantees.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation \u2014 Structured Streaming Overview",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/index.html",
+        "section": "Overview",
+        "excerpt": "Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_mode_latency:014",
+      "statement": "Continuous Processing mode, introduced as experimental in Spark 2.3, achieves end-to-end latencies as low as 1 millisecond but provides only at-least-once fault-tolerance guarantees, trading exactly-once semantics for lower latency.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation \u2014 Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing",
+        "excerpt": "Continuous processing is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees. Compare this with the default micro-batch processing engine which can achieve exactly-once guarantees but achieve latencies of ~100ms at best."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_ops_limited:015",
+      "statement": "Continuous Processing mode supports only map-like Dataset/DataFrame operations (projections such as select, map, flatMap, mapPartitions and selections such as where, filter) \u2014 aggregations are not supported, and sources are limited to Kafka and Rate.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation \u2014 Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing \u2014 Supported Queries",
+        "excerpt": "Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.). All SQL functions are supported except aggregation functions (since aggregations are not yet supported), current_timestamp() and current_date() (deterministic computations using time is challenging)."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_long_running:016",
+      "statement": "Unlike micro-batch mode which schedules recurring short jobs, the continuous processing engine launches multiple long-running tasks that continuously read from sources, process, and write to sinks. There are no automatic retries of failed tasks \u2014 any failure stops the query and requires manual restart from the checkpoint.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation \u2014 Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing \u2014 Caveats",
+        "excerpt": "The continuous processing engine launches multiple long-running tasks that continuously read data from sources, process it and continuously write to sinks. There are currently no automatic retries of failed tasks. Any failure will lead to the query being stopped and it needs to be manually restarted from the checkpoint."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_never_graduated:017",
+      "statement": "Spark's Continuous Processing mode never advanced beyond experimental status because it only supported map-like operations with no stateful processing, would have required maintaining two separate checkpointing systems, and significant portions of the engine would have needed reimplementation.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Real-Time Mode SPIP Analysis",
+        "url_or_doi": "https://bigdataperformance.substack.com/p/apache-spark-real-time-mode-the-end",
+        "section": "SPIP Analysis \u2014 Why Continuous Processing Was Rejected",
+        "excerpt": "The SPIP evaluated extending the experimental Continuous Processing mode from Spark 2.3 but concluded it was inadequate due to three key limitations: only 'map' operations with no stateful processing, would require maintaining two separate checkpointing systems, and significant portions of the engine would need reimplementation."
+      }
+    },
+    {
+      "id": "claim:sss:flink_per_event:018",
+      "statement": "Apache Flink processes streaming data per-event through pipelined operators with local state access, achieving low processing latencies and exactly-once state consistency via asynchronous checkpointing \u2014 in contrast to Spark's micro-batch approach which imposes scheduling overhead between batches.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Flink Architecture \u2014 What is Flink",
+        "url_or_doi": "https://flink.apache.org/what-is-flink/flink-architecture/",
+        "section": "Leverage In-Memory Performance",
+        "excerpt": "Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies. Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_definition:019",
+      "statement": "In Structured Streaming, the watermark for an event-time column C is defined as max(C) \u2212 t_C, where t_C is a user-specified delay threshold and max(C) is the maximum event time seen so far; this makes the watermark naturally robust to backlogged data because if the system cannot keep up, the watermark will not advance.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "4.3.1 Event Time Watermarks",
+        "excerpt": "Structured Streaming lets developers set a watermark [2] for event time columns using the withWatermark operator. This operator gives the system a delay threshold t_C for a given timestamp column C. At any point in time, the watermark for C is max(C) \u2212 t_C, that is, t_C seconds before the maximum event time seen so far in C. Note that this choice of watermark is naturally robust to backlogged data: if the system cannot keep up with the input rate for a period of time, the watermark will not move forward arbitrarily during that time, and all events that arrived within at most T seconds of being produced will still be processed."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_state_bound:020",
+      "statement": "Without watermarks, allowing arbitrarily late data would require storing arbitrarily large state; for example, counting data by 1-minute event-time windows would require the system to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "4.3.1 Event Time Watermarks",
+        "excerpt": "Allowing arbitrarily late data might require storing arbitrarily large state. For example, if we count data by 1-minute event time window, the system needs to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute. This can quickly lead to large amounts of state, especially if combined with another grouping key."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_state_cleanup:021",
+      "statement": "When a watermark is present, stateful operators can forget old state (e.g., drop aggregation windows whose end time falls below the watermark), and in Append output mode the engine waits until the watermark passes a window's end time before emitting the final result and dropping the window's intermediate state.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide \u2014 Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Handling Late Data and Watermarking",
+        "excerpt": "The engine maintains intermediate counts for each window. However, the partial counts are not updated to the Result Table and not written to sink. The engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_guarantee:022",
+      "statement": "A watermark delay of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed (in terms of event time) behind the latest data processed; however, data delayed by more than 2 hours is not guaranteed to be dropped \u2014 it may or may not get aggregated, with more-delayed data being less likely to be processed.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide \u2014 Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Semantic Guarantees of Aggregation with Watermarking",
+        "excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed. In other words, any data less than 2 hours behind (in terms of event-time) the latest data processed till then is guaranteed to be aggregated. However, the guarantee is strict only in one direction. Data delayed by more than 2 hours is not guaranteed to be dropped; it may or may not get aggregated. More delayed is the data, less likely is the engine going to process it."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_output_modes:023",
+      "statement": "Watermarks interact differently with each output mode: in Append mode, only final results are emitted after the watermark passes (enabling state cleanup); in Update mode, the watermark is used to drop old aggregation state while partial results are emitted each trigger; in Complete mode, old aggregation state is never dropped because the entire result table must be preserved.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide \u2014 Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Handling Late Data and Watermarking \u2014 Output Modes",
+        "excerpt": "Update mode uses watermark to drop old aggregation state. Complete mode does not drop old aggregation state since by definition this mode preserves all data in the Result Table. [In Append mode] the engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink."
+      }
+    },
+    {
+      "id": "claim:sss:withwatermark_api:024",
+      "statement": "The withWatermark() API is called on a streaming DataFrame with two arguments \u2014 the name of the event-time column and the delay threshold as a string (e.g., '10 minutes') \u2014 and must be invoked on the same column used in the aggregation and before the aggregation in the query plan; calling it on a non-streaming Dataset is a no-op.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide \u2014 Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Conditions for watermarking to clean aggregation state",
+        "excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate. For example, df.withWatermark('time', '1 min').groupBy('time2').count() is invalid. withWatermark must be called before the aggregation. For example, df.groupBy('time').count().withWatermark('time', '1 min') is invalid. Using withWatermark on a non-streaming Dataset is no-op. As the watermark should not affect any batch query in any way, we will ignore it directly."
+      }
+    },
+    {
+      "id": "claim:sss:stateful_ops:025",
+      "statement": "Structured Streaming supports arbitrary stateful processing via mapGroupsWithState and flatMapGroupsWithState, which act on grouped Datasets to update user-defined state, enabling use cases like sessionization. mapGroupsWithState returns one record per key per trigger; flatMapGroupsWithState can return zero or more records, making it suitable for implementing stream-to-table joins or custom session windows.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 4.3.2 Stateful Operators",
+        "excerpt": "Both operators act on data that has been assigned a key using groupByKey, and let the developers track and update a state for each key using custom logic, as well as output records for each key. ... The second stateful operator, flatMapGroupsWithState, is very similar to mapGroupsWithState, except that the update function can return zero or more values of type R per update instead of one."
+      }
+    },
+    {
+      "id": "claim:sss:stream_joins:026",
+      "statement": "Stream-stream joins buffer past input from both streams as streaming state so that every future input can be matched with past input. For inner joins watermarking is optional, but for outer joins (left, right, full) watermarks plus event-time constraints are mandatory to bound the state and determine when an unmatched row can be emitted as NULL.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "Stream-stream Joins",
+        "excerpt": "The challenge of generating join results between two data streams is that, at any point of time, the view of the dataset is incomplete for both sides of the join making it much harder to find matches between inputs. Any row received from one input stream can match with any future, yet-to-be-received row from the other input stream. Hence, for both the input streams, we buffer past input as streaming state, so that we can match every future input with past input and accordingly generate joined results."
+      }
+    },
+    {
+      "id": "claim:sss:hdfs_state_store:027",
+      "statement": "The default HDFS-backed state store provider (HDFSBackedStateStore) keeps all state data in an in-memory map on JVM executors and backs it by files on an HDFS-compatible file system. Each transactional set of updates increments the store's version, which can be used to re-execute updates and regenerate the correct store version on failure.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "State Store",
+        "excerpt": "The HDFS backend state store provider is the default implementation of StateStoreProvider and StateStore in which all the data is stored in memory map in the first stage, and then backed by files in an HDFS-compatible file system. All updates to the store have to be done in sets transactionally, and each set of updates increments the store's version. These versions can be used to re-execute the updates (by retries in RDD operations) on the correct version of the store, and regenerate the store version."
+      }
+    },
+    {
+      "id": "claim:sss:rocksdb_state_store:028",
+      "statement": "Since Spark 3.2, a RocksDB-based state store provider manages state in native memory and local disk instead of JVM heap, avoiding large GC pauses that HDFSBackedStateStore suffers when maintaining millions of keys. RocksDB also supports changelog checkpointing, which uploads only changes since the last checkpoint rather than full snapshots, reducing checkpoint overhead.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "RocksDB State Store Implementation",
+        "excerpt": "If you have stateful operations in your streaming query ... and you want to maintain millions of keys in the state, then you may face issues related to large JVM garbage collection (GC) pauses causing high variations in the micro-batch processing times. This occurs because, by the implementation of HDFSBackedStateStore, the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses. ... Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk. ... Instead of uploading data files of RocksDB instances, changelog checkpointing uploads changes made to the state since the last checkpoint for durability."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_layout:029",
+      "statement": "A Structured Streaming checkpoint uses two durable stores: a write-ahead log that records source offsets per epoch for low-latency atomic writes, and a state store that holds snapshots of operator state for long-running aggregations. The checkpoint directory contains offsets/ (batch-wise source offsets, written at batch start), commits/ (completion records, written at batch end), state/ (operator state), and metadata (query ID).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 6.1 State Management and Recovery",
+        "excerpt": "Structured Streaming uses two forms of durable storage to achieve fault tolerance. First, a write-ahead log keeps track of which data has been processed and reliably written to the output sink from each input source. ... Second, the system uses a larger-scale state store to hold snapshots of operator states for long-running aggregation operators. These are written asynchronously, and may be 'behind' the latest data written to the output sink."
+      }
+    },
+    {
+      "id": "claim:sss:state_checkpoint_recovery:030",
+      "statement": "On recovery, Structured Streaming reads the write-ahead log to find the last uncommitted epoch, loads state from the most recent state-store snapshot, replays any epochs between the snapshot and the failed epoch to reconstruct in-memory state, reruns the failed epoch with output disabled, then relies on sink idempotence to write results. State checkpointing is asynchronous and does not need to happen every epoch.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "Section 6.1 State Management and Recovery",
+        "excerpt": "Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink, including its start and end offsets. It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store. This just requires loading the old state and running those epochs with the same offsets while disabling output. Finally, the system reruns the last epoch and relies on the sink's idempotence to write its results, then starts defining new epochs."
+      }
+    },
+    {
+      "id": "claim:sss:small_file_problem:031",
+      "statement": "Spark Structured Streaming's file sink creates a _spark_metadata folder that tracks files written per batch; because each micro-batch commits separate output files, long-running streaming jobs accumulate large numbers of small files and an ever-growing metadata log that can eventually cause driver OOM errors. Both Delta Lake (via OPTIMIZE and auto-compaction) and Iceberg (via rewriteDataFiles) provide compaction mechanisms to coalesce small files into larger ones.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Delta Lake Optimizations - Auto Compaction and OPTIMIZE",
+        "url_or_doi": "https://docs.delta.io/latest/optimizations-oss.html",
+        "section": "Auto Compaction / Compaction",
+        "excerpt": "Auto compaction combines small files within Delta table partitions to automatically reduce small file problems. ... The OPTIMIZE operation performs bin-packing by coalescing small files into larger ones to accelerate read queries."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_compatibility:032",
+      "statement": "Changes to stateful operations (additions, deletions, or schema modifications) in a Structured Streaming query are not allowed between restarts from an existing checkpoint; additionally, configurations like spark.sql.shuffle.partitions, the state store provider class, and the multiple-watermark policy are immutable after a query has started because state is physically partitioned by hash.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 4.1.1 Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/additional-information.html",
+        "section": "Configurations not modifiable after query run",
+        "excerpt": "Several configurations are not modifiable after the query has run. To change them, discard the checkpoint and start a new query. These configurations include: spark.sql.shuffle.partitions (This is due to the physical partitioning of state: state is partitioned via applying hash function to key, hence the number of partitions for state should be unchanged), spark.sql.streaming.stateStore.providerClass, spark.sql.streaming.multipleWatermarkPolicy."
+      }
+    },
+    {
+      "id": "claim:sss:state_store_growth:033",
+      "statement": "The default HDFS-based state store keeps all state in JVM heap memory of executors; with millions of keys (especially under skewed key distributions), this causes large garbage-collection pauses and potential OOM failures. The RocksDB state store provider moves state to off-heap memory and local disk, scaling to 100 million keys per executor, but its memory must be explicitly bounded via spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage to prevent unbounded native memory growth.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "RocksDB State Store Implementation",
+        "excerpt": "If you have stateful operations in your streaming query ... and you want to maintain millions of keys in the state, then you may face issues related to large JVM garbage collection (GC) pauses causing high variations in the micro-batch processing times. This occurs because, by the implementation of HDFSBackedStateStore, the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses. ... If you want to cap RocksDB memory usage in your Spark Structured Streaming deployment, this feature can be enabled by setting the spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage config to true."
+      }
+    },
+    {
+      "id": "claim:sss:delta_streaming_sink:034",
+      "statement": "Delta Lake's transaction log guarantees exactly-once processing for streaming sinks even when multiple streams or batch queries run concurrently against the same table. If a checkpoint is deleted and the query restarted with a new checkpoint, a different appId must be provided; otherwise writes from the restarted query will be silently ignored because the txnAppId and initial batch ID collide with prior committed transactions.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Delta Lake Streaming Documentation",
+        "url_or_doi": "https://docs.delta.io/latest/delta-streaming.html",
+        "section": "Delta table as a sink / Idempotent writes",
+        "excerpt": "The transaction log enables Delta Lake to guarantee exactly-once processing, even when there are other streams or batch queries running concurrently against the table. ... If you delete the streaming checkpoint and restart the query with a new checkpoint, you must provide a different appId; otherwise, writes from the restarted query will be ignored because it will contain the same txnAppId and the batch ID would start from 0."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_allowed_changes:035",
+      "statement": "When restarting a Structured Streaming query from an existing checkpoint, safe changes include adding or removing filters, changing rate limits, and modifying trigger intervals. Disallowed changes that require discarding the checkpoint include changing the number or type of input sources, modifying stateful operations, and switching output sink types (e.g., Kafka sink to file sink).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming checkpoints - Databricks Documentation",
+        "url_or_doi": "https://docs.databricks.com/aws/en/structured-streaming/checkpoints",
+        "section": "Allowed and Disallowed Changes",
+        "excerpt": "Changes in the number or type (that is, different source) of input sources: This is not allowed. Any changes (that is, additions, deletions, or schema modifications) to the stateful operations of a streaming query are not allowed between restarts. Addition / deletion of filters is allowed. Addition, deletion, and modification of rate limits is allowed."
+      }
+    },
+    {
+      "id": "claim:sss:iceberg_streaming_maintenance:036",
+      "statement": "Apache Iceberg tables used as streaming sinks require periodic maintenance -- including tuning the commit rate, expiring old snapshots, compacting data files via rewriteDataFiles (recommended every 1-4 hours), and rewriting manifests -- because each micro-batch commit produces a new snapshot with its own set of small data files, causing rapid metadata growth.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Spark Structured Streaming - Apache Iceberg Documentation",
+        "url_or_doi": "https://iceberg.apache.org/docs/latest/spark-structured-streaming/",
+        "section": "Maintenance for streaming tables",
+        "excerpt": "Each write to an Iceberg table creates a new snapshot, or version, of a table. Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small."
+      }
+    }
+  ]
+}

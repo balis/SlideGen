@@ -1,0 +1,63 @@
+{
+  "draft_version": 3,
+  "batch": 2,
+  "slides_checked": "11-18 (Offset Tracking Protocol, Micro-Batch Latency, Section C header, WAL-Based Exactly-Once Protocol, Checkpoint Directory Layout, Recovery Semantics, Section D header, Running Example Introduction)",
+  "verdict": "APPROVED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "The driver maintains **committedOffsets** (already processed and committed) and **availableOffsets** (latest discovered from sources)",
+      "source_excerpt": "processes offset ranges between committedOffsets and availableOffsets ... Sources return data bounded by committed and available offsets.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_seq_log:011",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "**OffsetSeqLog**: versioned files in HDFS-compatible storage, one per batch ID — written before execution begins",
+      "source_excerpt": "The OffsetSeqLog persists offsets to HDFS-compatible storage as versioned files, one per batch. The walCommit phase persists offsets to the write-ahead log before the getBatch phase retrieves data, ensuring that offset ranges are durably recorded before execution proceeds.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Micro-Batch Latency",
+      "bullet": "The default micro-batch engine processes data as a series of small batch jobs, achieving end-to-end latencies **as low as ~100 milliseconds** with exactly-once guarantees",
+      "source_excerpt": "Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "Two persistent logs in the checkpoint directory, combined with replayable sources and idempotent sinks, provide end-to-end exactly-once guarantees",
+      "source_excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure. [Two logs confirmed: OffsetSeqLog and CommitLog]",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:checkpoint_layout:029",
+      "slide": "Checkpoint Directory Layout",
+      "bullet": "**offsets/**: one file per batch, written at batch **start**",
+      "source_excerpt": "offsets/: batch-wise source offsets, written at the start of each micro-batch",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:state_checkpoint_recovery:030",
+      "slide": "Recovery Semantics",
+      "bullet": "On restart, the engine restores state from fault-tolerant storage and resumes from the last committed offset",
+      "source_excerpt": "Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink, including its start and end offsets. It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "6 claims checked. 6 verified, 0 misrepresented, 0 unverified."
+}

@@ -1,0 +1,250 @@
+{
+  "draft_version": 2,
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Complete Clickstream Query",
+      "bullet": "# Read from Kafka — stream as unbounded table [claim:sss:unbounded_table:001]",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Complete Clickstream Query",
+      "bullet": "# Same groupBy/count as batch — Spark incrementalizes it [claim:sss:batch_like_query:002]",
+      "source_excerpt": "You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "slide": "Complete Clickstream Query",
+      "bullet": ".withWatermark(\"event_time\", \"5 minutes\")  # [claim:sss:withwatermark_api:024]",
+      "source_excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate... withWatermark must be called before the aggregation for the watermark details to be used.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "What Happens Under the Hood",
+      "bullet": "**WAL write:** Offset range logged to checkpoint before processing [claim:sss:microbatch_loop:008]",
+      "source_excerpt": "walCommit — Persists offsets to write-ahead log... The system requests the Offset Commit Log to persist metadata of the streaming micro-batch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "What Happens Under the Hood",
+      "bullet": "**IncrementalExecution:** Plan built with `StatefulAggregationStrategy` — window counts updated in state store [claim:sss:incremental_execution:012]",
+      "source_excerpt": "builds IncrementalExecution for execution... overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_bound:020",
+      "slide": "The Late Data Problem — Unbounded State",
+      "bullet": "Without watermarks, the system must keep state for **every window since the application began** because a late record might arrive for any window [claim:sss:watermark_state_bound:020]",
+      "source_excerpt": "Allowing arbitrarily late data might require storing arbitrarily large state... the system needs to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "slide": "Watermark Definition",
+      "bullet": "**Watermark** = max(event_time) - threshold [claim:sss:watermark_definition:019]",
+      "source_excerpt": "the watermark for C is max(C) − t_C, that is, t_C seconds before the maximum event time seen so far in C.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "slide": "withWatermark() API and Placement Rules",
+      "bullet": "The withWatermark() API takes two arguments: the event-time column and the delay threshold [claim:sss:withwatermark_api:024]",
+      "source_excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate... withWatermark must be called before the aggregation for the watermark details to be used.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_cleanup:021",
+      "slide": "How Watermarks Clean Up State",
+      "bullet": "In **Append mode**: engine holds partial counts, waits for watermark to pass the window end, then emits final result and **drops the window's state** [claim:sss:watermark_state_cleanup:021]",
+      "source_excerpt": "The engine maintains intermediate counts for each window. However, the partial counts are not updated to the Result Table and not written to sink. The engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_guarantee:022",
+      "slide": "How Watermarks Clean Up State",
+      "bullet": "The guarantee is **one-sided** [claim:sss:watermark_guarantee:022]: Data within the threshold: **never dropped** (guaranteed); Data beyond the threshold: **may or may not** be processed (not guaranteed)",
+      "source_excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed... However, the guarantee is strict only in one direction. Data delayed by more than 2 hours is not guaranteed to be dropped; it may or may not get aggregated.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_output_modes:023",
+      "slide": "Watermarks and Output Modes",
+      "bullet": "Watermarks interact differently with each output mode: Append emits final results enabling state cleanup; Update emits partials with watermark-based cleanup; Complete never cleans state [claim:sss:watermark_output_modes:023]",
+      "source_excerpt": "Append: 'appends the final counts to the Result Table/sink.' Update: 'Update mode uses watermark to drop old aggregation state.' Complete: 'Complete mode does not drop old aggregation state since by definition this mode preserves all data in the Result Table.'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_guarantee:022",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "Data within the threshold is **never dropped** [claim:sss:watermark_guarantee:022]",
+      "source_excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_cleanup:021",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "Window [12:10-12:20] emitted and state dropped once watermark passes 12:20 [claim:sss:watermark_state_cleanup:021]",
+      "source_excerpt": "the engine...drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "The watermark is computed as max(event_time) - threshold = 12:30 - 5 min = 12:25 [claim:sss:watermark_definition:019]",
+      "source_excerpt": "the watermark for C is max(C) − t_C, that is, t_C seconds before the maximum event time seen so far in C.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:stream_joins:026",
+      "slide": "Built-In Stateful Operations",
+      "bullet": "**Stream-stream joins** — buffer both sides as state; inner joins optionally use watermarks, outer joins **require** them to bound state and emit NULLs [claim:sss:stream_joins:026]",
+      "source_excerpt": "Any row received from one input stream can match with any future, yet-to-be-received row from the other input stream. Hence, for both the input streams, we buffer past input as streaming state... The outer NULL results will be generated with a delay that depends on the specified watermark delay and the time range condition.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:stateful_ops:025",
+      "slide": "Built-In Stateful Operations",
+      "bullet": "**Arbitrary stateful processing** — `mapGroupsWithState` / `flatMapGroupsWithState` for custom logic like sessionization [claim:sss:stateful_ops:025]",
+      "source_excerpt": "There are two stateful operators, mapGroupsWithState and flatMapGroupsWithState... let the developers track and update a state for each key using custom logic... you have to track sessions from data streams of events. For doing such sessionization, you will have to save arbitrary types of data as state.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:hdfs_state_store:027",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "The default HDFS-backed store keeps all state in JVM heap, causing GC pauses with millions of keys [claim:sss:hdfs_state_store:027]",
+      "source_excerpt": "The HDFS backend state store provider is the default implementation... all the data is stored in memory map... the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "RocksDB uses native memory and local disk, scaling to 100M keys; explicit memory bounds are strongly recommended to prevent OOM [claim:sss:rocksdb_state_store:028]",
+      "source_excerpt": "Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk... RocksDB-based state storage can easily scale up to 100 million keys per executor... you can cap RocksDB memory usage in your Spark Structured Streaming deployment by setting the spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage config to true.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:state_store_growth:033",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "Without bounds, RocksDB memory can grow indefinitely and cause OOM [claim:sss:state_store_growth:033]",
+      "source_excerpt": "If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM (out-of-memory) issues.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The source says RocksDB memory 'could grow indefinitely and potentially cause OOM issues' — using hedging qualifiers 'could' and 'potentially'. The slide states 'can grow indefinitely and cause OOM' dropping the 'potentially' qualifier, presenting OOM as a definite consequence rather than a possible outcome.",
+      "suggested_fix": "Without bounds, RocksDB memory can grow indefinitely and potentially cause OOM [claim:sss:state_store_growth:033]"
+    },
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "**Latency** | ~100 ms [claim:sss:microbatch_latency:013]",
+      "source_excerpt": "Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The source says 'as low as 100 milliseconds' — this is a best-case lower bound. The slide presents '~100 ms' as though it is the typical or approximate latency. The qualifier 'as low as' is omitted, which changes the meaning: real-world micro-batch latency is often significantly higher than 100 ms depending on query complexity, data volume, and cluster resources.",
+      "suggested_fix": "**Latency** | as low as ~100 ms [claim:sss:microbatch_latency:013]"
+    },
+    {
+      "claim_id": "claim:sss:continuous_mode_latency:014",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "**Latency** | ~1 ms [claim:sss:continuous_mode_latency:014]",
+      "source_excerpt": "Continuous processing is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_ops_limited:015",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "**Operators** | Map-like only [claim:sss:continuous_ops_limited:015]",
+      "source_excerpt": "Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_long_running:016",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "**Execution** | Long-running tasks [claim:sss:continuous_long_running:016]",
+      "source_excerpt": "The continuous processing engine launches multiple long-running tasks that continuously read data from sources, process it and continuously write to sinks.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:flink_per_event:018",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Flink processes per-event through pipelined operators with local state and asynchronous checkpointing [claim:sss:flink_per_event:018]",
+      "source_excerpt": "Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies. Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_never_graduated:017",
+      "slide": "Why Continuous Processing Never Graduated",
+      "bullet": "Spark's Continuous Processing mode never advanced beyond experimental status [claim:sss:continuous_never_graduated:017]",
+      "source_excerpt": "The SPIP evaluated extending the experimental Continuous Processing mode from Spark 2.3 but concluded it was inadequate due to three key limitations.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_ops_limited:015",
+      "slide": "Why Continuous Processing Never Graduated",
+      "bullet": "**Only map-like operations** — no aggregations, no joins, no stateful processing [claim:sss:continuous_ops_limited:015]",
+      "source_excerpt": "Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.). All SQL functions are supported except aggregation functions.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_long_running:016",
+      "slide": "Why Continuous Processing Never Graduated",
+      "bullet": "**Long-running tasks with no automatic retries** — any failure stops the query [claim:sss:continuous_long_running:016]",
+      "source_excerpt": "The continuous processing engine launches multiple long-running tasks... There are currently no automatic retries of failed tasks. Any failure will lead to the query being stopped and it needs to be manually restarted from the checkpoint.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "27 claim references checked across 9 slides (Complete Clickstream Query through Why Continuous Processing Never Graduated). 25 verified, 2 misrepresented, 0 unverified. Issues: (1) claim:sss:state_store_growth:033 drops the 'potentially' qualifier from the source when describing OOM risk; (2) claim:sss:microbatch_latency:013 presents a best-case lower bound ('as low as 100 ms') as though it were typical latency ('~100 ms')."
+}

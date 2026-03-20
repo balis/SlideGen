@@ -1,0 +1,123 @@
+{
+  "batch": 2,
+  "draft": "draft_v1.md",
+  "slides_checked": "11-16 (Sections C and D: Exactly-Once Guarantees and Checkpointing, Running Example: Clickstream Pipeline)",
+  "checked_at": "2026-03-20",
+  "verdict": "NEEDS_REVISION",
+  "verified_count": 8,
+  "misrepresented_count": 1,
+  "unverified_count": 0,
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "Exactly-once is guaranteed by **two persistent logs** in the checkpoint directory [claim:sss:wal_exactly_once:010]:",
+      "source_file": "workspace/sources/claim:sss:wal_exactly_once:010.txt",
+      "source_excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. The streaming sinks are designed to be idempotent for handling reprocessing. Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The bullet states 'Exactly-once is guaranteed by two persistent logs in the checkpoint directory', attributing the guarantee to the logs alone. The source is explicit that exactly-once requires three components together: (1) write-ahead logs, (2) replayable sources, AND (3) idempotent sinks. The logs alone provide at-least-once at best. While a later bullet on the same slide mentions replayable sources and idempotent sinks, the claim-tagged opening bullet overstates the role of the logs by saying they guarantee exactly-once.",
+      "suggested_fix": "Reword to: 'Exactly-once relies on **two persistent logs** in the checkpoint directory, **replayable sources**, and **idempotent sinks** working together [claim:sss:wal_exactly_once:010]:'"
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "On recovery, the engine **replays any batch** whose offsets were logged but not yet committed [claim:sss:wal_exactly_once:010]",
+      "source_file": "workspace/sources/claim:sss:wal_exactly_once:010.txt",
+      "source_excerpt": "On restart, populateStartOffsets requests the Offset Write-Ahead Log for the latest committed batch id with metadata.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "Combined with **replayable sources** (Kafka, Kinesis) and **idempotent sinks** (Delta, Iceberg), this yields end-to-end exactly-once [claim:sss:wal_exactly_once:010]",
+      "source_file": "workspace/sources/claim:sss:wal_exactly_once:010.txt",
+      "source_excerpt": "Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:checkpoint_layout:029",
+      "slide": "Checkpoint Directory Layout",
+      "bullet": "offsets/: one file per batch, written at batch start (the intent log). commits/: one file per batch, written at batch end (the completion log). state/: partitioned state-store snapshots for stateful operators. metadata: query ID and configuration.",
+      "source_file": "workspace/sources/claim:sss:checkpoint_layout:029.txt",
+      "source_excerpt": "Checkpoint directory contents: offsets/: batch-wise source offsets, written at the start of each micro-batch; commits/: batch-wise commit records, written at the end of each micro-batch; state/: checkpointed state store data for stateful operators; metadata: query ID and configuration; sources/: source-specific metadata.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:state_checkpoint_recovery:030",
+      "slide": "Recovery Semantics",
+      "bullet": "On recovery, the engine reads the WAL to find the last uncommitted epoch. It loads the most recent state-store snapshot and replays intermediate epochs to reconstruct in-memory state. The failed epoch is rerun with output relying on sink idempotence to avoid duplicates. State checkpointing is asynchronous and does not need to happen every epoch.",
+      "source_file": "workspace/sources/claim:sss:state_checkpoint_recovery:030.txt",
+      "source_excerpt": "Upon recovery, the new instance of the application starts by reading the log to find the last epoch that has not been committed to the sink, including its start and end offsets. It then uses the offsets of earlier epochs to reconstruct the application's in-memory state from the last epoch written to the state store. This just requires loading the old state and running those epochs with the same offsets while disabling output. Finally, the system reruns the last epoch and relies on the sink's idempotence to write its results. ... Stateful operators also checkpoint state asynchronously, marking it with its epoch, but this does not need to happen on every epoch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Running Example Introduction",
+      "bullet": "Every arriving click event is a **new row appended to the unbounded Input Table** [claim:sss:unbounded_table:001]",
+      "source_file": "workspace/sources/claim:sss:unbounded_table:001.txt",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the 'Input Table'. Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:withwatermark_api:024",
+      "slide": "Complete Clickstream Query",
+      "bullet": "**withWatermark()** must be on the same column as the aggregation and must precede the groupBy [claim:sss:withwatermark_api:024]",
+      "source_file": "workspace/sources/claim:sss:withwatermark_api:024.txt",
+      "source_excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate. ... withWatermark must be called before the aggregation for the watermark details to be used.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:same_api:003",
+      "slide": "Complete Clickstream Query",
+      "bullet": "The query uses the **same DataFrame API** as a batch groupBy [claim:sss:same_api:003]",
+      "source_file": "workspace/sources/claim:sss:same_api:003.txt",
+      "source_excerpt": "Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame. You can express your streaming computation the same way you would express a batch computation on static data.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Complete Clickstream Query",
+      "bullet": "streaming computation expressed as a **standard batch-like query** [claim:sss:batch_like_query:002]",
+      "source_file": "workspace/sources/claim:sss:batch_like_query:002.txt",
+      "source_excerpt": "You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "What Happens Under the Hood",
+      "bullet": "Each trigger fires the **micro-batch execution loop**: Kafka offsets are discovered, data is retrieved for the range [committed, available] [claim:sss:microbatch_loop:008]",
+      "source_file": "workspace/sources/claim:sss:microbatch_loop:008.txt",
+      "source_excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: triggerExecution, latestOffset/getOffset, walCommit, getBatch, queryPlanning, addBatch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "What Happens Under the Hood",
+      "bullet": "**IncrementalExecution** builds the plan with streaming-specific strategies -- StatefulAggregationStrategy manages the running window counts in the state store [claim:sss:incremental_execution:012]",
+      "source_file": "workspace/sources/claim:sss:incremental_execution:012.txt",
+      "source_excerpt": "IncrementalExecution overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy). The queryPlanning phase transforms the logical plan by replacing streaming source relations with actual batch data ranges, then applies these streaming-specific planner strategies to handle stateful operations like aggregations, joins, and deduplication across micro-batches.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "11 claim references checked across 9 unique claim IDs. 10 verified, 1 misrepresented, 0 unverified. The opening bullet of slide 11 (WAL-Based Exactly-Once Protocol) overstates the role of the two logs by attributing exactly-once guarantees to them alone, when the source requires replayable sources and idempotent sinks as co-requisites."
+}

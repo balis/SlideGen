@@ -1,0 +1,81 @@
+{
+  "draft_version": 3,
+  "batch": 4,
+  "slides_checked": "26-31 (Watermarks and Output Modes through Section G header)",
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:watermark_output_modes:023",
+      "slide": "Watermarks and Output Modes",
+      "bullet": "Watermarks interact differently with each output mode: Append emits final results enabling state cleanup; Update emits partials with watermark-based cleanup; Complete never cleans state",
+      "source_excerpt": "Append: 'The engine waits for 10 mins for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink.' Update: 'Update mode uses watermark to drop old aggregation state.' Complete: 'Complete mode does not drop old aggregation state since by definition this mode preserves all data in the Result Table.'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_guarantee:022",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "Data within the threshold is **never dropped**",
+      "source_excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_state_cleanup:021",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "Window [12:10-12:20] emitted and state dropped once watermark passes 12:20",
+      "source_excerpt": "the engine will maintain state and allow late data to update the state until (max event time seen by the engine - late threshold > T) where T is the window end time.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "slide": "Late Data Scenario Walkthrough",
+      "bullet": "The watermark is computed as max(event_time) - threshold = 12:30 - 5 min = 12:25",
+      "source_excerpt": "the watermark for C is max(C) − t_C, that is, t_C seconds before the maximum event time seen so far in C.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:stream_joins:026",
+      "slide": "Built-In Stateful Operations",
+      "bullet": "Stream-stream joins — buffer both sides as state; inner joins optionally use watermarks, outer joins **require** them to bound state and emit NULLs",
+      "source_excerpt": "for both the input streams, we buffer past input as streaming state, so that we can match every future input with past input and accordingly generate joined results. ... The outer NULL results will be generated with a delay that depends on the specified watermark delay and the time range condition. This is because the engine has to wait for that long to ensure there were no matches and there will be no more matches in future.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:stateful_ops:025",
+      "slide": "Built-In Stateful Operations",
+      "bullet": "`mapGroupsWithState` / `flatMapGroupsWithState` for custom logic like sessionization",
+      "source_excerpt": "For doing such sessionization, you will have to save arbitrary types of data as state... this can be done using the operation mapGroupsWithState and the more powerful operation flatMapGroupsWithState.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:hdfs_state_store:027",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "The default HDFS-backed store keeps all state in JVM heap, causing GC pauses with millions of keys",
+      "source_excerpt": "The HDFS backend state store provider is the default implementation... all the data is stored in memory map. ... the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "RocksDB uses native memory and local disk, scaling to 100M keys; explicit memory bounds are strongly recommended to prevent OOM. Without bounds, RocksDB memory can grow indefinitely and potentially cause OOM.",
+      "source_excerpt": "this solution uses RocksDB to efficiently manage the state in the native memory and the local disk. ... If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM (out-of-memory) issues.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The bullet and table claim RocksDB scales to '100M+ keys per executor.' The source excerpt does not state any specific key count. The source only says RocksDB manages state in native memory and local disk, and that it addresses GC issues when you have 'millions of keys.' The 100 million figure is fabricated and not supported by the provided source. Additionally, the table row says 'Millions of keys — GC pauses' for HDFS-backed, implicitly contrasting with '100M+ keys' for RocksDB — but the source never quantifies a RocksDB upper bound.",
+      "suggested_fix": "Remove the '100M+ keys' figure or replace with a qualified statement. Suggested rewrite for the bullet: 'RocksDB uses native memory and local disk, scaling beyond the millions-of-keys limit of the default store; explicit memory bounds are strongly recommended to prevent OOM.' In the table, change '**100M+ keys** per executor' to 'Scales well beyond millions of keys — no JVM GC overhead'."
+    }
+  ],
+  "summary": "8 claims checked across slides 26-31. 7 verified, 1 misrepresented, 0 unverified. The misrepresented claim (028) fabricates a '100M+ keys' figure for RocksDB that is not present in the source material."
+}

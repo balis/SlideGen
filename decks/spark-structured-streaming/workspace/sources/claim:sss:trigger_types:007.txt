@@ -1,0 +1,36 @@
+Source: Trigger (Spark 4.1.1 JavaDoc)
+URL: https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/streaming/Trigger.html
+Retrieved: 2026-03-20
+
+Excerpt:
+
+ProcessingTime: "A trigger policy that runs a query periodically based on an
+interval in processing time. If interval is 0, the query will run as fast as
+possible."
+
+Once (deprecated since 3.4.0): "A trigger that processes all available data in
+a single batch then terminates the query." Deprecation note: "Use AvailableNow()
+to leverage better guarantee of processing, fine-grained scale of batches, and
+better gradual processing of watermark advancement including no-data batch."
+
+AvailableNow: "A trigger that processes all available data at the start of the
+query in one or multiple batches, then terminates the query. This trigger
+provides a strong guarantee of processing: regardless of how many batches were
+left over in previous run, it ensures all available data at the time of
+execution gets processed before termination. Watermark gets advanced per each
+batch, and no-data batch gets executed before termination if the last batch
+advances the watermark."
+
+Continuous: "A trigger that continuously processes streaming data, asynchronously
+checkpointing at the specified interval."
+
+Additional source:
+Source: Structured Streaming Programming Guide — Performance Tips
+URL: https://spark.apache.org/docs/latest/streaming/performance-tips.html
+Retrieved: 2026-03-20
+
+"Continuous processing is a new, experimental streaming execution mode introduced
+in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once
+fault-tolerance guarantees. Compare this with the default micro-batch processing
+engine which can achieve exactly-once guarantees but achieve latencies of ~100ms
+at best."

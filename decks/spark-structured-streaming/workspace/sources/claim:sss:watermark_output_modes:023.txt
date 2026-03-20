@@ -1,0 +1,27 @@
+Source: Structured Streaming Programming Guide — Handling Late Data and Watermarking
+URL: https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html
+Retrieved: 2026-03-20
+
+Excerpt (Append Mode):
+"Some sinks (e.g. files) may not support fine-grained updates that Update Mode requires.
+To work with them, we also support Append Mode, where only the final counts are written
+to sink."
+
+"The engine maintains intermediate counts for each window. However, the partial counts
+are not updated to the Result Table and not written to sink. The engine waits for '10 mins'
+for late data to be counted, then drops intermediate state of a window < watermark, and
+appends the final counts to the Result Table/sink."
+
+Excerpt (Update Mode):
+"Update mode uses watermark to drop old aggregation state."
+
+Excerpt (Complete Mode):
+"Complete mode does not drop old aggregation state since by definition this mode preserves
+all data in the Result Table."
+
+Additional context from SIGMOD 2018 paper (Section 5.1 Analysis):
+"The Append output mode can only be used with queries whose output is monotonic [4]:
+that is, where a given output record will not be removed once it is written. In this mode,
+only selections, joins, and aggregations over keys that include event time are allowed (in
+which case the engine will only output the value for a given event time once its watermark
+has passed)."

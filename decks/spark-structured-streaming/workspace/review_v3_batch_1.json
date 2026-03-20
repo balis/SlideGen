@@ -1,0 +1,99 @@
+{
+  "draft_version": 3,
+  "batch": 1,
+  "slides_checked": "1-10 (Title through Micro-Batch Execution Loop)",
+  "verdict": "APPROVED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:declarative_incrementalization:004",
+      "slide": "Motivation — Why Unify Batch and Streaming?",
+      "bullet": "Structured Streaming: a purely declarative API that automatically incrementalizes a static relational query expressed using SQL or DataFrames [claim:sss:declarative_incrementalization:004]",
+      "source_excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "Structured Streaming treats a live data stream as a table that is being continuously appended — every arriving data item is like a new row appended to an unbounded Input Table [claim:sss:unbounded_table:001]",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the 'Input Table'. Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "Users express streaming computations as standard batch-like queries on a static table, and Spark runs them as incremental queries on the unbounded input table [claim:sss:batch_like_query:002]",
+      "source_excerpt": "This leads to a new stream processing model that is very similar to a batch processing model. You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:same_api:003",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "A query on a streaming DataFrame using the DataFrame/Dataset API is exactly the same as on a static DataFrame, allowing code reuse across batch and streaming workloads [claim:sss:same_api:003]",
+      "source_excerpt": "Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame. [Additional context:] You can express your streaming computation the same way you would express a batch computation on static data.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:catalyst_reuse:005",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "Structured Streaming reuses Spark SQL's Catalyst optimizer and Tungsten code generation, so most optimizations — including predicate pushdown, projection pushdown, and expression simplification — apply automatically to streaming queries [claim:sss:catalyst_reuse:005]",
+      "source_excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others. It uses Spark SQL's Tungsten binary format for data in memory and its runtime code generator to compile chains of operators to Java bytecode.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_state:006",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "The engine does not keep the entire unbounded table in memory — it reads the latest available data, processes it incrementally, keeps only minimal intermediate state, and discards the source data [claim:sss:incremental_state:006]",
+      "source_excerpt": "Note that Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "Each micro-batch is executed via IncrementalExecution, a variant of QueryExecution that can preserve state between executions and injects streaming-specific planner strategies (StatefulAggregationStrategy, StreamingJoinStrategy, StreamingDeduplicationStrategy, among others) [claim:sss:incremental_execution:012]",
+      "source_excerpt": "IncrementalExecution is 'A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution.' It 'overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy).'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:trigger_types:007",
+      "slide": "Trigger Modes Overview",
+      "bullet": "Structured Streaming supports four trigger modes [claim:sss:trigger_types:007]: ProcessingTime (fixed-interval, 0 = as fast as possible, exactly-once), Once (deprecated 3.4, single batch then stop), AvailableNow (multi-batch through all available data then stop), Continuous (experimental low-latency, at-least-once)",
+      "source_excerpt": "ProcessingTime: 'A trigger policy that runs a query periodically based on an interval in processing time. If interval is 0, the query will run as fast as possible.' Once (deprecated since 3.4.0): 'A trigger that processes all available data in a single batch then terminates the query.' AvailableNow: 'A trigger that processes all available data at the start of the query in one or multiple batches, then terminates the query.' Continuous: 'A trigger that continuously processes streaming data, asynchronously checkpointing at the specified interval.' [From performance tips:] 'Continuous processing... enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees.'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "Each iteration: discover offsets, log to WAL, fetch data, plan, execute, commit [claim:sss:microbatch_loop:008]",
+      "source_excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: triggerExecution, latestOffset/getOffset, walCommit, getBatch, queryPlanning, addBatch. The system 'requests the Offset Commit Log to persist metadata of the streaming micro-batch (with the current batch ID and event-time watermark).'",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "Driver tracks committedOffsets (already processed) and availableOffsets (latest discovered) [claim:sss:offset_tracking:009]",
+      "source_excerpt": "Every streaming source is assumed to have offsets (similar to Kafka offsets, or Kinesis sequence numbers) to track the read position in the stream. The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger. [From internals:] processes offset ranges between committedOffsets and availableOffsets.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "10 claims checked across slides 1-10. 10 verified, 0 misrepresented, 0 unverified. All claim references in this batch are faithfully supported by their source excerpts."
+}

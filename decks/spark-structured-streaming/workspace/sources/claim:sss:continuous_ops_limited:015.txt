@@ -1,0 +1,8 @@
+Source excerpt for claim:sss:continuous_ops_limited:015
+---
+"Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.). All SQL functions are supported except aggregation functions (since aggregations are not yet supported), current_timestamp() and current_date() (deterministic computations using time is challenging)."
+
+Source: Apache Spark Documentation - Structured Streaming Performance Tips
+URL: https://spark.apache.org/docs/latest/streaming/performance-tips.html
+Section: Continuous Processing - Supported Queries
+Retrieved: 2026-03-20

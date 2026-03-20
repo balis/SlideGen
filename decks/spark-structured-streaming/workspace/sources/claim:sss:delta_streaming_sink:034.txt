@@ -1,0 +1,24 @@
+Source: Delta Lake Streaming Documentation / Delta Lake Optimizations (OSS)
+URL: https://docs.delta.io/latest/delta-streaming.html
+Additional URL: https://docs.delta.io/latest/optimizations-oss.html
+Retrieved: 2026-03-20
+
+Excerpt (streaming sink exactly-once):
+"The transaction log enables Delta Lake to guarantee exactly-once processing, even when
+there are other streams or batch queries running concurrently against the table."
+
+Excerpt (checkpoint restart and appId):
+"If you delete the streaming checkpoint and restart the query with a new checkpoint, you
+must provide a different appId; otherwise, writes from the restarted query will be ignored
+because it will contain the same txnAppId and the batch ID would start from 0."
+
+Two output modes are supported:
+- Append mode (default): Adds new records to the table
+- Complete mode: Replaces the entire table with each batch, useful for aggregations
+
+Excerpt (auto-compaction, from optimizations-oss):
+"Auto compaction combines small files within Delta table partitions to automatically
+reduce small file problems."
+
+Available in Delta Lake 3.1.0 and above. Auto compaction occurs after a successful write
+on the same cluster. Only compacts previously uncompacted files.

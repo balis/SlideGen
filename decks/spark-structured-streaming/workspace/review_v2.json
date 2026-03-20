@@ -1,0 +1,37 @@
+{
+  "draft_version": 2,
+  "verdict": "NEEDS_REVISION",
+  "verified_count": 70,
+  "misrepresented_count": 4,
+  "unverified_count": 0,
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:state_store_growth:033",
+      "slide": "State Store — HDFS-Backed vs. RocksDB",
+      "bullet": "Without bounds, RocksDB memory can grow indefinitely and cause OOM [claim:sss:state_store_growth:033]",
+      "source_excerpt": "If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM issues.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The qualifier 'potentially' is dropped, making OOM sound certain. Also wrong claim ID — should cite claim:sss:rocksdb_state_store:028.",
+      "suggested_fix": "Without bounds, RocksDB memory can grow indefinitely and potentially cause OOM [claim:sss:rocksdb_state_store:028]"
+    },
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Comparison — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "~100 ms [claim:sss:microbatch_latency:013]",
+      "source_excerpt": "achieving end-to-end latencies as low as 100 milliseconds",
+      "verdict": "MISREPRESENTED",
+      "issue": "Source says 'as low as 100 milliseconds' — a best-case lower bound. Omitting 'as low as' changes the meaning.",
+      "suggested_fix": "as low as ~100 ms [claim:sss:microbatch_latency:013]"
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "slide": "State Store Growth Under Skewed Keys",
+      "bullet": "OOM if not bounded [claim:sss:rocksdb_state_store:028]",
+      "source_excerpt": "could grow indefinitely and potentially cause OOM (out-of-memory) issues",
+      "verdict": "MISREPRESENTED",
+      "issue": "Both qualifiers 'could' and 'potentially' dropped, making OOM definite.",
+      "suggested_fix": "potential OOM if not bounded [claim:sss:rocksdb_state_store:028]"
+    }
+  ],
+  "summary": "74 claim references checked across 4 batches. 70 verified, 4 misrepresented (3 unique issues), 0 unverified."
+}

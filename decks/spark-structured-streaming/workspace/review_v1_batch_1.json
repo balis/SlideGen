@@ -1,0 +1,134 @@
+{
+  "draft_version": 1,
+  "batch": 1,
+  "slides_checked": "Slides 3-10 (Sections A-B)",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:declarative_incrementalization:004",
+      "slide": "Why Unify Batch and Streaming?",
+      "bullet": "Structured Streaming takes a **declarative approach**: users write a static relational query, and the engine automatically incrementalizes it [claim:sss:declarative_incrementalization:004]",
+      "source_excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:unbounded_table:001",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "A live data stream is treated as a **table that is being continuously appended** -- every arriving data item is a new row in an unbounded Input Table [claim:sss:unbounded_table:001]",
+      "source_excerpt": "The key idea in Structured Streaming is to treat a live data stream as a table that is being continuously appended. Consider the input data stream as the Input Table. Every data item that is arriving on the stream is like a new row being appended to the Input Table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:batch_like_query:002",
+      "slide": "Stream as an Unbounded Table",
+      "bullet": "Users express streaming computations as **standard batch-like queries** on this table, and Spark runs them as incremental queries on the unbounded input [claim:sss:batch_like_query:002]",
+      "source_excerpt": "You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:same_api:003",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "A query on a streaming DataFrame uses **the same DataFrame/Dataset API** as a static DataFrame, enabling code reuse across batch and streaming workloads [claim:sss:same_api:003]",
+      "source_excerpt": "Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame. You can express your streaming computation the same way you would express a batch computation on static data.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:catalyst_reuse:005",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "Structured Streaming **reuses Spark SQL Catalyst optimizer and Tungsten code generation**, so optimizations like predicate pushdown, projection pushdown, and expression simplification apply automatically [claim:sss:catalyst_reuse:005]",
+      "source_excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL, such as predicate pushdown, projection pushdown, expression simplification and others.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The source says most of the optimization rules apply, not all. The bullet omits this qualifier and states that optimizations apply automatically without the most qualifier, implying completeness. The source explicitly hedges with most, meaning some optimization rules do NOT apply to streaming queries.",
+      "suggested_fix": "Structured Streaming **reuses Spark SQL Catalyst optimizer and Tungsten code generation**, so most optimizations -- such as predicate pushdown, projection pushdown, and expression simplification -- apply automatically [claim:sss:catalyst_reuse:005]"
+    },
+    {
+      "claim_id": "claim:sss:incremental_state:006",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "The engine does **not** keep the entire unbounded table in memory -- it reads the latest available data, processes it incrementally, keeps only minimal intermediate state, and discards the source data [claim:sss:incremental_state:006]",
+      "source_excerpt": "Note that Structured Streaming does not materialize the entire table. It reads the latest available data from the streaming data source, processes it incrementally to update the result, and then discards the source data. It only keeps around the minimal intermediate state data as required to update the result.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:incremental_execution:012",
+      "slide": "Incremental, Not Materialized",
+      "bullet": "Each micro-batch is executed via **IncrementalExecution**, a variant of QueryExecution that injects streaming-specific planner strategies (StatefulAggregationStrategy, StreamingJoinStrategy) and manages stateful checkpointing across batches [claim:sss:incremental_execution:012]",
+      "source_excerpt": "IncrementalExecution is A variant of QueryExecution that allows the execution of the given LogicalPlan plan incrementally. Possibly preserving state in between each execution. It overrides the planner with a custom SparkPlanner that includes streaming-specific strategies (StreamingJoinStrategy, StatefulAggregationStrategy, StreamingDeduplicationStrategy).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:trigger_types:007",
+      "slide": "Trigger Modes Overview",
+      "bullet": "Structured Streaming supports **four trigger modes**: ProcessingTime(interval), Once (deprecated 3.4), AvailableNow, Continuous(checkpoint_interval) [claim:sss:trigger_types:007]",
+      "source_excerpt": "ProcessingTime: A trigger policy that runs a query periodically based on an interval in processing time. Once (deprecated since 3.4.0): A trigger that processes all available data in a single batch then terminates the query. AvailableNow: A trigger that processes all available data at the start of the query in one or multiple batches, then terminates the query. Continuous: A trigger that continuously processes streaming data, asynchronously checkpointing at the specified interval.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_loop:008",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "Each micro-batch has two phases: **constructNextBatch** (discover offsets, write WAL) and **runBatch** (retrieve data, build IncrementalExecution plan, write through sink) [claim:sss:microbatch_loop:008]",
+      "source_excerpt": "MicroBatchExecution splits execution of a single micro-batch into the following execution phases: 1. triggerExecution, 2. latestOffset/getOffset, 3. walCommit, 4. getBatch, 5. queryPlanning, 6. addBatch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "The Micro-Batch Execution Loop",
+      "bullet": "The driver tracks **committedOffsets** (already processed) and **availableOffsets** (latest discovered from sources); each batch processes the range between them [claim:sss:offset_tracking:009]",
+      "source_excerpt": "processes offset ranges between committedOffsets and availableOffsets. Sources return data bounded by committed and available offsets.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_tracking:009",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "The driver calls **latestOffset() / getOffset()** on each source to discover new data, then **getBatch(start, end)** to retrieve the data range [claim:sss:offset_tracking:009]",
+      "source_excerpt": "getOffset Phase: Requests each source for the latest offset. getBatch Phase: Creating Logical Query Plans For Unprocessed Data From Sources and MicroBatchReaders -- processes offset ranges between committedOffsets and availableOffsets.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_seq_log:011",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "Offsets are persisted in the **OffsetSeqLog** -- versioned files in HDFS-compatible storage, one per batch ID [claim:sss:offset_seq_log:011]",
+      "source_excerpt": "The OffsetSeqLog persists offsets to HDFS-compatible storage as versioned files, one per batch.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:offset_seq_log:011",
+      "slide": "Offset Tracking Protocol",
+      "bullet": "On restart, **populateStartOffsets** reads the latest committed batch ID from this log to determine where to resume processing [claim:sss:offset_seq_log:011]",
+      "source_excerpt": "On restart, populateStartOffsets requests the Offset Write-Ahead Log for the latest committed batch id with metadata.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Micro-Batch Latency",
+      "bullet": "The default micro-batch engine achieves **end-to-end latencies as low as ~100 milliseconds** with exactly-once guarantees [claim:sss:microbatch_latency:013]",
+      "source_excerpt": "Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "14 claim references checked across 12 unique claims. 13 verified, 1 misrepresented, 0 unverified. The misrepresented claim (catalyst_reuse:005) drops the qualifier most when describing which Spark SQL optimization rules apply to streaming queries."
+}

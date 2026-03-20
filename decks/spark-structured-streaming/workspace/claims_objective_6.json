@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 6,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:small_file_problem:031",
+      "statement": "Spark Structured Streaming's file sink creates a _spark_metadata folder that tracks files written per batch; because each micro-batch commits separate output files, long-running streaming jobs accumulate large numbers of small files and an ever-growing metadata log that can eventually cause driver OOM errors. Both Delta Lake (via OPTIMIZE and auto-compaction) and Iceberg (via rewriteDataFiles) provide compaction mechanisms to coalesce small files into larger ones.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Delta Lake Optimizations - Auto Compaction and OPTIMIZE",
+        "url_or_doi": "https://docs.delta.io/latest/optimizations-oss.html",
+        "section": "Auto Compaction / Compaction",
+        "excerpt": "Auto compaction combines small files within Delta table partitions to automatically reduce small file problems. ... The OPTIMIZE operation performs bin-packing by coalescing small files into larger ones to accelerate read queries."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_compatibility:032",
+      "statement": "Changes to stateful operations (additions, deletions, or schema modifications) in a Structured Streaming query are not allowed between restarts from an existing checkpoint; additionally, configurations like spark.sql.shuffle.partitions, the state store provider class, and the multiple-watermark policy are immutable after a query has started because state is physically partitioned by hash.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 4.1.1 Documentation",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/additional-information.html",
+        "section": "Configurations not modifiable after query run",
+        "excerpt": "Several configurations are not modifiable after the query has run. To change them, discard the checkpoint and start a new query. These configurations include: spark.sql.shuffle.partitions (This is due to the physical partitioning of state: state is partitioned via applying hash function to key, hence the number of partitions for state should be unchanged), spark.sql.streaming.stateStore.providerClass, spark.sql.streaming.multipleWatermarkPolicy."
+      }
+    },
+    {
+      "id": "claim:sss:state_store_growth:033",
+      "statement": "The default HDFS-based state store keeps all state in JVM heap memory of executors; with millions of keys (especially under skewed key distributions), this causes large garbage-collection pauses and potential OOM failures. The RocksDB state store provider moves state to off-heap memory and local disk, scaling to 100 million keys per executor, but its memory must be explicitly bounded via spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage to prevent unbounded native memory growth.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide - Spark 3.5.7",
+        "url_or_doi": "https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html",
+        "section": "RocksDB State Store Implementation",
+        "excerpt": "If you have stateful operations in your streaming query ... and you want to maintain millions of keys in the state, then you may face issues related to large JVM garbage collection (GC) pauses causing high variations in the micro-batch processing times. This occurs because, by the implementation of HDFSBackedStateStore, the state data is maintained in the JVM memory of the executors and large number of state objects puts memory pressure on the JVM causing high GC pauses. ... If you want to cap RocksDB memory usage in your Spark Structured Streaming deployment, this feature can be enabled by setting the spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage config to true."
+      }
+    },
+    {
+      "id": "claim:sss:delta_streaming_sink:034",
+      "statement": "Delta Lake's transaction log guarantees exactly-once processing for streaming sinks even when multiple streams or batch queries run concurrently against the same table. If a checkpoint is deleted and the query restarted with a new checkpoint, a different appId must be provided; otherwise writes from the restarted query will be silently ignored because the txnAppId and initial batch ID collide with prior committed transactions.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Delta Lake Streaming Documentation",
+        "url_or_doi": "https://docs.delta.io/latest/delta-streaming.html",
+        "section": "Delta table as a sink / Idempotent writes",
+        "excerpt": "The transaction log enables Delta Lake to guarantee exactly-once processing, even when there are other streams or batch queries running concurrently against the table. ... If you delete the streaming checkpoint and restart the query with a new checkpoint, you must provide a different appId; otherwise, writes from the restarted query will be ignored because it will contain the same txnAppId and the batch ID would start from 0."
+      }
+    },
+    {
+      "id": "claim:sss:checkpoint_allowed_changes:035",
+      "statement": "When restarting a Structured Streaming query from an existing checkpoint, safe changes include adding or removing filters, changing rate limits, and modifying trigger intervals. Disallowed changes that require discarding the checkpoint include changing the number or type of input sources, modifying stateful operations, and switching output sink types (e.g., Kafka sink to file sink).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming checkpoints - Databricks Documentation",
+        "url_or_doi": "https://docs.databricks.com/aws/en/structured-streaming/checkpoints",
+        "section": "Allowed and Disallowed Changes",
+        "excerpt": "Changes in the number or type (that is, different source) of input sources: This is not allowed. Any changes (that is, additions, deletions, or schema modifications) to the stateful operations of a streaming query are not allowed between restarts. Addition / deletion of filters is allowed. Addition, deletion, and modification of rate limits is allowed."
+      }
+    },
+    {
+      "id": "claim:sss:iceberg_streaming_maintenance:036",
+      "statement": "Apache Iceberg tables used as streaming sinks require periodic maintenance -- including tuning the commit rate, expiring old snapshots, compacting data files via rewriteDataFiles (recommended every 1-4 hours), and rewriting manifests -- because each micro-batch commit produces a new snapshot with its own set of small data files, causing rapid metadata growth.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Spark Structured Streaming - Apache Iceberg Documentation",
+        "url_or_doi": "https://iceberg.apache.org/docs/latest/spark-structured-streaming/",
+        "section": "Maintenance for streaming tables",
+        "excerpt": "Each write to an Iceberg table creates a new snapshot, or version, of a table. Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small."
+      }
+    }
+  ]
+}

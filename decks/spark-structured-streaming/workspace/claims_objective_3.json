@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 3,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:microbatch_latency:001",
+      "statement": "Spark Structured Streaming's default micro-batch engine processes data streams as a series of small batch jobs, achieving end-to-end latencies as low as 100 milliseconds with exactly-once fault-tolerance guarantees.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation — Structured Streaming Overview",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/index.html",
+        "section": "Overview",
+        "excerpt": "Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_mode_latency:002",
+      "statement": "Continuous Processing mode, introduced as experimental in Spark 2.3, achieves end-to-end latencies as low as 1 millisecond but provides only at-least-once fault-tolerance guarantees, trading exactly-once semantics for lower latency.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation — Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing",
+        "excerpt": "Continuous processing is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees. Compare this with the default micro-batch processing engine which can achieve exactly-once guarantees but achieve latencies of ~100ms at best."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_ops_limited:003",
+      "statement": "Continuous Processing mode supports only map-like Dataset/DataFrame operations (projections such as select, map, flatMap, mapPartitions and selections such as where, filter) — aggregations are not supported, and sources are limited to Kafka and Rate.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation — Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing — Supported Queries",
+        "excerpt": "Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.). All SQL functions are supported except aggregation functions (since aggregations are not yet supported), current_timestamp() and current_date() (deterministic computations using time is challenging)."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_long_running:004",
+      "statement": "Unlike micro-batch mode which schedules recurring short jobs, the continuous processing engine launches multiple long-running tasks that continuously read from sources, process, and write to sinks. There are no automatic retries of failed tasks — any failure stops the query and requires manual restart from the checkpoint.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Documentation — Structured Streaming Performance Tips",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/performance-tips.html",
+        "section": "Continuous Processing — Caveats",
+        "excerpt": "The continuous processing engine launches multiple long-running tasks that continuously read data from sources, process it and continuously write to sinks. There are currently no automatic retries of failed tasks. Any failure will lead to the query being stopped and it needs to be manually restarted from the checkpoint."
+      }
+    },
+    {
+      "id": "claim:sss:continuous_never_graduated:005",
+      "statement": "Spark's Continuous Processing mode never advanced beyond experimental status because it only supported map-like operations with no stateful processing, would have required maintaining two separate checkpointing systems, and significant portions of the engine would have needed reimplementation.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Spark Real-Time Mode SPIP Analysis",
+        "url_or_doi": "https://bigdataperformance.substack.com/p/apache-spark-real-time-mode-the-end",
+        "section": "SPIP Analysis — Why Continuous Processing Was Rejected",
+        "excerpt": "The SPIP evaluated extending the experimental Continuous Processing mode from Spark 2.3 but concluded it was inadequate due to three key limitations: only 'map' operations with no stateful processing, would require maintaining two separate checkpointing systems, and significant portions of the engine would need reimplementation."
+      }
+    },
+    {
+      "id": "claim:sss:flink_per_event:006",
+      "statement": "Apache Flink processes streaming data per-event through pipelined operators with local state access, achieving low processing latencies and exactly-once state consistency via asynchronous checkpointing — in contrast to Spark's micro-batch approach which imposes scheduling overhead between batches.",
+      "confidence": "VERIFIED",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Flink Architecture — What is Flink",
+        "url_or_doi": "https://flink.apache.org/what-is-flink/flink-architecture/",
+        "section": "Leverage In-Memory Performance",
+        "excerpt": "Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies. Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage."
+      }
+    }
+  ]
+}

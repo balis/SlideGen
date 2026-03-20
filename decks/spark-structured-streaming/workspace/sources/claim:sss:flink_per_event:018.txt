@@ -1,0 +1,8 @@
+Source excerpt for claim:sss:flink_per_event:018
+---
+"Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies. Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage."
+
+Source: Apache Flink Architecture - What is Flink
+URL: https://flink.apache.org/what-is-flink/flink-architecture/
+Section: Leverage In-Memory Performance
+Retrieved: 2026-03-20

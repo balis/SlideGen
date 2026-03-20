@@ -1,0 +1,44 @@
+{
+  "draft_version": 1,
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:catalyst_reuse:005",
+      "slide": "Same API, Batch and Streaming",
+      "bullet": "so optimizations like predicate pushdown, projection pushdown, and expression simplification apply automatically",
+      "source_excerpt": "Structured Streaming applies most of the optimization rules in Spark SQL",
+      "verdict": "MISREPRESENTED",
+      "issue": "Drops qualifier most from source. Source says most of the optimization rules but bullet implies all.",
+      "suggested_fix": "Insert most before optimizations"
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "WAL-Based Exactly-Once Protocol",
+      "bullet": "Exactly-once is guaranteed by two persistent logs in the checkpoint directory",
+      "source_excerpt": "Together, using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure.",
+      "verdict": "MISREPRESENTED",
+      "issue": "Attributes exactly-once to logs alone. Source requires three components: logs + replayable sources + idempotent sinks.",
+      "suggested_fix": "Mention all three components in opening bullet"
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "slide": "State Store HDFS-Backed vs. RocksDB",
+      "bullet": "Checkpointing: Changelog only deltas uploaded",
+      "source_excerpt": "changelog checkpointing uploads changes made to the state since the last checkpoint for durability",
+      "verdict": "MISREPRESENTED",
+      "issue": "Presents changelog as default RocksDB behavior. It is opt-in since Spark 3.3.",
+      "suggested_fix": "Change table cell to Full snapshot default or changelog opt-in Spark 3.3+"
+    },
+    {
+      "claim_id": "claim:sss:flink_per_event:018",
+      "slide": "Comparison Table",
+      "bullet": "Flink latency Sub-millisecond and State Local state RocksDB",
+      "source_excerpt": "Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies.",
+      "verdict": "MISREPRESENTED",
+      "issue": "Source says very low latencies not sub-millisecond. Source says local often in-memory state not RocksDB.",
+      "suggested_fix": "Change Flink latency to Very low per-event and state to Local often in-memory state"
+    }
+  ],
+  "verified_count": 32,
+  "summary": "36 claim references checked across 4 batches. 32 verified, 4 misrepresented, 0 unverified."
+}

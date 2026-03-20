@@ -1,0 +1,8 @@
+Source excerpt for claim:sss:continuous_never_graduated:017
+---
+"The SPIP evaluated extending the experimental Continuous Processing mode from Spark 2.3 but concluded it was inadequate due to three key limitations: only map operations with no stateful processing, would require maintaining two separate checkpointing systems, and significant portions of the engine would need reimplementation."
+
+Source: Apache Spark Real-Time Mode SPIP Analysis
+URL: https://bigdataperformance.substack.com/p/apache-spark-real-time-mode-the-end
+Section: SPIP Analysis - Why Continuous Processing Was Rejected
+Retrieved: 2026-03-20

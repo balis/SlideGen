@@ -1,0 +1,14 @@
+Source: Structured Streaming Programming Guide — Handling Late Data and Watermarking
+URL: https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will
+never drop any data that is less than 2 hours delayed. In other words, any data less than
+2 hours behind (in terms of event-time) the latest data processed till then is guaranteed to
+be aggregated."
+
+"However, the guarantee is strict only in one direction. Data delayed by more than 2 hours
+is not guaranteed to be dropped; it may or may not get aggregated. More delayed is the
+data, less likely is the engine going to process it."

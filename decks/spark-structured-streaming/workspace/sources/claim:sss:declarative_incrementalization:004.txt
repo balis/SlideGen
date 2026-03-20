@@ -1,0 +1,15 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark
+DOI: https://doi.org/10.1145/3183713.3190664
+Authors: Michael Armbrust, Tathagata Das, J. Torres, B. Yavuz, Shixiong Zhu, Reynold Xin, A. Ghodsi, Ion Stoica, M. Zaharia
+Published: SIGMOD 2018
+Retrieved: 2026-03-20
+
+Section: Abstract
+
+Excerpt:
+"It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames), in contrast to APIs that ask the user to build a DAG of physical operators."
+
+Additional context from the paper:
+"Logically, all input data received up to a point in processing time is viewed as a large input table, and the user provides a query that defines a result table based on this input."
+
+"The engine then determines how to compute and write this output table into a sink incrementally, using similar techniques to incremental view maintenance."

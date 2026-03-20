@@ -1,0 +1,8 @@
+Source: Structured Streaming Programming Guide - Apache Spark Documentation
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Section: Programming Model / Basic Concepts
+
+Excerpt:
+"This leads to a new stream processing model that is very similar to a batch processing model. You will express your streaming computation as standard batch-like query as on a static table, and Spark runs it as an incremental query on the unbounded input table."

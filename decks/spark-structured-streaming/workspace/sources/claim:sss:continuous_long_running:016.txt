@@ -1,0 +1,8 @@
+Source excerpt for claim:sss:continuous_long_running:016
+---
+"The continuous processing engine launches multiple long-running tasks that continuously read data from sources, process it and continuously write to sinks. There are currently no automatic retries of failed tasks. Any failure will lead to the query being stopped and it needs to be manually restarted from the checkpoint."
+
+Source: Apache Spark Documentation - Structured Streaming Performance Tips
+URL: https://spark.apache.org/docs/latest/streaming/performance-tips.html
+Section: Continuous Processing - Caveats
+Retrieved: 2026-03-20

@@ -1,0 +1,25 @@
+Source: Structured Streaming Programming Guide — Handling Late Data and Watermarking
+URL: https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"However, to run this query for days, it's necessary for the system to bound the amount of
+intermediate in-memory state it accumulates. This means the system needs to know when an
+old aggregate can be dropped from the in-memory state because the application is not going
+to receive late data for that aggregate anymore."
+
+"You can define the watermark of a query by specifying the event time column and the
+threshold on how late the data is expected to be in terms of event time. For a specific window
+ending at time T, the engine will maintain state and allow late data to update the state until
+(max event time seen by the engine - late threshold > T)."
+
+"The engine maintains intermediate counts for each window. However, the partial counts are
+not updated to the Result Table and not written to sink. The engine waits for '10 mins' for
+late data to be counted, then drops intermediate state of a window < watermark, and appends
+the final counts to the Result Table/sink."
+
+Additional context from SIGMOD 2018 paper (Section 4.3.1):
+"When present, watermarks affect when stateful operators can forget old state (e.g., if
+grouping by a window derived from a watermarked column), and when Structured Streaming
+will output data with an event time key to append-mode sinks."

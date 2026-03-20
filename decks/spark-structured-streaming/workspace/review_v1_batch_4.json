@@ -1,0 +1,167 @@
+{
+  "batch": 4,
+  "draft": "draft_v1.md",
+  "slides_checked": "Slides 25-32 (Sections G, H, I): Micro-Batch vs. Continuous vs. Flink, Operational Pitfalls, Summary",
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:sss:microbatch_latency:013",
+      "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Latency: ~100 ms floor",
+      "source_excerpt": "processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_mode_latency:014",
+      "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Latency: ~1 ms; Fault-tolerance: At-least-once only",
+      "source_excerpt": "Continuous processing is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_ops_limited:015",
+      "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Supported operations: Map-like only (select, filter, map); Sources: Kafka, Rate only",
+      "source_excerpt": "Only map-like Dataset/DataFrame operations are supported in continuous mode, that is, only projections (select, map, flatMap, mapPartitions, etc.) and selections (where, filter, etc.).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_long_running:016",
+      "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Task failure handling: No auto retry — query stops",
+      "source_excerpt": "There are currently no automatic retries of failed tasks. Any failure will lead to the query being stopped and it needs to be manually restarted from the checkpoint.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:continuous_never_graduated:017",
+      "slide": "Why Continuous Processing Never Graduated",
+      "bullet": "Three fundamental blockers: only map-like operations, would require two separate checkpointing systems, significant engine reimplementation needed",
+      "source_excerpt": "The SPIP evaluated extending the experimental Continuous Processing mode from Spark 2.3 but concluded it was inadequate due to three key limitations: only map operations with no stateful processing, would require maintaining two separate checkpointing systems, and significant portions of the engine would need reimplementation.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:flink_per_event:018",
+      "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+      "bullet": "Processing model: Per-event pipelined operators; Latency: Sub-millisecond; State access: Local state (RocksDB)",
+      "source_excerpt": "Tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies. Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage.",
+      "verdict": "MISREPRESENTED",
+      "issue": "The slide makes three claims attributed to this source: (1) 'Sub-millisecond' latency — the source only says 'very low processing latencies' without specifying a sub-millisecond figure. (2) 'Local state (RocksDB)' — the source says 'local, often in-memory, state' and does not mention RocksDB in this excerpt. While Flink does support RocksDB as a state backend, the cited source does not say this. (3) The slide labels Flink's processing as 'Per-event pipelined operators' — the source does not use the term 'per-event'; it describes pipelined task execution but does not explicitly characterize it as per-event processing in this excerpt. The slide overstates and adds specifics not present in the cited source.",
+      "suggested_fix": "Change 'Sub-millisecond' to 'Very low' or provide a separate source that quantifies Flink's latency as sub-millisecond. Change 'Local state (RocksDB)' to 'Local, often in-memory, state' to match the source, or cite a different source that specifically discusses RocksDB as Flink's state backend. If the 'per-event' characterization is important, find a source that explicitly uses that term."
+    },
+    {
+      "claim_id": "claim:sss:small_file_problem:031",
+      "slide": "The Small-File Problem",
+      "bullet": "Each micro-batch writes separate output files; _spark_metadata log grows unboundedly; Use Delta Lake's auto-compaction if available",
+      "source_excerpt": "Each micro-batch commits separate output files, leading to an accumulation of many small files over long-running jobs. The size of metadata files grows with time... Auto compaction combines small files within Delta table partitions to automatically reduce small file problems.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:iceberg_streaming_maintenance:036",
+      "slide": "The Small-File Problem / Table-Format Sinks",
+      "bullet": "Each batch produces a new snapshot with small data files; requires explicit maintenance — tune commit rate, expire snapshots, compact data files, rewrite manifests; compaction every 1-4 hours",
+      "source_excerpt": "Each write to an Iceberg table creates a new snapshot... Iceberg tables used as streaming sinks accumulate snapshots and small data files rapidly because each micro-batch commit produces a new table snapshot... Tables receiving continuous streaming ingestion benefit from compaction every 1-4 hours.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:state_store_growth:033",
+      "slide": "State Store Growth Under Skewed Keys",
+      "bullet": "Skewed keys cause uneven state distribution; HDFS-backed store causes JVM GC pauses and potential OOM; RocksDB must set boundedMemoryUsage to prevent unbounded native memory growth",
+      "source_excerpt": "identify potential state skew (uneven distribution of keys across partitions)... If left unbounded, RocksDB memory usage across multiple instances could grow indefinitely and potentially cause OOM (out-of-memory) issues... you can cap RocksDB memory usage by setting spark.sql.streaming.stateStore.rocksdb.boundedMemoryUsage config to true.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:rocksdb_state_store:028",
+      "slide": "State Store Growth Under Skewed Keys",
+      "bullet": "Switch to RocksDB with explicit memory bounds",
+      "source_excerpt": "Rather than keeping the state in the JVM memory, this solution uses RocksDB to efficiently manage the state in the native memory and the local disk... RocksDB-based state storage can easily scale up to 100 million keys per executor.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:checkpoint_compatibility:032",
+      "slide": "Checkpoint Compatibility — What You Can and Cannot Change",
+      "bullet": "spark.sql.shuffle.partitions is frozen because state is hash-partitioned; Stateful operation changes are not allowed between restarts",
+      "source_excerpt": "spark.sql.shuffle.partitions: This is due to the physical partitioning of state: state is partitioned via applying hash function to key... Any changes (that is, additions, deletions, or schema modifications) to the stateful operations of a streaming query are not allowed between restarts.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:checkpoint_allowed_changes:035",
+      "slide": "Checkpoint Compatibility — What You Can and Cannot Change",
+      "bullet": "Safe changes include adding/removing filters and changing rate limits or trigger intervals",
+      "source_excerpt": "Addition, deletion, and modification of rate limits is allowed... Adding filters... Changing between incremental batches and time-interval triggers.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:delta_streaming_sink:034",
+      "slide": "Table-Format Sinks — Delta Lake and Iceberg",
+      "bullet": "Delta Lake: transaction log guarantees exactly-once even with concurrent writers; Pitfall: if checkpoint is deleted and query restarted without changing appId, writes are silently ignored due to txnAppId collision",
+      "source_excerpt": "The transaction log enables Delta Lake to guarantee exactly-once processing, even when there are other streams or batch queries running concurrently against the table... If you delete the streaming checkpoint and restart the query with a new checkpoint, you must provide a different appId; otherwise, writes from the restarted query will be ignored because it will contain the same txnAppId and the batch ID would start from 0.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:declarative_incrementalization:004",
+      "slide": "Summary — Key Takeaways",
+      "bullet": "streams are unbounded tables; users write declarative queries that the engine automatically incrementalizes",
+      "source_excerpt": "It is a purely declarative API based on automatically incrementalizing a static relational query (expressed using SQL or DataFrames).",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:wal_exactly_once:010",
+      "slide": "Summary — Key Takeaways",
+      "bullet": "two-log WAL protocol (OffsetSeqLog + CommitLog) guarantees exactly-once with replayable sources and idempotent sinks",
+      "source_excerpt": "The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger... using replayable sources and idempotent sinks, Structured Streaming can ensure end-to-end exactly-once semantics under any failure.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:sss:watermark_definition:019",
+      "slide": "Summary — Key Takeaways",
+      "bullet": "watermark = max(event_time) - threshold; bounds state growth and controls the completeness-vs-latency tradeoff",
+      "source_excerpt": "At any point in time, the watermark for C is max(C) - t_C, that is, t_C seconds before the maximum event time seen so far in C.",
+      "verdict": "VERIFIED",
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": {
+    "total_claims_checked": 16,
+    "verified": 15,
+    "misrepresented": 1,
+    "unverified": 0,
+    "verdict": "NEEDS_REVISION",
+    "misrepresented_claims": [
+      {
+        "claim_id": "claim:sss:flink_per_event:018",
+        "slide": "Comparison Table — Micro-Batch vs. Continuous vs. Flink",
+        "issue": "Slide claims Flink achieves 'Sub-millisecond' latency and uses 'Local state (RocksDB)', but the cited source only says 'very low processing latencies' and 'local, often in-memory, state'. No sub-millisecond figure and no RocksDB mention in the source excerpt.",
+        "suggested_fix": "Change 'Sub-millisecond' to 'Very low' or cite a source with a specific latency figure. Change 'Local state (RocksDB)' to 'Local, often in-memory, state' or cite a RocksDB-specific Flink source."
+      }
+    ]
+  }
+}

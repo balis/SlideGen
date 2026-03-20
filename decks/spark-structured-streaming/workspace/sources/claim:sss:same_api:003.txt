@@ -1,0 +1,11 @@
+Source: Structured Streaming Programming Guide - Apache Spark Documentation
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Section: Quick Example
+
+Excerpt:
+"Note that the query on streaming lines DataFrame to generate wordCounts is exactly the same as it would be a static DataFrame."
+
+Additional context from the same page:
+"You can express your streaming computation the same way you would express a batch computation on static data. The Spark SQL engine will take care of running it incrementally and continuously and updating the final result as streaming data continues to arrive."

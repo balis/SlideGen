@@ -1,0 +1,22 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark (SIGMOD 2018)
+DOI: https://doi.org/10.1145/3183713.3190664
+Authors: Armbrust, Das, Torres, Yavuz, Zhu, Xin, Ghodsi, Stoica, Zaharia
+Section: 6.1 State Management and Recovery
+Retrieved: 2026-03-20
+
+Excerpt from paper:
+"Structured Streaming uses two forms of durable storage to achieve fault tolerance. First, a write-ahead log keeps track of which data has been processed and reliably written to the output sink from each input source. For some output sinks, this log can be integrated with the sink to make updates to the sink atomic. Second, the system uses a larger-scale state store to hold snapshots of operator states for long-running aggregation operators. These are written asynchronously, and may be 'behind' the latest data written to the output sink. The system will automatically track which state it has last updated in its log, and recompute state starting from that point in the data on failure. Both the log and state store can run over pluggable storage systems (e.g., HDFS or S3)."
+
+"Any operators requiring state checkpoint their state periodically and asynchronously to the state store, using incremental checkpoints when possible. They store the epoch ID along with each checkpoint written. These checkpoints do not need to happen on every epoch or to block processing."
+
+Additional source: Structured Streaming Programming Guide - Spark 3.5.7
+URL: https://spark.apache.org/docs/3.5.7/structured-streaming-programming-guide.html
+
+"Every streaming source is assumed to have offsets (similar to Kafka offsets, or Kinesis sequence numbers) to track the read position in the stream. The engine uses checkpointing and write-ahead logs to record the offset range of the data being processed in each trigger."
+
+Checkpoint directory contents:
+- offsets/: batch-wise source offsets, written at the start of each micro-batch
+- commits/: batch-wise commit records, written at the end of each micro-batch
+- state/: checkpointed state store data for stateful operators
+- metadata: query ID and configuration
+- sources/: source-specific metadata

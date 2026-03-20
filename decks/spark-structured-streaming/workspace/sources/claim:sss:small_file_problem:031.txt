@@ -1,0 +1,30 @@
+Source: Delta Lake Optimizations Documentation / Spark Structured Streaming Community Documentation
+URL: https://docs.delta.io/latest/optimizations-oss.html
+Additional URL: https://spark.apache.org/docs/latest/streaming/additional-information.html
+Retrieved: 2026-03-20
+
+Excerpt (file sink small file problem):
+The file sink creates a _spark_metadata folder in the target path. This metadata folder
+stores information about each batch, including which files are part of the batch. This is
+required to provide an exactly-once guarantee for file sink streaming.
+
+Each micro-batch commits separate output files, leading to an accumulation of many small
+files over long-running jobs. The size of metadata files grows with time.
+
+Streaming jobs run 24x7 and can run for years, resulting in processing a large amount of
+data and the size of files grow with the time and can reach up to 10's of GB's.
+
+Excerpt (Delta Lake auto-compaction):
+"Auto compaction combines small files within Delta table partitions to automatically
+reduce small file problems."
+
+"The OPTIMIZE operation performs bin-packing by coalescing small files into larger ones
+to accelerate read queries."
+
+Operations are "idempotent, meaning that if it is run twice on the same dataset, the
+second run has no effect." Readers experience "snapshot isolation, which means that they
+are not interrupted when OPTIMIZE removes unnecessary files."
+
+Additional reference (Iceberg compaction):
+Iceberg can compact data files in parallel using Spark with the rewriteDataFiles action.
+Tables receiving continuous streaming ingestion benefit from compaction every 1-4 hours.

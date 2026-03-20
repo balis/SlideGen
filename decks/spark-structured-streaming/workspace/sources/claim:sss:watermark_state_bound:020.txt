@@ -1,0 +1,22 @@
+Source: Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark
+Authors: Armbrust et al.
+DOI: https://doi.org/10.1145/3183713.3190664
+Section: 4.3.1 Event Time Watermarks
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"From a logical point of view, the key idea in event time is to treat application-specified
+timestamps as an arbitrary field in the data, allowing records to arrive out-of-order [2, 24].
+We can then use standard operators and incremental processing to update results grouped
+by event time. In practice, however, it is useful for the processing system to have some
+loose bounds on how late data can arrive, for two reasons:
+
+(1) Allowing arbitrarily late data might require storing arbitrarily large state. For example,
+if we count data by 1-minute event time window, the system needs to remember a count
+for every 1-minute window since the application began, because a late record might still
+arrive for any particular minute. This can quickly lead to large amounts of state, especially
+if combined with another grouping key. The same issue happens with joins.
+
+(2) Some sinks do not support data retraction, making it useful to be able to tell the
+results for a given event time after a timeout."

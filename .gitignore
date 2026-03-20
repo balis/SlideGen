@@ -1,0 +1,9 @@
+# Workspace artifacts (intermediate files)
+decks/*/workspace/stream.jsonl
+
+# IDE / OS
+.DS_Store
+*.swp
+
+# Claude Code
+.claude/

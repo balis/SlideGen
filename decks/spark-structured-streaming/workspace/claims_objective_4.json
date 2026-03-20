@@ -1,0 +1,79 @@
+{
+  "topic": "spark-structured-streaming",
+  "objective": 4,
+  "generated_at": "2026-03-20T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:sss:watermark_definition:019",
+      "statement": "In Structured Streaming, the watermark for an event-time column C is defined as max(C) − t_C, where t_C is a user-specified delay threshold and max(C) is the maximum event time seen so far; this makes the watermark naturally robust to backlogged data because if the system cannot keep up, the watermark will not advance.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "4.3.1 Event Time Watermarks",
+        "excerpt": "Structured Streaming lets developers set a watermark [2] for event time columns using the withWatermark operator. This operator gives the system a delay threshold t_C for a given timestamp column C. At any point in time, the watermark for C is max(C) − t_C, that is, t_C seconds before the maximum event time seen so far in C. Note that this choice of watermark is naturally robust to backlogged data: if the system cannot keep up with the input rate for a period of time, the watermark will not move forward arbitrarily during that time, and all events that arrived within at most T seconds of being produced will still be processed."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_state_bound:020",
+      "statement": "Without watermarks, allowing arbitrarily late data would require storing arbitrarily large state; for example, counting data by 1-minute event-time windows would require the system to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark",
+        "url_or_doi": "https://doi.org/10.1145/3183713.3190664",
+        "section": "4.3.1 Event Time Watermarks",
+        "excerpt": "Allowing arbitrarily late data might require storing arbitrarily large state. For example, if we count data by 1-minute event time window, the system needs to remember a count for every 1-minute window since the application began, because a late record might still arrive for any particular minute. This can quickly lead to large amounts of state, especially if combined with another grouping key."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_state_cleanup:021",
+      "statement": "When a watermark is present, stateful operators can forget old state (e.g., drop aggregation windows whose end time falls below the watermark), and in Append output mode the engine waits until the watermark passes a window's end time before emitting the final result and dropping the window's intermediate state.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide — Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Handling Late Data and Watermarking",
+        "excerpt": "The engine maintains intermediate counts for each window. However, the partial counts are not updated to the Result Table and not written to sink. The engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_guarantee:022",
+      "statement": "A watermark delay of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed (in terms of event time) behind the latest data processed; however, data delayed by more than 2 hours is not guaranteed to be dropped — it may or may not get aggregated, with more-delayed data being less likely to be processed.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide — Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Semantic Guarantees of Aggregation with Watermarking",
+        "excerpt": "A watermark delay (set with withWatermark) of '2 hours' guarantees that the engine will never drop any data that is less than 2 hours delayed. In other words, any data less than 2 hours behind (in terms of event-time) the latest data processed till then is guaranteed to be aggregated. However, the guarantee is strict only in one direction. Data delayed by more than 2 hours is not guaranteed to be dropped; it may or may not get aggregated. More delayed is the data, less likely is the engine going to process it."
+      }
+    },
+    {
+      "id": "claim:sss:watermark_output_modes:023",
+      "statement": "Watermarks interact differently with each output mode: in Append mode, only final results are emitted after the watermark passes (enabling state cleanup); in Update mode, the watermark is used to drop old aggregation state while partial results are emitted each trigger; in Complete mode, old aggregation state is never dropped because the entire result table must be preserved.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide — Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Handling Late Data and Watermarking — Output Modes",
+        "excerpt": "Update mode uses watermark to drop old aggregation state. Complete mode does not drop old aggregation state since by definition this mode preserves all data in the Result Table. [In Append mode] the engine waits for '10 mins' for late data to be counted, then drops intermediate state of a window < watermark, and appends the final counts to the Result Table/sink."
+      }
+    },
+    {
+      "id": "claim:sss:withwatermark_api:024",
+      "statement": "The withWatermark() API is called on a streaming DataFrame with two arguments — the name of the event-time column and the delay threshold as a string (e.g., '10 minutes') — and must be invoked on the same column used in the aggregation and before the aggregation in the query plan; calling it on a non-streaming Dataset is a no-op.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Structured Streaming Programming Guide — Handling Late Data and Watermarking",
+        "url_or_doi": "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html",
+        "section": "Conditions for watermarking to clean aggregation state",
+        "excerpt": "withWatermark must be called on same column as the timestamp column used in the aggregate. For example, df.withWatermark('time', '1 min').groupBy('time2').count() is invalid. withWatermark must be called before the aggregation. For example, df.groupBy('time').count().withWatermark('time', '1 min') is invalid. Using withWatermark on a non-streaming Dataset is no-op. As the watermark should not affect any batch query in any way, we will ignore it directly."
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+Source: Apache Spark Structured Streaming Programming Guide
+URL: https://spark.apache.org/docs/latest/streaming/getting-started.html
+Retrieved: 2026-03-20
+
+Excerpt:
+
+"Every streaming source is assumed to have offsets (similar to Kafka offsets, or
+Kinesis sequence numbers) to track the read position in the stream. The engine
+uses checkpointing and write-ahead logs to record the offset range of the data
+being processed in each trigger."
+
+"To achieve that, we have designed the Structured Streaming sources, the sinks
+and the execution engine to reliably track the exact progress of the processing
+so that it can handle any kind of failure by restarting and/or reprocessing."
+
+Additional source:
+Source: The Internals of Spark Structured Streaming — MicroBatchExecution
+URL: https://books.japila.pl/spark-structured-streaming-internals/micro-batch-execution/MicroBatchExecution/
+Retrieved: 2026-03-20
+
+The offset tracking protocol follows this sequence:
+- getOffset Phase: Requests each source for "the latest offset"
+- getBatch Phase: "Creating Logical Query Plans For Unprocessed Data From Sources
+  and MicroBatchReaders" — processes offset ranges between committedOffsets and
+  availableOffsets
+- Commit: "requests the Offset Commit Log to persist metadata of the streaming
+  micro-batch (with the current batch ID and event-time watermark)"
+
+Sources return data bounded by committed and available offsets.
