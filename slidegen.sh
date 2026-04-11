@@ -37,12 +37,14 @@ You are running the slide-agent pipeline.
   - workspace/ (all intermediate artifacts go here)
   - output/ (final slides go here)
 
-CLAUDE.md (the orchestrator) is already in your context. Read $TOPIC_DIR/run.md for the topic.
+CLAUDE.md (the orchestrator) is already in your context.
+**Pipeline:** Read $SCRIPT_DIR/pipelines/generate.md and follow it.
+Read $TOPIC_DIR/run.md for the topic.
 All workspace paths in the agent prompts are relative — resolve them to $TOPIC_DIR/workspace/.
 All output paths resolve to $TOPIC_DIR/output/.
 The code runner is at $SCRIPT_DIR/tools/run_code.py.
 
-Start the pipeline now. Execute all 6 steps.
+Start the pipeline now. Execute all steps.
 EOF
 )"
 
@@ -57,4 +59,5 @@ claude -p "$PROMPT" \
   --max-turns 50 \
   --verbose \
   --output-format stream-json \
+  | tee "$TOPIC_DIR/workspace/stream.jsonl" \
   | jq -r --unbuffered 'select(.type == "assistant") | .message.content[] | select(.type == "text") | .text'

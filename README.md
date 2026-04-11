@@ -1,19 +1,34 @@
 # SlideGen
 
-AI-powered lecture slide generator with source verification. Produces Marp markdown slides where every factual claim is traced to a cited source.
+AI-powered lecture slide generator and reviewer with source verification.
 
-## Quick start
+## Two pipelines
+
+### Generate — create new slides from a topic description
 
 ```bash
-# Create a new deck
 mkdir -p decks/my-topic/{workspace/sources,output}
-# Write decks/my-topic/run.md (see below)
-
-# Generate slides
+# Write decks/my-topic/run.md (see format below)
 ./slidegen.sh decks/my-topic
 ```
 
-## run.md format
+**Pipeline:** Research → Outline → Write → Execute Code → Fact-Check → Finalize (steps 3-5 loop up to 3 iterations)
+
+**Output:** `output/slides.md` (Marp markdown) + `output/provenance.json` (claim-to-source traceability)
+
+### Review — fact-check an existing deck
+
+```bash
+./slidereview.sh path/to/deck.md
+./slidereview.sh path/to/deck.pdf
+./slidereview.sh path/to/deck.pptx
+```
+
+**Pipeline:** Ingest → Extract Claims → Research Sources → Fact-Check → Write Recommendations
+
+**Output:** `output/recommendations.md` (revision recommendations grouped by severity)
+
+## run.md format (for generate)
 
 ```markdown
 # Lecture Request
@@ -30,39 +45,32 @@ mkdir -p decks/my-topic/{workspace/sources,output}
 - Running example, diagram requests, key readings, etc.
 ```
 
-## Pipeline
-
-1. **Research** — Fetches and reads real sources (papers, docs, specs). Produces a claim registry with exact quotes. Verifies claims embedded in learning objectives.
-2. **Outline** — Structures slides grounded in the claim registry. Every factual slide references at least one claim.
-3. **Write** — Produces Marp markdown with `[claim:id]` tags on every factual bullet. Generates speaker hints and detailed lecturer notes.
-4. **Execute Code** — Compiles and runs code blocks marked `<!-- EXEC_TEST -->`.
-5. **Fact-Check** — Adversarial review comparing every slide bullet against its source excerpt. Flags omitted qualifiers, overgeneralizations, and misattributions.
-6. **Finalize** — Copies approved draft to `output/slides.md` with full `provenance.json`.
-
-Steps 3-5 loop up to 3 iterations until the fact-checker approves.
-
-## Output
+## Project structure
 
 ```
-decks/my-topic/
-  output/
-    slides.md          # Final Marp slides
-    provenance.json    # Claim-to-source traceability
-  workspace/
-    claim_registry.json
-    sources/           # One .txt per claim with source excerpt
-    outline.md
-    draft_v1.md, draft_v2.md, ...
-    review_v1.json, review_v2.json, ...
+agents/
+  research.md           # Finds and verifies sources for claims
+  outline.md            # Structures slides from claim registry
+  writer.md             # Produces Marp slides with claim tags
+  fact_checker.md       # Adversarial review against sources
+  code_executor.md      # Runs code blocks marked EXEC_TEST
+  claim_extractor.md    # Extracts claims from existing decks (review)
+  review_writer.md      # Produces revision recommendations (review)
+pipelines/
+  generate.md           # Generate pipeline steps
+  review.md             # Review pipeline steps
+tools/
+  run_code.py           # Code execution harness
 ```
 
 ## Example deck
 
-See `decks/spark-structured-streaming/` for a complete example including run.md, workspace artifacts, and final output.
+See `decks/spark-structured-streaming/` for a complete generated example including run.md, workspace artifacts, and final output.
 
 ## Requirements
 
 - [Claude Code](https://claude.com/claude-code) CLI
-- Java 21+ (for code execution of Java slides)
-- Python 3 (for `tools/run_code.py`)
+- Python 3
 - `jq` (for streaming progress output)
+- `python-pptx` (only for reviewing .pptx files: `pip install python-pptx`)
+- Java 21+ (only for code execution of Java slides)
