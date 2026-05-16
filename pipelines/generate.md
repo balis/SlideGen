@@ -45,11 +45,59 @@ Write workspace/outline.md grounded in the claim registry.
 If any slides contain NEEDS_RESEARCH markers, do targeted research to fill gaps,
 then update the outline.
 
-### Step 3: Write
+### Step 3: Write (parallelized by section)
 Read agents/writer.md for instructions.
-N = count of existing draft_vN.md files + 1.
-If workspace/writer_feedback.md exists, address every point in it.
-Write workspace/draft_vN.md in Marp format.
+
+**Determine iteration N:** N = 1 + the count of files matching the regex
+`^draft_v[0-9]+\.md$` in workspace/ (i.e. only assembled drafts; do **not**
+count `draft_v*_part_*.md` chunk files, which are intermediate artifacts).
+
+**Split the outline into chunks:**
+Run: `python3 {system_dir}/tools/split_outline.py {topic_dir}/workspace/outline.md`
+This emits a JSON array of chunks, each with `{part, title, slide_range}`.
+Parse it. The number of writer sub-agents you launch below equals
+`len(chunks)`.
+
+**Compose the style guide (REQUIRED) before launching any sub-agent.**
+Write one short paragraph (~3-5 sentences) covering:
+- target audience and level (from run.md)
+- abbreviations or shorthand used in this deck
+- the running example name, if any
+- tone (e.g., "graduate-level, technical, neutral; sparing use of 'we'")
+Pass the *same* string to every chunk sub-agent. **Do not skip this step**
+— writer.md rule 10 requires it, and without it chunks drift in voice
+across section boundaries.
+
+**Launch one writer sub-agent per chunk, in parallel** (all Agent tool
+calls in a single assistant message). Each sub-agent receives:
+- `outline_path`: workspace/outline.md
+- `claim_registry_path`: workspace/claim_registry.json
+- `slide_range`: the chunk's `[start, end]`
+- `output_path`: workspace/draft_v{N}_part_{KK}.md (KK = zero-padded 2-digit
+  part index, e.g. `part_00`, `part_01`, ..., `part_09`, `part_10`)
+- `writer_feedback_path`: workspace/writer_feedback.md (pass this path
+  whether or not the file exists; the writer checks for existence)
+- `style_guide`: the paragraph composed above
+
+Each sub-agent writes its assigned slide range to its `output_path` (raw
+slide content, no Marp frontmatter, no leading/trailing `---`).
+
+**After all chunk sub-agents complete, concatenate:**
+Run: `python3 {system_dir}/tools/concat_draft.py {topic_dir}/workspace/draft_v{N}.md "{topic_dir}/workspace/draft_v{N}_part_*.md"`
+(Keep the glob quoted; the Python tool expands it internally.)
+
+This produces the assembled `draft_v{N}.md` with the Marp frontmatter at
+the top and `---` separators between chunks.
+
+**Sanity-check the assembled draft:**
+- Every chunk file must be non-empty. If any `draft_v{N}_part_{KK}.md` is
+  missing or zero-byte, stop and report which part failed.
+- Count `^---$` lines in the assembled `draft_v{N}.md`. With `S` total
+  slides, expect `S + 1` separators: 2 from the frontmatter (open + close)
+  plus `S - 1` between-slide separators (the join points concat inserted
+  between chunks plus the slide separators inside chunks).
+- If counts are off by more than 1 from the outline's slide count, stop
+  and report — do not pass a malformed draft to Step 4+5.
 
 ### Step 4+5: Verify (parallelized)
 **Launch two sub-agents in parallel:**

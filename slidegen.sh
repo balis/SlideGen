@@ -55,7 +55,19 @@ echo "================"
 
 cd "$SCRIPT_DIR"
 
-claude -p "$PROMPT" \
+# Hard wall-clock limit so a dead TCP socket (e.g. laptop sleep) eventually
+# surfaces as an exit code instead of hanging in epoll_wait forever.
+# Override with: SLIDEGEN_TIMEOUT=7200 ./slidegen.sh ...
+: "${SLIDEGEN_TIMEOUT:=10800}"
+
+# Disable extended thinking for the slidegen run. Composition from an already-
+# vetted claim registry is mechanical, not reasoning-heavy; thinking adds
+# latency without observable quality gain on this workload. Overrides the
+# user-level effortLevel for this invocation only.
+THINKING_FLAG="--max-thinking-tokens 0"
+
+timeout "$SLIDEGEN_TIMEOUT" claude -p "$PROMPT" \
+  $THINKING_FLAG \
   --max-turns 50 \
   --verbose \
   --output-format stream-json \
