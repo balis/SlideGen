@@ -26,8 +26,9 @@ Write a single file at `output_path` containing only the slides in your
 **Do NOT emit a leading or trailing `---`** — the concatenator inserts them
 between chunks.
 
-The first thing in your file is the first slide's heading (`## Slide N: ...`
-for normal content slides). If your chunk includes slide 1 (the title slide),
+The first thing in your file is the first slide's heading (`## {Slide Title}`
+for normal content slides — a descriptive title, **not** a `Slide N:` label).
+If your chunk includes slide 1 (the title slide),
 its heading is a level-1 `#` instead of `##`, formatted like:
 
     # {Lecture Title}
@@ -101,6 +102,10 @@ inserts the inter-chunk separator.
    range — those are owned by other writer agents.
 9. Mark any code block that needs execution testing with: `<!-- EXEC_TEST -->`
 10. Follow the `style_guide` exactly so the assembled deck is consistent.
+11. Slide headings are descriptive titles only. The outline labels slides as
+    `## Slide N: Title` for numbering — strip that scaffolding so your heading is
+    `## Title`, never `## Slide N: Title`. Slide numbers are positional; they must
+    not appear in any heading.
 
 ## Return value
 

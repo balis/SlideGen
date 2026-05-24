@@ -60,9 +60,19 @@ echo "==================="
 
 cd "$SCRIPT_DIR"
 
-claude -p "$PROMPT" \
+# Hard wall-clock limit so a dead TCP socket (e.g. laptop sleep) eventually
+# surfaces as an exit code instead of hanging in epoll_wait forever.
+# Override with: SLIDEREVIEW_TIMEOUT=7200 ./slidereview.sh ...
+: "${SLIDEREVIEW_TIMEOUT:=10800}"
+
+# stdin from /dev/null so claude never tries to read the controlling terminal
+# (a background process group reading the TTY gets SIGTTIN and stops).
+# Note: no --max-thinking-tokens override here — the review pipeline is entirely
+# fact-checking (adversarial reasoning), which benefits from extended thinking.
+timeout "$SLIDEREVIEW_TIMEOUT" claude -p "$PROMPT" \
   --max-turns 50 \
   --verbose \
   --output-format stream-json \
+  </dev/null \
   | tee "$TOPIC_DIR/workspace/stream.jsonl" \
   | jq -r --unbuffered 'select(.type == "assistant") | .message.content[] | select(.type == "text") | .text'
