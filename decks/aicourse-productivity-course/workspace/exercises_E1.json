@@ -1,0 +1,36 @@
+{
+  "id": "E1",
+  "title": "Sort the task list",
+  "block": "A",
+  "objective": "Classify everyday office tasks by how well an LLM can handle them, building an intuition for when to reach for AI and when not to.",
+  "scenario": "You receive a list of 10 office tasks. Sort each into a green (LLM handles well), yellow (LLM can help but needs scaffolding or verification), or red (keep away from the LLM) zone. Then pick two tasks and write one sentence each explaining why you placed them where you did.",
+  "tool": "any general consumer chat LLM",
+  "minutes": 8,
+  "difficulty": "intro",
+  "input_data": "Task list — sort each into GREEN / YELLOW / RED:\n\n1. Rewrite a paragraph from your quarterly update so it sounds more concise and professional.\n2. Draft a polite reply declining a meeting invitation you cannot attend.\n3. Calculate the exact budget variance between Q1 actuals (EUR 41,837.12) and Q1 forecast (EUR 39,500.00), including the percentage difference.\n4. Summarise a 2-page policy document into 5 bullet points for your team.\n5. Decide which of three job candidates to invite to a final interview.\n6. Paste a customer complaint email and ask the LLM to identify the core issue and suggest a response outline.\n7. Ask the LLM to list all colleagues who were absent last Friday based on your company's internal HR system.\n8. Shift the tone of a project status update from informal Slack-style to a formal board-ready paragraph.\n9. Generate three subject-line options for a newsletter about an upcoming office move.\n10. Upload a spreadsheet containing employee salaries and ask the LLM to find who earns above the median.",
+  "starter_prompt": "Here are 10 office tasks. For each task, assign it to one zone:\n- GREEN = the LLM handles this well on its own\n- YELLOW = the LLM can help, but the result needs human verification or extra scaffolding\n- RED = do not use an LLM for this\n\nAfter sorting all 10, pick the two tasks you found hardest to place and write one sentence each explaining your reasoning.\n\nTasks:\n[PASTE THE 10-TASK LIST HERE]",
+  "steps": [
+    "Copy the 10-task list from the workbook and paste it into the starter prompt where indicated.",
+    "Read the model's proposed sorting. For each task, decide whether you agree or disagree with the zone the model chose.",
+    "Correct any placements you disagree with and note why.",
+    "Write your own one-sentence justification for the two tasks you found hardest to classify.",
+    "Run the verification step before finalising your answer."
+  ],
+  "expected_output": "A table or list of all 10 tasks, each assigned to GREEN, YELLOW, or RED, plus two one-sentence justifications for the hardest-to-place tasks.",
+  "success_criteria": [
+    "All 10 tasks are assigned to exactly one zone.",
+    "Tasks involving confidential or personal data (e.g. employee salaries in a consumer tool, HR system access) are placed in RED.",
+    "Tasks requiring precise arithmetic (e.g. budget variance with percentages) are placed in YELLOW or RED, not GREEN.",
+    "Drafting and tone-shifting tasks with no sensitive data are placed in GREEN.",
+    "The two justifications each give a concrete reason (not just 'it felt right') tied to a capability or limitation of LLMs."
+  ],
+  "verification_step": "Review your sorted list and check: Did you flag any task that involves confidential data? Did you catch that the LLM cannot access live company systems? Did you avoid trusting the model with precise arithmetic without a calculator check?",
+  "common_pitfalls": [
+    "Placing the budget-variance task in GREEN because it looks simple — LLMs frequently get decimal arithmetic and percentages wrong.",
+    "Forgetting that Task 7 is impossible (the LLM has no access to internal HR systems), not just risky.",
+    "Placing Task 10 in YELLOW instead of RED — the issue is not accuracy but that you would be uploading confidential salary data to a consumer tool.",
+    "Accepting the model's sorting without questioning it, defeating the purpose of building your own judgement."
+  ],
+  "takeaway": "Before handing a task to an LLM, ask three questions: Does it need private data? Does it need precise numbers? Does it need a final human decision? Any 'yes' moves the task towards yellow or red.",
+  "stretch": "Pick one task you placed in YELLOW and write a short prompt that adds the scaffolding needed to move it closer to GREEN (e.g., instruct the model to show its arithmetic so you can verify)."
+}

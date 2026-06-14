@@ -1,0 +1,28 @@
+Claim ID: claim:llm_productivity:taskfit:003
+Retrieved: 2026-05-27
+
+Source: "Detecting and Correcting Reference Hallucinations in Commercial LLMs and Deep
+Research Agents." arXiv:2604.03173, April 2026.
+
+URL: https://arxiv.org/abs/2604.03173
+
+Excerpt:
+"GhostCite benchmarks 13 LLMs across 40 domains (375K citations) with hallucination
+rates from 14% to 95%. ChatGPT-3.5 hallucinates 39.6% to 55% of citations in
+literature reviews, while GPT-4 still produces 18%-28.6% fabricated citations. Citation
+hallucination persists even when models have access to web search, with 3-13% of URLs
+fabricated in retrieval-augmented settings."
+
+Supporting source: "Compound Deception in Elite Peer Review: A Failure Mode Taxonomy
+of 100 Fabricated Citations at NeurIPS 2025." arXiv:2602.05930, February 2026.
+This study found 100 AI-generated hallucinated citations in 53 NeurIPS 2025 papers
+(~1% of accepted papers), classifying them as: Total Fabrication (66%), Partial
+Attribute Corruption (27%), Identifier Hijacking (4%), Placeholder Hallucination (2%),
+Semantic Hallucination (1%).
+
+Supporting source: JMIR Mental Health study on citation fabrication rates in mental
+health research using GPT-4o. URL: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12658395/
+
+Recency note: Primary source is April 2026 (within 3 months). Falls under recency
+category 3 (conceptual -- why LLMs fabricate citations) and category 2 (guidance --
+scaffolding needed for citation tasks).

@@ -1,0 +1,18 @@
+Claim ID: claim:llm_productivity:email:001
+Statement: Providing recipient context (role, relationship, pain points) and specifying tone in an AI email-drafting prompt produces more targeted, ready-to-send drafts than a bare "write me an email" instruction.
+
+Source: LLM Prompt Format 2026: 9 Patterns for GPT-5, Claude, Gemini
+URL: https://futureagi.com/blog/llm-prompts-best-practices-2025
+Published: 2025-05-21 (updated 2026-05-14)
+Retrieved: 2026-05-27
+
+Excerpt:
+"Set role and tone in the system or developer message, not the user turn."
+"Put the task instruction on line 1 and long context after."
+
+The guide recommends establishing persona through system messages rather than
+user-level instructions. This approach maintains consistent behavioral patterns
+across all interactions while keeping individual task requests focused and lean.
+The 2026 guidance shifts from embedding instructions within lengthy context to
+separating concerns: system prompts handle persona/tone durably, while user
+messages focus on per-turn tasks with instructions leading before supporting context.

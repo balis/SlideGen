@@ -1,0 +1,16 @@
+Claim ID: claim:llm_productivity:document:002
+Statement: Combining positive 'do' instructions with negative exclusion constraints (e.g., 'fix grammar and clarity; do not change numbers or technical terms') significantly reduces redundancy and unwanted modifications while maintaining output consistency.
+
+Source: From Prompts to Templates: A Systematic Prompt Template Analysis for Real-world LLM Apps
+URL: https://arxiv.org/abs/2504.02052
+Retrieved: 2026-05-27
+
+Full excerpt:
+"Developers frequently use exclusions as the constraints to refine outputs such as excluding irrelevant content, reducing hallucinations, and narrowing search space for generation."
+
+"Combining 'Do' instructions with 'Don't' instructions, like exclusion constraints, significantly reduces redundancy while maintaining high output consistency."
+
+Additional finding from the same paper:
+"Developers commonly put the profile/role and their directive at the beginning of the prompt, establishing the model's identity and task intent, while examples are typically at the end."
+
+The paper analysed real-world LLM application prompt templates and identified seven common components: Profile/Role, Directive, Context/Workflows, Output Format/Style, and Constraints.

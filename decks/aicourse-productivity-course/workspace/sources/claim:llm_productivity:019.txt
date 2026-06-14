@@ -1,0 +1,20 @@
+Claim ID: claim:llm_productivity:summarisation:004
+Statement: Shuffling document order across multiple LLM runs and comparing outputs is a practical mitigation for position bias; cyclic and full-permutation methods that average predictions across orderings reduce the effect of positional bias on summary content.
+
+Source: "Input Order Shapes LLM Semantic Alignment in Multi-Document Summarization"
+URL: https://arxiv.org/abs/2512.02665
+Published: December 2025
+
+Additional source: Position bias mitigation literature surveyed in the above paper and in:
+"Revisiting Zero-Shot Abstractive Summarization in the Era of Large Language Models from the Perspective of Position Bias"
+URL: https://arxiv.org/pdf/2401.01989
+
+Excerpt:
+"To counter position biases, cyclic and full-permutation methods have been proposed that average predictions across permutations. Prompting techniques can effectively direct model attention to specific positions as a way to reduce positional bias."
+
+"To overcome position bias where different ordering of inputs leads to different results, you can prompt the LLM multiple times and shuffle the inputs between the runs, then average the results."
+
+The practical "shuffle check" for non-technical users: run the same multi-document summary prompt twice with documents in different order. If the summaries differ materially, the model is relying on position rather than content — revise the prompt or treat divergent points with caution.
+
+Retrieved: 2026-05-27
+Category: Guidance (category 2) — practical mitigation technique grounded in conceptual research

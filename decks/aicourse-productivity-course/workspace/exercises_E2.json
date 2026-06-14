@@ -1,0 +1,36 @@
+{
+  "id": "E2",
+  "title": "Reply to a messy email thread",
+  "block": "B",
+  "objective": "Practise the extract-the-ask-then-reply pattern: decompose a cluttered thread into a single real request before drafting a response",
+  "scenario": "A colleague's 5-message email thread about a logistics event has drifted across topics. You need to identify what is actually being asked of you, draft a reply in a specified tone, and then rewrite one line so it sounds like you.",
+  "tool": "any general consumer chat LLM",
+  "minutes": 12,
+  "difficulty": "core",
+  "input_data": "FROM: Priya Novak <priya.novak@example.com>\nTO: Jordan Lee <jordan.lee@example.com>, Sam Torres <sam.torres@example.com>\nSUBJECT: Re: Re: Re: Q3 Offsite — venue & catering\nDATE: Tuesday 10:14 AM\n\n--- Message 1 (Monday 8:02 AM) — Priya Novak ---\nHi Jordan, hi Sam,\nQuick heads-up: the Riverside Conference Centre just confirmed they can hold 40 people on 18 September, but they need a final headcount by this Friday. Can one of you pull that together? Also, they offer in-house catering or we can bring our own — any preferences?\n\n--- Message 2 (Monday 9:47 AM) — Sam Torres ---\nRiverside sounds great. I think last year we had 33 attendees, but a few more people joined the analytics team since then. I'd guess 36–38 this time. For catering, their in-house lunch menu looked a bit limited when I checked the website — maybe we should get quotes from GreenPlate too?\n\n--- Message 3 (Monday 11:30 AM) — Jordan Lee ---\nI actually already emailed the team leads yesterday to ask for names. So far I have 29 confirmed, waiting on Product and Finance. Catering-wise, I'm fine either way, but remember last year two people had allergies that the venue couldn't handle.\n\n--- Message 4 (Monday 4:55 PM) — Priya Novak ---\nThanks Jordan — great that you started the count. Could you also find out whether Riverside's in-house catering handles nut-free and gluten-free? If not, we should definitely go with GreenPlate.\nSam, unrelated, but do you have the slide template from last year's offsite? I want to reuse the branding.\n\n--- Message 5 (Tuesday 10:14 AM) — Sam Torres ---\nI'll dig up the slide template after lunch. Jordan, while you're checking with Riverside on dietary options, could you also ask if they have breakout rooms we can book for the afternoon workshops? We had that awkward hallway-session problem last time. Priya — should I go ahead and request a GreenPlate quote as a backup, or wait until Jordan hears back?",
+  "starter_prompt": "Here is an email thread. First, tell me in one sentence what the latest message (Message 5) is actually asking me to do or decide. Then draft a reply from me ([YOUR NAME]) that is [TONE] and addresses only that ask. Keep the reply under 120 words.\n\nThread:\n[PASTE THREAD]",
+  "steps": [
+    "Copy the 5-message email thread from the workbook (or from above) and paste it into the starter prompt, replacing [PASTE THREAD].",
+    "Replace [YOUR NAME] with a name of your choice and [TONE] with a tone — for example: 'friendly and decisive', 'concise and professional', or 'warm but direct'.",
+    "Send the prompt and read the model's one-sentence summary of the ask BEFORE reading the draft reply. Ask yourself: did it capture the real ask, or did it latch onto a side topic?",
+    "If the one-sentence ask is wrong or incomplete, correct it in a follow-up message (e.g. 'Actually, the real ask is whether to request the GreenPlate quote now or wait — re-draft.') and regenerate.",
+    "Once the draft is satisfactory, pick one line and rewrite it in your own words so the reply does not sound entirely AI-generated.",
+    "Run the verification step before considering the reply 'sent'."
+  ],
+  "expected_output": "A one-sentence identification of the real ask (Sam is asking Priya whether to go ahead and request a GreenPlate catering quote now as a backup, or wait until Jordan hears back from Riverside about dietary options) plus a short reply (under 120 words) that answers that question in the chosen tone, with at least one line rewritten by the learner.",
+  "success_criteria": [
+    "The one-sentence ask correctly identifies Sam's question to Priya: proceed with the GreenPlate backup quote now, or wait for Jordan's Riverside dietary-options answer.",
+    "The reply addresses that decision and gives a clear answer (yes go ahead, or wait) rather than restating the question.",
+    "The reply does not wander into unrelated threads (slide template, headcount, breakout rooms) unless briefly acknowledging them.",
+    "The reply matches the tone the learner specified in the prompt.",
+    "At least one line in the final reply has been rewritten in the learner's own voice."
+  ],
+  "verification_step": "Before 'sending' the reply, check: (1) Are any names wrong or swapped? (2) Does the reply accidentally commit to something you did not intend (e.g. volunteering to handle catering yourself)? (3) Does the tone actually match what you asked for? (4) Did the model invent any facts not in the thread (dates, numbers, promises)?",
+  "common_pitfalls": [
+    "Skipping the extract step and asking the model to 'just reply to this thread' — which often produces a reply to the most recent surface topic rather than the underlying decision request.",
+    "Accepting the model's draft verbatim without personalising any line, resulting in obviously AI-generated language.",
+    "Letting the reply address every topic in the thread instead of focusing on the actual ask."
+  ],
+  "takeaway": "Extract the ask first, then draft — decomposing a messy thread into 'what is actually being requested' before generating a reply produces more focused, accurate responses than one-shot 'reply to this'.",
+  "stretch": "Forward the same thread to the model but this time ask it to reply from Jordan's perspective instead of Priya's. Notice how the relevant ask changes (Jordan is being asked about breakout rooms and dietary options). Compare how the decomposition step surfaces a different action item depending on who 'you' are."
+}

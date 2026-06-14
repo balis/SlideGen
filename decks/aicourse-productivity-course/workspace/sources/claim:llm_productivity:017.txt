@@ -1,0 +1,18 @@
+Claim ID: claim:llm_productivity:summarisation:002
+Statement: LLMs exhibit a U-shaped attention curve: they attend most to the beginning and end of their input context and significantly degrade when relevant information is in the middle. In multi-document QA with 20 documents, accuracy dropped over 30% when the answer document moved from position 1 to position 10.
+
+Source: "Lost in the Middle: How Language Models Use Long Contexts"
+Authors: Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni, Percy Liang
+Published: Transactions of the Association for Computational Linguistics (TACL), 2024
+URL/DOI: https://aclanthology.org/2024.tacl-1.9/
+ArXiv: 2307.03172
+
+Excerpt:
+"Performance is often highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when models must access relevant information in the middle of long input contexts."
+
+"Performance can degrade significantly when changing the position of relevant information, even in models explicitly designed for long-context processing."
+
+The study tested multi-document question answering and key-value retrieval tasks, finding over 30% accuracy drop when the answer document moved from position 1 to position 10 in a 20-document context. The U-shaped curve persists across models with context windows of 4K, 16K, and 32K tokens, and follow-up 2025 research confirmed it persists in models with 128K+ windows.
+
+Retrieved: 2026-05-27
+Category: Conceptual foundation (category 3) — recency does not apply; this is an architectural property of transformer models

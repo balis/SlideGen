@@ -1,0 +1,19 @@
+Claim ID: claim:llm_productivity:document:005
+Statement: Few-shot prompting — providing 2-5 input-output examples in the prompt — enables LLMs to infer task patterns and generalise to new inputs without retraining; each example acts as a micro-training signal that narrows the space of possible behaviours.
+
+Source: Few Shot Prompting | Use Cases & Examples — QuillBot
+URL: https://quillbot.com/blog/ai-prompt-writing/few-shot-prompting/
+Retrieved: 2026-05-27
+
+Full excerpt:
+"Few-shot prompting is a technique where you provide an AI model with examples (usually 2-5) before asking it to perform a similar task."
+
+"each example acts as a micro-training signal inside the prompt," allowing LLMs to "narrow the space of possible behaviors by providing concrete examples."
+
+The process: "you supply input-output pairs -> the model recognizes repeating structures and implicit rules -> it infers the task -> it generalizes the pattern to new inputs -> it produces outputs matching the demonstrated format."
+
+Few-shot prompting "requires fewer examples than traditional training while delivering flexible, real-time guidance" and generally produces "more accurate results" than zero- or one-shot approaches. It enables AI models to "adapt to specialized tasks — from document classification to template-based content generation — without requiring expensive model retraining."
+
+Supporting foundational reference:
+Brown, T. et al. (2020). "Language Models are Few-Shot Learners." NeurIPS 2020.
+The GPT-3 paper demonstrated that "few-shot prompting consistently outperforms zero-shot prompting" and that "larger models make better use of contextual examples."

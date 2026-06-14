@@ -1,0 +1,26 @@
+Claim ID: claim:llm_productivity:email:004
+Statement: The recommended workflow for AI-assisted email is a hybrid "draft-then-edit" loop: the AI generates a first draft, the human reviews and edits (especially facts, names, tone, and the final line), and only then sends.
+
+Source: Automate Email Drafting: 5 Proven Ways For Faster, Reliable Replies
+URL: https://customgpt.ai/how-do-i-automate-email-drafting/
+Published: 2025 (exact date not confirmed)
+Retrieved: 2026-05-27
+
+Excerpt:
+"Even when using AI tools, a person should review drafts before sending,
+especially for new workflows or sensitive communication."
+
+The article describes a practical workflow combining AI with human review:
+email drafting can be automated by combining reusable templates, AI tools to
+generate first drafts, and automations that trigger drafts from events —
+but a person should always review before sending.
+
+Additional supporting source:
+Title: Future of Human-in-the-Loop AI (2026)
+URL: https://parseur.com/blog/future-of-hitl-ai
+Published: 2025-12-03
+
+Excerpt: "HITL will evolve from manual review at every step to strategic
+validation at critical points." The emphasis is on humans confirming that
+AI logic aligns with standards before deployment, rather than approving
+outputs line-by-line.

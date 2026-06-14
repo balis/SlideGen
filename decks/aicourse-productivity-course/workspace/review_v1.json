@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "total_checked": 31,
+  "rechecked_count": 31,
+  "verified_count": 23,
+  "misrepresented_count": 8,
+  "unverified_count": 0,
+  "critical_count": 1,
+  "major_count": 2,
+  "minor_count": 5,
+  "blocking_count": 3,
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:001",
+      "slide": "What AI assistants do well (green zone)",
+      "bullet": "Drafting, summarising, restructuring, and tone-shifting text are high-reliability tasks for current chat tools",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source (Pu et al., 'Summarization is (Almost) Dead') only evaluates summarization across five sub-tasks. The bullet extends the claim to 'drafting, restructuring, and tone-shifting' -- none of which are studied in the cited source. Scope mismatch.",
+      "suggested_fix": "Summarising text is a high-reliability task for current chat tools [claim:llm_productivity:001]; drafting, restructuring, and tone-shifting are also strong but are supported by practitioner experience rather than this study"
+    },
+    {"claim_id": "claim:llm_productivity:001", "slide": "What AI assistants do well (green zone)", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:002",
+      "slide": "What needs scaffolding (yellow zone)",
+      "bullet": "Arithmetic inside word problems degrades: error rates jump up to 14 percentage points as numbers get harder",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source specifies 'logical error rates' not total error rates. The 14-pp figure applies only to logical errors.",
+      "suggested_fix": "Arithmetic inside word problems degrades: logical error rates jump up to 14 percentage points as numerical complexity rises"
+    },
+    {"claim_id": "claim:llm_productivity:003", "slide": "What needs scaffolding (yellow zone)", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:004", "slide": "What to keep out (red zone)", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:005", "slide": "What to keep out (red zone)", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:006", "slide": "Email drafting — intent + recipient + tone", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:008",
+      "slide": "Email drafting — intent + recipient + tone",
+      "bullet": "Tone-shifting is one of the most reliable things an LLM can do: name the target tone and it will adjust",
+      "verdict": "MISREPRESENTED",
+      "severity": "CRITICAL",
+      "issue": "Citation mismatch. The cited source discusses HITL AI workflows and trustworthiness, not tone-shifting reliability. The source file acknowledges no formal benchmarks for email tone-shift accuracy were found.",
+      "suggested_fix": "Tone-shifting is a common LLM use case: name the target tone and audience and the model will adjust the draft accordingly [remove or retag citation — the cited source does not address tone-shifting reliability]"
+    },
+    {"claim_id": "claim:llm_productivity:006", "slide": "Email drafting — intent + recipient + tone", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:007", "slide": "Extract the ask, then reply", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:009",
+      "slide": "Extract the ask, then reply",
+      "bullet": "Treat the AI draft as a starting point: review it, edit the facts and tone, rewrite at least one line in your own voice, then send",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports 'review drafts before sending' but the specific prescription to 'rewrite at least one line in your own voice' is not stated by the source. Pedagogical addition not backed by the cited material.",
+      "suggested_fix": "Treat the AI draft as a starting point: review it, check the facts and tone, then edit before you send — especially for new workflows or sensitive messages"
+    },
+    {"claim_id": "claim:llm_productivity:011", "slide": "Change and preserve constraints", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:012", "slide": "Change and preserve constraints", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:013", "slide": "Register shifting and few-shot templating", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:015", "slide": "Register shifting and few-shot templating", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:016",
+      "slide": "From 'summarise this' to extract-X-for-Y-in-Z",
+      "bullet": "A bare 'summarise this' gives you a generic recap; specifying what to extract, who will read it, and what format you need improves results by 6-30%",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says 'more than 30%', meaning the upper bound exceeds 30%. The bullet caps the range at '6-30%'. Also the figure applies to structured prompting across various tasks generally, not specifically to summarisation.",
+      "suggested_fix": "Specifying what to extract, who will read it, and what format you need is structured prompting — and structured prompting improves task performance by 6% to over 30% across domains"
+    },
+    {"claim_id": "claim:llm_productivity:020", "slide": "From 'summarise this' to extract-X-for-Y-in-Z", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:016", "slide": "From 'summarise this' to extract-X-for-Y-in-Z", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:017", "slide": "Position bias and the shuffle check", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:018", "slide": "Position bias and the shuffle check", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:019", "slide": "Position bias and the shuffle check", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:021",
+      "slide": "Brain dump to plan",
+      "bullet": "About 40% of ChatGPT conversations are task-oriented — drafting, planning, organising — so planning is already one of the top reasons people reach for an LLM",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet replaces 'programming' with 'organising' and says 'conversations' but the source measures 'messages'. The source lists 'drafting text, planning, or programming'.",
+      "suggested_fix": "About 40% of ChatGPT messages are task-oriented — drafting, planning, programming — so planning is already one of the top reasons people reach for an LLM"
+    },
+    {"claim_id": "claim:llm_productivity:022", "slide": "Brain dump to plan", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:023",
+      "slide": "The date arithmetic trap",
+      "bullet": "LLMs are unreliable at date and calendar maths — accuracy on basic date operations ranges from near-zero to perfect depending on the task",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says accuracy varies 'across models and prompting conditions', not 'depending on the task'.",
+      "suggested_fix": "LLMs are unreliable at date and calendar maths — accuracy on temporal primitives ranges from near-zero to perfect depending on the model and prompting approach"
+    },
+    {"claim_id": "claim:llm_productivity:024", "slide": "The date arithmetic trap", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:025", "slide": "The date arithmetic trap", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:026", "slide": "Confidentiality and the data perimeter", "verdict": "VERIFIED"},
+    {
+      "claim_id": "claim:llm_productivity:027",
+      "slide": "Confidentiality and the data perimeter",
+      "bullet": "Samsung banned employee use of ChatGPT after engineers pasted proprietary code, meeting notes, and chip-test data on three separate occasions within 20 days",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says 'meeting notes' but the source says 'a meeting transcription' (to create notes). A transcription contains more sensitive content than distilled notes.",
+      "suggested_fix": "Samsung banned employee use of ChatGPT after engineers pasted proprietary code, a meeting transcription, and chip-test sequences on three separate occasions within 20 days"
+    },
+    {"claim_id": "claim:llm_productivity:028", "slide": "Verify before you send", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:029", "slide": "Verify before you send", "verdict": "VERIFIED"},
+    {"claim_id": "claim:llm_productivity:030", "slide": "Build your prompt library", "verdict": "VERIFIED"}
+  ]
+}

@@ -1,0 +1,21 @@
+Claim ID: claim:llm_productivity:habits:001
+Statement: In 2023, Cyberhaven found that 11% of the data employees pasted into ChatGPT was confidential, including source code, client data, and internal-only information, with the average company leaking sensitive material hundreds of times per week.
+
+Source: Cyberhaven Blog
+Title: 11% of data employees paste into ChatGPT is confidential
+URL: https://www.cyberhaven.com/blog/4-2-of-workers-have-pasted-company-data-into-chatgpt
+Retrieved: 2026-05-27
+
+Full excerpt:
+"11% of what employees paste into ChatGPT is confidential. 4.7% of employees have pasted confidential data into ChatGPT at least once. 10.8% of knowledge workers have tried using it at least once in the workplace and 8.6% have pasted data into it."
+
+"The average company leaks confidential material to ChatGPT hundreds of times per week."
+
+Most common types of confidential data leaked:
+- "Sensitive/internal only data (319 incidents per week per 100,000 employees)"
+- "Source code (278)"
+- "Client data (260)"
+
+"7,999 attempts to paste corporate data into ChatGPT per 100,000 employees" during peak usage periods.
+
+Note: The Cyberhaven study analysed data from 1.6 million knowledge workers in 2023. A follow-up in March 2024 found 27.4% of corporate data put into AI tools was sensitive, up from 10.7% a year earlier — a 485% increase in volume.

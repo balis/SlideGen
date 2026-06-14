@@ -1,0 +1,48 @@
+{
+  "version": 3,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:006",
+      "slide": "Email drafting — intent + recipient + tone",
+      "bullet": "A bare 'write me an email' gives you generic filler; adding context gives you a usable first draft",
+      "source_excerpt": "Set role and tone in the system or developer message, not the user turn. Put the task instruction on line 1 and long context after.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source is a general prompt-structure guide (system vs. user message roles, instruction ordering) that says nothing about email drafting specifically, nor does it compare bare vs. contextual email prompts. It does not use the words 'generic filler' or 'usable first draft', nor does it demonstrate or assert that a bare email prompt produces unusable output. The bullet presents a specific qualitative contrast ('generic filler' vs. 'usable first draft') that the source does not make.",
+      "suggested_fix": "Adding context — recipient role, relationship, and desired tone — gives the model the information it needs to produce a more targeted draft than a bare instruction like 'write me an email'."
+    },
+    {
+      "claim_id": "claim:llm_productivity:007",
+      "slide": "Extract the ask, then reply",
+      "bullet": "When facing a messy thread, ask the model first: 'What is the one thing being requested here?' — then draft the reply",
+      "source_excerpt": "Put the task instruction on line 1 and long context after. By prioritizing instructions before contextual information, prompts anchor the model's understanding of scope and purpose before presenting background material.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The cited source (Gemini API prompt design strategies) is about general prompt structure: placing the task instruction before context. It does not discuss email threads, the two-step extract-then-reply workflow, or the specific question 'What is the one thing being requested here?' The extract-then-reply pattern and the quoted question are not present in or derivable from the cited source. The additional 'synthesis' text in the source file is not from the cited URL. This is a citation mismatch.",
+      "suggested_fix": "Remove the citation from this bullet, or retag it to a source that explicitly describes the extract-the-ask-then-reply pattern for email threads. Alternatively, rephrase conservatively: 'Breaking a complex thread into two steps — first extracting the core request, then drafting — is a direct application of task-decomposition prompting.' and retag to a chain-of-thought / task-decomposition source."
+    },
+    {
+      "claim_id": "claim:llm_productivity:009",
+      "slide": "Extract the ask, then reply",
+      "bullet": "Once the model has drafted a reply, review it and edit before you send",
+      "source_excerpt": "Even when using AI tools, a person should review drafts before sending, especially for new workflows or sensitive communication.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:021",
+      "slide": "Brain dump to plan",
+      "bullet": "About 40% of ChatGPT messages are task-oriented — drafting, planning, programming — so planning is already one of the top reasons people reach for an LLM",
+      "source_excerpt": "'Doing' encompasses 40% of usage including task-oriented interactions such as drafting text, planning, or programming. ChatGPT is being used nearly as much for planning as for coding.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "4 claims checked in this batch. 2 verified, 2 misrepresented, 0 unverified."
+}

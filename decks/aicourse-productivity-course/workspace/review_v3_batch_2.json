@@ -1,0 +1,48 @@
+{
+  "version": 3,
+  "batch": 2,
+  "batch_verdict": "VERIFIED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:022",
+      "slide": "Brain dump to plan",
+      "bullet": "Give the model an unstructured list of thoughts and ask it to categorise, prioritise, and sequence them into an action plan",
+      "source_excerpt": "With AI, you can turn that mess into a clear set of priorities -- and even uncover deeper insights you hadn't articulated yet. Popular prompts include: 'Here's my brain dump: [list ideas]. Can you organise them by priority?' and 'Turn this messy list into an action plan with clear next steps'. The Brain Dump to Action Plan technique helps take a messy, overwhelming list of thoughts and sort them, group tasks into categories for clarity, and identify the most important actions to focus on first.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:023",
+      "slide": "The date arithmetic trap",
+      "bullet": "LLMs are unreliable at date and calendar arithmetic: accuracy on temporal primitives ranges from near-zero to perfect depending on the model and prompting conditions",
+      "source_excerpt": "the primitives themselves prove individually unreliable, with per-primitive accuracy ranging from near-zero to perfect across models and prompting conditions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:024",
+      "slide": "The date arithmetic trap",
+      "bullet": "Tokenizers fragment calendar dates into meaningless pieces (e.g. '20250312' becomes '202', '503', '12') — excessive fragmentation correlates with accuracy drops of up to 10 percentage points on uncommon dates such as historical and future dates",
+      "source_excerpt": "Modern BPE tokenizers fragment calendar dates into meaningless components. For example, '20250312' becomes tokens '202', '503', '12', splitting what should be a coherent temporal unit into disconnected tokens, inflating token counts and obscuring date structure. Excessive fragmentation correlates with accuracy drops of up to 10 points on uncommon dates like historical and futuristic dates.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:025",
+      "slide": "The date arithmetic trap",
+      "bullet": "On event temporal reasoning, even GPT-4 trails humans by over 25% — though it scores perfectly on simple date arithmetic",
+      "source_excerpt": "Event Temporal Reasoning: presents the most significant challenge, with a substantial 25.2% gap between LLMs and humans. Symbolic Temporal Reasoning: GPT-4 achieves exceptional performance, particularly in Date Arithmetic (100%), suggesting strong capabilities in abstract date calculation.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "4 claims checked in this batch. 4 verified, 0 misrepresented, 0 unverified."
+}

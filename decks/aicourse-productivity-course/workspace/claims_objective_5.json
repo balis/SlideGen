@@ -1,0 +1,66 @@
+{
+  "topic": "Planning workflows",
+  "generated_at": "2026-05-27T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:llm_productivity:planning:001",
+      "statement": "Planning and organizing is one of the most common use cases for ChatGPT at work: approximately 40% of all ChatGPT messages are task-oriented ('Doing'), which includes drafting, planning, and programming, and planning usage rivals coding in volume.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "How People Are Using ChatGPT",
+        "url_or_doi": "https://openai.com/index/how-people-are-using-chatgpt/",
+        "section": "Usage categories",
+        "excerpt": "'Doing' encompasses 40% of usage including task-oriented interactions such as drafting text, planning, or programming. ChatGPT is being used nearly as much for planning as for coding."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:planning:002",
+      "statement": "The brain-dump-to-plan pattern — giving an LLM an unstructured list of thoughts and asking it to categorise, prioritise, and sequence them into an action plan — is an established productivity technique that leverages LLMs' strength at restructuring and organising text.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "How to Turn a Brain Dump Into a Strategy Using AI",
+        "url_or_doi": "https://anchorchange.substack.com/p/how-to-turn-a-brain-dump-into-a-strategy",
+        "section": "Brain dump technique",
+        "excerpt": "With AI, you can turn that mess into a clear set of priorities -- and even uncover deeper insights you hadn't articulated yet. Popular prompts include: 'Here's my brain dump: [list ideas]. Can you organise them by priority?' and 'Turn this messy list into an action plan with clear next steps'."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:planning:003",
+      "statement": "LLMs are unreliable at date and calendar arithmetic: on temporal primitive operations (parsing dates, adding days to dates), per-primitive accuracy ranges from near-zero to perfect depending on the model and prompting conditions.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "PRIMETIME: Limits of LLMs in Temporal Primitives",
+        "url_or_doi": "https://arxiv.org/abs/2504.16155",
+        "section": "Abstract",
+        "excerpt": "the primitives themselves prove individually unreliable, with per-primitive accuracy ranging from near-zero to perfect across models and prompting conditions."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:planning:004",
+      "statement": "Date tokenization is a hidden bottleneck for temporal reasoning: BPE tokenizers fragment calendar dates into meaningless components (e.g. '20250312' becomes tokens '202', '503', '12'), and this excessive fragmentation correlates with accuracy drops of up to 10 percentage points on uncommon dates.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Date Fragments: A Hidden Bottleneck of Tokenization for Temporal Reasoning",
+        "url_or_doi": "https://arxiv.org/abs/2505.16088",
+        "section": "Abstract and key findings",
+        "excerpt": "Modern BPE tokenizers fragment calendar dates into meaningless components. Excessive fragmentation correlates with accuracy drops of up to 10 points on uncommon dates like historical and futuristic dates."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:planning:005",
+      "statement": "On the TimeBench temporal reasoning benchmark, even GPT-4 shows a significant overall performance gap versus humans on temporal reasoning tasks, with event temporal reasoning showing a 25.2% gap between the best LLM and human performance.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "TimeBench: A Comprehensive Evaluation of Temporal Reasoning Abilities in Large Language Models",
+        "url_or_doi": "https://arxiv.org/abs/2311.17667",
+        "section": "Results",
+        "excerpt": "Event temporal reasoning presents the most significant challenge for LLMs, with a substantial 25.2% gap between LLMs and humans. There is still a considerable distance to cover in temporal reasoning."
+      }
+    }
+  ]
+}

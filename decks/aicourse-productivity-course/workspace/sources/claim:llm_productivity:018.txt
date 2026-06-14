@@ -1,0 +1,17 @@
+Claim ID: claim:llm_productivity:summarisation:003
+Statement: In multi-document summarisation, LLMs show a significant primacy effect: summaries are more semantically aligned with whichever article appears first in the input, meaning document order shapes the output's framing and emphasis.
+
+Source: "Input Order Shapes LLM Semantic Alignment in Multi-Document Summarization"
+Authors: (arXiv preprint)
+Published: December 2025
+URL: https://arxiv.org/abs/2512.02665
+
+Excerpt:
+"A significant primacy effect for BERTScore across all stances, showing that summaries are more semantically aligned with the first-seen article, with Position 1 differing significantly from Positions 2 and 3."
+
+"Position bias describes the tendency of models to disproportionately prioritize information appearing at specific positions within the input sequence, leading to the neglect of important details elsewhere."
+
+The study used abortion-related news triplets with different input orderings to prompt Gemini 2.5 Flash to generate neutral overviews, evaluating each summary against source articles using ROUGE-L (lexical overlap), BERTScore (semantic similarity), and SummaC (factual consistency). The LLM showed a consistent preference for the first input article, shaping both the framing and semantic similarity patterns.
+
+Retrieved: 2026-05-27
+Category: Conceptual foundation (category 3) — demonstrates an architectural bias property

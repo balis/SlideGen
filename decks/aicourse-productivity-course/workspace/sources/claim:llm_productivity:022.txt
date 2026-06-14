@@ -1,0 +1,30 @@
+Claim ID: claim:llm_productivity:planning:002
+Statement: The brain-dump-to-plan pattern is an established productivity technique with LLMs.
+
+Source: "How to Turn a Brain Dump Into a Strategy Using AI" — Anchor Change (Substack)
+URL: https://anchorchange.substack.com/p/how-to-turn-a-brain-dump-into-a-strategy
+
+Additional corroborating sources:
+- "From Brain Dump to Action Plan: Use ChatGPT to Organise Ideas"
+  https://www.thedilettantelife.com/chatgpt-to-organise-ideas/
+- "How to Turn a Brain Dump Into a Clear Strategic Plan Using AI"
+  https://sarahcordiner.com/messy-brain-dump-to-strategic-plan-ai/
+
+Excerpt:
+With AI, you can turn that mess into a clear set of priorities -- and even
+uncover deeper insights you hadn't articulated yet. Popular prompts include:
+"Here's my brain dump: [list ideas]. Can you organise them by priority?" and
+"Turn this messy list into an action plan with clear next steps".
+
+The Brain Dump to Action Plan technique helps take a messy, overwhelming list
+of thoughts and sort them, group tasks into categories for clarity, and identify
+the most important actions to focus on first.
+
+When overwhelm hits, you can record for about six minutes about everything in
+your head with no structure or filtering, then feed that audio to AI, which
+transforms the chaotic rambling into organized, actionable clarity.
+
+Retrieved: 2026-05-27
+Source recency: Published 2025. Category 2 (guidance/prompt patterns) — within policy window.
+Note: This is a practitioner pattern documented across multiple sources rather
+than a peer-reviewed finding. Confidence set to MEDIUM accordingly.

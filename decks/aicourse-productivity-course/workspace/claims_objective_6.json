@@ -1,0 +1,66 @@
+{
+  "topic": "Practical Productivity with LLMs — Sustainable Habits",
+  "generated_at": "2026-05-27T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:llm_productivity:habits:001",
+      "statement": "In 2023, Cyberhaven found that 11% of the data employees pasted into ChatGPT was confidential, including source code, client data, and internal-only information, with the average company leaking sensitive material hundreds of times per week.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "11% of data employees paste into ChatGPT is confidential",
+        "url_or_doi": "https://www.cyberhaven.com/blog/4-2-of-workers-have-pasted-company-data-into-chatgpt",
+        "section": "Main findings",
+        "excerpt": "11% of what employees paste into ChatGPT is confidential. 4.7% of employees have pasted confidential data into ChatGPT at least once. The average company leaks confidential material to ChatGPT hundreds of times per week."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:habits:002",
+      "statement": "In April 2023, Samsung banned employee use of ChatGPT and other generative AI tools after engineers on three separate occasions pasted proprietary source code, meeting transcripts, and chip-testing sequences into the chatbot within 20 days of being granted access.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Samsung Bans Generative AI Use by Staff After ChatGPT Data Leak",
+        "url_or_doi": "https://www.bloomberg.com/news/articles/2023-05-02/samsung-bans-chatgpt-and-other-generative-ai-use-by-staff-after-leak",
+        "section": "Main article",
+        "excerpt": "Samsung Electronics Co. is banning employee use of popular generative AI tools like ChatGPT after discovering staff uploaded sensitive code to the platform. Within less than 20 days of allowing ChatGPT access, Samsung experienced three separate incidents where engineers exposed confidential company information."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:habits:003",
+      "statement": "AI-generated text requires human verification of specific factual elements — names, numbers, dates, quotations, and links — before dissemination, because LLMs can produce confident-sounding but incorrect details (hallucinations).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Simple Checklists to Verify the Accuracy of AI-Generated Research Summaries",
+        "url_or_doi": "https://www.veletsianos.com/2025/08/18/simple-checklists-to-verify-the-accuracy-of-ai-generated-research-summaries/",
+        "section": "Checklist rationale",
+        "excerpt": "Researchers who share AI-generated summaries should complete and publish a brief verification checklist alongside their summary. This practice encourages authors to critically review AI output before dissemination, and provides audiences with transparency about the summary's accuracy and limitations. LLM summaries can transform 'may suggest' into 'proves,' drop crucial limitations, and expand study claims beyond what the data supports."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:habits:004",
+      "statement": "LLMs default to a generic, middle-of-the-road writing voice because they are trained to satisfy the broadest audience; preserving a personal voice requires explicit countermeasures such as providing style examples, using the AI as an editor rather than a drafter, or iterative refinement.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Using LLMs While Preserving Your Voice",
+        "url_or_doi": "https://scale.com/blog/using-llms-while-preserving-your-voice",
+        "section": "Strategies",
+        "excerpt": "Large language models are essentially complicated autocomplete systems tuned to please the maximum number of users, and as such, they default by design to middle-of-the-road word choices and unimaginative syntax. Rather than using AI as a writer, use it as an analyzer — have it flag places where clarity could be improved, and ask the AI to explain why — then fix the issue your own way."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:habits:005",
+      "statement": "A personal prompt library — a structured collection of tested, reusable prompts organized by task — reduces context-switching overhead and improves output consistency, because effective prompts encode task context, audience, format, and constraints that would otherwise need to be re-specified each session.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Building a Personal Prompt Library: Enhancing Your AI Development Workflow",
+        "url_or_doi": "https://www.shawnewallace.com/2025-11-19-building-a-personal-prompt-library/",
+        "section": "Key benefits",
+        "excerpt": "The most productive sessions happen when the AI has clear context about what I'm building, the patterns I'm following, and the standards I expect. Define once, reuse everywhere. Scenario-specific prompts that emphasize best practices have led to more consistent, higher-quality code suggestions."
+      }
+    }
+  ]
+}

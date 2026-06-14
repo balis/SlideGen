@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:007",
+      "slide": "Extract the ask, then reply",
+      "bullet": "When a thread is messy, ask the model to name the one thing being requested before drafting anything",
+      "source_excerpt": "The guidance emphasizes separating task instruction from context: 'Put the task instruction on line 1 and long context after.' By prioritizing instructions before contextual information, prompts anchor the model's understanding of scope and purpose before presenting background material. 'Summarize this thread' produces a generic overview, while 'What decisions have been made in this thread, and what's still unresolved?' produces something you can act on. This extract-then-act pattern is widely recommended across multiple prompt engineering guides for email workflows.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:009",
+      "slide": "Extract the ask, then reply",
+      "bullet": "Once the model has drafted a reply, review it, check the facts and tone, then edit before you send",
+      "source_excerpt": "Even when using AI tools, a person should review drafts before sending, especially for new workflows or sensitive communication.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source excerpt says only that a person should review drafts before sending. The bullet adds specific review targets — 'check the facts and tone' — that are not stated in the source excerpt. These items come from the registry claim statement, not from the cited source text itself. The source supports reviewing before sending but does not enumerate what to check.",
+      "suggested_fix": "Once the model has drafted a reply, review it and edit before you send"
+    },
+    {
+      "claim_id": "claim:llm_productivity:021",
+      "slide": "Brain dump to plan",
+      "bullet": "About 40% of ChatGPT messages are task-oriented — drafting, planning, programming — so planning is already one of the top reasons people reach for an LLM",
+      "source_excerpt": "'Doing' encompasses 40% of usage including task-oriented interactions such as drafting text, planning, or programming. ChatGPT is being used nearly as much for planning as for coding.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:022",
+      "slide": "Brain dump to plan",
+      "bullet": "Give the model an unstructured list of thoughts and ask it to categorise, prioritise, and sequence them into an action plan",
+      "source_excerpt": "With AI, you can turn that mess into a clear set of priorities -- and even uncover deeper insights you hadn't articulated yet. Popular prompts include: 'Here's my brain dump: [list ideas]. Can you organise them by priority?' and 'Turn this messy list into an action plan with clear next steps'.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:023",
+      "slide": "The date arithmetic trap",
+      "bullet": "LLMs are unreliable at date and calendar arithmetic: accuracy on basic temporal operations ranges from near-zero to perfect depending on the model and prompting approach",
+      "source_excerpt": "the primitives themselves prove individually unreliable, with per-primitive accuracy ranging from near-zero to perfect across models and prompting conditions.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source describes 'temporal primitives' (a defined set of datetime parsing and arithmetic operations used in the PRIMETIME benchmark), but the bullet softens this to 'basic temporal operations', which loses the technical precision. Additionally, 'prompting approach' is used where the source says 'prompting conditions' — a minor but real wording divergence. The near-zero to perfect range applies to per-primitive accuracy across the tested conditions, not to date arithmetic broadly.",
+      "suggested_fix": "LLMs are unreliable at date and calendar arithmetic: accuracy on temporal primitive operations ranges from near-zero to perfect depending on the model and prompting conditions"
+    },
+    {
+      "claim_id": "claim:llm_productivity:024",
+      "slide": "The date arithmetic trap",
+      "bullet": "Tokenizers fragment calendar dates into meaningless pieces — a root cause of errors that can drop accuracy by up to 10 percentage points",
+      "source_excerpt": "Modern BPE tokenizers fragment calendar dates into meaningless components. For example, '20250312' becomes tokens '202', '503', '12', splitting what should be a coherent temporal unit into disconnected tokens, inflating token counts and obscuring date structure. Excessive fragmentation correlates with accuracy drops of up to 10 points on uncommon dates like historical and futuristic dates.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "Two problems: (1) The bullet says 'a root cause of errors' but the source says 'correlates with accuracy drops' — correlation is not causation, and the paper frames it as a bottleneck/correlation, not a proven root cause. (2) The 10-percentage-point drop applies specifically to 'uncommon dates like historical and futuristic dates'; the bullet omits this qualifier entirely, implying the drop applies to calendar dates in general. Both distortions together strengthen the claim beyond what the source warrants.",
+      "suggested_fix": "Tokenizers fragment calendar dates into meaningless pieces — excessive fragmentation correlates with accuracy drops of up to 10 percentage points on uncommon dates such as historical and future dates"
+    },
+    {
+      "claim_id": "claim:llm_productivity:025",
+      "slide": "The date arithmetic trap",
+      "bullet": "Even GPT-4 shows a significant gap versus humans on temporal reasoning tasks",
+      "source_excerpt": "Event temporal reasoning presents the most significant challenge for LLMs, with a substantial 25.2% gap between LLMs and humans. There is still a considerable distance to cover in temporal reasoning.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet says GPT-4 shows a significant gap 'on temporal reasoning tasks' broadly. The source reveals the picture is category-dependent: the 25.2% gap is specific to event temporal reasoning. GPT-4 scores 100% on date arithmetic (Symbolic Temporal Reasoning) and is only 8% behind humans on Commonsense Temporal Reasoning. Saying there is a 'significant gap on temporal reasoning tasks' generalises from a category-specific finding and actively contradicts the source's data on the symbolic and commonsense sub-tasks where GPT-4 performs well.",
+      "suggested_fix": "Even GPT-4 shows a significant gap versus humans on event temporal reasoning — a 25.2% gap on the TimeBench benchmark — though performance varies considerably across reasoning categories"
+    }
+  ],
+  "summary": "7 claims checked in this batch. 3 verified, 4 misrepresented, 0 unverified."
+}

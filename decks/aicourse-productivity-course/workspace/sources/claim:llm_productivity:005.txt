@@ -1,0 +1,30 @@
+Claim ID: claim:llm_productivity:taskfit:005
+Retrieved: 2026-05-27
+
+Source: TechCrunch. "Samsung bans use of generative AI tools like ChatGPT after April
+internal data leak." Published May 2, 2023.
+
+URL: https://techcrunch.com/2023/05/02/samsung-bans-use-of-generative-ai-tools-like-chatgpt-after-april-internal-data-leak/
+
+Excerpt:
+Samsung Electronics banned employee use of popular generative AI tools like ChatGPT
+after discovering staff uploaded sensitive code to the platform. Within less than 20
+days of allowing ChatGPT access, Samsung experienced three separate incidents where
+engineers exposed confidential company information:
+1. An employee copied source code from a faulty semiconductor database into ChatGPT
+   and asked it to find a fix.
+2. Another employee submitted an entire meeting transcript and asked the chatbot to
+   create meeting minutes.
+3. A third used ChatGPT to optimize a test sequence for identifying yield and
+   defective chips.
+
+The ban took effect on May 1, 2023. Samsung subsequently announced plans to develop
+internal AI systems with proper data controls.
+
+Corroborating sources:
+- CNBC: https://www.cnbc.com/2023/05/02/samsung-bans-use-of-ai-like-chatgpt-for-staff-after-misuse-of-chatbot.html
+- Bloomberg: https://www.bloomberg.com/news/articles/2023-05-02/samsung-bans-chatgpt-and-other-generative-ai-use-by-staff-after-leak
+
+Recency note: May 2023 incident. Used as a historical case study (recency category 3).
+The Samsung case remains one of the most widely cited real-world examples of
+confidential data leakage through consumer AI tools.

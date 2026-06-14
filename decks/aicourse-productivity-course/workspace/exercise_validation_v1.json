@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "total_exercises": 6,
+  "pass_count": 6,
+  "broken_count": 0,
+  "unclear_count": 0,
+  "exercise_verdicts": [
+    {"id": "E1", "verdict": "PASS", "severity": null, "model": "Claude (claude-opus-4-6, self-execution)", "validated_at": "2026-05-27T00:00:00Z", "time_box_min": 8, "issue": null, "suggested_fix": null},
+    {"id": "E2", "verdict": "PASS", "severity": null, "model": "claude-opus-4-6 (own model)", "validated_at": "2026-05-27T00:00:00Z", "time_box_min": 12, "issue": null, "suggested_fix": null},
+    {"id": "E3", "verdict": "PASS", "severity": null, "model": "Claude (claude-opus-4-6, self-execution)", "validated_at": "2026-05-27T00:00:00Z", "time_box_min": 12, "issue": null, "suggested_fix": null},
+    {"id": "E4", "verdict": "PASS", "severity": null, "model": "Claude Opus 4.6", "validated_at": "2026-05-27T00:00:00Z", "time_box_min": 10, "issue": null, "suggested_fix": null},
+    {"id": "E5", "verdict": "PASS", "severity": null, "model": "Claude Opus 4 (claude-opus-4-6)", "validated_at": "2026-05-27T00:00:00Z", "time_box_min": 12, "issue": null, "suggested_fix": null},
+    {"id": "E6", "verdict": "PASS", "severity": null, "model": "claude-opus-4-6 (self-execution)", "validated_at": "2026-05-27", "time_box_min": 10, "issue": null, "suggested_fix": null}
+  ]
+}

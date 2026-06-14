@@ -1,0 +1,24 @@
+Claim ID: claim:llm_productivity:habits:005
+Statement: A personal prompt library — a structured collection of tested, reusable prompts organized by task — reduces context-switching overhead and improves output consistency, because effective prompts encode task context, audience, format, and constraints that would otherwise need to be re-specified each session.
+
+Source: Shawn E. Wallace
+Title: Building a Personal Prompt Library: Enhancing Your AI Development Workflow
+URL: https://www.shawnewallace.com/2025-11-19-building-a-personal-prompt-library/
+Published: November 2025
+Retrieved: 2026-05-27
+
+Full excerpt:
+"The most productive sessions happen when the AI has clear context about what I'm building, the patterns I'm following, and the standards I expect."
+
+"Define once, reuse everywhere" — eliminates repetitive explanations across projects.
+
+"Scenario-specific prompts that emphasize best practices have led to more consistent, higher-quality code suggestions."
+
+Recommended structure: organize by scenario/task type, with a shared directory for cross-cutting resources. "Common tasks like code review, debugging, and documentation" benefit from predefined prompts.
+
+Key benefits cited: consistency, reusability, team alignment, quality improvement, and knowledge preservation.
+
+Corroborating source:
+Title: Build Your Personalized Prompt Library for Generative AI
+URL: https://promptengineering.org/build-your-personalized-prompt-library-for-generative-ai/
+Excerpt: "A personalized prompt library is a structured repository of carefully crafted prompts designed for specific tasks, workflows, or goals, acting as a centralized hub where users can store and access reusable prompts to streamline their interactions with AI-powered tools."

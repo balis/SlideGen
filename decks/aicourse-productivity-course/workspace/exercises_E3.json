@@ -1,0 +1,37 @@
+{
+  "id": "E3",
+  "title": "Bullets to memo",
+  "block": "C",
+  "objective": "Use explicit change/preserve constraints to turn rough notes into a polished memo without losing critical details",
+  "scenario": "Your manager jotted down bullet points after a site visit and asked you to turn them into a clean one-page memo for the leadership team. The numbers and technical terms must survive exactly as written; everything else should be tightened up.",
+  "tool": "any general consumer chat LLM",
+  "minutes": 12,
+  "difficulty": "core",
+  "input_data": "SITE VISIT NOTES — Greenfield Distribution Centre, 14 May 2026\n\n- toured the new Greenfield DC with Priya Sharma (ops director) and two shift leads\n- facility is 24,000 m² across 3 zones: inbound, pick-pack, outbound\n- current throughput 8,400 parcels/hr but rated capacity is 11,200 parcels/hr — running at 75% utilisation\n- main bottleneck is the sorter divert at Zone 2; belt speed limited to 1.8 m/s because older OCR cameras misread barcode at higher speeds\n- Priya wants to upgrade to Cognex DataMan 380 cameras — vendor quote EUR 74,500 for 12 units incl. installation\n- expected result: belt speed up to 2.4 m/s, throughput gain ~1,400 parcels/hr\n- ROI calc from ops team: payback in 14 weeks at current volume\n- secondary issue: HVAC in Zone 3 is failing intermittently — 3 unplanned shutdowns last quarter, each ~45 min, costing roughly EUR 6,200 per event in overtime + delayed shipments\n- Priya asked for a budget decision on the cameras by 31 May and wants the HVAC on the Q3 capex list\n- overall impression: team is competent, facility is clean, biggest risk is doing nothing on the sorter before peak season (starts 1 Sep)",
+  "starter_prompt": "Below are rough bullet-point notes from a site visit. Turn them into a one-page professional memo addressed to [RECIPIENT/ROLE].\n\nConstraints:\n- Fix grammar, spelling, and sentence flow for clarity\n- Do NOT change any numbers, dates, currency amounts, product names, or technical terms — keep them exactly as they appear\n- Use a [TONE] tone suitable for [AUDIENCE]\n- Structure the memo with: Subject line, Summary (2-3 sentences), Key Findings, Recommended Actions, and Timeline\n\nNotes:\n[PASTE BULLET POINTS]",
+  "steps": [
+    "Read through the bullet points and identify the numbers, dates, and technical terms that must be preserved (e.g., 24,000 m², EUR 74,500, Cognex DataMan 380, 14 weeks).",
+    "Copy the starter prompt template and fill in the [BRACKETED] placeholders: choose a recipient (e.g., 'the VP of Operations'), a tone (e.g., 'concise and professional'), and an audience (e.g., 'senior leadership').",
+    "Paste the bullet points into the [PASTE BULLET POINTS] placeholder and send the complete prompt to your LLM.",
+    "Compare every number, date, product name, and technical term in the output against the original bullets. Circle or highlight any that were changed, dropped, or rounded.",
+    "If any protected detail was altered, add a follow-up message: 'You changed [specific item]. Restore the original value exactly.' Re-check after the correction.",
+    "Read the memo once for tone and flow — does it sound like a memo your leadership team would expect?"
+  ],
+  "expected_output": "A structured one-page memo (Subject, Summary, Key Findings, Recommended Actions, Timeline) that reads professionally and preserves every number, date, product name, and technical term from the original bullets without alteration.",
+  "success_criteria": [
+    "All numbers appear exactly as in the original bullets (8,400 parcels/hr, 11,200 parcels/hr, 75%, 24,000 m², 1.8 m/s, 2.4 m/s, 1,400 parcels/hr, EUR 74,500, 14 weeks, 3 shutdowns, 45 min, EUR 6,200).",
+    "All dates are unchanged (14 May 2026, 31 May, 1 Sep, Q3).",
+    "Product names and technical terms are exact (Cognex DataMan 380, OCR, HVAC, sorter divert).",
+    "The memo has a clear structure with at least a subject line, summary, findings, and recommended actions.",
+    "Grammar and sentence flow are improved over the raw bullets — no bullet-point fragments remain in the body."
+  ],
+  "verification_step": "Go through the original bullets line by line with the memo open beside them. Check off each number, date, and technical term. If anything was rounded (e.g., 'approximately 75,000' instead of 'EUR 74,500'), paraphrased (e.g., 'DataMan cameras' instead of 'Cognex DataMan 380'), or dropped entirely, the constraint was violated — fix it before sending.",
+  "common_pitfalls": [
+    "The model rounds or reformats numbers (e.g., '24,000 m²' becomes '24,000 square metres' or 'EUR 74,500' becomes '~EUR 75K').",
+    "The model drops the less prominent data points (e.g., the HVAC issue or the EUR 6,200 per-event cost).",
+    "The learner forgets to verify and assumes the constraint was followed because it was stated in the prompt.",
+    "The model invents details not present in the bullets (e.g., adding a specific HVAC vendor or a cost estimate for the HVAC repair)."
+  ],
+  "takeaway": "State what to change AND what to preserve — explicit constraints act as guardrails that prevent the model from 'improving' details you need kept intact.",
+  "stretch": "Add a second pass: ask the model to shift the memo's register from leadership-formal to a casual Slack update for the warehouse team, keeping the same change/preserve constraint. Compare which numbers survived in each version."
+}

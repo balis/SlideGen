@@ -1,0 +1,11 @@
+Claim ID: claim:llm_productivity:document:001
+Statement: Explicit constraints in prompts (specifying both what the model should do and what it should not change) improve output quality by narrowing the generation space and reducing unwanted edits.
+
+Source: Prompt design strategies — Gemini API, Google AI for Developers
+URL: https://ai.google.dev/gemini-api/docs/prompting-strategies
+Retrieved: 2026-05-27
+
+Full excerpt:
+"Specify any constraints on reading the prompt or generating a response. You can tell the model what to do and not to do."
+
+The guide further demonstrates both negative framing ("You can tell the model what to do and not to do") and exclusionary constraints ("Respond with only the text provided"), and notes that constraints help the model "understand the constraints and details of what you're asking for."

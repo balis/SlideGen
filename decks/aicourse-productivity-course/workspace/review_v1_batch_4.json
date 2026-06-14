@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "batch": 4,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:023",
+      "slide": "The date arithmetic trap",
+      "bullet": "LLMs are unreliable at date and calendar maths \u2014 accuracy on basic date operations ranges from near-zero to perfect depending on the task",
+      "source_excerpt": "the primitives themselves prove individually unreliable, with per-primitive accuracy ranging from near-zero to perfect across models and prompting conditions.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says the variation depends on 'the task', but the source says accuracy varies 'across models and prompting conditions' \u2014 the variation is across models and prompting strategies, not just across task types. The distinction matters: the same task can go from near-zero to perfect with a different model or prompt, which is a stronger finding than task-to-task variation.",
+      "suggested_fix": "LLMs are unreliable at date and calendar maths \u2014 accuracy on temporal primitives ranges from near-zero to perfect depending on the model and prompting approach"
+    },
+    {
+      "claim_id": "claim:llm_productivity:024",
+      "slide": "The date arithmetic trap",
+      "bullet": "Tokenisers chop dates into meaningless fragments (e.g. '20250312' becomes '202', '503', '12'), which can drop accuracy by up to 10 percentage points on unusual dates",
+      "source_excerpt": "Modern BPE tokenizers fragment calendar dates into meaningless components. For example, '20250312' becomes tokens '202', '503', '12', splitting what should be a coherent temporal unit into disconnected tokens, inflating token counts and obscuring date structure. Excessive fragmentation correlates with accuracy drops of up to 10 points on uncommon dates like historical and futuristic dates.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:025",
+      "slide": "The date arithmetic trap",
+      "bullet": "On a temporal reasoning benchmark, the best LLM still trailed human performance by over 25% on event-based time questions",
+      "source_excerpt": "Event Temporal Reasoning: presents the most significant challenge, with a substantial 25.2% gap between LLMs and humans.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:026",
+      "slide": "Confidentiality and the data perimeter",
+      "bullet": "11% of data employees paste into ChatGPT is confidential \u2014 source code, client data, internal documents",
+      "source_excerpt": "11% of what employees paste into ChatGPT is confidential. Most common types: Sensitive/internal only data (319 incidents per week per 100,000 employees), Source code (278), Client data (260).",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:027",
+      "slide": "Confidentiality and the data perimeter",
+      "bullet": "Samsung banned employee use of ChatGPT after engineers pasted proprietary code, meeting notes, and chip-test data on three separate occasions within 20 days",
+      "source_excerpt": "Within less than 20 days of allowing ChatGPT access, Samsung experienced three separate incidents where engineers exposed confidential company information. (1) An engineer entered Samsung source code into ChatGPT when looking for a solution to a bug. (2) Another recorded a company meeting, transcribed it, and inputted the transcription into ChatGPT to create meeting notes. (3) A third used ChatGPT to optimize a test sequence for identifying yield and defective chips.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says engineers pasted 'meeting notes', but the source says an engineer pasted a meeting transcription (to create meeting notes). The data leaked was the raw transcription, not meeting notes. This is a minor but meaningful distinction: a full meeting transcription contains much more sensitive content than distilled notes.",
+      "suggested_fix": "Samsung banned employee use of ChatGPT after engineers pasted proprietary code, a meeting transcription, and chip-test sequences on three separate occasions within 20 days"
+    },
+    {
+      "claim_id": "claim:llm_productivity:028",
+      "slide": "Verify before you send",
+      "bullet": "AI text needs a human check: facts, names, numbers, links, and tone \u2014 the model can sound confident while getting details wrong",
+      "source_excerpt": "Researchers who share AI-generated summaries should complete and publish a brief verification checklist alongside their summary. This practice encourages authors to critically review AI output before dissemination. AI summaries can 'transform may suggest into proves, drop crucial limitations, and expand study claims beyond what the data supports.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:029",
+      "slide": "Verify before you send",
+      "bullet": "LLMs default to a generic, middle-of-the-road voice; preserve yours by editing the final draft, not just skimming it",
+      "source_excerpt": "Large language models are essentially complicated autocomplete systems tuned to please the maximum number of users, and as such, they default by design to middle-of-the-road word choices and unimaginative syntax. Rather than using AI as a writer, use it as an analyzer \u2014 have it flag places where clarity could be improved, and ask the AI to explain why \u2014 then fix the issue your own way.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:030",
+      "slide": "Build your prompt library",
+      "bullet": "A personal prompt library \u2014 tested prompts organised by task \u2014 cuts setup time and keeps your outputs consistent",
+      "source_excerpt": "The most productive sessions happen when the AI has clear context about what I'm building, the patterns I'm following, and the standards I expect. Define once, reuse everywhere. Scenario-specific prompts that emphasize best practices have led to more consistent, higher-quality code suggestions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "8 claims checked in this batch. 6 verified, 2 misrepresented (both MINOR)."
+}

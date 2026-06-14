@@ -1,0 +1,37 @@
+{
+  "id": "E6",
+  "title": "Build your prompt library and verify an earlier output",
+  "block": "F",
+  "objective": "Consolidate exercises 2-5 into a reusable prompt library and practise the 5-item verification checklist on a real output",
+  "scenario": "You have been saving prompts throughout this session. Now assemble them into a personal prompt library table (Task | Prompt | Notes) and then pick one output you generated earlier and run the 5-item verification checklist against it.",
+  "tool": "participant's own earlier work",
+  "minutes": 10,
+  "difficulty": "core",
+  "input_data": "Use your own prompts and outputs from exercises 2-5. If you do not have them, use the fallback library and sample output below.\n\n--- FALLBACK PROMPT LIBRARY ---\n\n| # | Task | Prompt | Notes |\n|---|------|--------|-------|\n| 1 | Extract-then-reply (email) | \"Here is an email thread. First tell me in one sentence what the latest message is actually asking. Then draft a reply that is [TONE] and addresses only that ask. Thread: [PASTE THREAD]\" | Always read the extracted ask before the draft; rewrite at least one line in your own voice |\n| 2 | Bullets to memo | \"Turn the following rough bullets into a one-page internal memo. Fix grammar and clarity. Do NOT change any numbers or technical terms. Bullets: [PASTE BULLETS]\" | The change/preserve constraint prevents the model from inventing figures |\n| 3 | Decision-focused summary | \"Summarise the following report to help me decide whether to [DECISION]. Pull out only the facts that bear on that decision. Format: 3-5 bullet points, then a one-sentence recommendation. Report: [PASTE REPORT]\" | Compare against a bare 'summarise this' to see the difference |\n| 4 | Brain-dump to week plan | \"Here is everything on my mind for next week. Turn it into a prioritised week plan: columns for Day, Task, Effort estimate, Priority. Put the highest-effort items on my least-busy days. Brain dump: [PASTE BRAIN DUMP]\" | Always verify every date against a real calendar; the model gets date arithmetic wrong |\n\n--- FALLBACK SAMPLE OUTPUT TO VERIFY ---\n\nThe following is a model-generated reply to a messy email thread (from Exercise 2). Apply the verification checklist to it.\n\n\"Hi Sarah,\n\nThanks for the update. Based on the thread, I understand the core request is to confirm the Q3 budget figures before Friday's board meeting.\n\nHere is what I propose:\n- I will send the updated spreadsheet by Wednesday 14 August\n- The revised total is EUR 142,500, reflecting the 12% reduction Marcus suggested\n- I have cc'd Priya so Finance can validate the numbers independently\n\nLet me know if I have missed anything.\n\nBest regards,\nAlex\"",
+  "starter_prompt": "This exercise has two parts and does not require a model prompt.\n\nPart A — Prompt Library: Copy the table template below and fill it in with prompts you used in exercises 2-5. Add a 'Notes' column with one lesson you learned per prompt.\n\n| # | Task | Prompt | Notes |\n|---|------|--------|-------|\n| 1 | [TASK FROM E2] | [YOUR E2 PROMPT] | [WHAT YOU LEARNED] |\n| 2 | [TASK FROM E3] | [YOUR E3 PROMPT] | [WHAT YOU LEARNED] |\n| 3 | [TASK FROM E4] | [YOUR E4 PROMPT] | [WHAT YOU LEARNED] |\n| 4 | [TASK FROM E5] | [YOUR E5 PROMPT] | [WHAT YOU LEARNED] |\n\nPart B — Verification Checklist: Pick one model output from an earlier exercise and run through all five checks:\n1. Facts: Is every factual claim accurate? (check against the original input)\n2. Names: Are all person and company names spelled correctly and attributed to the right actions?\n3. Numbers: Are all figures, percentages, and amounts correct? (recalculate if needed)\n4. Links/references: Are any URLs, document titles, or citations real? (if present, verify)\n5. Tone: Does the text match the tone you intended, and would you be comfortable sending it as-is?",
+  "steps": [
+    "Open a blank document or note (or use the workbook template).",
+    "For each of exercises 2-5, copy the prompt you used into the library table. If you did not save one, use the fallback prompts from the input data.",
+    "In the Notes column, write one practical lesson per prompt (e.g. 'always read the extracted ask first', 'specify what NOT to change').",
+    "Choose one model output from an earlier exercise (or use the fallback sample output).",
+    "Walk through all 5 verification checklist items against that output. Write a pass/fail note for each.",
+    "If you find an error, note what category it falls into (fact, name, number, link, or tone) and how you would fix it."
+  ],
+  "expected_output": "A 4-row prompt library table with Task, Prompt, and Notes columns filled in, plus a completed 5-item verification checklist applied to one earlier output showing pass/fail per item and any corrections needed.",
+  "success_criteria": [
+    "The prompt library contains at least 4 entries covering exercises 2-5 (or fallback equivalents).",
+    "Each entry has a meaningful Notes field capturing a transferable lesson, not just a task label.",
+    "All 5 verification checklist items are explicitly addressed with a pass or fail judgement.",
+    "At least one concrete error or risk is identified in the checked output (the fallback sample contains a date that cannot be verified and a figure worth double-checking).",
+    "The library is structured clearly enough that the learner could reuse a prompt from it next week without re-reading the workbook."
+  ],
+  "verification_step": "Swap your completed checklist with a neighbour: can they spot an issue you missed? If working alone, re-read the checked output once more looking only for confidentiality leaks (real names, internal project codes, sensitive figures that should not have been pasted into a consumer tool).",
+  "common_pitfalls": [
+    "Copying prompts into the library without adding personalised notes — the library becomes useless within a week.",
+    "Rushing the checklist by marking everything 'pass' without actually re-reading the output line by line.",
+    "Skipping the numbers check because the output 'looks about right' — the fallback sample has a percentage and a euro amount that should be traced back to source.",
+    "Forgetting the confidentiality dimension: not asking whether the original input should have gone into an enterprise tool instead."
+  ],
+  "takeaway": "A prompt library turns one-off experiment wins into a durable personal workflow; the 5-item checklist (facts, names, numbers, links, tone) is the safety net you apply every time before trusting or sending AI output.",
+  "stretch": "Add a fifth row to your library for a task you do regularly at work that was not covered in the exercises. Write the prompt template, predict which checklist items are most likely to fail for that task, and note them in the Notes column."
+}

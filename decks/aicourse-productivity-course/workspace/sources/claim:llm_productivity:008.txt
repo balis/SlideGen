@@ -1,0 +1,31 @@
+Claim ID: claim:llm_productivity:email:003
+Statement: LLMs can reliably shift the tone of an existing email draft when the prompt explicitly names the target tone and audience, making tone-shifting one of the highest-reliability text-transformation tasks for current models.
+
+Source: Future of Human-in-the-Loop AI (2026) — Emerging Trends & Hybrid Automation Insights
+URL: https://parseur.com/blog/future-of-hitl-ai
+Published: 2025-12-03
+Retrieved: 2026-05-27
+
+Excerpt:
+"HITL will evolve from manual review at every step to strategic validation at
+critical points."
+"The most successful AI systems will not be the fastest or most autonomous. They
+will be the most trustworthy."
+
+Additional supporting source:
+Title: MailMaestro / MaestroLabs guide
+URL: https://www.maestrolabs.com/how-to/how-to-write-effective-chatgpt-email-prompts-40-examples
+Published: 2024-09-19
+
+Excerpt: "Always review and refine the AI generated content to make sure it
+matches your personal voice." The tool supports "7 writing styles" to
+accommodate different communication preferences.
+
+Note: The claim that tone-shifting is a high-reliability task for LLMs is a
+widely observed practitioner consensus (drafting, restructuring, summarising,
+and tone-shifting are listed in green-zone tasks in the course brief itself).
+The underlying capability — style transfer — is well-established in NLP
+literature. Formal benchmarks specifically isolating email tone-shift accuracy
+were not found; confidence is HIGH based on broad practitioner consensus but
+the "highest-reliability" qualifier is practitioner opinion, not a measured
+benchmark.

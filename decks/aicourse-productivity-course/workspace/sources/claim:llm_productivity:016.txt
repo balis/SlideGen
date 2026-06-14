@@ -1,0 +1,17 @@
+Claim ID: claim:llm_productivity:summarisation:001
+Statement: Specifying audience, format, and extraction targets in a summarisation prompt produces substantially better results than a generic 'summarise this' instruction. Structured prompting techniques can improve performance across tasks by between 6% and more than 30%.
+
+Source: "Smarter AI Through Prompt Engineering: Insights and Case Studies from Data Science Application"
+URL: https://arxiv.org/pdf/2602.00337
+Type: paper (arXiv preprint, 2026)
+
+Excerpt:
+"Structured prompting techniques can improve performance across various tasks by between 6% and more than 30%, according to case studies in healthcare, materials science, financial services, and business intelligence."
+
+Additional supporting context from the Prompt Engineering Guide (promptingguide.ai):
+"For summarization specifically, instructions should outline what the AI should focus on and how it should structure the summary, and the desired length should be specified."
+
+A vague prompt like "Summarize this incident" may yield technical detail or irrelevant background, but something more specific like "Summarize this cyber incident for board review in 2 bullets: (1) Business impact, (2) Next steps. Avoid technical jargon" is significantly more effective.
+
+Retrieved: 2026-05-27
+Category: Guidance (category 2) — slowly evolving prompt engineering best practice

@@ -1,0 +1,30 @@
+Claim ID: claim:llm_productivity:taskfit:004
+Retrieved: 2026-05-27
+
+Source: OWASP Foundation. "OWASP Top 10 for Large Language Model Applications v2025."
+Published November 2024 (v4.2.0a).
+
+URL: https://owasp.org/www-project-top-10-for-large-language-model-applications/assets/PDF/OWASP-Top-10-for-LLMs-v2025.pdf
+
+Excerpt (LLM02:2025 - Sensitive Information Disclosure):
+"LLMs, particularly when embedded in applications, pose the risk of exposing sensitive
+data, proprietary algorithms, or confidential details through their outputs. This can
+result in unauthorized data access, privacy violations, and intellectual property
+breaches."
+
+"Negligent inclusion of sensitive data in training sets results in disclosure through
+the model's outputs."
+
+Sensitive Information Disclosure rose from #6 (2023 edition) to #2 (2025 edition) due
+to growing attack techniques and real-world incidents. LLMs can memorize and reproduce
+fragments of training data through both verbatim memorization (directly regurgitating
+strings) and semantic memorization.
+
+Supporting context on consumer vs enterprise:
+OpenAI's enterprise privacy page (https://openai.com/enterprise-privacy/) states that
+ChatGPT Enterprise, Business, Edu, and API data is not used for training by default.
+Consumer-plan (Free, Plus) inputs may be used to train models unless users explicitly
+opt out via the privacy portal.
+
+Recency note: OWASP 2025 edition (November 2024). Falls under recency category 2
+(guidance on tool selection and data handling).

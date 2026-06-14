@@ -1,0 +1,25 @@
+Claim ID: claim:llm_productivity:email:002
+Statement: When facing a messy email thread, prompting the model to first extract the core ask before drafting a reply produces more focused, actionable responses than jumping straight to "reply to this thread".
+
+Source: Prompt design strategies — Gemini API (Google AI for Developers)
+URL: https://ai.google.dev/gemini-api/docs/prompting-strategies
+Published: 2025 (regularly updated documentation)
+Retrieved: 2026-05-27
+
+Excerpt:
+The guidance emphasizes separating task instruction from context: "Put the task
+instruction on line 1 and long context after." By prioritizing instructions
+before contextual information, prompts anchor the model's understanding of scope
+and purpose before presenting background material.
+
+Additional supporting evidence from web search synthesis:
+"'Summarize this thread' produces a generic overview, while 'What decisions have
+been made in this thread, and what's still unresolved?' produces something you
+can act on." This extract-then-act pattern is widely recommended across multiple
+prompt engineering guides for email workflows.
+
+Note: The "extract-the-ask-then-reply" pattern is a widely cited prompt
+engineering technique documented across multiple practitioner guides. The core
+principle (decompose a complex task into extraction + generation) is a direct
+application of chain-of-thought / task-decomposition prompting, which is
+well-established in the prompt engineering literature.

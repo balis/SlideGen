@@ -1,0 +1,18 @@
+Claim ID: claim:llm_productivity:document:003
+Statement: Register refers to linguistic variation associated with the situational use of language, and prompting LLMs with register-analysis-based style descriptors achieves a better balance between style-transfer strength and meaning preservation than open-ended style descriptions.
+
+Source: Steering Large Language Models with Register Analysis for Arbitrary Style Transfer
+Authors: (arxiv preprint, May 2025)
+URL: https://arxiv.org/abs/2505.00679
+Retrieved: 2026-05-27
+
+Full excerpt:
+"Register refers to linguistic variation associated with the situational use of language" characterised by "situational context, linguistic features, and functional relationships."
+
+"prompting LLMs to analyze exemplars' style using Biber's multidimensional register analysis (MDA) framework" provides "a structured and effective way to generate accurate target style descriptors."
+
+"Biber's register analysis framework is widely available online and used in educational and linguistic contexts, LLMs are likely to have been exposed to examples of such analyses during training."
+
+"Our prompting variants show similar to improved style transfer strength compared to the baselines; Our prompting variants show a large gain in meaning preservation across the tasks."
+
+"RG is on the Pareto frontier across all data splits, achieving a good balance between style transfer strength and meaning preservation."

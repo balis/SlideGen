@@ -1,0 +1,23 @@
+Claim ID: claim:llm_productivity:habits:004
+Statement: LLMs default to a generic, middle-of-the-road writing voice because they are trained to satisfy the broadest audience; preserving a personal voice requires explicit countermeasures such as providing style examples, using the AI as an editor rather than a drafter, or iterative refinement.
+
+Source: Scale AI Blog
+Title: Using LLMs While Preserving Your Voice
+URL: https://scale.com/blog/using-llms-while-preserving-your-voice
+Retrieved: 2026-05-27
+
+Full excerpt:
+"Large language models are essentially complicated autocomplete systems tuned to please the maximum number of users, and as such, they default by design to middle-of-the-road word choices and unimaginative syntax."
+
+"LLM-generated text often differs from human writing in grammatical (overused structures), lexical (overused words), and stylistic (predictable patterns) ways."
+
+"Rather than using AI as a writer, use it as an analyzer — have it flag places where clarity could be improved, and ask the AI to explain why — then fix the issue your own way."
+
+Additional strategies cited:
+- "Craft detailed instructions specifying desired voice, tone, audience, and structure, and incorporate brand-specific language guidelines into prompts."
+- "In creative writing, 2-5 samples suffice to elicit strong style imitation through in-context learning" (few-shot approach).
+- "Use iterative prompting techniques to refine output toward your unique style."
+
+Corroborating source:
+Title: Keeping it personal: How to preserve your voice when using AI
+URL: https://www.thetransmitter.org/from-bench-to-bot/keeping-it-personal-how-to-preserve-your-voice-when-using-ai/

@@ -1,0 +1,14 @@
+Claim ID: claim:llm_productivity:summarisation:005
+Statement: Goal-oriented prompt formulation — specifying intent, domain, and demand — significantly improves LLM performance compared to open-ended prompts, and applies directly to summarisation tasks where specifying the decision context focuses the output on actionable information.
+
+Source: "Towards Goal-oriented Prompt Engineering for Large Language Models: A Survey"
+Published: January 2024 (arXiv preprint)
+URL: https://arxiv.org/abs/2401.14043
+
+Excerpt:
+"A goal-oriented prompt formulation, which guides LLMs to follow established human logical thinking, significantly improves the performance of LLMs. The approach can be summarized into three key aspects: intent, domain, and demand."
+
+Intent defines the task's goal, demand specifies the detailed requirements, and domain identifies the information source relevant to the task. Applied to summarisation, this maps directly to the "extract X for audience Y in format Z" pattern: X = intent (what decision or action the summary serves), Y = domain context (who will read it and what they know), Z = demand (output structure and constraints).
+
+Retrieved: 2026-05-27
+Category: Guidance (category 2) — prompt engineering framework applicable to summarisation

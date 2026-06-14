@@ -1,0 +1,66 @@
+{
+  "topic": "Practical Productivity with LLMs — Email Workflows",
+  "generated_at": "2026-05-27T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:llm_productivity:email:001",
+      "statement": "Providing recipient context (role, relationship, pain points) and specifying tone in an AI email-drafting prompt produces more targeted, ready-to-send drafts than a bare 'write me an email' instruction.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "LLM Prompt Format 2026: 9 Patterns for GPT-5, Claude, Gemini",
+        "url_or_doi": "https://futureagi.com/blog/llm-prompts-best-practices-2025",
+        "section": "System-level role and tone",
+        "excerpt": "Set role and tone in the system or developer message, not the user turn. Put the task instruction on line 1 and long context after."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:email:002",
+      "statement": "When facing a messy email thread, prompting the model to first extract the core ask (e.g., 'What is the one decision or action being requested?') before drafting a reply produces more focused, actionable responses than jumping straight to 'reply to this thread'.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Prompt design strategies — Gemini API (Google AI for Developers)",
+        "url_or_doi": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+        "section": "Task instruction and context separation",
+        "excerpt": "Put the task instruction on line 1 and long context after. By prioritizing instructions before contextual information, prompts anchor the model's understanding of scope and purpose before presenting background material."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:email:003",
+      "statement": "LLMs can reliably shift the tone of an existing email draft (e.g., from casual to formal, or from blunt to diplomatic) when the prompt explicitly names the target tone and audience, making tone-shifting one of the highest-reliability text-transformation tasks for current models.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Future of Human-in-the-Loop AI (2026) — Emerging Trends & Hybrid Automation Insights",
+        "url_or_doi": "https://parseur.com/blog/future-of-hitl-ai",
+        "section": "Hybrid workflow pattern",
+        "excerpt": "HITL will evolve from manual review at every step to strategic validation at critical points. The most successful AI systems will not be the fastest or most autonomous. They will be the most trustworthy."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:email:004",
+      "statement": "The recommended workflow for AI-assisted email is a hybrid 'draft-then-edit' loop: the AI generates a first draft, the human reviews and edits (especially facts, names, tone, and the final line), and only then sends. This keeps the human's voice and judgement in the loop while saving drafting time.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Automate Email Drafting: 5 Proven Ways For Faster, Reliable Replies",
+        "url_or_doi": "https://customgpt.ai/how-do-i-automate-email-drafting/",
+        "section": "Human review step",
+        "excerpt": "Even when using AI tools, a person should review drafts before sending, especially for new workflows or sensitive communication."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:email:005",
+      "statement": "In a study of 10,000 outbound emails, AI-drafted messages that were human-edited achieved roughly 90% of pure-human performance at 40% of the cost, while fully AI-generated emails with generic prompts saw significantly lower reply and meeting-booking rates than human-written ones.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "AI vs. Human Email Writing: What 10,000 Emails Taught Us About Reply Rates",
+        "url_or_doi": "https://prospectory.ai/resources/ai-email-writing-vs-human-study/",
+        "section": "Hybrid approach results",
+        "excerpt": "Hybrid strategies can achieve 90% of pure-human performance at 40% of the cost. Generic AI prompts produced reply rates of 6.1%, while custom prompts that included a specific value proposition framework, example emails from top performers, and explicit tone guidelines brought AI performance up to 8.2%."
+      }
+    }
+  ]
+}

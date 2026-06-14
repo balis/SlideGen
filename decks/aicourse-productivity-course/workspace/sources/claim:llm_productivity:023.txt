@@ -1,0 +1,31 @@
+Claim ID: claim:llm_productivity:planning:003
+Statement: LLMs are unreliable at date and calendar arithmetic, with per-primitive
+accuracy ranging from near-zero to perfect depending on model and prompting conditions.
+
+Source: "PRIMETIME: Limits of LLMs in Temporal Primitives"
+Authors: (arXiv preprint)
+URL: https://arxiv.org/abs/2504.16155
+HTML: https://arxiv.org/html/2504.16155v2
+
+Abstract excerpt:
+"This paper introduces PRIMETIME, a synthetic generator that supports both
+benchmarking and fine-tuning of two primitive operations underlying temporal
+reasoning in Large Language Models (LLMs): parsing and arithmetic on datetimes."
+
+"the primitives themselves prove individually unreliable, with per-primitive
+accuracy ranging from near-zero to perfect across models and prompting conditions."
+
+Additional context from the paper:
+- Datetime operations such as adding days are non-trivial due to the variable
+  number of days per month and leap years.
+- While datetime arithmetic is trivial in any programming language, the LLM's
+  ability to perform it internally matters for composed tasks like event planning.
+- Only state-of-the-art proprietary frontier models perform reliably across all
+  tasks; smaller and open models show severe inconsistency.
+- Small fine-tuned models can reach frontier-level accuracy, suggesting the
+  weakness is learnable, not fundamental — but out-of-the-box LLMs remain
+  unreliable for date arithmetic.
+
+Retrieved: 2026-05-27
+Source recency: Published April 2025. Category 3 (conceptual/technical limitation) —
+recency not strictly required but source is recent.

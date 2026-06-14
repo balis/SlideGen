@@ -1,0 +1,26 @@
+Claim ID: claim:llm_productivity:taskfit:002
+Retrieved: 2026-05-27
+
+Source: Safal Shrestha, Minwu Kim, Keith Ross (NYU Abu Dhabi). "Mathematical Reasoning
+in Large Language Models: Assessing Logical and Arithmetic Errors across Wide Numerical
+Ranges." arXiv:2502.08680, February 12, 2025.
+
+URL: https://arxiv.org/abs/2502.08680
+
+Excerpt (from abstract):
+"Our experiments with various models reveal a significant increase in logical error
+rates -- up to 14 percentage points -- as numerical complexity rises, demonstrating
+a general weakness in reasoning with out-of-distribution numerical values. Moreover,
+while models demonstrate high accuracy on standalone arithmetic tasks, their performance
+deteriorates substantially when computations are embedded within word problems."
+
+Additional detail: The paper introduces GSM-Ranges, a dataset generator derived from
+GSM8K that systematically perturbs numerical values in math problems. Their novel grading
+methodology distinguishes between logical errors and non-logical errors (arithmetic
+mistakes, number-copy errors). GPT-3.5 Turbo showed 55.6% error rates on embedded
+arithmetic. Gemma 2 2B exhibited the largest gap, increasing from 18% baseline errors
+to 38.5% at Level 6 perturbation.
+
+Recency note: February 2025 paper. Falls under recency category 3 (conceptual
+foundation -- why LLMs struggle with arithmetic). Also supported by "The Lookahead
+Limitation: Why Multi-Operand Addition is Hard for LLMs" (arXiv:2502.19981, Feb 2025).

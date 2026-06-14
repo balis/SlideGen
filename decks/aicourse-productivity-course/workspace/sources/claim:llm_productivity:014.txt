@@ -1,0 +1,18 @@
+Claim ID: claim:llm_productivity:document:004
+Statement: Register-based style descriptors constrain LLM output to the register space, guiding the model towards stylistic adjustments with minimal impact on semantics, whereas open-ended or tone-oriented descriptors are more likely to alter the original meaning.
+
+Source: Steering Large Language Models with Register Analysis for Arbitrary Style Transfer
+Authors: (arxiv preprint, May 2025)
+URL: https://arxiv.org/abs/2505.00679
+Retrieved: 2026-05-27
+
+Full excerpt:
+"RGs' style descriptors are more restricted to the register space, guiding the model towards stylistic adjustments with minimal impact on semantics."
+
+"STYLL tends to produce more affective, tone-oriented style descriptors...more likely to alter the original meaning."
+
+"open-ended descriptions, whether user-provided or model-inferred, may pose challenges...they do not always ensure faithful reproduction of the target style."
+
+"RGs show a clear edge towards STYLL...in meaning preservation indicated by MIS."
+
+Note: This finding has a practical implication for the course — when asking an LLM to shift register (e.g., technical to plain language), specifying concrete linguistic features to change (sentence length, vocabulary level, passive vs active voice) preserves meaning better than vague instructions like "make it simpler."

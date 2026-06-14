@@ -1,0 +1,24 @@
+Claim ID: claim:llm_productivity:planning:001
+Statement: Planning and organizing is one of the most common use cases for ChatGPT at work.
+
+Source: "How People Are Using ChatGPT" — OpenAI economic research report
+URL: https://openai.com/index/how-people-are-using-chatgpt/
+Full paper: https://cdn.openai.com/pdf/a253471f-8260-40c6-a2cc-aa93fe9f142e/economic-research-chatgpt-usage-paper.pdf
+
+Excerpt:
+ChatGPT usage can be categorized by user intent: "Asking" accounts for about
+49% of messages (where people value ChatGPT as an advisor), "Doing" encompasses
+40% of usage including task-oriented interactions such as drafting text, planning,
+or programming, and "Expressing" captures 11% of usage involving personal
+reflection, exploration, and play.
+
+ChatGPT is being used nearly as much for planning as for coding.
+
+Approximately 30% of consumer usage is work-related. The shares are calculated
+from a sample of approximately 1.1 million sampled conversations from May 15,
+2024 through June 26, 2025. As of July 2025, about 56% of work-related messages
+are classified as Doing (e.g., performing job tasks), and nearly three-quarters
+of those are Writing tasks.
+
+Retrieved: 2026-05-27
+Source recency: Published 2025. Category 2 (guidance) — within policy window.

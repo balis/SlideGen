@@ -1,0 +1,37 @@
+{
+  "id": "E5",
+  "title": "Week plan from a brain dump",
+  "block": "E",
+  "objective": "Convert an unstructured brain dump into a prioritised, time-blocked week plan — then catch the date errors the model introduces",
+  "scenario": "It is Sunday evening and you have scribbled a brain dump of everything on your plate for the coming week. You ask your LLM to turn it into a prioritised plan with effort estimates and a day-by-day schedule. The brain dump deliberately contains tricky date references that the model is likely to get wrong — your job is to catch every mistake before you trust the plan.",
+  "tool": "any general consumer chat LLM",
+  "minutes": 12,
+  "difficulty": "core",
+  "input_data": "--- BRAIN DUMP (Sunday 31 May 2026, evening) ---\n\nStuff I need to get done this week:\n\n- Finish the budget slides for Hanna. She needs them by Thursday 4 June. Important — last time I was late and she had to wing it.\n- Dentist appointment already booked for Tuesday 2 June at 14:00, takes about 1.5 hrs with travel.\n- Reply to Marcus's contract question — he first emailed 10 days ago (that was Wednesday 21 May) and I still haven't answered. Embarrassing.\n- Team lunch is on the first Friday of June. Book a restaurant for 8 people.\n- Renew my parking permit — it expires exactly two weeks from today, so that's Sunday 14 June. The office that handles it is closed on weekends, so I need to go before that.\n- Prep talking points for the board call. The call is the second Monday of June.\n- Order Liam's birthday present — his birthday is Saturday 13 June and delivery takes 5 business days so I need to order by… some day this week?\n- Water the office plants (every Monday and Thursday).\n- Submit the travel-expense report. Deadline is 30 days after the trip, and the trip ended 1 May 2026, so the deadline should be Sunday 31 May — wait, that's today! Or is it tomorrow? Need to check.\n\n---",
+  "starter_prompt": "Here is my brain dump of tasks for the coming week. Today is Sunday 31 May 2026.\n\n1. Turn this into a prioritised plan for Monday 1 June to Friday 5 June.\n2. For each task give an effort estimate (S = under 30 min, M = 30-90 min, L = half-day).\n3. Assign each task to a specific day (or days), with the most urgent items earliest.\n4. Flag any scheduling conflicts or tight deadlines.\n\nBrain dump:\n[PASTE BRAIN DUMP]\n\n[OPTIONAL: add any real tasks of your own to the list]",
+  "steps": [
+    "Paste the brain dump into the starter prompt and send it to your LLM.",
+    "Read the plan the model produces. Before trusting any date, open a real calendar (phone, laptop, or web) for June 2026.",
+    "Check EVERY date and day-of-week pair the model outputs. Write down each one that is wrong or suspicious.",
+    "Check the delivery-date arithmetic for Liam's present: does '5 business days back from 13 June' land where the model says?",
+    "Check whether the model caught the travel-expense deadline ambiguity (31 May is today — is it already too late, or is it due by end of day?).",
+    "Correct any errors in the plan and note what you changed."
+  ],
+  "expected_output": "A day-by-day week plan (Mon 1 Jun – Fri 5 Jun) with effort estimates, plus a list of date errors the learner found and corrected.",
+  "success_criteria": [
+    "The plan covers all nine tasks from the brain dump, assigned to specific days.",
+    "Every task has an effort estimate (S / M / L).",
+    "The learner identified at least one date or day-of-week error the model made (the brain dump contains multiple traps).",
+    "The learner verified the Liam's-present order-by date using real calendar arithmetic (5 business days before Sat 13 June = order by Mon 8 June at the latest, since ordering Mon 8 means delivery Fri 12 June).",
+    "The travel-expense deadline ambiguity is acknowledged — the learner noted it needs same-day action or is already overdue."
+  ],
+  "verification_step": "Open a real calendar for June 2026 and cross-check every date and day-of-week in the model's output. Confirm the 'first Friday of June', the 'second Monday of June', the 5-business-day countdown, and the 30-day deadline. Fix anything wrong before adopting the plan.",
+  "common_pitfalls": [
+    "Trusting the model's day-of-week labels without checking a real calendar (e.g., the model may say '4 June is Wednesday' when it is actually Thursday).",
+    "Accepting the 5-business-day back-count without manually counting weekends.",
+    "Overlooking that 31 May 2026 is a Sunday, so the travel-expense deadline may effectively be the previous business day (Friday 29 May) or needs immediate action.",
+    "Not noticing if the model silently drops one of the nine tasks."
+  ],
+  "takeaway": "LLMs are unreliable at date and calendar arithmetic — always verify every date in a generated plan against a real calendar before acting on it.",
+  "stretch": "Add three of your own real tasks (including at least one with a genuine deadline) to the brain dump, regenerate the plan, and verify those dates too."
+}

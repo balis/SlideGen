@@ -1,0 +1,26 @@
+Claim ID: claim:llm_productivity:email:005
+Statement: In a study of 10,000 outbound emails, AI-drafted messages that were human-edited achieved roughly 90% of pure-human performance at 40% of the cost, while fully AI-generated emails with generic prompts saw significantly lower reply and meeting-booking rates.
+
+Source: AI vs. Human Email Writing: What 10,000 Emails Taught Us About Reply Rates
+URL: https://prospectory.ai/resources/ai-email-writing-vs-human-study/
+Published: 2025 (exact date not confirmed; found via search in May 2026)
+Retrieved: 2026-05-27
+
+Excerpt:
+"Hybrid strategies can achieve 90% of pure-human performance at 40% of the
+cost."
+
+"Generic AI prompts produced reply rates of 6.1%, while custom prompts that
+included a specific value proposition framework, example emails from top
+performers, and explicit tone guidelines brought AI performance up to 8.2%."
+
+"AI emails booked meetings at 1.9% of sends, while human emails hit 3.4%,
+representing a 79% performance difference."
+
+Note: This is a vendor study (Prospectory, an outbound sales platform), not
+an independent academic study. The data is specific to cold outbound sales
+emails, which is a different context from internal/professional email. The
+directional finding (hybrid > pure-AI, human editing adds value) is
+consistent with broader practitioner experience but the specific percentages
+should be cited with the caveat that they come from a sales-outreach context.
+Confidence set to MEDIUM due to vendor-study provenance.

@@ -1,0 +1,66 @@
+{
+  "topic": "Practical Productivity with LLMs — Summarisation workflows",
+  "generated_at": "2026-05-27T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:llm_productivity:summarisation:001",
+      "statement": "Specifying audience, format, and extraction targets in a summarisation prompt produces substantially better results than a generic 'summarise this' instruction. Structured prompting techniques can improve performance across tasks by between 6% and more than 30%.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Smarter AI Through Prompt Engineering: Insights and Case Studies from Data Science Application",
+        "url_or_doi": "https://arxiv.org/pdf/2602.00337",
+        "section": "Case studies across domains",
+        "excerpt": "Structured prompting techniques can improve performance across various tasks by between 6% and more than 30%, according to case studies in healthcare, materials science, financial services, and business intelligence."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:summarisation:002",
+      "statement": "LLMs exhibit a U-shaped attention curve: they attend most to the beginning and end of their input context and significantly degrade when relevant information is in the middle. In multi-document QA with 20 documents, accuracy dropped over 30% when the answer document moved from position 1 to position 10.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Lost in the Middle: How Language Models Use Long Contexts",
+        "url_or_doi": "https://aclanthology.org/2024.tacl-1.9/",
+        "section": "Multi-document QA experiments",
+        "excerpt": "Performance is often highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when models must access relevant information in the middle of long input contexts."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:summarisation:003",
+      "statement": "In multi-document summarisation, LLMs show a significant primacy effect: summaries are more semantically aligned with whichever article appears first in the input, meaning document order shapes the output's framing and emphasis.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Input Order Shapes LLM Semantic Alignment in Multi-Document Summarization",
+        "url_or_doi": "https://arxiv.org/abs/2512.02665",
+        "section": "BERTScore analysis across positions",
+        "excerpt": "A significant primacy effect for BERTScore across all stances, showing that summaries are more semantically aligned with the first-seen article, with Position 1 differing significantly from Positions 2 and 3."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:summarisation:004",
+      "statement": "Shuffling document order across multiple LLM runs and comparing outputs is a practical mitigation for position bias; cyclic and full-permutation methods that average predictions across orderings reduce the effect of positional bias on summary content.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "paper",
+        "title": "Input Order Shapes LLM Semantic Alignment in Multi-Document Summarization",
+        "url_or_doi": "https://arxiv.org/abs/2512.02665",
+        "section": "Discussion of mitigation approaches",
+        "excerpt": "To counter position biases, cyclic and full-permutation methods have been proposed that average predictions across permutations. Prompting techniques can effectively direct model attention to specific positions as a way to reduce positional bias."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:summarisation:005",
+      "statement": "Goal-oriented prompt formulation — specifying intent, domain, and demand — significantly improves LLM performance compared to open-ended prompts, and applies directly to summarisation tasks where specifying the decision context (e.g. 'summarise to help me decide whether to X') focuses the output on actionable information.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "paper",
+        "title": "Towards Goal-oriented Prompt Engineering for Large Language Models: A Survey",
+        "url_or_doi": "https://arxiv.org/abs/2401.14043",
+        "section": "Goal-oriented prompt formulation framework",
+        "excerpt": "A goal-oriented prompt formulation, which guides LLMs to follow established human logical thinking, significantly improves the performance of LLMs. The approach can be summarized into three key aspects: intent, domain, and demand."
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+Claim ID: claim:llm_productivity:planning:004
+Statement: Date tokenization is a hidden bottleneck for temporal reasoning in LLMs,
+with BPE fragmentation causing accuracy drops of up to 10 percentage points.
+
+Source: "Date Fragments: A Hidden Bottleneck of Tokenization for Temporal Reasoning"
+URL: https://arxiv.org/abs/2505.16088
+PDF: https://arxiv.org/pdf/2505.16088
+
+Key excerpts:
+"Modern BPE tokenizers fragment calendar dates into meaningless components.
+For example, '20250312' becomes tokens '202', '503', '12', splitting what should
+be a coherent temporal unit into disconnected tokens, inflating token counts and
+obscuring date structure."
+
+"Excessive fragmentation correlates with accuracy drops of up to 10 points on
+uncommon dates like historical and futuristic dates."
+
+Additional findings:
+- LLMs employ an emergent mechanism to reassemble scattered date components,
+  stitching together fragments of month, day, and year components for temporal
+  reasoning, with larger models accomplishing this reconstruction faster than
+  smaller ones.
+- LLMs follow a different assembly sequence than humans: year -> month -> day,
+  diverging from typical human interpretation patterns.
+- The authors introduced DateAugBench, a benchmark with 6,500 examples covering
+  context-based date resolution, format-invariance puzzles, and arithmetic
+  operations across historical, contemporary, and future timeframes.
+
+Retrieved: 2026-05-27
+Source recency: Published May 2025. Category 3 (conceptual/architectural explanation) —
+recency not strictly required but source is very recent.

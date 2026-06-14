@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "batch": 3,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:016",
+      "slide": "From 'summarise this' to extract-X-for-Y-in-Z",
+      "bullet": "A bare 'summarise this' gives you a generic recap; specifying what to extract, who will read it, and what format you need improves results by 6-30%",
+      "source_excerpt": "Structured prompting techniques can improve performance across various tasks by between 6% and more than 30%, according to case studies in healthcare, materials science, financial services, and business intelligence.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says 'more than 30%', meaning the upper bound exceeds 30%. The bullet caps the range at '6-30%', which understates the upper end. Additionally, the source attributes the 6-30%+ figure to structured prompting across various tasks generally (healthcare, materials science, etc.), not specifically to summarisation prompts with extract/audience/format parameters.",
+      "suggested_fix": "A bare 'summarise this' gives you a generic recap; specifying what to extract, who will read it, and what format you need is a form of structured prompting -- and structured prompting improves task performance by 6% to over 30% across domains"
+    },
+    {
+      "claim_id": "claim:llm_productivity:020",
+      "slide": "From 'summarise this' to extract-X-for-Y-in-Z",
+      "bullet": "Tell the model the decision it should support: 'summarise to help me decide whether to X' focuses the output on what actually matters",
+      "source_excerpt": "A goal-oriented prompt formulation, which guides LLMs to follow established human logical thinking, significantly improves the performance of LLMs. The approach can be summarized into three key aspects: intent, domain, and demand.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:016",
+      "slide": "From 'summarise this' to extract-X-for-Y-in-Z",
+      "bullet": "Three levers you can set every time: intent (why you need this), audience (who reads it), format (bullets, table, one-liner)",
+      "source_excerpt": "Structured prompting techniques can improve performance across various tasks by between 6% and more than 30%, according to case studies in healthcare, materials science, financial services, and business intelligence. For summarization specifically, instructions should outline what the AI should focus on and how it should structure the summary, and the desired length should be specified.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:017",
+      "slide": "Position bias and the shuffle check",
+      "bullet": "LLMs pay most attention to the start and end of long inputs -- when the key information sits in the middle, accuracy can drop by over 30%",
+      "source_excerpt": "Performance is often highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when models must access relevant information in the middle of long input contexts. The study tested multi-document question answering and key-value retrieval tasks, finding over 30% accuracy drop when the answer document moved from position 1 to position 10 in a 20-document context.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:018",
+      "slide": "Position bias and the shuffle check",
+      "bullet": "In multi-document summaries, whichever document comes first shapes the framing of the output",
+      "source_excerpt": "A significant primacy effect for BERTScore across all stances, showing that summaries are more semantically aligned with the first-seen article, with Position 1 differing significantly from Positions 2 and 3.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:019",
+      "slide": "Position bias and the shuffle check",
+      "bullet": "Quick fix: shuffle the input order across two runs and compare -- differences reveal what the model missed the first time",
+      "source_excerpt": "To counter position biases, cyclic and full-permutation methods have been proposed that average predictions across permutations. Prompting techniques can effectively direct model attention to specific positions as a way to reduce positional bias. Run the same multi-document summary prompt twice with documents in different order. If the summaries differ materially, the model is relying on position rather than content.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:021",
+      "slide": "Brain dump to plan",
+      "bullet": "About 40% of ChatGPT conversations are task-oriented — drafting, planning, organising — so planning is already one of the top reasons people reach for an LLM",
+      "source_excerpt": "'Doing' encompasses 40% of usage including task-oriented interactions such as drafting text, planning, or programming. ChatGPT is being used nearly as much for planning as for coding.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet replaces 'programming' with 'organising' in the list of activities that make up the 40% 'Doing' category. The source explicitly lists 'drafting text, planning, or programming' -- not organising. Swapping programming for organising materially changes the composition of the 40% figure and misleads the audience about what the statistic covers. Additionally, the bullet says 'conversations' but the source measures 'messages' (usage share), which is a different unit.",
+      "suggested_fix": "About 40% of ChatGPT messages are task-oriented — drafting, planning, programming — so planning is already one of the top reasons people reach for an LLM"
+    },
+    {
+      "claim_id": "claim:llm_productivity:022",
+      "slide": "Brain dump to plan",
+      "bullet": "The brain-dump-to-plan pattern: paste your messy list of thoughts and ask the model to categorise, prioritise, and sequence them into an action plan",
+      "source_excerpt": "With AI, you can turn that mess into a clear set of priorities -- and even uncover deeper insights you hadn't articulated yet. Popular prompts include: 'Here's my brain dump: [list ideas]. Can you organise them by priority?' and 'Turn this messy list into an action plan with clear next steps'. The Brain Dump to Action Plan technique helps take a messy, overwhelming list of thoughts and sort them, group tasks into categories for clarity, and identify the most important actions to focus on first.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "8 claims checked in this batch. 6 verified, 2 misrepresented, 0 unverified."
+}

@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:llm_productivity:006",
+      "slide": "Email drafting — intent + recipient + tone",
+      "bullet": "Tell the model what you want to say, who you are writing to, and the tone you need — that is the minimum viable email prompt",
+      "source_excerpt": "Set role and tone in the system or developer message, not the user turn. Put the task instruction on line 1 and long context after.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:008",
+      "slide": "Email drafting — intent + recipient + tone",
+      "bullet": "Tone-shifting is one of the most reliable things an LLM can do: name the target tone and it will adjust",
+      "source_excerpt": "HITL will evolve from manual review at every step to strategic validation at critical points. The most successful AI systems will not be the fastest or most autonomous. They will be the most trustworthy.",
+      "verdict": "MISREPRESENTED",
+      "severity": "CRITICAL",
+      "issue": "Citation mismatch. The cited source (parseur.com HITL article) discusses the evolution of human-in-the-loop AI workflows and trustworthiness. It says nothing about tone-shifting being a high-reliability task for LLMs. The source file itself acknowledges that 'Formal benchmarks specifically isolating email tone-shift accuracy were not found' and that the 'highest-reliability' qualifier is 'practitioner opinion, not a measured benchmark.' The source does not support the bullet's claim.",
+      "suggested_fix": "Tone-shifting is a common LLM use case: name the target tone and audience and the model will adjust the draft accordingly [remove or retag citation — the cited source does not address tone-shifting reliability]"
+    },
+    {
+      "claim_id": "claim:llm_productivity:006",
+      "slide": "Email drafting — intent + recipient + tone",
+      "bullet": "A bare 'write me an email' gives you generic filler; adding context gives you a usable first draft",
+      "source_excerpt": "Set role and tone in the system or developer message, not the user turn. Put the task instruction on line 1 and long context after. The 2026 guidance shifts from embedding instructions within lengthy context to separating concerns: system prompts handle persona/tone durably, while user messages focus on per-turn tasks with instructions leading before supporting context.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:007",
+      "slide": "Extract the ask, then reply",
+      "bullet": "With messy threads, first ask the model 'What is actually being requested?' before you draft a reply — you get a more focused response",
+      "source_excerpt": "Put the task instruction on line 1 and long context after. By prioritizing instructions before contextual information, prompts anchor the model's understanding of scope and purpose before presenting background material. 'Summarize this thread' produces a generic overview, while 'What decisions have been made in this thread, and what's still unresolved?' produces something you can act on. The extract-the-ask-then-reply pattern is a widely cited prompt engineering technique — a direct application of chain-of-thought / task-decomposition prompting.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:009",
+      "slide": "Extract the ask, then reply",
+      "bullet": "Treat the AI draft as a starting point: review it, edit the facts and tone, rewrite at least one line in your own voice, then send",
+      "source_excerpt": "Even when using AI tools, a person should review drafts before sending, especially for new workflows or sensitive communication. Email drafting can be automated by combining reusable templates, AI tools to generate first drafts, and automations that trigger drafts from events — but a person should always review before sending.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports 'review drafts before sending' and the general draft-then-edit workflow, but the specific prescription to 'rewrite at least one line in your own voice' is not stated or implied by the source. This is a pedagogical addition not backed by the cited material.",
+      "suggested_fix": "Treat the AI draft as a starting point: review it, check the facts and tone, then edit before you send — especially for new workflows or sensitive messages [claim:llm_productivity:009]"
+    },
+    {
+      "claim_id": "claim:llm_productivity:011",
+      "slide": "Change and preserve constraints",
+      "bullet": "Tell the model what to fix and what not to touch — explicit constraints narrow the output and reduce unwanted edits",
+      "source_excerpt": "Specify any constraints on reading the prompt or generating a response. You can tell the model what to do and not to do.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:012",
+      "slide": "Change and preserve constraints",
+      "bullet": "Pair 'do' instructions with 'don't' exclusions (e.g., 'fix grammar; do not change numbers or technical terms') to keep critical details intact",
+      "source_excerpt": "Developers frequently use exclusions as the constraints to refine outputs such as excluding irrelevant content, reducing hallucinations, and narrowing search space for generation. Combining 'Do' instructions with 'Don't' instructions, like exclusion constraints, significantly reduces redundancy while maintaining high output consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:013",
+      "slide": "Register shifting and few-shot templating",
+      "bullet": "Register means the way your language changes with the situation — a Slack message reads differently from a board memo",
+      "source_excerpt": "Register refers to linguistic variation associated with the situational use of language, characterised by situational context, linguistic features, and functional relationships.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:llm_productivity:015",
+      "slide": "Register shifting and few-shot templating",
+      "bullet": "Few-shot prompting — showing 2-5 examples in your prompt — lets the model pick up a pattern and apply it to new input without any training",
+      "source_excerpt": "Few-shot prompting is a technique where you provide an AI model with examples (usually 2-5) before asking it to perform a similar task. Each example acts as a micro-training signal inside the prompt, allowing LLMs to narrow the space of possible behaviors by providing concrete examples. It requires fewer examples than traditional training while delivering flexible, real-time guidance. It enables AI models to adapt to specialized tasks without requiring expensive model retraining.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "9 claims checked in this batch. 7 verified, 2 misrepresented (1 CRITICAL, 1 MINOR), 0 unverified."
+}

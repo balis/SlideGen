@@ -1,0 +1,66 @@
+{
+  "topic": "Practical Productivity with LLMs — Document Workflows",
+  "generated_at": "2026-05-27T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:llm_productivity:document:001",
+      "statement": "Explicit constraints in prompts (specifying both what the model should do and what it should not change) improve output quality by narrowing the generation space and reducing unwanted edits.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Prompt design strategies — Gemini API, Google AI for Developers",
+        "url_or_doi": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+        "section": "Give specific instructions / Constraints",
+        "excerpt": "Specify any constraints on reading the prompt or generating a response. You can tell the model what to do and not to do."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:document:002",
+      "statement": "Combining positive 'do' instructions with negative exclusion constraints (e.g., 'fix grammar and clarity; do not change numbers or technical terms') significantly reduces redundancy and unwanted modifications while maintaining output consistency.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "From Prompts to Templates: A Systematic Prompt Template Analysis for Real-world LLM Apps",
+        "url_or_doi": "https://arxiv.org/abs/2504.02052",
+        "section": "Findings on constraints and exclusions",
+        "excerpt": "Developers frequently use exclusions as the constraints to refine outputs such as excluding irrelevant content, reducing hallucinations, and narrowing search space for generation. Combining 'Do' instructions with 'Don't' instructions, like exclusion constraints, significantly reduces redundancy while maintaining high output consistency."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:document:003",
+      "statement": "Register refers to linguistic variation associated with the situational use of language, and prompting LLMs with register-analysis-based style descriptors achieves a better balance between style-transfer strength and meaning preservation than open-ended style descriptions.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Steering Large Language Models with Register Analysis for Arbitrary Style Transfer",
+        "url_or_doi": "https://arxiv.org/abs/2505.00679",
+        "section": "Abstract and Section 5 (Results)",
+        "excerpt": "Register refers to linguistic variation associated with the situational use of language. Our prompting variants show similar to improved style transfer strength compared to the baselines; Our prompting variants show a large gain in meaning preservation across the tasks. RG is on the Pareto frontier across all data splits, achieving a good balance between style transfer strength and meaning preservation."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:document:004",
+      "statement": "Register-based style descriptors constrain LLM output to the register space, guiding the model towards stylistic adjustments with minimal impact on semantics, whereas open-ended or tone-oriented descriptors are more likely to alter the original meaning.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Steering Large Language Models with Register Analysis for Arbitrary Style Transfer",
+        "url_or_doi": "https://arxiv.org/abs/2505.00679",
+        "section": "Section 5 (Discussion)",
+        "excerpt": "RGs' style descriptors are more restricted to the register space, guiding the model towards stylistic adjustments with minimal impact on semantics. STYLL tends to produce more affective, tone-oriented style descriptors...more likely to alter the original meaning."
+      }
+    },
+    {
+      "id": "claim:llm_productivity:document:005",
+      "statement": "Few-shot prompting — providing 2-5 input-output examples in the prompt — enables LLMs to infer task patterns and generalise to new inputs without retraining; each example acts as a micro-training signal that narrows the space of possible behaviours.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Few Shot Prompting | Use Cases & Examples — QuillBot",
+        "url_or_doi": "https://quillbot.com/blog/ai-prompt-writing/few-shot-prompting/",
+        "section": "How few-shot prompting works",
+        "excerpt": "Few-shot prompting is a technique where you provide an AI model with examples (usually 2-5) before asking it to perform a similar task. Each example acts as a micro-training signal inside the prompt, allowing LLMs to narrow the space of possible behaviors by providing concrete examples."
+      }
+    }
+  ]
+}
