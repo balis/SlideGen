@@ -48,6 +48,7 @@ Write your batch verdicts to `output_path` (workspace/review_vN_batch_{K}.json):
       "bullet": "exact slide text (bullet or line) that cites this claim",
       "source_excerpt": "exact excerpt from workspace/sources/{claim_id}.txt",
       "verdict": "VERIFIED | MISREPRESENTED | UNVERIFIED",
+      "severity": "null (VERIFIED) | CRITICAL | MAJOR | MINOR (see rule 10)",
       "issue": "null or specific description of the problem",
       "suggested_fix": "null or rewritten bullet that would be accurate"
     }
@@ -58,8 +59,8 @@ Write your batch verdicts to `output_path` (workspace/review_vN_batch_{K}.json):
 
 `batch_verdict` is VERIFIED only if every claim in your batch is VERIFIED;
 otherwise NEEDS_REVISION. Include a full `claim_verdicts` entry for **every**
-claim you check, VERIFIED ones included — the orchestrator compacts VERIFIED
-entries to a count during the merge, not you.
+claim you check, VERIFIED ones included — the orchestrator compacts each VERIFIED
+entry to a per-citation record during the merge, not you.
 
 ## Rules
 
@@ -72,10 +73,16 @@ entries to a count during the merge, not you.
 6. Do **not** write workspace/writer_feedback.md or workspace/review_vN.json —
    those belong to the orchestrator, which assembles them from all batch files.
    You write only your own workspace/review_vN_batch_{K}.json.
-7. **Full re-scan required on every iteration.** Even on a revision (v2, v3, ...),
-   check every claim reference in your batch from scratch — not just the ones
-   flagged in a previous review. Fixes can introduce new errors, and unchanged
-   bullets may have been overlooked. Include every claim verdict in your batch file.
+7. **Check your whole batch from scratch; the orchestrator decides the batch.**
+   Verify every (slide, claim_id) pair you were assigned, fresh — even one that was
+   VERIFIED in a previous review — and include a verdict for each in your batch
+   file. You do **not** decide which citations are worth re-checking: in the
+   generate pipeline the orchestrator scopes each batch, and on a revision (v2,
+   v3, ...) it sends you only the citations on regenerated or previously-flagged
+   bullets (see generate.md Step 4+5). Citations on byte-identical, already-verified
+   text are carried forward by the orchestrator and will not appear in your batch;
+   re-checking identical text only resamples non-determinism. Your job is a
+   complete, independent verdict for whatever batch you are handed.
 8. **No sampling.** Your `batch` is a closed checklist of (slide, claim_id) pairs.
    Return exactly one claim_verdicts entry for each pair — if your batch lists N
    citations, your file must contain N entries. Do not skip, deduplicate across
@@ -92,3 +99,20 @@ entries to a count during the merge, not you.
    `suggested_fix` to recommend removing/retagging the citation. A fix that leaves
    a residual misrepresentation is itself a finding, and will resurface next
    iteration.
+10. **Assign a `severity` to every non-VERIFIED verdict** (VERIFIED → `null`). The
+    orchestrator gates revisions on CRITICAL/MAJOR and treats MINOR as advisory, so
+    calibrate honestly — over-flagging a nitpick as MAJOR forces a needless rewrite
+    cycle; under-flagging a real error as MINOR ships a wrong claim.
+    - **CRITICAL** — the source contradicts the bullet or does not contain it at
+      all: a fabricated or wrong number/name/date, or a citation whose source does
+      not support the claim (citation mismatch). These actively mislead the audience.
+    - **MAJOR** — a real distortion that changes the claim's meaning, scope, or
+      strength without being outright fabrication: a dropped qualifier that flips
+      certainty or coverage ("the only way" vs "one way"; "always" vs "often"), or a
+      derived/combined figure the source never states (e.g. summing two percentages
+      measured on different bases).
+    - **MINOR** — a precision nitpick that does not change the takeaway: a narrow
+      scope qualifier ("published papers" vs "papers at top-tier AI/ML venues"), a
+      model-variant name ("GPT-4" vs "GPT-4 Turbo"), or wording the source supports
+      in substance but not verbatim. Still report it with a `suggested_fix`.
+    When genuinely torn between two levels, choose the lower one.

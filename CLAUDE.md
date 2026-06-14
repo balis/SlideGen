@@ -1,6 +1,6 @@
 # SlideGen Orchestrator
 
-This project has two pipelines. The launcher script tells you which one to run.
+This project has three pipelines. The launcher script tells you which one to run.
 
 ## Path resolution
 
@@ -27,6 +27,16 @@ Invoked by `slidegen.sh`.
 
 **Input:** topic directory with run.md
 **Output:** output/slides.md + output/provenance.json
+
+### Course (`pipelines/course.md`)
+
+Creates hands-on **practical-course** material from a *course brief* (run.md with a
+session plan of concept blocks paired with exercises). The deck is a lean backdrop;
+the hands-on depth lives in a participant workbook, and every exercise's sample
+solution is validated by running it against a real model. Invoked by `coursegen.sh`.
+
+**Input:** topic directory with a course-brief run.md
+**Output:** output/slides.md (lean deck) + output/workbook.md + output/solutions.md + output/provenance.json
 
 ### Review (`pipelines/review.md`)
 
