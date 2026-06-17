@@ -1,0 +1,13 @@
+Source for claim:agentic-de:psi-kl-divergence:002
+
+Title: Difference between KL Divergence and PSI
+Author: Shrutika Poyrekar
+URL: https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12
+Retrieved: 2026-06-14
+
+Excerpt:
+"PSI has a number of advantages compared to KL divergence for troubleshooting data model comparisons because if you swap the baseline distribution p(x) and sample distribution q(x), you will get the same number."
+
+"KL Divergence and PSI are the two metrics which are commonly used to monitor data drift in model monitoring."
+
+PSI is the Jeffreys divergence (symmetric KL), which resolves the asymmetry problem of raw KL divergence where D_KL(P||Q) ≠ D_KL(Q||P).

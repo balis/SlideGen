@@ -1,0 +1,16 @@
+SOURCE FILE FOR claim:agde:vecdb:001
+=====================================
+
+CLAIM: Exact k-NN search requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and scanning it at SSD read throughput of 512 MB/s would require 1,000 seconds to answer a single query.
+
+SOURCE TITLE: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs
+URL / DOI: https://arxiv.org/abs/1603.09320
+AUTHORS: Yu. A. Malkov, D. A. Yashunin
+PUBLICATION: arXiv:1603.09320, submitted March 2016 (IEEE TPAMI 2018)
+RETRIEVED: 2026-06-15
+
+FULL EXCERPT:
+"The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes."
+
+ADDITIONAL CONTEXT:
+The HNSW paper (arXiv 1603.09320) provides the foundational motivation for ANN search: brute-force exact kNN scales as O(N*D) per query where N is the number of vectors and D is the dimensionality. This is the canonical citation for why exact search is infeasible. The paper has been cited thousands of times and is the primary reference for HNSW, which is now the default index type in most vector databases.

@@ -1,0 +1,5 @@
+Source excerpt:
+"Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate."
+
+URL: https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/
+Retrieved: 2026-06-14

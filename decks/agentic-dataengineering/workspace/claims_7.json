@@ -1,0 +1,90 @@
+{
+  "topic": "agentic-dataengineering",
+  "generated_at": "2026-06-14T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:knn-complexity:001",
+      "statement": "Exact k-NN search requires O(N * D) distance computations per query (N = dataset size, D = dimensionality), making it infeasible at billion scale: a brute-force scan of 10^9 128-d SIFT vectors would take ~17 minutes per query and require 512 GB of RAM.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Choose the k-NN algorithm for your billion-scale use case with OpenSearch",
+        "url_or_doi": "https://aws.amazon.com/blogs/big-data/choose-the-k-nn-algorithm-for-your-billion-scale-use-case-with-opensearch/",
+        "section": "Brute force limitations",
+        "excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems."
+      }
+    },
+    {
+      "id": "claim:agentic-de:hnsw:001",
+      "statement": "HNSW recall-vs-latency is tuned via three parameters: M (graph connectivity, affects memory and build time), efConstruction (build-time quality), and efSearch (query-time exploration depth). Increasing efSearch from 100 to 500 can raise recall from ~85% to ~98% but increases per-query latency from ~1 ms to ~5 ms on a 10 M-vector dataset.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "What are the key configuration parameters for an HNSW index (M, efConstruction, efSearch)?",
+        "url_or_doi": "https://milvus.io/ai-quick-reference/what-are-the-key-configuration-parameters-for-an-hnsw-index-such-as-m-and-efconstructionefsearch-and-how-does-each-influence-the-tradeoff-between-index-size-build-time-query-speed-and-recall",
+        "section": "efSearch parameter",
+        "excerpt": "A higher efSearch (e.g., 500 vs. 100) increases recall by exploring more neighbors, but it slows down queries due to additional distance calculations. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency."
+      }
+    },
+    {
+      "id": "claim:agentic-de:ivf-pq:001",
+      "statement": "IVF-PQ combines cluster-based partitioning (IVF) with vector compression (Product Quantization). The nprobe parameter controls how many clusters are searched at query time, directly trading recall for latency: sweeping nprobe from 1 to 256 can move recall from ~70% to ~99% while throughput drops from 50,000 QPS to 300 QPS.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "How to Choose Between IVF and HNSW for ANN Vector Search - Milvus Blog",
+        "url_or_doi": "https://milvus.io/blog/understanding-ivf-vector-index-how-It-works-and-when-to-choose-it-over-hnsw.md",
+        "section": "nprobe parameter and recall tradeoff",
+        "excerpt": "With nprobe values ranging from 1 to 256, recall ranges from 70% to 99%, with query throughput decreasing from 50,000 QPS to 300 QPS and latency increasing from 0.02ms to 3.3ms respectively."
+      }
+    },
+    {
+      "id": "claim:agentic-de:diskann:001",
+      "statement": "DiskANN (NeurIPS 2019) stores the full graph index on SSD with only a compressed representation in RAM, enabling billion-point search on a single node with 64 GB RAM. On SIFT-1B it achieves >5,000 QPS at 95%+ 1-recall@1 with <3 ms mean latency, offering 5-10x more vectors per machine than DRAM-based approaches like HNSW.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node",
+        "url_or_doi": "https://proceedings.neurips.cc/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html",
+        "section": "Abstract / Results",
+        "excerpt": "On the billion point SIFT1B bigann dataset, DiskANN serves > 5000 queries a second with < 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine with 64GB RAM and an SSD."
+      }
+    },
+    {
+      "id": "claim:agentic-de:ann-filtering:001",
+      "statement": "Metadata filtering interacts destructively with ANN graph traversal. Naive pre-filtering (skip non-matching nodes) caps recall at ~57% because filtered-out nodes serve as routing states that connect graph regions; post-filtering preserves >99% recall but wastes work on discarded results. In-algorithm filtering (Qdrant ACORN, Pinecone merged indexes) modifies traversal to maintain both recall and efficiency.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "The Achilles Heel of Vector Search: Filters",
+        "url_or_doi": "https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/",
+        "section": "Pre-filtering vs post-filtering recall",
+        "excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors."
+      }
+    },
+    {
+      "id": "claim:agentic-de:vector-db-compare:001",
+      "statement": "The pgvector-on-existing-Postgres vs. dedicated-vector-DB decision is primarily about operational simplicity versus scale: pgvector eliminates a new service, enables SQL joins of vector similarity with relational predicates in one query, and is sufficient for datasets up to low millions of vectors. Dedicated engines (Qdrant, Pinecone, Milvus) offer horizontal scaling, advanced quantization, and hybrid BM25+vector ranking needed beyond ~10 M vectors or at high query concurrency.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "pgvector vs Qdrant: PostgreSQL Extension or Dedicated Vector Database",
+        "url_or_doi": "https://encore.dev/articles/pgvector-vs-qdrant",
+        "section": "When to use pgvector vs dedicated",
+        "excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features."
+      }
+    },
+    {
+      "id": "claim:agentic-de:recall-slo:001",
+      "statement": "ANN recall is a silently violated SLO rather than a raised error: as a vector database grows or parameters drift, retrieval quality degrades without generating exceptions. Latency metrics remain stable while the system feeds progressively weaker context to downstream consumers (e.g., RAG), increasing hallucinations. Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x on SIFT10M.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "HNSW at Scale: Why Your RAG System Gets Worse as the Vector Database Grows",
+        "url_or_doi": "https://towardsdatascience.com/hnsw-at-scale-why-your-rag-system-gets-worse-as-the-vector-database-grows/",
+        "section": "Silent recall degradation",
+        "excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range."
+      }
+    }
+  ]
+}

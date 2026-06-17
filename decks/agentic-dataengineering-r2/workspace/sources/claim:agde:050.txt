@@ -1,0 +1,34 @@
+SOURCE FILE: claim:agde:reranking:002
+Retrieved: 2026-06-15
+
+PRIMARY SOURCE:
+URL: https://arxiv.org/abs/2411.11767
+arXiv ID: 2411.11767
+Title: Drowning in Documents: Consequences of Scaling Reranker Inference
+Venue: Accepted to ReNeuIR 2025 Workshop at SIGIR 2025
+Year: 2024 (published November 2024)
+
+KEY FINDINGS (from web search summaries of the paper):
+"while rerankers initially help with small values for K, reranking with large K decreases recall precipitously, often dropping beneath the quality of standalone retrievers."
+
+"In some cases, when evaluated in a fair competition—ranking the full dataset—rerankers are less accurate than retrievers."
+
+"The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve."
+
+"rerankers hit a recall ceiling when dealing with large numbers of documents retrieved in the first stage."
+
+"The paper finds that the common assumptions about rerankers are frequently false. Specifically, while rerankers initially help with small values for K, reranking with large K decreases recall precipitously."
+
+The researchers tested best-in-class rerankers across several public and enterprise IR benchmarks, using datasets and models that depart from conventional reranker research focused on BM25 + MSMarco.
+
+SUPPORTING CONTEXT (from RAG failure mode searches):
+"The right chunk is in the retrieved set, but it's ranked below irrelevant ones, causing generation to anchor on the wrong context." — from RAG failure mode articles.
+
+"Initial retrieval at k=10–20 (high recall), reranking to trim to k=3–5 (high precision)" — from unstructured.io RAG reranking article.
+
+"If your retriever recall is poor, no reranker can save you" — from multiple RAG engineering sources.
+
+"If the initial candidate set omits a large fraction of relevant documents, no reranking strategy can fully recover them, as the limited semantic coverage comes at a price." — from web search result summaries.
+
+SECONDARY REFERENCE:
+URL: https://huggingface.co/papers/2411.11767 (paper page on HuggingFace)

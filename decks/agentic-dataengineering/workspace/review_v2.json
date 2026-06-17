@@ -1,0 +1,548 @@
+{
+  "version": 2,
+  "verdict": "NEEDS_REVISION",
+  "total_checked": 90,
+  "rechecked_count": 62,
+  "misrepresented_count": 17,
+  "critical_count": 0,
+  "major_count": 6,
+  "minor_count": 11,
+  "blocking_count": 6,
+  "claim_verdicts": [
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:005",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:003",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:002",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "claim_id": "claim:agentic-de:006",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:013",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:014",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:015",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:016",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When NOT to Adopt a Feature Store",
+      "claim_id": "claim:agentic-de:017",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:030",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:033",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:034",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:035",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "claim_id": "claim:agentic-de:032",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:043",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:044",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:046",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:047",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Top-k Cutoff Failure Mode",
+      "claim_id": "claim:agentic-de:048",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:049",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:050",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:051",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:053",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:004",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is Training-Serving Skew?",
+      "claim_id": "claim:agentic-de:007",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is Training-Serving Skew?",
+      "claim_id": "claim:agentic-de:008",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:009",
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "bullet": "Temporal leakage occurs when a naive join uses current or future feature values instead of the values available at prediction time, producing over-optimistic offline metrics that do not generalize to production",
+      "source_excerpt": "Feature values in Feast are modeled as time-series records. Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. This means Feast is able to reproduce the state of features at a specific point in the past. Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source establishes that point-in-time joins prevent future feature values from leaking, confirming the mechanism of temporal leakage. However, the consequence stated in the bullet \u2014 'producing over-optimistic offline metrics that do not generalize to production' \u2014 is not mentioned in the Feast source. The source describes the fix (point-in-time correctness), not the downstream harm of the leakage.",
+      "suggested_fix": "Temporal leakage occurs when a naive join uses current or future feature values instead of the values available at prediction time; point-in-time correct joins prevent future feature values from leaking into training data."
+    },
+    {
+      "claim_id": "claim:agentic-de:010",
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "bullet": "In the transactions/customer/labels schema, a join on customer_id without a timestamp constraint attaches post-event attributes (e.g., a credit limit increased after the label was recorded) to training rows, giving the model access to information unavailable at prediction time",
+      "source_excerpt": "A point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table. In SQL, a PiT Join is an ASOF LEFT JOIN. The AS OF join ensures that the most recent value of the feature at the time of the timestamp is used in the training set.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source defines point-in-time correct joins in general terms but does not mention the transactions/customer/labels schema, the credit_limit attribute, or the specific scenario of a post-event attribute update. The bullet presents a concrete example as if it is sourced from the cited document, but the specific schema and example are not in the source.",
+      "suggested_fix": "A join on a slowly-changing dimension without a timestamp constraint returns the current value of attributes rather than the value at the time of the label event, giving the model access to information unavailable at prediction time; a point-in-time correct join retrieves the most recent value of each feature at or before the label timestamp."
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "bullet": "Consistency mismatch between training and serving code paths [claim:agentic-de:011] (What row)",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source describes training-serving skew as a difference in feature value distributions between training and serving data, attributing it to different corpora or faulty sampling. The bullet frames it as a 'consistency mismatch between training and serving code paths,' which is a different (and narrower) cause-based framing not stated in the TFDV source. The source does not use the term 'code paths.'",
+      "suggested_fix": "Training-serving skew: a difference in feature value distributions between training and serving data, caused by using different corpora or faulty sampling mechanisms that select only a subsample of serving data for training."
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "bullet": "Can exist from day one of deployment [claim:agentic-de:011] (When row)",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The claim that skew 'can exist from day one of deployment' is not stated anywhere in the TFDV source. The source describes causes of distribution skew (different training corpus, faulty sampling) but says nothing about when skew manifests relative to deployment. This is a meaningful assertion about the temporal nature of skew that the cited source does not support.",
+      "suggested_fix": "When: Distribution skew exists when the training and serving data distributions diverge \u2014 which can occur due to a different training corpus or a faulty sampling mechanism at data collection time."
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "bullet": "Emerges gradually after a model that initially performed well [claim:agentic-de:012] (When row)",
+      "source_excerpt": "Concept drift is an evolution of data that invalidates the data model. It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways. The article distinguishes data drift (change in input distributions P(X)) from concept drift (change in the relationship P(Y|X)), noting that concept drift can occur even when input distributions remain stable.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says concept drift is a change in statistical properties 'over time,' but does not state that it 'emerges gradually' or that the model 'initially performed well.' The sources characterize drift as a temporal evolution, not specifically as a gradual degradation following an initially good model.",
+      "suggested_fix": "When: Concept drift is a change in the statistical properties of the target variable over time \u2014 it is a temporal phenomenon that can occur even when input distributions remain stable."
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "bullet": "Engineering bug \u2014 divergent pipelines [claim:agentic-de:011] (Root cause row)",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source attributes distribution skew to using a 'completely different corpus' or a 'faulty sampling mechanism,' neither of which is described as an 'engineering bug' or 'divergent pipelines.' The 'engineering bug / divergent pipelines' framing is an interpretation not present in the TFDV source.",
+      "suggested_fix": "Root cause of skew: using a different training corpus than the serving data distribution, or a faulty sampling mechanism that selects only a subsample of serving data for training."
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "ML reproducibility requires pinning three layers to the same point in time: the data state (lakehouse snapshots or content-addressed versions), the code/pipeline state (Git commits), and the embedding-model version (checkpoint or API version)",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet maps the source's three versioning types onto different concepts: (1) 'task versioning (evaluation protocol)' is rephrased as 'code/pipeline state (Git commits),' which is a different concept entirely \u2014 the MTEB source is about evaluation task protocols for benchmarks, not code versioning via Git; (2) 'lakehouse snapshots or content-addressed versions' for the data layer are not mentioned in the source; (3) the source is specifically about embedding benchmark reproducibility (MTEB), not general ML pipeline reproducibility. The bullet extrapolates the framing far beyond what the cited source supports.",
+      "suggested_fix": "ML reproducibility requires versioning three components: the dataset (each dataset references a specific revision to ensure identical data across runs), the evaluation/task protocol (each task version maintains its own evaluation protocol), and the model (models reference specific checkpoints or API versions). [Note: source is specific to embedding benchmarks; expand citation or reframe to match source scope.]"
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "Without coupling all three layers, re-running a pipeline on 'the same data' can produce different results if the embedding model has changed",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says model versioning ensures consistency by referencing specific checkpoints or API versions, implying that without it results could differ \u2014 but it does not explicitly state that 're-running a pipeline on the same data can produce different results if the embedding model has changed.' The source is about benchmark evaluation reproducibility (MTEB), not general ML pipeline re-execution. The bullet's causal phrasing is a reasonable inference but goes beyond what the source text states.",
+      "suggested_fix": "Without versioning all three components, result comparability is lost: changing any of task protocol, dataset revision, or model checkpoint/API version will produce different results even when the other components appear identical."
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:018",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:019",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:020",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:021",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "bullet": "Treeverse (lakeFS) acquired the DVC open-source project from Iterative.ai in November 2025; DVC continues as a lightweight Git-based tool for smaller data-science projects while lakeFS serves enterprise-scale AI/ML infrastructure",
+      "source_excerpt": "lakeFS announced it has acquired the DVC open source project from Iterative.ai. This strategic acquisition brings together the two pioneering forces in the industry...DVC will continue as an independent open source tool focused on data scientists working with smaller datasets, while lakeFS will continue to advance enterprise-grade data version control infrastructure for organizations managing AI and ML at scale. This acquisition builds on lakeFS's recent momentum, including its $20 million growth funding round announced in July 2025.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet states the acquisition occurred in 'November 2025,' but the source does not specify the month of the acquisition. The source only mentions a funding round in July 2025 as prior context; no acquisition date is provided. Asserting 'November 2025' is an unsupported specific claim not found in the cited source.",
+      "suggested_fix": "Treeverse (lakeFS) acquired the DVC open-source project from Iterative.ai; DVC continues as a lightweight Git-based tool for smaller data-science projects while lakeFS serves enterprise-scale AI/ML infrastructure."
+    },
+    {
+      "claim_id": "claim:agentic-de:024",
+      "slide": "Three Kinds of Drift",
+      "bullet": "Schema drift \u2014 a structural change such as a missing column or type mismatch; breaks pipelines visibly",
+      "source_excerpt": "The fourth concern is that the schema that your features follow can change over time. If you don't have a way to version your schemas and map each of your features to its expected schema, the cause of the reported alert might be due to the mismatched schema rather than a change in the data.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source mentions schema changes as a concern but does not say schema drift 'breaks pipelines visibly.' The source actually describes schema drift as a cause of alerts that might be misdiagnosed \u2014 implying it surfaces through monitoring, not necessarily as a visible pipeline break. The characterization 'breaks pipelines visibly' is not in the source.",
+      "suggested_fix": "Schema drift \u2014 a structural change such as a mismatched schema in your features over time; can cause monitoring alerts that may be misattributed to data distribution changes rather than schema changes."
+    },
+    {
+      "claim_id": "claim:agentic-de:024",
+      "slide": "Three Kinds of Drift",
+      "bullet": "Distribution drift (covariate shift) \u2014 P(X) changes but P(Y|X) stays the same; degrades models silently",
+      "source_excerpt": "Covariate shift: P(X) changes, but P(Y|X) remains the same. This refers to the first decomposition of the joint distribution.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source directly supports 'P(X) changes but P(Y|X) remains the same.' However, 'degrades models silently' is not stated in the source. The source describes the definition of covariate shift only, not its operational impact on model quality or its detectability.",
+      "suggested_fix": "Distribution drift (covariate shift) \u2014 P(X) changes but P(Y|X) remains the same."
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:026",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Detecting distributional drift requires statistical monitoring (PSI, KL divergence, KS test) layered on top of contract enforcement [claim:agentic-de:027]",
+      "source_excerpt": "Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states that organizations extend contracts to include 'feature drift detection' as a quality parameter, but does not name PSI, KL divergence, or KS test as the specific tools. The bullet attributes specific tool names (PSI, KL divergence, KS test) to this source, but those names are not present in the excerpt.",
+      "suggested_fix": "Detecting distributional drift requires statistical monitoring layered on top of contract enforcement \u2014 forward-looking organizations extend data contracts to include AI-specific quality parameters such as feature drift detection alongside schema validation [claim:agentic-de:027]"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:028",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:029",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:031",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**In-algorithm filtering** modifies traversal to maintain both recall and efficiency [claim:agentic-de:040]",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source file for claim:agentic-de:040 discusses only naive pre-filtering and post-filtering; it does not mention in-algorithm filtering, graph traversal modification approaches, or any hybrid technique that maintains both recall and efficiency. The bullet attributes this third approach to the same claim ID whose source does not support it.",
+      "suggested_fix": "Remove or retag the in-algorithm filtering bullet to a separate claim ID backed by a source that describes it (e.g., the Qdrant ACORN or Pinecone documentation). Alternatively, remove the in-algorithm filtering bullet entirely if no supporting source is available, and limit the claim:agentic-de:040 citation to the pre-filtering and post-filtering contrast."
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x on SIFT10M [claim:agentic-de:042]",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly\u2014especially under approximate search\u2014while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet appends 'on SIFT10M' as the benchmark dataset, but the source excerpt does not mention SIFT10M or any specific dataset. The latency figures (~31% HNSW, ~3x IVF) are present in the source but the dataset qualifier is not supported.",
+      "suggested_fix": "Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x over the same recall range [claim:agentic-de:042]"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "**Dedicated engines** (e.g., Qdrant, Milvus) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features [claim:agentic-de:041]",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet names 'Qdrant, Milvus' as example dedicated engines. The source mentions only Qdrant; Milvus does not appear in the source excerpt or the claim registry entry for claim:agentic-de:041. Adding Milvus introduces a concrete name the source does not support.",
+      "suggested_fix": "**Dedicated engines** (e.g., Qdrant) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features [claim:agentic-de:041]"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:045",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "GDPR Article 17 requires not only erasing personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient [claim:agentic-de:055]",
+      "source_excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source imposes a critical conditional: machine unlearning is required only 'in situations where it is proven that the trained ML model leaks personal data.' The bullet states this as an unconditional general requirement \u2014 implying any erasure request automatically triggers the machine unlearning obligation. This overgeneralizes the legal scope and could actively mislead students about GDPR compliance thresholds.",
+      "suggested_fix": "When a trained ML model is proven to leak personal data from training, GDPR Article 17 requires not only erasing the personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient in such cases [claim:agentic-de:055]"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:056",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:057",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:058",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:059",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "bullet": "Jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification \u2014 not all agent actions need the same level of checking [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock is a principled serving framework for agentic workflows that jointly optimizes latency, cost, and accuracy. Sherlock identifies and verifies error-prone nodes through counterfactual analysis and dynamic verifier selection, effectively balancing reliability and efficiency. Rather than verifying every step, Sherlock speculatively executes downstream tasks while verification runs in the background, rolling back only when verification fails.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says Sherlock jointly optimizes 'reliability, latency, and cost,' but the source states it jointly optimizes 'latency, cost, and accuracy.' The third dimension is 'accuracy' in the source, not 'reliability.' While the source also mentions 'balancing reliability and efficiency' in a subsidiary clause, the stated three-way optimization target is latency/cost/accuracy. Substituting 'reliability' for 'accuracy' mischaracterizes the paper's framing.",
+      "suggested_fix": "Jointly optimizing accuracy, latency, and cost in agentic workflows requires selective verification \u2014 not all agent actions need the same level of checking [claim:agentic-de:060]"
+    },
+    {
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "claim_id": "claim:agentic-de:060",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:007",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:015",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:033",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:049",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:051",
+      "verdict": "VERIFIED"
+    }
+  ]
+}

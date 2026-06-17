@@ -1,0 +1,208 @@
+{
+  "version": 2,
+  "batch": 3,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x on SIFT10M [claim:agentic-de:042]",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet appends 'on SIFT10M' as the benchmark dataset, but the source excerpt does not mention SIFT10M or any specific dataset. The latency figures (~31% HNSW, ~3x IVF) are present in the source but the dataset qualifier is not supported.",
+      "suggested_fix": "Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x over the same recall range [claim:agentic-de:042]"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "**pgvector** is the better choice when you already run Postgres: adding vector search is one migration, not a new service [claim:agentic-de:041]",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "**Dedicated engines** (e.g., Qdrant, Milvus) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features [claim:agentic-de:041]",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet names 'Qdrant, Milvus' as example dedicated engines. The source mentions only Qdrant; Milvus does not appear in the source excerpt or the claim registry entry for claim:agentic-de:041. Adding Milvus introduces a concrete name the source does not support.",
+      "suggested_fix": "**Dedicated engines** (e.g., Qdrant) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features [claim:agentic-de:041]"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "The decision axis is operational simplicity versus scale and specialized capabilities [claim:agentic-de:041]",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:045",
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "bullet": "**Reciprocal Rank Fusion (RRF)** combines ranked lists by scoring each document *d* as RRFscore(*d*) = &sum; 1/(*k* + rank(*d*)), where *k* is typically 60; it requires no score normalisation and outperforms both Condorcet Fuse and individual rank-learning methods [claim:agentic-de:045]",
+      "source_excerpt": "Reciprocal Rank Fusion is a simple method for combining the document rankings from multiple IR systems. RRF consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. The RRF formula scores each document d as: RRFscore(d) = sum over all ranking lists R of 1/(k + r_R(d)), where r_R(d) is the rank of document d in list R and k is a constant (typically 60). The method requires no score normalisation, operating purely on rank positions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "GDPR Article 17 requires not only erasing personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient [claim:agentic-de:055]",
+      "source_excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source imposes a critical conditional: machine unlearning is required only 'in situations where it is proven that the trained ML model leaks personal data.' The bullet states this as an unconditional general requirement — implying any erasure request automatically triggers the machine unlearning obligation. This overgeneralizes the legal scope and could actively mislead students about GDPR compliance thresholds.",
+      "suggested_fix": "When a trained ML model is proven to leak personal data from training, GDPR Article 17 requires not only erasing the personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient in such cases [claim:agentic-de:055]"
+    },
+    {
+      "claim_id": "claim:agentic-de:056",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "Current ML artifact management systems like MLflow provide provenance capabilities that are still rudimentary — mainly due to incomplete traces, coarse granularity, and limited query capabilities — motivating PROV-compliant provenance models that capture end-to-end lineage linking data versions, model artifacts, and their relationships [claim:agentic-de:056]",
+      "source_excerpt": "Modern workflows for developing ML pipelines utilize ML artifact management systems (ML AMSs) such as MLflow in addition to traditional version control systems such as Git, which collect data, model, metadata and software artifacts used and produced in pipeline development workflows. However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities. MLflow2PROV introduces a comprehensive PROV-compliant provenance model that captures end-to-end provenance traces of ML pipelines, their artifacts, and their relationships based on MLflow and Git activities, enabling querying, analyzing, and processing of the collected provenance information.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:057",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90% attack success rate, establishing the RAG knowledge base as a practical attack surface [claim:agentic-de:057]",
+      "source_excerpt": "An attacker could inject a few malicious texts into the knowledge database of a RAG system to induce an LLM to generate an attacker-chosen target answer for an attacker-chosen target question. PoisonedRAG achieves a 90% attack success rate when injecting five malicious texts for each target question into a knowledge database with millions of texts.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:058",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "LLM-based agents face privilege escalation risks where agents are manipulated through prompt injection to access sensitive data or execute unintended commands beyond their operational scope, motivating mandatory access control frameworks that enforce fine-grained, role-based tool permissions [claim:agentic-de:058]",
+      "source_excerpt": "LLM agents operating with excessive permissions can be manipulated through prompt injection and other attacks to perform unintended actions, including accessing sensitive data beyond their operational scope, executing unintended system commands, and escalating from low-privilege to high-privilege operations. Rather than allowing agents blanket access, the approach enforces granular permission controls based on agent role and task requirements. This mirrors security models from operating systems and mobile platforms, implementing restricted access models for agent tools where least-privilege principles govern which tools agents can access, limiting their capabilities to only necessary functions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:059",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "The ALARA principle from nuclear safety has been adapted for multi-agent AI systems: agents should operate with the minimum access required to accomplish their designated tasks — the Principle of Least Privilege applied to LLM tool scoping [claim:agentic-de:059]",
+      "source_excerpt": "The framework adapts ALARA (As Low As Reasonably Achievable) principles — borrowed from nuclear safety regulations — to the design of multi-agent AI systems, emphasizing minimal necessary permissions and controlled autonomy. The paper references the NIST Principle of Least Privilege, advocating that agents should operate with 'the minimum access required to accomplish their designated tasks.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "bullet": "Jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification — not all agent actions need the same level of checking [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock is a principled serving framework for agentic workflows that jointly optimizes latency, cost, and accuracy. Sherlock identifies and verifies error-prone nodes through counterfactual analysis and dynamic verifier selection, effectively balancing reliability and efficiency. Rather than verifying every step, Sherlock speculatively executes downstream tasks while verification runs in the background, rolling back only when verification fails.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says Sherlock jointly optimizes 'reliability, latency, and cost,' but the source states it jointly optimizes 'latency, cost, and accuracy.' The third dimension is 'accuracy' in the source, not 'reliability.' While the source also mentions 'balancing reliability and efficiency' in a subsidiary clause, the stated three-way optimization target is latency/cost/accuracy. Substituting 'reliability' for 'accuracy' mischaracterizes the paper's framing.",
+      "suggested_fix": "Jointly optimizing accuracy, latency, and cost in agentic workflows requires selective verification — not all agent actions need the same level of checking [claim:agentic-de:060]"
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "bullet": "Sherlock achieves an 18.3% accuracy gain on average across benchmarks, up to 48.7% latency reduction over non-speculative execution, and 26.0% cost reduction compared to Monte Carlo search-based verification [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks. Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:001",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "ML systems fail silently — models keep predicting while quality degrades, making performance violations harder to detect than operational failures [claim:agentic-de:001]",
+      "source_excerpt": "Operational expectation violations are easier to detect, as they're usually accompanied by an operational breakage such as a timeout, a 404 error on a webpage, an out of memory error, a segmentation fault, etc. However, ML performance expectation violations are harder to detect. ML systems often fail silently.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Training-serving skew — divergent data handling, data changes, or feedback loops — causes prediction quality to degrade in production [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:015",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Feature stores prevent skew and duplication through shared transformation definitions across offline and online stores [claim:agentic-de:015]",
+      "source_excerpt": "Feature storage can be thought of as a dual-database system, which corresponds to the two types of features it usually holds: Offline and Online stores. An offline feature store is a feature registry where all features are stored and works as a shared data store, functioning as a data warehouse for your features. One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew. Transformation code is reused across environments preventing training-serving skew and frees teams from having to rewrite code from one environment to the next.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Reproducibility is a three-layer temporal problem: data state, code/pipeline state, and embedding-model version must all be pinned [claim:agentic-de:023]",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:033",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Each embedding model defines its own coordinate system — changing models invalidates every stored vector and forces full re-embedding [claim:agentic-de:033]",
+      "source_excerpt": "Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model. If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results — they are just wrong.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "ANN recall is a silently violated SLO: retrieval quality degrades without raising exceptions as the vector database grows [claim:agentic-de:042]",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:049",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Agents are LLMs in a loop with tool access — prefer the simplest solution [claim:agentic-de:049] and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:051]",
+      "source_excerpt": "Workflows are systems where LLMs and tools are orchestrated through predefined code paths. Agents are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks. Agents operate in a loop, use tools based on environmental feedback, and should include stopping conditions (such as a maximum number of iterations) to maintain control. Anthropic strongly advises: 'finding the simplest solution possible, and only increasing complexity when needed.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:051",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Agents are LLMs in a loop with tool access — prefer the simplest solution [claim:agentic-de:049] and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:051]",
+      "source_excerpt": "AI agents don't reliably follow your instructions. We're not able to change whether the agent will respect AGENTS.md and skills all the time... So we have to deal with it differently. By attaching verification to a git pre-commit hook, the workflow becomes deterministic. The agent receives clear feedback, fixes issues, re-runs verification, and commits — creating a deterministic outcome despite using nondeterministic components.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "20 claims checked in this batch. 14 verified, 5 misrepresented, 0 unverified. Findings: (1) claim:agentic-de:042 on the 'Metadata Filtering' slide — bullet adds 'on SIFT10M' as the benchmark dataset, which does not appear in the source (MAJOR). (2) claim:agentic-de:041 (2nd occurrence) — bullet names Milvus as an example dedicated engine, but the source mentions only Qdrant (MINOR). (3) claim:agentic-de:055 — bullet states machine unlearning is an unconditional GDPR requirement, but the source imposes a crucial conditional ('in situations where it is proven that the trained ML model leaks personal data'), making the bullet a material overstatement of the legal obligation (MAJOR). (4) claim:agentic-de:060 (1st occurrence) — bullet says Sherlock jointly optimizes 'reliability, latency, and cost'; the source states 'latency, cost, and accuracy' as the three-way optimization target (MINOR). (5) claim:agentic-de:042 on the 'Recap' slide — verified (different bullet text from the flagged occurrence on the Metadata Filtering slide)."
+}

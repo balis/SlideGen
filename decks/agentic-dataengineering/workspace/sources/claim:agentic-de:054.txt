@@ -1,0 +1,23 @@
+Source excerpt for claim:agentic-de:agent-dag-node:006
+
+Title: Building Effective Agents
+Author: Anthropic
+Published: December 2024
+
+Excerpt:
+Anthropic strongly advises "finding the simplest solution possible, and only increasing complexity
+when needed." For many applications, "optimizing single LLM calls with retrieval and in-context
+examples is usually enough" without building full agentic systems.
+
+Anthropic's five workflow design patterns — Prompt Chaining, Routing, Parallelization,
+Orchestrator-Worker, Evaluator/Optimizer — offer composable building blocks. The overarching
+principle is that "success means building the right system for your needs, not the most
+sophisticated one."
+
+The framework names three building blocks — augmented LLM, five workflow patterns, and the
+autonomous agent loop — that decompose "build an agent" into a structured selection problem,
+positioning agents as composable nodes within larger orchestrated systems rather than as
+unconstrained end-to-end orchestrators.
+
+URL: https://www.anthropic.com/research/building-effective-agents
+Retrieved: 2026-06-14

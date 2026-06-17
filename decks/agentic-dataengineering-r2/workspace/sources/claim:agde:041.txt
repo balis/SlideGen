@@ -1,0 +1,36 @@
+SOURCE FILE FOR claim:agde:vecdb:005
+=====================================
+
+CLAIM: Recall in ANN search is a tunable operating point, not a fixed guarantee. Approximate nearest neighbor search achieves speed gains by accepting 'silent' recall losses — vectors disappear from results without error notifications. Even with substantial latency budgets (efSearch producing 35ms latency), recall@1 may reach only 0.9, meaning the true nearest neighbor is absent in ~10% of queries. Recall also degrades silently as the dataset grows (10%+ drop from 50k to 200k vectors with fixed parameters), and HNSW deletes require soft-delete tombstoning rather than immediate graph repair, accumulating stale references until periodic cleanup.
+
+SOURCE 1:
+TITLE: Vector Search: Navigating Recall and Performance — OpenSource Connections
+URL / DOI: https://opensourceconnections.com/blog/2025/02/27/vector-search-navigating-recall-and-performance/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Approximate nearest neighbor (ANN) search achieves speed gains by accepting 'silent' recall losses — vectors disappearing from results without explicit notification to users. At k=240 (35ms latency), recall@1 reaches only 0.9, meaning 'for about 10% of the queries, the true top nearest neighbor is missing from the result.' This seems very query-specific. Some queries have multiple documents missing even at a high value of k, suggesting certain embeddings align poorly with HNSW graph structure, creating unpredictable accuracy vulnerabilities regardless of parameter tuning."
+
+SOURCE 2:
+TITLE: HNSW at Scale: Why Your RAG System Gets Worse as the Vector Database Grows — Towards Data Science
+URL / DOI: https://towardsdatascience.com/hnsw-at-scale-why-your-rag-system-gets-worse-as-the-vector-database-grows/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Retrieval quality degrades silently as the vector database grows, even when latency remains stable. Recall drops by 10%+ as database grows from 50k to 200k. When using HNSW, indexing a document is not a stateless operation; it updates the state of the graph and the sequence of updates directly impacts the final structure. Build-time parameters M and efConstruction set the ceiling on the recall approximate search can achieve."
+
+SOURCE 3 (on HNSW delete/tombstone consistency):
+TITLE: Vector index — Weaviate Documentation
+URL / DOI: https://docs.weaviate.io/weaviate/config-refs/indexing/vector-index
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Tombstones are records that mark deleted objects. In an HNSW index, tombstones are regularly cleaned up, triggered periodically by the cleanupIntervalSeconds parameter (default 300 seconds). A higher value means cleanup runs less frequently, but it does more in a single batch. Simply removing a node from an HNSW graph can break navigation paths for other nodes — to do a 'hard delete' and permanently remove data from a sparse graph index like HNSW, the entire index has to be rebuilt. As the index grows in size, the cleanup process may take longer to complete and require more resources."
+
+SOURCE 4 (on HNSW delete semantics):
+TITLE: Great Algorithms Are Not Enough — Pinecone Blog
+URL / DOI: https://www.pinecone.io/blog/hnsw-not-enough/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"HNSW handles append well; large-scale deletes/compaction are harder. Vector indexes mark to-be-deleted data with a tombstone as a type of soft delete. Queries fetch candidates from the ANN index and then filter out any marked as deleted through post-filtering. When incremental refresh becomes inefficient due to accumulated deleted vectors, a full repopulation rebuilds the HNSW graph from scratch while keeping the old one active for ongoing queries."

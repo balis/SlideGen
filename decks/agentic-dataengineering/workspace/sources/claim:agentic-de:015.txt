@@ -1,0 +1,20 @@
+Claim ID: claim:agentic-de:feature-store-arch:001
+Statement: A feature store prevents training-serving skew and feature duplication through a three-part architecture: an offline store (column-oriented, for batch training-set generation), an online store (row-oriented / key-value, for low-latency serving), and shared transformation definitions that ensure both stores apply identical feature-computation logic.
+
+Source excerpts:
+
+[Aerospike - Feature Store 101]
+"Feature storage can be thought of as a dual-database system, which corresponds to the two types of features it usually holds: Offline and Online stores. An offline feature store is a feature registry where all features are stored and works as a shared data store, functioning as a data warehouse for your features."
+
+"One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew."
+
+"Transformation code is reused across environments preventing training-serving skew and frees teams from having to rewrite code from one environment to the next."
+
+URL: https://aerospike.com/blog/feature-store/
+Retrieved: 2026-06-14
+
+[Databricks - What is a Feature Store]
+"Feature stores address training-serving skew by centralizing feature computation in a single pipeline that serves both offline and online stores, and when both the training dataset generation and the real-time inference path read features from the same computation logic, the risk of skew from code divergence is eliminated."
+
+URL: https://www.databricks.com/blog/what-is-a-feature-store
+Retrieved: 2026-06-14

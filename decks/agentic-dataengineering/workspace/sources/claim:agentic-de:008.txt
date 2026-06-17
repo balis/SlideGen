@@ -1,0 +1,11 @@
+Source for claim:agentic-de:training-serving-skew:002
+
+Title: Rules of Machine Learning: Best Practices for ML Engineering
+Author: Martin Zinkevich (Google)
+URL: https://developers.google.com/machine-learning/guides/rules-of-ml
+Section: Rule 29
+
+Excerpt:
+"The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training."
+
+Retrieved: 2026-06-14

@@ -1,0 +1,17 @@
+CLAIM ID: claim:agde:ml-contract:002
+STATEMENT: Training-serving skew is a silent killer of ML model performance: the model still runs without errors, produces predictions, but those predictions are based on incorrect inputs and accuracy degrades silently—unlike data drift which develops gradually, skew can exist from day one and go unnoticed.
+
+SOURCE URL: https://dev.to/timeai/training-serving-skew-the-silent-model-killer-2abl
+TITLE: Training-Serving Skew. The Silent Model Killer
+PUBLISHER: DEV Community / TimeAI
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Training-serving skew is a silent killer of ML model performance. Training-serving skew happens when the data, feature logic, preprocessing, or assumptions used during training differ from what the model sees in production. The insidious part is your model still runs without errors. It produces predictions. But those predictions are based on incorrect inputs. Accuracy degrades silently. Unlike data drift, which develops gradually, skew can exist from day one and go unnoticed until someone digs into why the model is underperforming."
+
+ADDITIONAL CONTEXT:
+Common causes of training-serving skew include: feature transformations applied differently between training and inference code paths, missing data handled differently, timezone bugs, or features derived from stale data sources. A canonical example is re-implementing feature calculations in a different language for the production API, where small invisible differences in null-handling logic create silent divergence.
+
+SUPPORTING SOURCE (corroborating):
+URL: https://www.evidentlyai.com/ml-in-production/model-monitoring
+Excerpt: "a large percentage of what might look like data shifts on monitoring dashboards are caused by internal errors" — Chip Huyen, as cited in Evidently AI guide.

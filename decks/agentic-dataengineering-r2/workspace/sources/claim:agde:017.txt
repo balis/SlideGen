@@ -1,0 +1,25 @@
+SOURCE: Temporal Joins in PostgreSQL (Crunchy Data Blog)
+URL: https://www.crunchydata.com/blog/temporal-joins
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search):
+"Window functions help solve common temporal join challenges and avoid N+1 query problems."
+"Using the PostgreSQL feature DISTINCT ON for the simplest case, or CTEs with Window Functions for complex retrieval, developers avoid the bugs of older SQL patterns and eliminate the performance penalty of the N+1 problem."
+
+---
+SOURCE: ANSI SQL Window Functions documentation
+URL: https://docs.aws.amazon.com/dms/latest/sql-server-to-aurora-postgresql-migration-playbook/chap-sql-server-aurora-pg.sql.windowfunctions.html
+Retrieved: 2026-06-15
+
+EXCERPT:
+"Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. Window functions use an OVER clause to define the window and frame for a data set to be processed."
+
+---
+SOURCE: LATERAL as an Advanced SQL Feature (Medium)
+URL: https://medium.com/@yasinsari81/lateral-as-an-advanced-sql-feature-3a5c22587ed2
+Retrieved: 2026-06-15
+
+EXCERPT:
+"LATERAL is a term and concept that originates with ANSI SQL standards and is a valuable construct for performing correlated subqueries with applications in data analysis and query optimization."
+
+Note: Point-in-time joins can be implemented in standard SQL using: (1) ANSI window functions (LAST_VALUE OVER a RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ORDER BY timestamp), or (2) LATERAL/CROSS APPLY correlated subqueries. Dialect-specific ASOF JOIN syntax (DuckDB, ClickHouse, kdb+) provides the same semantics with optimized execution.

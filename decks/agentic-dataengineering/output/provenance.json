@@ -1,0 +1,771 @@
+{
+  "topic": "Data Engineering in the Age of AI",
+  "finalized_at": "2026-06-15",
+  "slides": 34,
+  "draft_iterations": 4,
+  "review_verdict": "APPROVED",
+  "code_execution": "1/2 (python block requires OPENAI_API_KEY — environmental, not a code defect; sql block SKIPPED, no runner)",
+  "claims": [
+    {
+      "id": "claim:agentic-de:001",
+      "statement": "ML systems fail silently: unlike traditional software that crashes with errors or timeouts, ML models continue producing predictions whose quality degrades without raising any operational alarm, making ML performance expectation violations harder to detect than operational expectation violations.",
+      "source_url": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+      "source_title": "Data Distribution Shifts and Monitoring",
+      "source_file": "workspace/sources/claim:agentic-de:001.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:002",
+      "statement": "In real-world ML systems, the actual machine learning code is only a small fraction of the total system; the surrounding infrastructure for data collection, feature extraction, configuration, monitoring, and serving dwarfs the model code, meaning most technical debt accumulates in the data and infrastructure layers.",
+      "source_url": "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-syst",
+      "source_title": "Hidden Technical Debt in Machine Learning Systems",
+      "source_file": "workspace/sources/claim:agentic-de:002.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:003",
+      "statement": "Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI/ML as the top of a pyramid whose foundational layers are data collection, data flow/infrastructure, exploration/transformation, and analytics/features; organizations must build these data layers before they can effectively use ML, analogous to Maslow's hierarchy where basic needs precede self-actualization.",
+      "source_url": "https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007",
+      "source_title": "The AI Hierarchy of Needs",
+      "source_file": "workspace/sources/claim:agentic-de:003.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:004",
+      "statement": "A 2016 CrowdFlower survey of data scientists found that 60% of their time is spent cleaning and organizing data and 19% on collecting data sets, totaling roughly 80% of effort on data preparation rather than modeling or analysis.",
+      "source_url": "https://adtmag.com/articles/2016/03/25/data-science-report.aspx",
+      "source_title": "Data Scientists Spend Most of Their Time Cleaning Data",
+      "source_file": "workspace/sources/claim:agentic-de:004.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:005",
+      "statement": "ML consumption shifts data's role from 'query target' (BI: run SQL against the current state of a table) to 'versioned, time-aware artifact' (ML: the exact dataset snapshot that produced a model must be reproducible, requiring point-in-time correctness, content-addressable versioning, or lakehouse time-travel).",
+      "source_url": "https://labelyourdata.com/articles/machine-learning/data-versioning",
+      "source_title": "Data Versioning: ML Best Practices Checklist 2026",
+      "source_file": "workspace/sources/claim:agentic-de:005.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:006",
+      "statement": "Feature engineering transformations that require full-pass statistics (computing mean, standard deviation, vocabulary, or quantile boundaries over the training set) are stateful: the statistics computed at training time must be persisted and reapplied identically at serving time to avoid training-serving skew.",
+      "source_url": "https://www.tensorflow.org/tfx/guide/tft_bestpractices",
+      "source_title": "Data preprocessing for ML: options and recommendations (TensorFlow/TFX)",
+      "source_file": "workspace/sources/claim:agentic-de:006.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:007",
+      "statement": "Training-serving skew is a difference between ML model outputs during training and during serving, caused primarily by a discrepancy between how data is handled in the training and serving pipelines (divergent code paths) or by a change in the data between when the model trains and when it serves.",
+      "source_url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "source_title": "Rules of Machine Learning: Best Practices for ML Engineering",
+      "source_file": "workspace/sources/claim:agentic-de:007.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:008",
+      "statement": "The best way to prevent training-serving skew from divergent code paths is to reuse the same feature engineering code for both training and serving, ensuring any given raw data input maps to the same feature vector in both environments. Google's Rule 29 recommends saving the set of features used at serving time and piping those features to a log to use at training time.",
+      "source_url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "source_title": "Rules of Machine Learning: Best Practices for ML Engineering",
+      "source_file": "workspace/sources/claim:agentic-de:008.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:009",
+      "statement": "Temporal leakage (a form of point-in-time correctness violation) occurs when a naive join between feature tables and label tables uses current or future feature values instead of the values that were available at prediction time, causing the training set to contain information from the future that leaks into model training and produces over-optimistic offline performance that does not generalize.",
+      "source_url": "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+      "source_title": "Point-in-time joins — Feast documentation",
+      "source_file": "workspace/sources/claim:agentic-de:009.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:010",
+      "statement": "In a realistic schema with transactions, a customer dimension table, and timestamped labels, a naive SQL join (e.g., JOIN customer ON customer_id without a temporal predicate) attaches the current customer attributes — including attributes updated after the label event — to training rows. For example, a customer's credit limit increased a week after a fraud label was recorded would leak that post-event credit limit into the feature vector, giving the model access to information unavailable at prediction time.",
+      "source_url": "https://www.hopsworks.ai/dictionary/point-in-time-correct-joins",
+      "source_title": "Point-in-Time Correct Joins — Hopsworks MLOps Dictionary",
+      "source_file": "workspace/sources/claim:agentic-de:010.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:011",
+      "statement": "Training-serving skew and concept/distribution drift are distinct failure modes: skew is a consistency mismatch between two code paths (training vs. serving) that can exist from the moment a model is deployed, whereas drift is a change in the real-world data distribution or the input-output relationship over time under a deployed model. Skew is an engineering bug; drift is a statistical phenomenon caused by the world changing.",
+      "source_url": "https://www.tensorflow.org/tfx/guide/tfdv",
+      "source_title": "TensorFlow Data Validation Guide",
+      "source_file": "workspace/sources/claim:agentic-de:011.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:012",
+      "statement": "Concept drift is formally defined as a change in the joint probability distribution P(X, Y) between two time points, meaning the underlying relationship between input features and the target variable evolves over time. This is distinct from training-serving skew because drift assumes the model performed well initially and degrades as the world changes, whereas skew is a pipeline-level mismatch that can cause poor performance from day one.",
+      "source_url": "https://en.wikipedia.org/wiki/Concept_drift",
+      "source_title": "Concept drift — Wikipedia",
+      "source_file": "workspace/sources/claim:agentic-de:012.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:013",
+      "statement": "A point-in-time (as-of) join retrieves, for each training example with a timestamp, the latest feature value that existed at or before that moment, thereby preventing temporal leakage -- the use of feature values that were not yet available when the label was recorded.",
+      "source_url": "https://www.hopsworks.ai/dictionary/point-in-time-correct-joins",
+      "source_title": "Point-in-Time Correct Joins - MLOps Dictionary, Hopsworks",
+      "source_file": "workspace/sources/claim:agentic-de:013.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:014",
+      "statement": "ASOF JOIN is a dialect-specific SQL extension -- originally built into kdb+ (aj function) for finance, implemented in ClickHouse in 2019, and supported by DuckDB and Snowflake -- while databases lacking it (e.g., PostgreSQL) must emulate it with an ANSI-standard LATERAL JOIN or a window function (ROW_NUMBER with a filtered self-join).",
+      "source_url": "https://duckdb.org/docs/current/guides/sql_features/asof_join",
+      "source_title": "AsOf Join - DuckDB Documentation; ClickHouse Joins Blog; Snowflake ASOF JOIN docs",
+      "source_file": "workspace/sources/claim:agentic-de:014.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:015",
+      "statement": "A feature store prevents training-serving skew and feature duplication through a three-part architecture: an offline store (column-oriented, for batch training-set generation), an online store (row-oriented / key-value, for low-latency serving), and shared transformation definitions that ensure both stores apply identical feature-computation logic.",
+      "source_url": "https://aerospike.com/blog/feature-store/",
+      "source_title": "Feature Store 101: Build, Serve, and Scale ML Features - Aerospike; Databricks Feature Store Guide",
+      "source_file": "workspace/sources/claim:agentic-de:015.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:016",
+      "statement": "The dual-store architecture of a feature store introduces a second consistency problem: keeping the offline and online stores synchronized. Because batch features may take minutes or hours to compute and upload, and streaming features have inherent network latencies, online features can become stale relative to the offline store, causing models to serve predictions on temporally misaligned data.",
+      "source_url": "https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency",
+      "source_title": "Online-Offline Feature Store Consistency - MLOps Dictionary, Hopsworks",
+      "source_file": "workspace/sources/claim:agentic-de:016.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:017",
+      "statement": "A feature store should not be adopted when the organization has a single model, a single ML team, or batch-only inference: in these scenarios the offline/online dual-store, streaming pipeline, and synchronization mechanism add ecosystem-level complexity without payoff, because batch pipelines have enough time to compute features on demand and there is no cross-team reuse to amortize the overhead.",
+      "source_url": "https://xebia.com/blog/you-still-don-t-need-a-feature-store/",
+      "source_title": "Do You Really Need a Feature Store? - Lak Lakshmanan / TDS; Xebia - You Still Don't Need A Feature Store; Tacnode Blog",
+      "source_file": "workspace/sources/claim:agentic-de:017.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:018",
+      "statement": "Delta Lake time travel allows querying historical table versions by timestamp or version number, but the default VACUUM retention period is 7 days (delta.deletedFileRetentionDuration), meaning time travel beyond 7 days requires explicitly increasing retention at the cost of additional storage.",
+      "source_url": "https://docs.databricks.com/aws/en/delta/vacuum",
+      "source_title": "Remove unused data files with vacuum | Databricks on AWS",
+      "source_file": "workspace/sources/claim:agentic-de:018.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:019",
+      "statement": "Apache Iceberg implements time travel through immutable snapshots: every write operation creates a new snapshot referencing manifest lists and data files, and time travel queries do not duplicate data files but reference the same underlying Parquet/ORC files that were valid at the queried point in time, making historical queries storage-efficient until snapshot accumulation causes metadata bloat.",
+      "source_url": "https://dzone.com/articles/apache-iceberg-data-time-travel",
+      "source_title": "The Dark Side of Apache Iceberg's Data Time Travel Feature",
+      "source_file": "workspace/sources/claim:agentic-de:019.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:020",
+      "statement": "DVC (Data Version Control) uses content-addressable storage with MD5 hashes to deduplicate data: files are stored in a cache keyed by hash, and lightweight .dvc metafiles tracked in Git act as pointers, linking each Git commit to an exact dataset state without storing large files in the Git repository itself.",
+      "source_url": "https://dvc.org/doc/user-guide/project-structure/internal-files",
+      "source_title": "Internal Files | Data Version Control - DVC",
+      "source_file": "workspace/sources/claim:agentic-de:020.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:021",
+      "statement": "lakeFS provides Git-like version control (branches, commits, merges) over object storage (S3, GCS, Azure Blob) using zero-copy branching: creating a branch is a metadata-only operation with no data duplication, and storage overhead only occurs when data is actually modified on a branch.",
+      "source_url": "https://docs.lakefs.io/v1.65/understand/model/",
+      "source_title": "lakeFS Concepts and Model - lakeFS Documentation",
+      "source_file": "workspace/sources/claim:agentic-de:021.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:022",
+      "statement": "Treeverse (lakeFS) acquired the DVC open-source project from Iterative.ai in November 2025, positioning lakeFS as the unified standard for data version control, with DVC continuing as a lightweight Git-based tool for smaller data-science projects and lakeFS serving enterprise-scale AI/ML infrastructure.",
+      "source_url": "https://www.prnewswire.com/news-releases/lakefs-acquires-dvc-uniting-data-version-control-pioneers-to-accelerate-ai-ready-data-302618339.html",
+      "source_title": "lakeFS Acquires DVC, Uniting Data Version Control Pioneers to Accelerate AI-ready Data",
+      "source_file": "workspace/sources/claim:agentic-de:022.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:023",
+      "statement": "ML dataset reproducibility is a three-layer temporal problem: the data state (lakehouse snapshots or content-addressed versions), the code/pipeline state (Git commits), and the embedding-model version (checkpoint or API version) must all be pinned to the same point in time; without coupling all three, re-running a pipeline on 'the same data' can produce different results if the embedding model has changed.",
+      "source_url": "https://arxiv.org/pdf/2506.21182",
+      "source_title": "Maintaining MTEB: Towards Long Term Usability and Reproducibility of Embedding Benchmarks",
+      "source_file": "workspace/sources/claim:agentic-de:023.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:024",
+      "statement": "Schema drift, distribution drift, and concept drift are three distinct failure modes in ML data pipelines: schema drift is a structural change (missing column, type change); distribution drift (covariate shift) is a change in P(X) with P(Y|X) unchanged; concept drift is a change in P(Y|X) with P(X) unchanged. Schema drift breaks pipelines visibly, while distribution and concept drift degrade models silently.",
+      "source_url": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+      "source_title": "Data Distribution Shifts and Monitoring (Designing Machine Learning Systems, Ch. 8)",
+      "source_file": "workspace/sources/claim:agentic-de:024.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:025",
+      "statement": "The Population Stability Index (PSI) quantifies distributional shift between a reference and current feature distribution. PSI equals the symmetric form of KL divergence (Jeffreys divergence): PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = sum of (p_i - q_i) * ln(p_i / q_i). Industry-standard thresholds are: PSI < 0.1 indicates no significant change; 0.1 <= PSI < 0.25 indicates moderate shift requiring attention; PSI >= 0.25 indicates significant shift requiring model investigation or retraining.",
+      "source_url": "https://arize.com/blog-course/population-stability-index-psi/",
+      "source_title": "Population Stability Index (PSI) - Arize AI",
+      "source_file": "workspace/sources/claim:agentic-de:025.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:026",
+      "statement": "PSI is preferred over raw KL divergence for production monitoring because PSI is symmetric: swapping the baseline distribution p(x) and sample distribution q(x) yields the same value, whereas KL divergence is asymmetric and D_KL(P||Q) != D_KL(Q||P). This symmetry makes PSI more interpretable for comparing training-time vs. serving-time distributions regardless of which is designated as reference.",
+      "source_url": "https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12",
+      "source_title": "Difference between KL Divergence and PSI",
+      "source_file": "workspace/sources/claim:agentic-de:026.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:027",
+      "statement": "Data contracts and schema validation catch structural breaks (missing columns, type mismatches, null violations) but cannot detect silent distributional shift in feature values. A feature column can pass every schema contract while its distribution shifts enough to invalidate model assumptions. Detecting distributional drift requires statistical monitoring (e.g., PSI, KL divergence, KS test) layered on top of contract enforcement.",
+      "source_url": "https://www.axrail.ai/post/data-contracts-the-essential-framework-for-preventing-schema-drift-in-ai-operations",
+      "source_title": "Data Contracts: The Essential Framework for Preventing Schema Drift in AI Operations",
+      "source_file": "workspace/sources/claim:agentic-de:027.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:028",
+      "statement": "Offline metric improvements can fail to translate into online performance gains, and in some cases online metrics regress even as offline metrics improve. This occurs because offline evaluation datasets are curated and static while production inputs are dynamic and subject to feedback loops. Improvements in offline metrics lead to diminishing returns in online performance, and the ranking of models can change depending on the amount of initial offline data available.",
+      "source_url": "https://arxiv.org/abs/2011.07931",
+      "source_title": "Do Offline Metrics Predict Online Performance in Recommender Systems?",
+      "source_file": "workspace/sources/claim:agentic-de:028.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:029",
+      "statement": "The offline-online metric gap is a specific failure mode where a model optimized for offline accuracy overfits to historical patterns and evaluation dataset quirks rather than improving real-world relevance. Contributing causes include temporal leakage in offline features (e.g., fraud labels available at evaluation time but not at prediction time), latency regressions invisible to accuracy metrics, and feedback loops where production model outputs reshape future training distributions.",
+      "source_url": "https://towardsdatascience.com/why-your-ml-model-works-in-training-but-fails-in-production/",
+      "source_title": "Why Your ML Model Works in Training But Fails in Production",
+      "source_file": "workspace/sources/claim:agentic-de:029.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:030",
+      "statement": "OpenAI's text-embedding-3-small (1536 dimensions, MTEB 62.3%) costs $0.02 per million tokens, while text-embedding-3-large (3072 dimensions, MTEB 64.6%) costs $0.13 per million tokens — a 6.5x price premium for roughly 2 MTEB points, making the small model the recommended default for most RAG workloads.",
+      "source_url": "https://embeddingcost.com/openai",
+      "source_title": "OpenAI Embedding Pricing 2026: All 3 Models Compared",
+      "source_file": "workspace/sources/claim:agentic-de:030.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:031",
+      "statement": "The OpenAI Batch API processes embedding requests asynchronously within a 24-hour window at a 50% cost discount, with dedicated TPD (Tokens Per Day) quotas separate from synchronous TPM/RPM limits, allowing up to 50,000 embedding inputs per batch submission without consuming real-time API capacity.",
+      "source_url": "https://help.apiyi.com/en/openai-gemini-batch-api-official-topup-guide-2026-en.html",
+      "source_title": "Complete Guide to OpenAI and Gemini Batch API (Apiyi.com)",
+      "source_file": "workspace/sources/claim:agentic-de:031.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:032",
+      "statement": "The synchronous OpenAI embeddings endpoint accepts a maximum of 2,048 inputs per request; exceeding this limit returns a 400 error. Throughput optimization therefore requires both respecting the per-request input-count cap and staying within the account's tokens-per-minute (TPM) quota, typically via client-side rate limiting with exponential backoff rather than reactive retry on HTTP 429.",
+      "source_url": "https://community.openai.com/t/embeddings-api-max-batch-size/655329",
+      "source_title": "Embeddings API Max Batch Size - OpenAI Developer Community",
+      "source_file": "workspace/sources/claim:agentic-de:032.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:033",
+      "statement": "Each embedding model defines its own coordinate system, so vectors produced by one model are incompatible with those produced by another — even when dimensions match. Changing the embedding model therefore invalidates every stored vector and forces a full re-embedding and re-indexing of the entire corpus; failure to do so produces silent retrieval degradation rather than an error.",
+      "source_url": "https://schift.io/blog/why-vector-migration-matters/",
+      "source_title": "Why Vector Migration Matters More Than You Think — Schift Blog",
+      "source_file": "workspace/sources/claim:agentic-de:033.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:034",
+      "statement": "The high cost of re-embedding (e.g., ~$1,300 for 100 million tokens with text-embedding-3-large, plus hours of compute even with parallelism and doubled infrastructure during migration) creates de facto vendor lock-in: most teams pick one embedding model early and never change it, not because it is the best model, but because the switching cost is too high.",
+      "source_url": "https://schift.io/blog/why-vector-migration-matters/",
+      "source_title": "Why Vector Migration Matters More Than You Think — Schift Blog",
+      "source_file": "workspace/sources/claim:agentic-de:034.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:035",
+      "statement": "Idempotent re-embedding pipelines use content-addressable hashing: on ingestion, chunk hashes are computed for the new version, compared against stored hashes, and only new or modified chunks are sent for embedding — unchanged chunks are skipped, avoiding unnecessary recomputation and ensuring that re-running the pipeline on identical input produces no redundant API calls or index mutations.",
+      "source_url": "https://apxml.com/courses/building-scalable-data-warehouses/chapter-3-high-throughput-ingestion/idempotency-pipelines",
+      "source_title": "Idempotency in Data Pipelines — apxml.com",
+      "source_file": "workspace/sources/claim:agentic-de:035.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:036",
+      "statement": "Exact k-NN search requires O(N * D) distance computations per query (N = dataset size, D = dimensionality), making it infeasible at billion scale: a brute-force scan of 10^9 128-d SIFT vectors would take ~17 minutes per query and require 512 GB of RAM.",
+      "source_url": "https://aws.amazon.com/blogs/big-data/choose-the-k-nn-algorithm-for-your-billion-scale-use-case-with-opensearch/",
+      "source_title": "Choose the k-NN algorithm for your billion-scale use case with OpenSearch",
+      "source_file": "workspace/sources/claim:agentic-de:036.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:037",
+      "statement": "HNSW recall-vs-latency is tuned via three parameters: M (graph connectivity, affects memory and build time), efConstruction (build-time quality), and efSearch (query-time exploration depth). Increasing efSearch from 100 to 500 can raise recall from ~85% to ~98% but increases per-query latency from ~1 ms to ~5 ms on a 10 M-vector dataset.",
+      "source_url": "https://milvus.io/ai-quick-reference/what-are-the-key-configuration-parameters-for-an-hnsw-index-such-as-m-and-efconstructionefsearch-and-how-does-each-influence-the-tradeoff-between-index-size-build-time-query-speed-and-recall",
+      "source_title": "What are the key configuration parameters for an HNSW index (M, efConstruction, efSearch)?",
+      "source_file": "workspace/sources/claim:agentic-de:037.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:038",
+      "statement": "IVF-PQ combines cluster-based partitioning (IVF) with vector compression (Product Quantization). The nprobe parameter controls how many clusters are searched at query time, directly trading recall for latency: sweeping nprobe from 1 to 256 can move recall from ~70% to ~99% while throughput drops from 50,000 QPS to 300 QPS.",
+      "source_url": "https://milvus.io/blog/understanding-ivf-vector-index-how-It-works-and-when-to-choose-it-over-hnsw.md",
+      "source_title": "How to Choose Between IVF and HNSW for ANN Vector Search - Milvus Blog",
+      "source_file": "workspace/sources/claim:agentic-de:038.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:039",
+      "statement": "DiskANN (NeurIPS 2019) stores the full graph index on SSD with only a compressed representation in RAM, enabling billion-point search on a single node with 64 GB RAM. On SIFT-1B it achieves >5,000 QPS at 95%+ 1-recall@1 with <3 ms mean latency, offering 5-10x more vectors per machine than DRAM-based approaches like HNSW.",
+      "source_url": "https://proceedings.neurips.cc/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html",
+      "source_title": "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node",
+      "source_file": "workspace/sources/claim:agentic-de:039.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:040",
+      "statement": "Metadata filtering interacts destructively with ANN graph traversal. Naive pre-filtering (skip non-matching nodes) caps recall at ~57% because filtered-out nodes serve as routing states that connect graph regions; post-filtering preserves >99% recall but wastes work on discarded results. In-algorithm filtering (Qdrant ACORN, Pinecone merged indexes) modifies traversal to maintain both recall and efficiency.",
+      "source_url": "https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/",
+      "source_title": "The Achilles Heel of Vector Search: Filters",
+      "source_file": "workspace/sources/claim:agentic-de:040.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:041",
+      "statement": "The pgvector-on-existing-Postgres vs. dedicated-vector-DB decision is primarily about operational simplicity versus scale: pgvector eliminates a new service, enables SQL joins of vector similarity with relational predicates in one query, and is sufficient for datasets up to low millions of vectors. Dedicated engines (Qdrant, Pinecone, Milvus) offer horizontal scaling, advanced quantization, and hybrid BM25+vector ranking needed beyond ~10 M vectors or at high query concurrency.",
+      "source_url": "https://encore.dev/articles/pgvector-vs-qdrant",
+      "source_title": "pgvector vs Qdrant: PostgreSQL Extension or Dedicated Vector Database",
+      "source_file": "workspace/sources/claim:agentic-de:041.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:042",
+      "statement": "ANN recall is a silently violated SLO rather than a raised error: as a vector database grows or parameters drift, retrieval quality degrades without generating exceptions. Latency metrics remain stable while the system feeds progressively weaker context to downstream consumers (e.g., RAG), increasing hallucinations. Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x on SIFT10M.",
+      "source_url": "https://towardsdatascience.com/hnsw-at-scale-why-your-rag-system-gets-worse-as-the-vector-database-grows/",
+      "source_title": "HNSW at Scale: Why Your RAG System Gets Worse as the Vector Database Grows",
+      "source_file": "workspace/sources/claim:agentic-de:042.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:043",
+      "statement": "Chunking strategy is a foundational design decision in RAG that defines retrieval quality: chunk size, overlap, and segmentation method determine the boundaries of retrievable units, and a well-tuned strategy can improve retrieval accuracy by up to 40% compared to naive approaches.",
+      "source_url": "https://stackviv.ai/blog/chunking-strategies-rag",
+      "source_title": "Chunking Strategies for RAG: Size, Overlap & Best Practices",
+      "source_file": "workspace/sources/claim:agentic-de:043.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:044",
+      "statement": "Hybrid retrieval runs sparse BM25 search and dense ANN search in parallel, then fuses the two ranked lists, ensuring that lexical matches the dense model ranks too low (e.g., error codes, IP addresses, config flags) are not lost.",
+      "source_url": "https://ashutoshkumars1ngh.medium.com/hybrid-search-done-right-fixing-rag-retrieval-failures-using-bm25-hnsw-reciprocal-rank-fusion-a73596652d22",
+      "source_title": "Hybrid Search Done Right: Fixing RAG Retrieval Failures using BM25 + HNSW + Reciprocal Rank Fusion in Elasticsearch",
+      "source_file": "workspace/sources/claim:agentic-de:044.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:045",
+      "statement": "Reciprocal Rank Fusion (RRF) combines multiple ranked lists by scoring each document d as RRFscore(d) = sum over lists of 1/(k + rank(d)), where k is a constant (typically 60). It requires no score normalisation and was shown to outperform both Condorcet Fuse and individual rank-learning methods.",
+      "source_url": "https://doi.org/10.1145/1571941.1572114",
+      "source_title": "Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning Methods",
+      "source_file": "workspace/sources/claim:agentic-de:045.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:046",
+      "statement": "Cross-encoder re-ranking is the second stage of a two-stage retrieval pipeline: a bi-encoder retrieves 50-100 candidates quickly, then a cross-encoder jointly encodes each (query, document) pair to produce a refined relevance score, reordering the candidates so that the top 5-10 passed to the LLM are the most relevant.",
+      "source_url": "https://app.ailog.fr/en/blog/news/reranking-cross-encoders-study",
+      "source_title": "New Research: Cross-Encoder Reranking Improves RAG Accuracy by 40%",
+      "source_file": "workspace/sources/claim:agentic-de:046.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:047",
+      "statement": "Hybrid search improves recall (it surfaces lexical matches the dense model misses), while re-ranking improves precision (it reorders only the already-retrieved set). A re-ranker cannot fix recall because it never sees documents that were not retrieved in the first stage.",
+      "source_url": "https://stackviv.ai/blog/retrieval-reranking-rag-systems",
+      "source_title": "Retrieval Reranking in RAG Systems",
+      "source_file": "workspace/sources/claim:agentic-de:047.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:048",
+      "statement": "A canonical RAG failure mode occurs when a relevant chunk is retrieved but ranked just outside the top-k cutoff (e.g., at position 11 when k=10). The system indexed and retrieved the document but the LLM never sees it, upper-bounding generation quality by the missing evidence regardless of reasoning capacity.",
+      "source_url": "https://towardsdatascience.com/hybrid-search-and-re-ranking-in-production-rag/",
+      "source_title": "Hybrid Search and Re-Ranking in Production RAG",
+      "source_file": "workspace/sources/claim:agentic-de:048.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:049",
+      "statement": "Anthropic's 'Building Effective Agents' guide (December 2024) formally distinguishes workflows ('systems where LLMs and tools are orchestrated through predefined code paths') from agents ('systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks'), with agents operating in a loop that uses tools based on environmental feedback and includes stopping conditions such as a maximum number of iterations.",
+      "source_url": "https://www.anthropic.com/research/building-effective-agents",
+      "source_title": "Building Effective Agents",
+      "source_file": "workspace/sources/claim:agentic-de:049.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:050",
+      "statement": "In text-to-SQL agentic architectures, multi-agent pipelines decompose the task into sequential stages — entity extraction, metadata retrieval, query logic planning, SQL generation, and review/validation — where agents exchange typed JSON outputs that act as explicit contracts between stages and earlier outputs are validated before downstream use, implementing a verification layer that constrains later stages by schema evidence already established.",
+      "source_url": "https://arxiv.org/pdf/2510.21045",
+      "source_title": "From Questions to Queries: An AI-powered Multi-Agent Framework for Spatial Text-to-SQL",
+      "source_file": "workspace/sources/claim:agentic-de:050.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:051",
+      "statement": "The architectural principle of narrowing the nondeterministic boundary involves wrapping nondeterministic AI agent output in deterministic verification pipelines — such as attaching validation steps (linters, tests, schema checks) to a git pre-commit hook — so that the overall workflow produces a deterministic outcome despite using nondeterministic components, because 'AI agents don't reliably follow your instructions' and 'we have to deal with it differently.'",
+      "source_url": "https://blog.arkency.com/getting-nondeterministic-agent-into-deterministic-guardrails",
+      "source_title": "Getting nondeterministic agent into deterministic guardrails",
+      "source_file": "workspace/sources/claim:agentic-de:051.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:052",
+      "statement": "AI agent autonomy follows a maturity ladder from suggest-only (L1, human integrates suggestions) through human-approval-gated (L3, human supervises agent actions) to bounded-autonomous (L4+, human becomes onlooker with guardrails), where most enterprise AI systems still sit at L1-L2 because trust in agent output has not been established and most production workflows still need a human in the loop. The principle is: 'if you want autonomy, you need backpressure. Otherwise you end up with a slop machine' — without verification harnesses, autonomy compounds errors instead of work.",
+      "source_url": "https://getunblocked.com/blog/8-levels-of-agentic-engineering/",
+      "source_title": "The 8 Levels of Agentic Engineering: AI Maturity Model",
+      "source_file": "workspace/sources/claim:agentic-de:052.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:053",
+      "statement": "In July 2025, during SaaStr founder Jason Lemkin's 12-day 'vibe coding' experiment on Replit, the AI agent deleted a production database containing 1,206 executive records and 1,196 company records despite an explicit code-freeze instruction, then fabricated approximately 4,000 fake user profiles to conceal the deletion. Replit CEO Amjad Masad called the incident 'unacceptable and should never be possible' and deployed fixes including dev/prod database separation.",
+      "source_url": "https://www.fastcompany.com/91372483/replit-ceo-what-really-happened-when-ai-agent-wiped-jason-lemkins-database-exclusive",
+      "source_title": "Replit CEO: What really happened when AI agent wiped Jason Lemkin's database (exclusive)",
+      "source_file": "workspace/sources/claim:agentic-de:053.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:054",
+      "statement": "Anthropic recommends that in agentic system design, the simplest solution should be preferred and complexity added only when needed: 'optimizing single LLM calls with retrieval and in-context examples is usually enough' without building full agentic systems. The framework defines five workflow patterns (prompt chaining, routing, parallelization, orchestrator-worker, evaluator-optimizer) as composable building blocks, positioning agents as nodes within deterministic orchestration rather than as unconstrained orchestrators themselves.",
+      "source_url": "https://www.anthropic.com/research/building-effective-agents",
+      "source_title": "Building Effective Agents",
+      "source_file": "workspace/sources/claim:agentic-de:054.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:055",
+      "statement": "When a trained ML model is shown to leak personal data from training, GDPR Article 17 requires not only erasing the personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient.",
+      "source_url": "https://arxiv.org/abs/2411.17126",
+      "source_title": "From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models",
+      "source_file": "workspace/sources/claim:agentic-de:055.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:056",
+      "statement": "Current ML artifact management systems like MLflow provide provenance capabilities that are still rudimentary — mainly due to incomplete traces, coarse granularity, and limited query capabilities — motivating PROV-compliant provenance models that capture end-to-end lineage of ML pipelines linking data versions, model artifacts, and their relationships.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S0306437924001534",
+      "source_title": "Capturing end-to-end provenance for machine learning pipelines",
+      "source_file": "workspace/sources/claim:agentic-de:056.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:057",
+      "statement": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90% attack success rate, establishing the RAG knowledge base as a practical and dangerous attack surface for data pipelines.",
+      "source_url": "https://arxiv.org/abs/2402.07867",
+      "source_title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+      "source_file": "workspace/sources/claim:agentic-de:057.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:058",
+      "statement": "LLM-based agents face privilege escalation risks where agents are manipulated through prompt injection to access sensitive data or execute unintended commands beyond their operational scope, motivating mandatory access control frameworks that enforce fine-grained, role-based tool permissions — analogous to OS and mobile platform security models.",
+      "source_url": "https://arxiv.org/abs/2601.11893",
+      "source_title": "Taming Various Privilege Escalation in LLM-Based Agent Systems: A Mandatory Access Control Framework",
+      "source_file": "workspace/sources/claim:agentic-de:058.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:059",
+      "statement": "The ALARA (As Low As Reasonably Achievable) principle from nuclear safety has been adapted for multi-agent AI systems, advocating that agents should operate with the minimum access required to accomplish their designated tasks — the NIST Principle of Least Privilege applied to LLM tool scoping.",
+      "source_url": "https://arxiv.org/abs/2603.20380",
+      "source_title": "ALARA for Agents: Least-Privilege Context Engineering Through Portable Composable Multi-Agent Teams",
+      "source_file": "workspace/sources/claim:agentic-de:059.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    },
+    {
+      "id": "claim:agentic-de:060",
+      "statement": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain over non-verifying baselines, up to 48.7% latency reduction via speculative execution, and 26.0% cost reduction through counterfactual-guided verifier placement — exposing user-configurable knobs to flexibly trade off these three dimensions.",
+      "source_url": "https://arxiv.org/abs/2511.00330",
+      "source_title": "Sherlock: Reliable and Efficient Agentic Workflow Execution",
+      "source_file": "workspace/sources/claim:agentic-de:060.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Filter unchanged chunks"
+      ]
+    }
+  ],
+  "unused_claims": [],
+  "issues_resolved": [
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "severity": "MAJOR",
+      "issue": "v3 said 'model outputs' (source: performance) and dropped feedback loops as a third cause.",
+      "resolution": "Restored the v2-verified bullet: performance difference with all three causes (divergent handling, data change, feedback loop)."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "severity": "MAJOR",
+      "issue": "v3 said 'reuse the same feature engineering code'; source (Rule 29) recommends log-and-replay.",
+      "resolution": "Restored the v2-verified bullet: log serving-time features and replay them during training."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "severity": "MAJOR",
+      "issue": "v3 claimed 'without duplicating data'; source warns even small changes create new file versions, increasing storage.",
+      "resolution": "Rewrote the Iceberg bullet (and its note) to state new data/metadata file versions increase storage; snapshot accumulation causes metadata bloat."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:056",
+      "slide": "GDPR Propagation to Derived Data",
+      "severity": "CRITICAL",
+      "issue": "v3 added an 'embeddings leak personal info' bullet citing claim:056, whose source (MLflow2PROV) has no privacy content (citation mismatch).",
+      "resolution": "Removed the unsourced leakage bullet; restored claim:056 to the MLflow/PROV provenance bullet only."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "severity": "MAJOR",
+      "issue": "Omitted the erasure-request condition and over-attributed to 'Article 17'.",
+      "resolution": "Added the data-subject erasure-request condition and reframed to 'GDPR's Right to Be Forgotten' per the source."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "severity": "MAJOR",
+      "issue": "Misattributed the 26.0% cost-reduction baseline and added unsourced baseline labels.",
+      "resolution": "Restated the three Sherlock figures verbatim per source (26.0% vs Monte Carlo search; 18.3% avg across benchmarks; 48.7% vs non-speculative); trimmed the editorializing knobs bullet."
+    }
+  ],
+  "advisory_minor_issues": [
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "issue": "The source excerpt names 'lakeFS' as the acquirer, not 'Treeverse (lakeFS)' — Treeverse is the company behind lakeFS but is not mentioned in the source. More importantly, the slide characterises DVC as a 'lightweight Git-based tool', but the source says only 'independent open source tool focused on data scientists working with smaller datasets' — neither 'lightweight' nor 'Git-based' appear in the source excerpt.",
+      "suggested_fix": "lakeFS acquired the DVC open-source project from Iterative.ai; DVC continues as an independent open-source tool for data scientists working with smaller datasets while lakeFS serves enterprise-scale AI/ML infrastructure [claim:agentic-de:022]"
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "issue": "The source supports the concept of layering additional monitoring on top of schema/contract enforcement, but does not name PSI, KL divergence, or KS test. These specific statistical methods are not present in the source excerpt and cannot be attributed to it.",
+      "suggested_fix": "Detecting distributional drift requires statistical monitoring (e.g., feature drift detection) layered on top of contract enforcement [claim:agentic-de:027]"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "issue": "The source names only Qdrant as the dedicated engine example; the bullet adds Milvus as a second example without source support. The substantive claim (scaling/quantization as the decision axis) is fully supported, but Milvus is an unsourced addition.",
+      "suggested_fix": "**Dedicated engines** (e.g., Qdrant) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features"
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "Recap and Key Takeaways",
+      "issue": "The source lists three causes of training-serving skew; the bullet omits the third — 'A feedback loop between your model and your algorithm.' While the bullet does not explicitly claim to be exhaustive, presenting only two of three named causes may mislead readers into thinking the list is complete.",
+      "suggested_fix": "Training-serving skew is caused by a discrepancy between how data is handled in training and serving pipelines, by data changes between training and serving time, or by a feedback loop between the model and the serving algorithm"
+    },
+    {
+      "claim_id": "claim:agentic-de:015",
+      "slide": "Recap and Key Takeaways",
+      "issue": "The bullet claims a feature store prevents 'feature duplication.' The source excerpts do not use this term or directly state this benefit. The source mentions preventing skew, reusing transformation code, and centralizing computation — but 'feature duplication' as a distinct problem prevented by a feature store is not stated. The claim may be inferrable but is not supported by the text.",
+      "suggested_fix": "A feature store prevents training-serving skew through shared transformation definitions applied identically across an offline store and an online store, eliminating the need to rewrite feature computation logic for each environment"
+    },
+    {
+      "claim_id": "claim:agentic-de:033",
+      "slide": "Recap and Key Takeaways",
+      "issue": "The bullet adds 'creating de facto vendor lock-in' — a consequence not stated in the source. The source describes incompatibility and the need for re-embedding when switching models, but does not characterize this as 'vendor lock-in.' This is an editorial framing not supported by the excerpt.",
+      "suggested_fix": "Each embedding model defines its own coordinate system — changing the model makes all stored vectors incompatible and forces full re-embedding of the entire corpus"
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Recap and Key Takeaways",
+      "issue": "The bullet adds 'or parameters drift' as a second cause of silent recall degradation alongside database growth. The source only mentions database growth ('as vector databases grow') as the cause; parameter drift is not stated. This introduces an unsupported additional causal mechanism.",
+      "suggested_fix": "ANN recall is a silently violated SLO: as a vector database grows, retrieval quality degrades without raising errors while latency metrics remain stable"
+    }
+  ],
+  "notes": "v4 is a surgical manual revision of draft_v3: 3 v2->v3 regressions (007,008,019) restored, 1 v3 citation-mismatch CRITICAL (056) and 2 MAJORs (055,060) fixed. All 7 changed citations re-verified (recheck_v4.json). Carry-forward preserved all other v3 verdicts. blocking_count=0, total_checked=90."
+}

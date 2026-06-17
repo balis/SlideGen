@@ -1,0 +1,20 @@
+CLAIM ID: claim:agde:embedding-batch-throughput:003
+
+SOURCE
+Title: Batch API | OpenAI API (official documentation)
+URL: https://developers.openai.com/api/docs/guides/batch
+Type: Official documentation
+Retrieved: 2026-06-15
+
+EXCERPT
+"A single batch may include up to 50,000 requests, and a batch input file can be up to 200 MB in size. /v1/embeddings batches are restricted to a maximum of 50,000 embedding inputs across all requests in the batch. Batch API rate limits are separate from existing per-model rate limits. The Batch API processes requests asynchronously within 24 hours at 50% of standard token prices."
+
+SUPPORTING CONTEXT
+Additional figures confirmed by search results:
+- Up to 2,000 batches can be created per hour.
+- The 50% discount applies to all models including embeddings.
+- Concrete example: indexing 100,000 docs (50M tokens) with text-embedding-3-small costs $1.00 standard vs $0.50 batch.
+- Because batch rate limits are a separate pool, using the Batch API does not consume synchronous per-model token quota.
+- The 24-hour SLA makes this suitable for offline ingestion pipelines, not real-time use.
+
+This source directly supports the claim about batch throughput parameters and rate-limit pool separation.

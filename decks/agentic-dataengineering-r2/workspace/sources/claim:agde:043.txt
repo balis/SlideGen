@@ -1,0 +1,28 @@
+SOURCE FILE FOR claim:agde:vecdb:007
+=====================================
+
+CLAIM: pgvector (a Postgres extension) is the appropriate default for datasets under ~2M vectors when Postgres is already in the stack, offering full SQL join capability and zero additional infrastructure. Above 5–10M vectors or for sub-10ms latency requirements, dedicated vector databases (Qdrant, Pinecone, Weaviate, Milvus) become preferable: Qdrant provides best-in-class filtered search by integrating predicates inside HNSW traversal; Pinecone offers zero-ops managed scale at 3–8x cost premium; Milvus is designed for billion-vector sharded deployments. Past 2M vectors on a single Postgres instance, index build times can exceed 20 minutes.
+
+SOURCE 1:
+TITLE: pgvector vs Pinecone vs Qdrant vs Weaviate (2026): Which We Actually Use in Production — Kalvium Labs
+URL / DOI: https://www.kalviumlabs.ai/blog/vector-databases-compared-pgvector-pinecone-qdrant-weaviate/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"pgvector is the default choice for RAG systems under 2M vectors. Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. All four implement HNSW and achieve similar recall at comparable efSearch settings; the database choice affects accuracy in one specific case: selective metadata filtering."
+
+SOURCE 2:
+TITLE: Start with pgvector: Why You'll Outgrow It Faster Than You Think — Qdrant Blog
+URL / DOI: https://qdrant.tech/blog/pgvector-tradeoffs/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"pgvector supports only two indexing strategies: HNSW and IVF_FLAT. HNSW provides good search accuracy but suffers from long indexing times and high memory usage, while IVF_FLAT builds indexes faster but fails to maintain performance as the dataset size increases. Additionally, pgvector lacks support for more scalable index types like DiskANN or GPU-accelerated search, making it difficult to handle large-scale vector workloads efficiently. Above 5-10 million vectors, pgvector requires careful tuning of shared_buffers, work_mem, and HNSW parameters to maintain fast queries. At hundreds of millions or billions of vectors, pgvector hits practical limits tied to your instance's memory, while Pinecone is designed for that scale."
+
+SOURCE 3:
+TITLE: Vector Database Comparison — Choosing the Right Vector Database: OpenSearch vs Pinecone vs Qdrant vs Weaviate vs Milvus vs Chroma vs pgvector
+URL / DOI: https://medium.com/@elisheba.t.anderson/choosing-the-right-vector-database-opensearch-vs-pinecone-vs-qdrant-vs-weaviate-vs-milvus-vs-037343926d7e
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Use pgvector if you're already running Postgres, you want vectors alongside your application data, and your dataset is under 10M vectors — no separate service, no sync layer, and no new infrastructure. Use Milvus if you're working at billion-vector scale: it's built for massive datasets and has the most mature sharding and partitioning. Use Pinecone if you want zero operational overhead and you're fine with less control over recall tuning. Use Qdrant if you need the absolute fastest filtered search, you want to self-host, or you're building in Rust — their filtering performance is genuinely best-in-class."

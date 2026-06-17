@@ -1,0 +1,25 @@
+SOURCE: Do You Really Need a Feature Store? (Substack)
+URL: https://yunnawei.substack.com/p/do-you-really-need-a-feature-store
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search results):
+"If your ML applications primarily rely on batch processing without immediate needs for real-time feature updates, the real-time capabilities of a feature store may not be essential."
+"If you don't have too many ML applications/models, you don't really need to add the additional complexity of a feature store to manage transformations, as all the feature transformations can be done directly inside the model processing or as a separate function."
+
+---
+SOURCE: Feature Store - Made With ML by Anyscale
+URL: https://madewithml.com/courses/mlops/feature-store/
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search):
+"In batch feature engineering + batch inference scenarios where feature engineering, model training and model serving are all conducted at a fixed interval with no need for streaming features and low model serving latency requirements, you do not need an online feature store and a streaming to pre-compute the features, as you have enough time to compute the features on demand."
+
+---
+SOURCE: Feature Store Design Patterns for Small Data Teams (MLJourney)
+URL: https://mljourney.com/feature-store-design-patterns-for-small-data-teams/
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search):
+"The minimal viable feature store—warehouse tables organized with clear conventions, feature logic versioned in git, and batch computation using existing tools—provides the essential benefits of consistency and reusability without operational overhead."
+"For a 5-person team, Feast might be overkill in terms of infrastructure maintenance."
+"A feature store could be overkill for small teams and organizations with low data volumes and data-driven developments."

@@ -1,0 +1,6 @@
+Source excerpt:
+"On the billion point SIFT1B bigann dataset, DiskANN serves > 5000 queries a second with < 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine with 64GB RAM and an SSD."
+
+URL: https://proceedings.neurips.cc/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html
+Paper: Subramanya, Devvrit, Kadekodi, Krishaswamy, Simhadri. "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node." NeurIPS 2019.
+Retrieved: 2026-06-14

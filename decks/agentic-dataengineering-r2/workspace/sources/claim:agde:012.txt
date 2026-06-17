@@ -1,0 +1,27 @@
+SOURCE: Data Distribution Shifts and Monitoring — Chip Huyen
+URL: https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:drift-taxonomy:006):
+"Covariate shift: P(X) changes, but P(Y|X) remains the same."
+"Concept drift: P(Y|X) changes, but P(X) remains the same."
+"Example of concept drift: Before COVID-19, a San Francisco apartment cost $2M; after, the same apartment costs $1.5M despite identical features."
+"Data shifts happen all the time, suddenly, gradually, or seasonally. A model does great when first deployed, but its performance degrades over time as the data distribution changes."
+
+ADDITIONAL SUPPORTING QUOTES from Evidently AI (from search results):
+URL: https://www.evidentlyai.com/blog/machine-learning-monitoring-data-and-concept-drift
+"Data drift refers to the change in the distributions of the input variables is meaningfully different. Concept drift refers to the change in the relationship between model inputs and outputs."
+
+From Dataversity (from search results):
+URL: https://www.dataversity.net/articles/data-drift-vs-concept-drift-what-is-the-difference/
+"Data drift (also known as covariate shift) refers to the phenomenon where the distribution of data inputs that an ML model was trained on differs from the distribution of the data inputs that the model is applied to. Critically, in pure covariate shift the concept P(Y|X) remains the same while the probability distribution of inputs P(X) changes."
+
+From NannyML (from search results):
+URL: https://www.nannyml.com/blog/types-of-data-shift
+"Concept drift occurs when there is a change in the functional relationship between a model's input and output data."
+
+NOTES:
+- Chip Huyen's article is widely cited in ML engineering education and provides crisp formal definitions with P(X) and P(Y|X) notation.
+- The COVID-19 real estate example is verbatim from Huyen's blog, illustrating concept drift (world changed, same features now map to different labels).
+- HIGH confidence: clear primary source with mathematical formalism and well-known author.
+- This claim supports the contrast with training-serving skew: drift is a temporal phenomenon (world changes after deployment) whereas skew is an engineering defect present from day one.

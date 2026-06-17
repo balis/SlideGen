@@ -1,0 +1,30 @@
+SOURCE FILE — claim:agde:drift-taxonomy:001
+
+URL: https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html
+Title: Data Distribution Shifts and Monitoring
+Author: Chip Huyen
+Retrieved: 2026-06-15
+
+FULL EXCERPT:
+The formal definitions of distribution shift types are grounded in the decomposition of the joint
+distribution P(X, Y) into P(Y|X)·P(X) or P(X|Y)·P(Y).
+
+"Covariate shift: when P(X) changes, but P(Y|X) remains the same."
+
+"Concept drift: when P(Y|X) changes, but P(X) remains the same."
+
+Example given for concept drift: "a 3 bedroom apartment in San Francisco could cost $2,000,000.
+However, at the beginning of COVID-19...the same house would cost only $1,500,000." The price model
+P(price | features) has changed even though the features P(X) themselves have not.
+
+Schema drift (structural change such as a column being added, removed, or retyped) is categorised
+separately from statistical distributional shift. Schema changes invalidate pipelines at parse time,
+whereas distribution shifts pass structural validation silently.
+
+SUPPORTING CONTEXT FROM SEARCH (corroborating definitions):
+Search result summary: "Data drift refers to the changing distribution of the data to which the model
+is applied. Data drift occurs when the distribution of input data changes over time while the underlying
+relationship between inputs and outputs remains the same. Concept drift refers to a changing underlying
+goal or objective for the model — when the relationship between input features and the target variable
+changes. Schema drift is the unexpected evolution of data structure (e.g., column changes)."
+Source: Dataversity, https://www.dataversity.net/articles/data-drift-vs-concept-drift-what-is-the-difference/

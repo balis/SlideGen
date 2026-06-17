@@ -1,0 +1,78 @@
+{
+  "topic": "agentic-de",
+  "generated_at": "2026-06-14T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:gdpr-embeddings:001",
+      "statement": "When a trained ML model is shown to leak personal data from training, GDPR Article 17 requires not only erasing the personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models",
+        "url_or_doi": "https://arxiv.org/abs/2411.17126",
+        "section": "Abstract / Introduction",
+        "excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model."
+      }
+    },
+    {
+      "id": "claim:agentic-de:ml-lineage:002",
+      "statement": "Current ML artifact management systems like MLflow provide provenance capabilities that are still rudimentary — mainly due to incomplete traces, coarse granularity, and limited query capabilities — motivating PROV-compliant provenance models that capture end-to-end lineage of ML pipelines linking data versions, model artifacts, and their relationships.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Capturing end-to-end provenance for machine learning pipelines",
+        "url_or_doi": "https://www.sciencedirect.com/science/article/pii/S0306437924001534",
+        "section": "Abstract",
+        "excerpt": "Modern workflows for developing ML pipelines utilize ML artifact management systems such as MLflow in addition to traditional version control systems such as Git, which collect data, model, metadata and software artifacts. However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities."
+      }
+    },
+    {
+      "id": "claim:agentic-de:prompt-injection-pipeline:003",
+      "statement": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90% attack success rate, establishing the RAG knowledge base as a practical and dangerous attack surface for data pipelines.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+        "url_or_doi": "https://arxiv.org/abs/2402.07867",
+        "section": "Abstract",
+        "excerpt": "An attacker could inject a few malicious texts into the knowledge database of a RAG system to induce an LLM to generate an attacker-chosen target answer for an attacker-chosen target question. PoisonedRAG achieves a 90% attack success rate when injecting five malicious texts for each target question into a knowledge database with millions of texts."
+      }
+    },
+    {
+      "id": "claim:agentic-de:agent-security:004",
+      "statement": "LLM-based agents face privilege escalation risks where agents are manipulated through prompt injection to access sensitive data or execute unintended commands beyond their operational scope, motivating mandatory access control frameworks that enforce fine-grained, role-based tool permissions — analogous to OS and mobile platform security models.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Taming Various Privilege Escalation in LLM-Based Agent Systems: A Mandatory Access Control Framework",
+        "url_or_doi": "https://arxiv.org/abs/2601.11893",
+        "section": "Abstract",
+        "excerpt": "LLM agents operating with excessive permissions can be manipulated through prompt injection and other attacks to perform unintended actions. Rather than allowing agents blanket access, the approach enforces granular permission controls based on agent role and task requirements, mirroring security models from operating systems and mobile platforms."
+      }
+    },
+    {
+      "id": "claim:agentic-de:agent-security:005",
+      "statement": "The ALARA (As Low As Reasonably Achievable) principle from nuclear safety has been adapted for multi-agent AI systems, advocating that agents should operate with the minimum access required to accomplish their designated tasks — the NIST Principle of Least Privilege applied to LLM tool scoping.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "ALARA for Agents: Least-Privilege Context Engineering Through Portable Composable Multi-Agent Teams",
+        "url_or_doi": "https://arxiv.org/abs/2603.20380",
+        "section": "Abstract",
+        "excerpt": "The framework adapts ALARA (As Low As Reasonably Achievable) principles — borrowed from nuclear safety regulations — to the design of multi-agent AI systems, emphasizing minimal necessary permissions and controlled autonomy. Agents should operate with 'the minimum access required to accomplish their designated tasks.'"
+      }
+    },
+    {
+      "id": "claim:agentic-de:ai-eval-metrics:006",
+      "statement": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain over non-verifying baselines, up to 48.7% latency reduction via speculative execution, and 26.0% cost reduction through counterfactual-guided verifier placement — exposing user-configurable knobs to flexibly trade off these three dimensions.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Sherlock: Reliable and Efficient Agentic Workflow Execution",
+        "url_or_doi": "https://arxiv.org/abs/2511.00330",
+        "section": "Abstract",
+        "excerpt": "Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks. Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand."
+      }
+    }
+  ]
+}

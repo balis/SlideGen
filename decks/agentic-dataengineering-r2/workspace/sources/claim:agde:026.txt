@@ -1,0 +1,25 @@
+SOURCE FILE — claim:agde:drift-taxonomy:002
+
+URL: https://arxiv.org/abs/2004.05785
+Title: Learning under Concept Drift: A Review
+Authors: Jie Lu, Anjin Liu, Fan Dong, Feng Gu, João Gama, Guangquan Zhang
+Published: 2020 (IEEE Transactions on Knowledge and Data Engineering)
+Retrieved: 2026-06-15
+
+FULL EXCERPT (from search result content summarizing the paper's taxonomy):
+"Real concept drifts happen when the relation between the input and the target changes:
+P_t(y|x) ≠ P_{t+1}(y|x) whilst P_t(x) = P_{t+1}(x)."
+
+"Virtual drift is drift in P(x) without affecting P(y|x), also known as covariate shift or
+dataset shift."
+
+"Since the joint probability P_t(X, y) can be decomposed into two parts as
+P_t(X, y) = P_t(X) × P_t(y|X), concept drift can be triggered by three sources:
+(1) P_t(X) ≠ P_{t+1}(X) while P_t(y|X) = P_{t+1}(y|X) — covariate drift;
+(2) P_t(y|X) ≠ P_{t+1}(y|X) while P_t(X) = P_{t+1}(X) — real concept drift;
+(3) both changing together."
+
+SUPPORTING CONTEXT:
+The same taxonomy is referenced in the concept drift literature from Gama et al. 2014:
+"Real concept drifts and virtual drifts are two kinds of context drifts distinguished according
+to Gama et al., 2014." — from search result corroborating this paper's definitions.

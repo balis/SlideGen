@@ -1,0 +1,17 @@
+SOURCE FILE: claim:agde:rag-chunking:001
+Retrieved: 2026-06-15
+
+URL: https://arxiv.org/abs/2406.00456
+DOI / arXiv ID: arXiv:2406.00456
+
+Title: Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation
+Authors: Zijie Zhong, Hanwen Liu, Xiaoya Cui, Xiaofan Zhang, Zengchang Qin
+Year: 2024
+
+FULL EXCERPT (Abstract):
+"Retrieving from multiple knowledge sources with one fixed strategy usually leads to under-exploitation of information. To mitigate this drawback, inspired by Mix-of-Expert, the authors introduce Mix-of-Granularity (MoG), a method that dynamically determines the optimal granularity of a knowledge source based on input queries using a router. The router is efficiently trained with a newly proposed loss function employing soft labels. [The paper] further extends MoG to MoG-Graph (MoGG), where reference documents are pre-processed as graphs, enabling the retrieval of distantly situated snippets. Experiments demonstrate that MoG and MoGG effectively predict optimal granularity levels, significantly enhancing the performance of the RAG system in downstream tasks."
+
+SUPPORTING CONTEXT (from web search results):
+"Smaller chunks (64-128 tokens) are optimal for datasets with concise, fact-based answers, whereas larger chunks (512-1024 tokens) improve retrieval in datasets requiring broader contextual understanding." — from search result summaries referencing AI21 Labs and Weaviate chunking research.
+
+The paper's central finding is that no single granularity is optimal across queries — the optimal chunk size is query-dependent. This directly supports framing chunking strategy as a design decision with performance consequences analogous to schema design in databases.

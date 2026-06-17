@@ -1,0 +1,31 @@
+SOURCE: What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog
+URL: https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025
+Retrieved: 2026-06-15
+
+SUPPORTING SOURCE: Human-in-the-Loop AI Agents: How to Add Approvals, Escalation, and Safe Autonomy in Production — Medium
+URL: https://medium.com/@arvisionlab/human-in-the-loop-ai-agents-how-to-add-approvals-escalation-and-safe-autonomy-in-production-0a21e359781c
+
+SUPPORTING SOURCE: Human-in-the-Loop (HITL) for AI Agents: Patterns and Best Practices — DEV Community
+URL: https://dev.to/taimoor__z/-human-in-the-loop-hitl-for-ai-agents-patterns-and-best-practices-5ep5
+
+SUPPORTING SOURCE: Human-in-the-Loop: A 2026 Guide to AI Oversight — Strata
+URL: https://www.strata.io/blog/agentic-identity/practicing-the-human-in-the-loop/
+
+FULL EXCERPT (progressive autonomy, from ZenML 1,200 deployments):
+"Ramp exemplifies staged deployment: systems begin 'with AI as suggestions before graduating to autonomous actions.' Their approach uses an 'autonomy slider' enabling teams to 'specify exactly where and when agents can act autonomously,' reflecting recognition that 'different organisations and teams have vastly different risk tolerances.' Progressive autonomy patterns dominate production systems: 1) Suggestions only (initial stage), 2) Autonomous for high-confidence cases (middle stage), 3) Human approval for edge cases (ongoing requirement)."
+
+"Shadow mode testing: Run agents on real transactions before enabling live actions; compare predictions to actual outcomes before production deployment."
+
+EXCERPT (from DEV Community HITL patterns article):
+"Five Core HITL Patterns covering 90%+ of real-world use cases: Approval Gate, Escalation Ladder, Confidence-Based Routing, Collaborative Drafting, and Audit Trail with Lazy Review."
+
+"Audit every agent action classifying it as reversible or irreversible, and add an approval gate in front of every irreversible action—which would have prevented 90% of early incidents."
+
+EXCERPT (maturity progression, from Strata HITL guide):
+"The progression moves through phases: Agent executes with human review after the fact, then agent executes autonomously for routine cases with human review of edge cases, advancing to full autonomy with periodic audits."
+
+NOTES:
+- The three-stage ladder (suggest-only → human-approval-gated → bounded-autonomous) is consistent across multiple independent practitioner sources.
+- The GetOnStack $47k incident (claim 003) and the HITL principle are directly connected: the missing stopping condition in that incident is exactly what an approval gate or circuit breaker would have provided.
+- Ramp's "autonomy slider" is a concrete implementation of the bounded-autonomous stage, with human-defined policy limits rather than fully open-ended autonomy.
+- The "suggest-only → human-approval-gated → bounded-autonomous" exact phrasing in objective 9 is an accurate characterization of the documented production patterns, though the exact three-word labels are the lecture's own formulation of the described progression.

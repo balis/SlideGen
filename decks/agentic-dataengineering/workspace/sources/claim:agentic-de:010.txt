@@ -1,0 +1,15 @@
+Source for claim:agentic-de:temporal-leak:002
+
+Title: Point-in-Time Correct Joins — Hopsworks MLOps Dictionary
+URL: https://www.hopsworks.ai/dictionary/point-in-time-correct-joins
+Section: Definition and rationale
+
+Excerpt:
+"A point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table. In SQL, a PiT Join is an ASOF LEFT JOIN. The AS OF join ensures that the most recent value of the feature at the time of the timestamp is used in the training set."
+
+Additional supporting source:
+Title: What is Training-Serving Skew, and how can it be prevented?
+URL: https://www.qwak.com/post/training-serving-skew-in-machine-learning
+Excerpt: "Training-serving skew is a difference between ML model outputs during the training and during serving (deployment). It is essentially a discrepancy between an ML model's feature engineering code during training and during deployment."
+
+Retrieved: 2026-06-14

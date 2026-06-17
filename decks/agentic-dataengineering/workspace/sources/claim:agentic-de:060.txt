@@ -1,0 +1,9 @@
+Source for claim:agentic-de:ai-eval-metrics:006
+
+Title: Sherlock: Reliable and Efficient Agentic Workflow Execution
+URL: https://arxiv.org/abs/2511.00330
+Authors: Haoran Qiu et al. (Microsoft)
+Retrieved: 2026-06-14
+
+Excerpt:
+Sherlock is a principled serving framework for agentic workflows that jointly optimizes latency, cost, and accuracy. Sherlock identifies and verifies error-prone nodes through counterfactual analysis and dynamic verifier selection, effectively balancing reliability and efficiency. Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks. Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand. Rather than verifying every step, Sherlock speculatively executes downstream tasks while verification runs in the background, rolling back only when verification fails.

@@ -1,0 +1,24 @@
+CLAIM ID: claim:agde:reproducibility:006
+STATEMENT: DVC scales to tens of thousands of files well but performance degrades significantly at hundreds of millions or billions of objects (petabyte-scale data lakes), because its MD5-hash-based caching becomes impractical at that scale. lakeFS, by contrast, keeps data I/O on a direct client-to-object-store path and handles only metadata through its server, making it operationally viable at very large scale; however, lakeFS requires deploying and maintaining a dedicated metadata server, whereas DVC has no additional infrastructure beyond the remote storage bucket.
+
+SOURCE
+------
+Title: DVC vs. lakeFS: Data Versioning Compared — lakeFS Blog
+URL: https://lakefs.io/blog/dvc-vs-git-vs-dolt-vs-lakefs/
+Section: Scalability and operational tradeoffs
+Type: Web (vendor blog — note: authored by lakeFS, so may be biased toward lakeFS)
+Retrieved: 2026-06-15
+
+EXCERPT
+-------
+"DVC is capable of handling tens of thousands of files or moderate dataset sizes well, but its performance starts degrading when you task it with managing hundreds of millions or billions of objects. Caching becomes unrealistic when you're operating on a petabyte scale and using hundreds of millions of objects. Typically, metadata operations will be done by calling the lakeFS server, while reading and writing the data itself will usually be done by directly communicating between the client and object store. This allows lakeFS to stay out of the data path, making it very efficient even with extremely large volumes of data. DVC's cost is mostly developer time, while lakeFS's cost is service maintenance — backups, upgrades, policies."
+
+NOTE ON BIAS
+------------
+This source is from the lakeFS vendor blog and is therefore a biased comparison. The DVC scalability limitation claim is plausible and widely acknowledged, but treat with MEDIUM confidence. No independent third-party benchmark was found during this research session.
+
+ADDITIONAL CONTEXT
+------------------
+"DVC's push/pull can create more object churn, while lakeFS reads are largely pass-through. If egress costs keep you up at night, lakeFS's 'branch without copy' model is friendly."
+Source: https://sider.ai/blog/ai-tools/lakefs-vs-dvc-version-control-wants-to-be-a-filesystem
+Retrieved: 2026-06-15

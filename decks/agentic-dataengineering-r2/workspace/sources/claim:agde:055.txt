@@ -1,0 +1,25 @@
+SOURCE: What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog
+URL: https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025
+Retrieved: 2026-06-15
+
+SUPPORTING SOURCE: Deterministic AI Architecture: Why It Matters in 2025 — Kubiya
+URL: https://www.kubiya.ai/blog/deterministic-ai-architecture
+
+SUPPORTING SOURCE: Deterministic AI Orchestration: A Platform Architecture for Autonomous Development — Praetorian
+URL: https://www.praetorian.com/blog/deterministic-ai-orchestration-a-platform-architecture-for-autonomous-development/
+
+FULL EXCERPT (hybrid architecture, from ZenML 1,200 deployments):
+"The database reveals a critical distinction: Deterministic components (retrieval, validation, permissions): Build in infrastructure; architectural constraints provide guarantees prompts cannot. Nondeterministic components (reasoning, generation): Constrain through tool limitations and staged decision-making. Traditional ML, deterministic rules, and LLMs each have strengths. The most effective production systems combine all three."
+
+"Stripe uses deterministic validation layers including 'Automated Reasoning checks that formally verify LLM outputs against logic rules.'"
+
+EXCERPT (from Kubiya deterministic AI architecture article):
+"The LLM is treated not as a chatbot, but as a nondeterministic kernel process wrapped in a deterministic runtime environment. A stable pattern is to keep your core system deterministic and move AI closer to the edge of the workflow, which reduces blast radius. This boundary improves integration with legacy systems because existing contracts can be kept intact while adding AI 'assist' layers around them."
+
+EXCERPT (from Praetorian / REGAL pattern):
+"Deterministic extraction, validation, reconciliation, and upsert semantics guarantee replayability in ingestion and orchestration layers. Safety layers enforce Zod schema validation on inputs and Response Filtering (truncation/summarization) on outputs, preventing 'context flooding' from large API responses. A deterministic-probabilistic non-interference property is enforced operationally by version-controlled transformations, deterministic upsert semantics, and compilation-from-registry."
+
+NOTES:
+- The "nondeterministic boundary narrowing" principle appears across multiple independent sources as an established architectural pattern.
+- The key insight: agents should be responsible for reasoning, not for enforcement of business rules — the latter belongs in deterministic code.
+- For data engineering specifically, this maps to: agent suggests a schema mapping or data quality fix → deterministic validator checks the output against expected schema/business rules before any write occurs.

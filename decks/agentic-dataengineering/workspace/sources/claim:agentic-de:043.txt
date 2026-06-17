@@ -1,0 +1,11 @@
+Source for claim:agentic-de:rag-chunking:001
+
+Title: Chunking Strategies for RAG: Size, Overlap & Best Practices
+URL: https://stackviv.ai/blog/chunking-strategies-rag
+Retrieved: 2026-06-14
+
+Excerpt:
+"In production LLM RAG pipelines, chunking is not just a preprocessing step — it defines the quality of retrieval and the effectiveness of agent memory. A well-tuned chunking strategy can improve retrieval accuracy by 40% compared to naive approaches."
+
+Additional context from search results:
+"Larger chunks compress more information into one vector, which can blur distinct ideas and dilute relevance when multiple topics are mixed together; smaller, focused chunks usually produce more precise matches during retrieval."

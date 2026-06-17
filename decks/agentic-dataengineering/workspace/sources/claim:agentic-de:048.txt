@@ -1,0 +1,10 @@
+Source for claim:agentic-de:recall-precision-separation:002
+
+Title: Hybrid Search and Re-Ranking in Production RAG
+URL: https://towardsdatascience.com/hybrid-search-and-re-ranking-in-production-rag/
+Retrieved: 2026-06-14
+
+Excerpt:
+"Whenever a truly relevant document has rank greater than k, the model's generation is upper-bounded by missing evidence, regardless of reasoning capacity. When a document needed sits at position eleven in the results just outside the top ten, the system had not failed to index or retrieve it but it was ranked below ten other documents."
+
+This describes the canonical failure where retrieval succeeds (the document is in the index and is retrieved) but rank truncation causes it to be excluded from the LLM context window, silently degrading answer quality.

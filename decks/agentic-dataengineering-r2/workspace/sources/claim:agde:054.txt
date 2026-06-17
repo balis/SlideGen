@@ -1,0 +1,23 @@
+SOURCE: Stripe: AI-Powered Compliance Investigation Agents for Enhanced Due Diligence — ZenML LLMOps Database
+URL: https://www.zenml.io/llmops-database/ai-powered-compliance-investigation-agents-for-enhanced-due-diligence
+Retrieved: 2026-06-15
+
+SUPPORTING SOURCE: What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog
+URL: https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025
+
+SUPPORTING SOURCE: How Stripe Built Secure Unattended AI Agents Merging 1,000 Pull Requests Weekly
+URL: https://medium.com/@oracle_43885/how-stripe-built-secure-unattended-ai-agents-merging-1-000-pull-requests-weekly-1ff42f3fe550
+
+FULL EXCERPT (architecture description from ZenML database entry):
+"Rather than attempting full end-to-end automation, Stripe decomposed the complex compliance workflow into a directed acyclic graph (DAG). This DAG provides 'rails' for the agents, ensuring they spend appropriate time on regulatory-required investigation areas rather than rabbit-holing on irrelevant topics. Breaking complex workflows into tasks that fit in agent working memory is critical for evaluation, quality assurance, and incremental progress."
+
+RESULTS QUOTED FROM ZenML ENTRY:
+"The solution achieved a 96% helpfulness rating from reviewers and reduced average handling time by 26%, enabling compliance teams to scale without linearly increasing headcount while maintaining complete auditability for regulatory requirements. The solution maintains human oversight for final decision-making while enabling agents to handle data gathering and initial research."
+
+FULL EXCERPT (from ZenML 1,200 deployments blog on Stripe):
+"Stripe's compliance review into bite-sized tasks orchestrated by a directed acyclic graph prevents agents from 'rabbit-holing on irrelevant data.' The architecture ensures 'even if the model behaves unexpectedly, the damage is contained to a single task.'"
+
+NOTES:
+- Stripe's case illustrates the principle that agents work best as DAG nodes: each is bounded to a specific task within a pre-defined workflow topology, not as free-ranging orchestrators that decide the full execution path.
+- The DAG structure provides the deterministic outer shell; the agent provides the nondeterministic inner reasoning within each node.
+- This is a named, production case study at a major fintech company, not a synthetic example.

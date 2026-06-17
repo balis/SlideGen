@@ -1,0 +1,25 @@
+Source excerpt for claim:agentic-de:nondeterministic-boundary:003
+
+Title: Getting nondeterministic agent into deterministic guardrails
+Author: Arkency Blog
+Published: 2025
+
+Excerpt:
+"AI agents don't reliably follow your instructions."
+
+"We're not able to change whether the agent will respect AGENTS.md and skills all the time...
+So we have to deal with it differently."
+
+The solution implements a dev_workflow that orchestrates multiple validation steps (RuboCop,
+RSpec, Mutant, ESLint, Jest). Each step returns structured results (StepResult) that provide
+feedback agents can act upon.
+
+"By attaching verification to a git pre-commit hook, the workflow becomes deterministic. The
+agent receives clear feedback, fixes issues, re-runs verification, and commits — creating a
+deterministic outcome despite using nondeterministic components."
+
+The author maintains: "I do take full ownership of the code that I ship. I don't trust the AI
+enough to cut the leash."
+
+URL: https://blog.arkency.com/getting-nondeterministic-agent-into-deterministic-guardrails
+Retrieved: 2026-06-14

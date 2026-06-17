@@ -1,0 +1,21 @@
+CLAIM ID: claim:agde:reproducibility:001
+STATEMENT: Apache Iceberg represents every table state as an immutable snapshot: a manifest list pointing to manifest files, each of which lists data files. Querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, making the snapshot ID a sufficient reproducibility token for a training dataset.
+
+SOURCE
+------
+Title: Apache Iceberg Table Spec — Snapshots
+URL: https://iceberg.apache.org/spec/
+Section: Snapshots
+Type: Official project documentation (Apache Software Foundation)
+Retrieved: 2026-06-15
+
+FULL EXCERPT
+------------
+"A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot. Manifests are tracked by a manifest list for each table snapshot. A manifest is an immutable Avro file that lists data files or delete files, along with each file's partition data tuple, metrics, and tracking information. Furthermore, once written, data and metadata files are immutable until they are deleted. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot."
+
+ADDITIONAL CONTEXT FROM SEARCH
+-------------------------------
+ML engineers can "pin" their feature generation process to a specific Iceberg snapshot ID or a permanent tag, with metadata guaranteeing that no matter how much new data is ingested into the table by other teams, their training job will always read the exact same, consistent version of the data. A simple approach is to log the Iceberg snapshot ID alongside hyperparameters in MLflow, giving you the foundation for reproducible training data at no additional infrastructure cost.
+
+Source for additional context: https://cazpian.ai/blog/time-travel-in-apache-iceberg-beyond-the-basics
+Retrieved: 2026-06-15

@@ -1,0 +1,28 @@
+SOURCE FILE FOR claim:agde:vecdb:003
+=====================================
+
+CLAIM: IVF (Inverted File) indexes partition vectors into clusters via k-means; at query time only nprobe clusters are searched, reducing cost at the expense of recall. Product Quantization (PQ) further compresses each vector by splitting it into subvectors and replacing each with a centroid index (controlled by nbits), enabling >100x memory reduction but introducing quantization error that degrades recall. For a 10M-vector 1536-dim dataset, raw storage is 61.4 GB; IVF-PQ with m=48, nbits=8 reduces this to ~480 MB — a 128x reduction.
+
+SOURCE 1:
+TITLE: Inverted File Product Quantization (IVF_PQ): Accelerate Vector Search by Creating Indices — LanceDB / Medium
+URL / DOI: https://medium.com/etoai/product-quantization-compress-high-dimensional-vectors-dfcba98fab47
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction."
+
+SOURCE 2:
+TITLE: Inverted File Index (IVF) in Vector Similarity Search — VeloDB Glossary
+URL / DOI: https://www.velodb.io/glossary/inverted-file-index-in-vector-similarity-search
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"IVF partitions vectors into clusters using k-means, with each cluster having a centroid. During queries, the system identifies the closest centroids (controlled by nprobe) and searches only within those clusters. Higher nprobe increases recall at the cost of more distance computations. nprobe=8 reaches 90-95% recall; nprobe=16-32 recovers most of HNSW recall at roughly linear latency cost."
+
+SOURCE 3:
+TITLE: Product Quantization (PQ) | Weaviate Documentation
+URL / DOI: https://docs.weaviate.io/weaviate/configuration/compression/pq-compression
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"PQ reduces the size of each vector embedding in two steps. First, it reduces the number of vector dimensions to a smaller number of 'segments', and then each segment is quantized to a smaller number of bits from the original number of bits (typically a 32-bit float). The PQ segments parameter controls the tradeoff between memory and recall. A larger segments parameter means higher memory usage and recall. PQ makes tradeoffs between recall, performance, and memory usage."

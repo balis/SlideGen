@@ -1,0 +1,11 @@
+Source for claim:agentic-de:embedding-pipeline:001
+
+Title: OpenAI Embedding Pricing 2026: All 3 Models Compared
+URL: https://embeddingcost.com/openai
+Retrieved: 2026-06-14
+
+Excerpt:
+"text-embedding-3-small: $0.02 per million tokens, 1,536 dimensions (minimum 512 with Matryoshka support), MTEB score 62.3.
+text-embedding-3-large: $0.13 per million tokens, 3,072 dimensions (minimum 256 with Matryoshka support), MTEB score 64.6.
+text-embedding-ada-002 (Legacy): $0.10 per million tokens, 1,536 dimensions, MTEB score 60.5.
+text-embedding-3-small is the better choice for most RAG applications due to superior cost-to-performance. The large model's 2-3 point MTEB advantage is rarely worth the 6.5x price premium for most applications."

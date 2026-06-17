@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of Artificial Intelligence",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:embedding-model-dim-tradeoff:001",
+      "statement": "OpenAI's text-embedding-3-large (3072 dimensions, $0.13/1M tokens) supports Matryoshka truncation so that a 256-dimensional output still outperforms the full 1536-dimensional text-embedding-ada-002 on MTEB; text-embedding-3-small costs 5× less than ada-002 ($0.00002 vs $0.0001 per 1k tokens) with a higher average MTEB score (62.3% vs 61.0%), making dimension, quality, and cost an explicit three-way tradeoff at model-selection time.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "New embedding models and API updates | OpenAI",
+        "url_or_doi": "https://openai.com/index/new-embedding-models-and-api-updates/",
+        "section": "New embedding models",
+        "excerpt": "On the MTEB benchmark, a text-embedding-3-large embedding can be shortened to a size of 256 while still outperforming an unshortened text-embedding-ada-002 embedding with a size of 1536. Comparing text-embedding-ada-002 to text-embedding-3-small, the average score on the MTEB benchmark has increased from 61.0% to 62.3%. Pricing for text-embedding-3-small has been reduced by 5X compared to text-embedding-ada-002, from a price per 1k tokens of $0.0001 to $0.00002."
+      }
+    },
+    {
+      "id": "claim:agde:embedding-model-dim-tradeoff:002",
+      "statement": "Embedding models trained with Matryoshka Representation Learning allow developers to truncate the output vector to a smaller dimension (e.g., passing a 'dimensions' parameter at inference time) to save vector-database storage with only modest quality loss, exposing dimension as a configurable performance-cost dial rather than a fixed property of the model.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Vector embeddings | OpenAI API",
+        "url_or_doi": "https://developers.openai.com/api/docs/guides/embeddings",
+        "section": "Embedding dimensions",
+        "excerpt": "text-embedding-3-large is OpenAI's flagship text embedding model, producing 3072-dimensional vectors that can be truncated to smaller sizes via Matryoshka representation learning. Because the model is trained with Matryoshka representation learning, you can pass a smaller dimensions parameter (for example 1024 or 256) to save storage in your vector database with only a modest quality loss."
+      }
+    },
+    {
+      "id": "claim:agde:embedding-batch-throughput:003",
+      "statement": "OpenAI's Batch API for embeddings processes requests asynchronously within 24 hours at 50% of standard token prices, supports up to 50,000 embedding inputs and a 200 MB input file per batch, and draws from a separate rate-limit pool that does not consume synchronous per-model token quotas — making it the recommended path for large-scale offline embedding pipelines.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Batch API | OpenAI API",
+        "url_or_doi": "https://developers.openai.com/api/docs/guides/batch",
+        "section": "Overview and limits",
+        "excerpt": "A single batch may include up to 50,000 requests, and a batch input file can be up to 200 MB in size. /v1/embeddings batches are restricted to a maximum of 50,000 embedding inputs across all requests in the batch. Batch API rate limits are separate from existing per-model rate limits. The Batch API processes requests asynchronously within 24 hours at 50% of standard token prices."
+      }
+    },
+    {
+      "id": "claim:agde:embedding-rate-limit-backoff:004",
+      "statement": "When embedding hosted APIs enforce per-minute rate limits (e.g., Voyage AI's voyage-3.5 at 2,000 RPM and 8M TPM), the recommended throughput strategy is to send larger per-request batches to reduce request count, implement exponential backoff with jitter on HTTP 429 responses, and insert pacing delays between requests — the combination prevents thundering-herd retry storms while maximising token throughput within quota.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Rate Limits - Introduction | Voyage AI",
+        "url_or_doi": "https://docs.voyageai.com/docs/rate-limits",
+        "section": "Rate Limits and Handling",
+        "excerpt": "voyage-3.5 has 2000 RPM (requests per minute) and 8M TPM (tokens per minute). You can increase the number of documents you embed per request and increase your overall throughput by sending larger batches. Upon receiving a 429 error, implement exponentially increasing retry delays (e.g., 1, 2, 4 seconds) before retrying."
+      }
+    },
+    {
+      "id": "claim:agde:idempotent-reembedding:005",
+      "statement": "Idempotent re-embedding pipelines use a content hash (e.g., SHA-256 of the source text) stored alongside each vector: before calling the embedding API the pipeline checks whether the hash already exists in the embedding store and skips the call if so, reducing both API cost and re-processing risk. Optimal API batch size for cost-effective embedding is 100–500 texts per call.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Building a Production-Grade RAG System (Not Just a Demo) — DEV Community",
+        "url_or_doi": "https://dev.to/ritwikareddykancharla/building-a-production-grade-rag-system-not-just-a-demo-2l0p",
+        "section": "Idempotent ingestion and embedding caching",
+        "excerpt": "Re-running your ingestion pipeline shouldn't create duplicates. Embedding is where your API costs live. Two habits that pay off immediately: batching and caching. The implementation stores embeddings keyed by text hash to avoid re-computing duplicates. The sweet spot for batch size is 100–500 texts per API call."
+      }
+    },
+    {
+      "id": "claim:agde:embedding-model-invalidates-index:006",
+      "statement": "Changing an embedding model in a production vector database requires re-encoding the entire corpus and rebuilding the ANN index from scratch because vectors from different models occupy incompatible geometric spaces — a query vector encoded by the new model cannot be meaningfully compared to stored vectors encoded by the old model, even when both models share the same output dimensionality. For a 1-million-item database this amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Drift-Adapter: A Practical Approach to Near Zero-Downtime Embedding Model Upgrades in Vector Databases",
+        "url_or_doi": "https://arxiv.org/abs/2509.23471",
+        "section": "Abstract and Introduction",
+        "excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems. Downtime: Typical interruption periods range from 4–8 hours."
+      }
+    }
+  ]
+}

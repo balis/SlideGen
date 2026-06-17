@@ -1,0 +1,78 @@
+{
+  "topic": "Embedding generation as a first-class, version-sensitive pipeline stage",
+  "generated_at": "2026-06-14T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:embedding-pipeline:001",
+      "statement": "OpenAI's text-embedding-3-small (1536 dimensions, MTEB 62.3%) costs $0.02 per million tokens, while text-embedding-3-large (3072 dimensions, MTEB 64.6%) costs $0.13 per million tokens — a 6.5x price premium for roughly 2 MTEB points, making the small model the recommended default for most RAG workloads.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "OpenAI Embedding Pricing 2026: All 3 Models Compared",
+        "url_or_doi": "https://embeddingcost.com/openai",
+        "section": "Model comparison table",
+        "excerpt": "text-embedding-3-small: $0.02 per million tokens, 1,536 dimensions, MTEB score 62.3. text-embedding-3-large: $0.13 per million tokens, 3,072 dimensions, MTEB score 64.6. The large model's 2-3 point MTEB advantage is rarely worth the 6.5x price premium for most applications."
+      }
+    },
+    {
+      "id": "claim:agentic-de:batch-embedding:002",
+      "statement": "The OpenAI Batch API processes embedding requests asynchronously within a 24-hour window at a 50% cost discount, with dedicated TPD (Tokens Per Day) quotas separate from synchronous TPM/RPM limits, allowing up to 50,000 embedding inputs per batch submission without consuming real-time API capacity.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Complete Guide to OpenAI and Gemini Batch API (Apiyi.com)",
+        "url_or_doi": "https://help.apiyi.com/en/openai-gemini-batch-api-official-topup-guide-2026-en.html",
+        "section": "Batch API specifications",
+        "excerpt": "Price Discount: -50%. Request Limit per Batch: 50,000 requests. Completion Window: 24 hours. Only '24h' is currently supported. Batch interfaces have their own TPD (Tokens Per Day) quota, which is completely separate from standard TPM/RPM limits. Does not consume synchronous TPM."
+      }
+    },
+    {
+      "id": "claim:agentic-de:batch-embedding:003",
+      "statement": "The synchronous OpenAI embeddings endpoint accepts a maximum of 2,048 inputs per request; exceeding this limit returns a 400 error. Throughput optimization therefore requires both respecting the per-request input-count cap and staying within the account's tokens-per-minute (TPM) quota, typically via client-side rate limiting with exponential backoff rather than reactive retry on HTTP 429.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Embeddings API Max Batch Size - OpenAI Developer Community",
+        "url_or_doi": "https://community.openai.com/t/embeddings-api-max-batch-size/655329",
+        "section": "Community discussion",
+        "excerpt": "Batch size of 2048 succeeded. Batch size of 2049 failed with error: Error code: 400 — '$.input' is invalid. Please check the API reference. There is not only a batch size limit, but also a max_tokens_per_request."
+      }
+    },
+    {
+      "id": "claim:agentic-de:embedding-model-lock:004",
+      "statement": "Each embedding model defines its own coordinate system, so vectors produced by one model are incompatible with those produced by another — even when dimensions match. Changing the embedding model therefore invalidates every stored vector and forces a full re-embedding and re-indexing of the entire corpus; failure to do so produces silent retrieval degradation rather than an error.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Why Vector Migration Matters More Than You Think — Schift Blog",
+        "url_or_doi": "https://schift.io/blog/why-vector-migration-matters/",
+        "section": "Embedding model migration",
+        "excerpt": "Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model. If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results — they are just wrong."
+      }
+    },
+    {
+      "id": "claim:agentic-de:embedding-model-lock:005",
+      "statement": "The high cost of re-embedding (e.g., ~$1,300 for 100 million tokens with text-embedding-3-large, plus hours of compute even with parallelism and doubled infrastructure during migration) creates de facto vendor lock-in: most teams pick one embedding model early and never change it, not because it is the best model, but because the switching cost is too high.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Why Vector Migration Matters More Than You Think — Schift Blog",
+        "url_or_doi": "https://schift.io/blog/why-vector-migration-matters/",
+        "section": "Operational costs and model lock-in",
+        "excerpt": "100 million tokens at OpenAI's text-embedding-3-large pricing costs around $1,300. Teams often run old and new embedding pipelines simultaneously during migration — doubling infrastructure costs. A 10M document corpus takes hours to re-embed, even with parallelism. Most teams pick one embedding model early in a project and never change it. Not because it is the best model for their use case — because the switching cost is too high. That is vendor lock-in."
+      }
+    },
+    {
+      "id": "claim:agentic-de:embedding-pipeline:006",
+      "statement": "Idempotent re-embedding pipelines use content-addressable hashing: on ingestion, chunk hashes are computed for the new version, compared against stored hashes, and only new or modified chunks are sent for embedding — unchanged chunks are skipped, avoiding unnecessary recomputation and ensuring that re-running the pipeline on identical input produces no redundant API calls or index mutations.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "Idempotency in Data Pipelines — apxml.com",
+        "url_or_doi": "https://apxml.com/courses/building-scalable-data-warehouses/chapter-3-high-throughput-ingestion/idempotency-pipelines",
+        "section": "Content hash deduplication",
+        "excerpt": "On document ingestion, all chunk hashes are computed for new versions, compared against stored hashes, and chunks are classified as new, modified, deleted, or unchanged, with only new and modified chunks processed for embedding. Deduplication in staging areas can use deterministic hashing, such as computing MD5 hashes of event identifiers combined with timestamps as idempotency keys."
+      }
+    }
+  ]
+}

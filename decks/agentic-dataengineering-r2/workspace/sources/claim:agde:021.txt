@@ -1,0 +1,24 @@
+CLAIM ID: claim:agde:reproducibility:003
+STATEMENT: DVC (Data Version Control) implements content-addressable storage for ML datasets: it computes an MD5 hash of each tracked file and stores a small .dvc metafile in Git, while the actual data lives in a remote (S3, GCS, etc.). Only new or modified files are stored in the remote cache; identical content is deduplicated by hash. This allows datasets to be reproduced by checking out any Git commit and running dvc pull.
+
+SOURCE
+------
+Title: DVC Internal Files — Cache
+URL: https://doc.dvc.org/user-guide/project-structure/internal-files
+Section: Cache
+Type: Official DVC documentation (Iterative.ai)
+Retrieved: 2026-06-15
+
+EXCERPT
+-------
+"The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache, and the rest becoming the file name of the cached file. For example, if a data file has a hash value of ec1d2935f811b77cc49b031b999cbf17, its path in the cache will be .dvc/cache/files/md5/ec/1d2935f811b77cc49b031b999cbf17. DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets."
+
+ADDITIONAL CONTEXT
+------------------
+"Large files, directories and ML models are replaced with small metafiles, which in turn point to the original data. This gives you Git-like versioning semantics (branching, tagging, diffing) for datasets that can be gigabytes or terabytes in size, without bloating your repository."
+Source: https://www.datacamp.com/tutorial/data-version-control-dvc
+Retrieved: 2026-06-15
+
+"DVC lets you capture the versions of your data and models in Git commits, while storing them on-premises or in cloud storage."
+Source: https://doc.dvc.org/start
+Retrieved: 2026-06-15

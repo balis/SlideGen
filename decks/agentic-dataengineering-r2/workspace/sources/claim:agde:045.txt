@@ -1,0 +1,23 @@
+SOURCE FILE: claim:agde:rag-chunking:002
+Retrieved: 2026-06-15
+
+URL: https://www.ai21.com/blog/query-dependent-chunking/
+Publisher: AI21 Labs (official blog)
+
+Title: Chunk size is query-dependent: a simple multi-scale approach to RAG retrieval
+
+FULL EXCERPT:
+"smaller chunks preserve fine-grained details but lose context; larger chunks capture broader meaning but dilute specific facts."
+
+"the best-performing chunk size varies substantially across queries, even when querying the same corpus"
+
+"As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning."
+
+"Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy."
+
+"indexing the same corpus at multiple chunk sizes (e.g., 100, 200, 500 tokens) and aggregating results improves retrieval by 1–37% across benchmarks without model retraining."
+
+SUPPORTING CONTEXT (from chunking strategies web search results):
+"Large chunks can exceed token limits or retrieve irrelevant information, reducing retrieval precision, while small chunks might miss the context necessary for effective generation." — from search result summaries covering multiple chunking strategy sources including Unstructured and Weaviate.
+
+"In Retrieval-Augmented Generation (RAG) systems, segmenting documents into smaller units critically influences the quality of both retrieval and generation tasks." — from DataCamp chunking strategies article.

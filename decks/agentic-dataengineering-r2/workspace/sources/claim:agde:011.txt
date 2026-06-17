@@ -1,0 +1,23 @@
+SOURCE: What is training-serving skew in Machine Learning? — JFrog ML (Qwak)
+URL: https://www.qwak.com/post/training-serving-skew-in-machine-learning
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:skew-vs-drift:005):
+"In training-serving skew, there is no 'drift'. Drift assumes that there is a change during the production of the model. This isn't the case with training-serving skew, which is more of a mismatch. Data drift is a change over time, while training-serving skew is a mismatch across environments. Training-serving skew represents a mismatch between the training environment and the production environment that occurs at a single point in time, rather than a temporal drift."
+
+SUPPORTING QUOTE from Evidently AI (from search results):
+URL: https://www.evidentlyai.com/blog/machine-learning-monitoring-data-and-concept-drift
+"Concept drift occurs when the patterns the model learned no longer hold. The relationships between the model inputs and outputs change, and the very meaning of what we are trying to predict evolves."
+
+SUPPORTING QUOTE from Evidently AI (concept drift page):
+URL: https://www.evidentlyai.com/ml-in-production/concept-drift
+"There is no 'drift,' which assumes a change during the production use of the model; training-serving skew is more of a mismatch. The critical distinction: skew represents a mismatch revealed immediately upon deployment, not a degradation over time."
+
+SUPPORTING QUOTE on the key technical distinction (from search results, chalk.ai):
+URL: https://chalk.ai/blog/data-drift
+"Training-serving skew describes an environmental mismatch where training and inference compute different values for the same features — even at the same point in time."
+
+NOTES:
+- The core claim that skew is a mismatch (not temporal) while drift is temporal is corroborated by Qwak, Evidently AI, and Chalk AI.
+- HIGH confidence: multiple independent authoritative sources agree on this distinction.
+- This claim directly refutes conflation of the two concepts, which is the pedagogical goal stated in learning objective 2.

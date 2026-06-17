@@ -1,0 +1,248 @@
+{
+  "version": 2,
+  "batch": 3,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "Hybrid retrieval (BM25 + dense ANN fused via RRF) improves recall because each retriever surfaces relevant documents the other misses [claim:agde:048]",
+      "source_excerpt": "re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "A cross-encoder jointly encodes the query and each candidate passage through a shared transformer to produce a finer-grained relevance score — improving precision within the retrieved set [claim:agde:049]",
+      "source_excerpt": "Stage 1: Retrieval (Recall)...cast a wide net. Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "Reranking operates only on the candidate set already retrieved by stage 1: any relevant document not retrieved is permanently lost to the reranker [claim:agde:049]",
+      "source_excerpt": "a dual encoder retrieves the top 50 to 100 candidates, with high recall mattering here because any relevant document that misses this cut is permanently gone.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "The recall ceiling is set entirely by stage 1; a reranker cannot raise it [claim:agde:049]",
+      "source_excerpt": "Stage 1: Retrieval (Recall)...cast a wide net. Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top. If you send an LLM 20 documents, and the one correct answer is buried in the middle of 19 irrelevant ones, the LLM often misses it.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Recall Ceiling of the First Stage",
+      "bullet": "The canonical two-stage RAG failure is that a relevant document was never retrieved by the first-stage bi-encoder at all — no amount of reranking can recover a document the initial retriever failed to surface [claim:agde:050]",
+      "source_excerpt": "The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Recall Ceiling of the First Stage",
+      "bullet": "While rerankers improve precision with small reranker K values, scaling to larger K decreases recall precipitously, often dropping beneath the quality of the standalone retriever [claim:agde:050]",
+      "source_excerpt": "while rerankers initially help with small values for K, reranking with large K decreases recall precipitously, often dropping beneath the quality of standalone retrievers.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Recall Ceiling of the First Stage",
+      "bullet": "The efficacy of the two-stage pipeline is bounded by the recall ceiling of stage 1; improving that ceiling requires better first-stage retrieval (e.g., hybrid BM25 + dense), not a more powerful reranker [claim:agde:050]",
+      "source_excerpt": "The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:051",
+      "slide": "What Is an Agent? (Precise Definition)",
+      "bullet": "An AI agent is an LLM autonomously using tools in a loop, where the loop continues until a stopping condition — task completion or explicit termination — is reached [claim:agde:051]",
+      "source_excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states the loop executes 'until the LLM determines it has completed the task.' The bullet adds 'or explicit termination' as a second stopping condition, which is not stated in the source excerpt. The source defines only one stopping mechanism: the LLM itself determining task completion.",
+      "suggested_fix": "An AI agent is an LLM autonomously using tools in a loop, where the loop continues until the LLM determines it has completed the task [claim:agde:051]"
+    },
+    {
+      "claim_id": "claim:agde:051",
+      "slide": "What Is an Agent? (Precise Definition)",
+      "bullet": "This structure makes agents distinct from a single LLM call (no loop) and from rule-based automation (no LLM reasoning) [claim:agde:051]",
+      "source_excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. The loop executes until the LLM determines it has completed the task.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:053",
+      "slide": "Production Case Study — The Expensive Nondeterministic Cron Job",
+      "bullet": "In 2025, GetOnStack's multi-agent market-data research system escalated from $127/week to $47,000 in API costs over four weeks due to an infinite conversation loop between two agents (Agent A and Agent B) running undetected for 11 days [claim:agde:053]",
+      "source_excerpt": "GetOnStack experienced catastrophic cost escalation: 'their multi-agent system for market data research escalated from $127 in weekly costs to $47,000 over four weeks due to an infinite conversation loop between agents running undetected for 11 days.' The failure mechanism: 'Agent A requested help from Agent B, which in turn asked Agent A for clarification, creating a recursive pattern that neither agent had the logic to break.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:053",
+      "slide": "Production Case Study — The Expensive Nondeterministic Cron Job",
+      "bullet": "Root causes: no per-agent budget ceiling and no external stopping condition that would have terminated the session before the next API call [claim:agde:053]",
+      "source_excerpt": "The post-mortem identified two root causes: no per-agent budget ceiling, and no enforcement mechanism that would have terminated the session before the next API call.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:052",
+      "slide": "Where Agents Earn Their Place — Bounded Problems",
+      "bullet": "A production survey of 1,200 LLMOps deployments found that agents succeed on specific, bounded problems — for example, Ramp's policy agent handles 65% of expense approvals autonomously — but fail when given open-ended tasks [claim:agde:052]",
+      "source_excerpt": "Agents succeed when they handle 'genuinely critical business functions' rather than peripheral tasks. Agents earn their place through measurable outcomes—Ramp's policy agent 'now handles over 65% of expense approvals autonomously.'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states Ramp's policy agent handles 'over 65%' of expense approvals, but the bullet drops the qualifier 'over' and states simply '65%.' This understates the figure. Additionally the source does not say agents 'fail when given open-ended tasks' — it says they succeed on 'genuinely critical business functions rather than peripheral tasks,' which is not the same contrast.",
+      "suggested_fix": "A production survey of 1,200 LLMOps deployments found that agents succeed on specific, bounded problems — for example, Ramp's policy agent now handles over 65% of expense approvals autonomously — but are not universally appropriate and require substantial engineering investment [claim:agde:052]"
+    },
+    {
+      "claim_id": "claim:agde:052",
+      "slide": "Where Agents Earn Their Place — Bounded Problems",
+      "bullet": "The highest-stakes production systems do not try to remove humans from the loop entirely [claim:agde:052]",
+      "source_excerpt": "The highest-stakes systems don't try to remove humans from the loop.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:056",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "Production deployments follow a three-stage progressive autonomy ladder: (1) suggestions only — AI presents recommendations for human review; (2) autonomous for high-confidence cases — agent acts on high-confidence cases without waiting for approval; (3) human approval for edge cases — low-confidence or out-of-policy decisions are routed for human review [claim:agde:056]",
+      "source_excerpt": "Progressive autonomy patterns dominate production systems: 1) Suggestions only (initial stage), 2) Autonomous for high-confidence cases (middle stage), 3) Human approval for edge cases (ongoing requirement).",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:056",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "Ramp implements this as a user-controlled autonomy slider allowing teams to set dollar limits and approval requirements matching their risk tolerance [claim:agde:056]",
+      "source_excerpt": "Ramp exemplifies staged deployment: systems begin 'with AI as suggestions before graduating to autonomous actions.' Their approach uses an 'autonomy slider' enabling teams to 'specify exactly where and when agents can act autonomously,' reflecting recognition that 'different organisations and teams have vastly different risk tolerances.'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet states teams can set 'dollar limits' via the autonomy slider, but the source excerpt does not mention dollar limits. The source describes the slider as allowing teams to 'specify exactly where and when agents can act autonomously.' Dollar limits are a specific concrete detail not present in the source.",
+      "suggested_fix": "Ramp implements this as a user-controlled autonomy slider allowing teams to specify exactly where and when agents can act autonomously, matching their risk tolerance [claim:agde:056]"
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Training-serving skew is the central ML-data failure mode; its root causes include divergent data handling between training and serving pipelines, and data changes between training and serving time (LO2) [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:019",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Iceberg snapshot IDs [claim:agde:019], DVC content hashes [claim:agde:021], and lakeFS commit references [claim:agde:022] are the reproducibility tokens for ML datasets; expiring snapshots permanently destroys time-travel capability [claim:agde:020] (LO4)",
+      "source_excerpt": "A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Iceberg snapshot IDs [claim:agde:019], DVC content hashes [claim:agde:021], and lakeFS commit references [claim:agde:022] are the reproducibility tokens for ML datasets; expiring snapshots permanently destroys time-travel capability [claim:agde:020] (LO4)",
+      "source_excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache, and the rest becoming the file name of the cached file. DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:022",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Iceberg snapshot IDs [claim:agde:019], DVC content hashes [claim:agde:021], and lakeFS commit references [claim:agde:022] are the reproducibility tokens for ML datasets; expiring snapshots permanently destroys time-travel capability [claim:agde:020] (LO4)",
+      "source_excerpt": "lakeFS provides Git-like operations such as branching, committing, merging, and reverting for datasets stored in object storage. Branching is a zero-copy procedure in lakeFS. Every run can be reproduced by checking out the same lakeFS commit of the dataset, and even as the underlying data evolves, the commit reference ensures you can retrieve the exact training data used.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:020",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Iceberg snapshot IDs [claim:agde:019], DVC content hashes [claim:agde:021], and lakeFS commit references [claim:agde:022] are the reproducibility tokens for ML datasets; expiring snapshots permanently destroys time-travel capability [claim:agde:020] (LO4)",
+      "source_excerpt": "Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "PSI quantifies distributional shift per feature; data contracts catch schema drift but not statistical drift — both layers are required (LO5) [claim:agde:027]",
+      "source_excerpt": "PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution and Ri represents the proportion in the reference distribution. Less than 0.1: insignificant change, no action required. 0.1–0.25: some minor change. Greater than 0.25: major shift in population, need to delve deeper.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The citation [claim:agde:027] is placed on a bullet that makes two distinct assertions: (1) PSI quantifies distributional shift per feature, and (2) data contracts catch schema drift but not statistical drift — both layers are required. The source for claim:agde:027 covers only PSI (its formula and thresholds). It contains no information about data contracts, schema drift, or the two-layer requirement. The second assertion is unsupported by this source and requires a separate citation.",
+      "suggested_fix": "PSI quantifies distributional shift per feature — values above 0.25 indicate a major population shift requiring model review [claim:agde:027]. Data contracts catch schema drift but not statistical drift; both layers are required [<separate citation needed>]"
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline; the reranker improves precision but cannot recover recall lost in stage 1 (LO8) [claim:agde:047]",
+      "source_excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. [Published at: Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval, pages 758–759, Boston MA USA, July 2009. Authors: Gordon V. Cormack, Charles L A Clarke, Stefan Büttcher.]",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source for claim:agde:047 is the 2009 RRF paper (Cormack et al.), which covers only the RRF fusion algorithm — it says nothing about rerankers, precision improvement, or recall ceilings. The bullet contains two assertions: (1) 'Hybrid BM25 + dense retrieval fused via RRF is the production baseline' (partly supported by the RRF paper) and (2) 'the reranker improves precision but cannot recover recall lost in stage 1' (not supported by this source at all). The reranker claim belongs with sources like agde:049 or agde:050, not agde:047.",
+      "suggested_fix": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline for information retrieval [claim:agde:047]; a cross-encoder reranker improves precision within the retrieved set but cannot recover recall lost at stage 1 [claim:agde:049]"
+    },
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Dataset versioning: DVC for Git-friendly moderate-scale projects; lakeFS for large-scale object storage with zero-copy branching [claim:agde:021]",
+      "source_excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache, and the rest becoming the file name of the cached file. DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-10ms latency requirements [claim:agde:043]",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors. Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source specifies the latency threshold as 'sub-20ms p95 latency' for when dedicated vector databases become preferable, but the bullet states 'sub-10ms latency requirements.' The source does not support the sub-10ms threshold — it states sub-20ms. This is a factual misrepresentation of a numerical threshold.",
+      "suggested_fix": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-20ms p95 latency requirements [claim:agde:043]"
+    }
+  ],
+  "summary": "24 claims checked in this batch. 16 verified, 6 misrepresented, 0 unverified. Issues found: (1) claim:agde:051 on 'What Is an Agent?' — bullet adds 'or explicit termination' as a stopping condition not stated in the Anthropic source (MINOR). (2) claim:agde:052 on 'Where Agents Earn Their Place' — drops 'over' qualifier from 'over 65%' and overstates the contrast with open-ended tasks (MINOR). (3) claim:agde:056 on 'The Autonomy Maturity Ladder' — bullet adds 'dollar limits' as a specific feature of Ramp's autonomy slider, which is not in the source excerpt (MINOR). (4) claim:agde:027 on 'Lecture Summary' — the single citation is used to support both the PSI claim and a separate claim about data contracts vs. statistical drift; the source covers only PSI (MAJOR). (5) claim:agde:047 on 'Lecture Summary' — the RRF paper citation is used to support a claim about rerankers improving precision and not recovering recall, which the source does not address (MAJOR). (6) claim:agde:043 on 'Further Reading' — source states sub-20ms p95 latency threshold but bullet states sub-10ms (MAJOR)."
+}

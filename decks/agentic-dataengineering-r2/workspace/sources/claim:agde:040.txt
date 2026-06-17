@@ -1,0 +1,30 @@
+SOURCE FILE FOR claim:agde:vecdb:004
+=====================================
+
+CLAIM: DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index built on the Vamana graph algorithm. It indexes and serves a one-billion-point dataset (SIFT1B) on a single machine with 64 GB RAM and a commodity SSD, achieving >5,000 QPS at <3 ms mean latency and ≥95% 1-recall@1 — enabling 5–10x more points per node than in-memory graph indexes like HNSW at equivalent recall.
+
+SOURCE 1:
+TITLE: DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node
+URL / DOI: https://neurips.cc/virtual/2019/poster/14308
+AUTHORS: Suhas Jayaram Subramanya, Fnu Devvrit, Harsha Vardhan Simhadri, Ravishankar Krishnawamy, Rohan Kadekodi
+PUBLICATION: NeurIPS 2019
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"DiskANN is a graph-based indexing and search system that can index, store, and search a billion point database on a single workstation with just 64 GB RAM and an inexpensive solid-state drive (SSD). On the billion point SIFT1B bigann dataset, DiskANN serves over 5000 queries a second with less than 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine. In the high recall regime, DiskANN can index and serve 5-10x more points per node compared to state-of-the-art graph-based methods such as HNSW and NSG."
+
+SOURCE 2:
+TITLE: Disk-based DiskANN: High Recall and QPS on Billion-scale Datasets — Zilliz Blog
+URL / DOI: https://zilliz.com/blog/diskann-a-disk-based-anns-solution-with-high-recall-and-high-qps-on-billion-scale-dataset
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"The scheme is based on a graph-based algorithm called Vamana, which has a smaller search radius than NSG and HNSW and was proposed to minimize the number of disk accesses. DiskANN satisfies the three requirements of ANNS on large-scale datasets: high recall, low latency, and high density (number of nodes in a single machine)."
+
+SOURCE 3:
+TITLE: DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node — Microsoft Research
+URL / DOI: https://www.microsoft.com/en-us/research/publication/diskann-fast-accurate-billion-point-nearest-neighbor-search-on-a-single-node/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Current state-of-the-art approximate nearest neighbor search (ANNS) algorithms generate indices that must be stored in main memory for fast high-recall search, which makes them expensive and limits the size of the dataset. DiskANN introduces Vamana, a new graph-based ANNS index that is more versatile than existing graph indices even for in-memory indices, and supports real-time concurrent insertions and deletions to SSD-resident indices without losing recall."

@@ -1,0 +1,28 @@
+SOURCE FILE: claim:agde:hybrid-retrieval:002
+Retrieved: 2026-06-15
+
+PRIMARY SOURCE:
+URL: https://dl.acm.org/doi/10.1145/1571941.1572114
+Also available at: https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf
+DOI: 10.1145/1571941.1572114
+
+Title: Reciprocal rank fusion outperforms condorcet and individual rank learning methods
+Authors: Gordon V. Cormack, Charles L A Clarke, Stefan Büttcher
+Venue: Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval (SIGIR 2009), pages 758–759, Boston MA USA, July 2009.
+Citations: 344 (as of March 2026)
+
+ABSTRACT EXCERPT:
+"Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse."
+
+KEY TECHNICAL DETAILS (from multiple secondary sources summarizing the paper):
+RRF formula: RRF(c) = Σ 1/(rank_i(c) + k), where rank_i(c) is the rank of document c in retrieval system i, and k=60 is the standard smoothing constant.
+
+"RRF relies solely on the ranking positions of the combined mechanisms, which makes it independent of their specific implementations. Instead of trying to somehow normalize arbitrary scores, RRF ignores the scores entirely and focuses on rank." — from blog.serghei.pl summarizing the paper.
+
+"It was introduced by Cormack, Clarke, and Büttcher in their 2009 SIGIR paper. Because RRF operates on rank positions instead of raw scores, it has become the default hybrid search ranking method in OpenSearch, Elasticsearch, Azure AI Search, MongoDB Atlas, and Weaviate." — from web search summaries covering multiple sources.
+
+SECONDARY REFERENCES:
+- https://blog.serghei.pl/posts/reciprocal-rank-fusion-explained/
+- https://glaforge.dev/posts/2026/02/10/advanced-rag-understanding-reciprocal-rank-fusion-in-hybrid-search/
+- https://bigdataboutique.com/blog/reciprocal-rank-fusion-how-it-works-and-when-to-use-it
+- https://github.com/opensearch-project/neural-search/issues/865 (RFC for RRF in OpenSearch neural search)

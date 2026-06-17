@@ -1,0 +1,36 @@
+SOURCE FILE — claim:agde:psi:003
+
+URL: https://www.geeksforgeeks.org/data-science/population-stability-index-psi/
+Title: Population Stability Index (PSI) — GeeksforGeeks
+Retrieved: 2026-06-15
+
+FULL EXCERPT (from search result content):
+"PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution
+and Ri represents the proportion in the reference distribution."
+
+"Less than 0.1: insignificant change, no action required."
+"0.1–0.25: some minor change, check other scorecard monitoring metrics."
+"Greater than 0.25: major shift in population, need to delve deeper."
+
+"PSI is a statistical tool used to measure how much the distribution of data changes between two
+datasets, usually between a training dataset and a new dataset."
+
+"PSI is widely used, especially in credit risk modeling, to measure the change in the distribution
+of a variable between two populations (reference vs. current). It's applicable to both numerical
+(after binning) and categorical features."
+
+"The population data is often divided into bins or ranges based on specific characteristics.
+The differences in each bin between the expected distribution and the target distribution are
+utilized to calculate PSI."
+
+ADDITIONAL SUPPORTING SOURCE:
+URL: https://coralogix.com/ai-blog/a-practical-introduction-to-population-stability-index-psi/
+"PSI plays a pivotal role in model monitoring by serving as an early warning system for model
+drift. As data evolves over time, the PSI metric can identify significant changes in the
+underlying distribution that may compromise the model's predictive accuracy."
+"In addition to monitoring the scoring variable, you also want to calculate the PSI for features
+as well."
+
+NOTE: The original threshold commonly cited is PSI < 0.1 (no change), 0.1–0.2 (moderate), > 0.2
+(significant). The 0.25 upper boundary also appears in some industry sources. Both sets of thresholds
+are rule-of-thumb conventions from credit scoring, not formally derived cutoffs.

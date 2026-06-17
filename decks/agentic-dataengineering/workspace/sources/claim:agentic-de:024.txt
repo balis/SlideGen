@@ -1,0 +1,15 @@
+Source for claim:agentic-de:schema-vs-dist-drift:001
+
+Title: Data Distribution Shifts and Monitoring (Designing Machine Learning Systems, Ch. 8)
+Author: Chip Huyen
+URL: https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html
+Retrieved: 2026-06-14
+
+Excerpt:
+"Covariate shift: P(X) changes, but P(Y|X) remains the same. This refers to the first decomposition of the joint distribution."
+
+"Concept drift: P(Y|X) changes, but P(X) remains the same. This refers to the first decomposition of the joint distribution. Before COVID-19, a 3 bedroom apartment in San Francisco could cost $2,000,000. However, at the beginning of COVID-19...the same house would cost only $1,500,000."
+
+"The fourth concern is that the schema that your features follow can change over time. If you don't have a way to version your schemas and map each of your features to its expected schema, the cause of the reported alert might be due to the mismatched schema rather than a change in the data."
+
+This material originates from Stanford CS 329S: Machine Learning Systems Design and the book Designing Machine Learning Systems (O'Reilly, 2022).

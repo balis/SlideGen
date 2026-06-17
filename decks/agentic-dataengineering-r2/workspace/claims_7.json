@@ -1,0 +1,90 @@
+{
+  "topic": "Data Engineering in the Age of Artificial Intelligence — Vector Databases",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:vecdb:001",
+      "statement": "Exact k-NN search requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and scanning it at SSD read throughput of 512 MB/s would require 1,000 seconds to answer a single query.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "url_or_doi": "https://arxiv.org/abs/1603.09320",
+        "section": "Introduction / Motivation",
+        "excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:002",
+      "statement": "HNSW (Hierarchical Navigable Small World) is a graph-based ANN index that achieves polylogarithmic search complexity O(log n) via a multi-layer structure. Build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; the query-time parameter efSearch controls the recall-latency tradeoff at serving time. Increasing efSearch from 100 to 640 can improve recall@1 from ~0.85 to ~0.97 while proportionally increasing latency.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "url_or_doi": "https://arxiv.org/abs/1603.09320",
+        "section": "Algorithm description and experiments",
+        "excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales, enabling efficient navigation from coarse to fine granularity during search operations. Build-time parameters M and efConstruction determine graph connectivity and set the ceiling on recall; the query-time parameter efSearch expands or contracts the candidate set explored. Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:003",
+      "statement": "IVF (Inverted File) indexes partition vectors into clusters via k-means; at query time only nprobe clusters are searched, reducing cost at the expense of recall. Product Quantization (PQ) further compresses each vector by splitting it into subvectors and replacing each with a centroid index (controlled by nbits), enabling >100x memory reduction but introducing quantization error that degrades recall. For a 10M-vector 1536-dim dataset, raw storage is 61.4 GB; IVF-PQ with m=48, nbits=8 reduces this to ~480 MB — a 128x reduction.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Inverted File Product Quantization (IVF_PQ): Accelerate Vector Search by Creating Indices — LanceDB / Medium",
+        "url_or_doi": "https://medium.com/etoai/product-quantization-compress-high-dimensional-vectors-dfcba98fab47",
+        "section": "IVF-PQ overview and memory tradeoffs",
+        "excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:004",
+      "statement": "DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index built on the Vamana graph algorithm. It indexes and serves a one-billion-point dataset (SIFT1B) on a single machine with 64 GB RAM and a commodity SSD, achieving >5,000 QPS at <3 ms mean latency and ≥95% 1-recall@1 — enabling 5–10x more points per node than in-memory graph indexes like HNSW at equivalent recall.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node",
+        "url_or_doi": "https://neurips.cc/virtual/2019/poster/14308",
+        "section": "Abstract / Experiments",
+        "excerpt": "DiskANN is a graph-based indexing and search system that can index, store, and search a billion point database on a single workstation with just 64 GB RAM and an inexpensive solid-state drive (SSD). On the billion point SIFT1B bigann dataset, DiskANN serves over 5000 queries a second with less than 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine. In the high recall regime, DiskANN can index and serve 5-10x more points per node compared to state-of-the-art graph-based methods such as HNSW and NSG."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:005",
+      "statement": "Recall in ANN search is a tunable operating point, not a fixed guarantee. Approximate nearest neighbor search achieves speed gains by accepting 'silent' recall losses — vectors disappear from results without error notifications. Even with substantial latency budgets (efSearch producing 35ms latency), recall@1 may reach only 0.9, meaning the true nearest neighbor is absent in ~10% of queries. Recall also degrades silently as the dataset grows (10%+ drop from 50k to 200k vectors with fixed parameters), and HNSW deletes require soft-delete tombstoning rather than immediate graph repair, accumulating stale references until periodic cleanup.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Vector Search: Navigating Recall and Performance — OpenSource Connections",
+        "url_or_doi": "https://opensourceconnections.com/blog/2025/02/27/vector-search-navigating-recall-and-performance/",
+        "section": "Silent recall violations and tunable parameters",
+        "excerpt": "Approximate nearest neighbor (ANN) search achieves speed gains by accepting 'silent' recall losses — vectors disappearing from results without explicit notification to users. Even with substantial latency budgets, recall gaps persist. At k=240 (35ms latency), recall@1 reaches only 0.9, meaning 'for about 10% of the queries, the true top nearest neighbor is missing from the result.' This seems very query-specific: some queries have multiple documents missing even at a high value of k, suggesting certain embeddings align poorly with HNSW graph structure."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:006",
+      "statement": "Metadata filtering interacts poorly with ANN indexes: post-filtering (ANN first, then apply predicate) can return zero results when a selective filter eliminates all ANN candidates; pre-filtering (apply predicate first, then ANN on the subset) degrades to brute force when the subset is large. Tight filters cause tail latencies of 200–300 ms in post-filter fallback engines. Modern dedicated vector databases (Qdrant, Weaviate) address this by integrating filters inside HNSW graph traversal, whereas pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "The Achilles Heel of Vector Search: Filters — Bits & Backprops",
+        "url_or_doi": "https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/",
+        "section": "Pre-filter vs post-filter tradeoffs",
+        "excerpt": "Unlike a traditional RDBMS, adding a filter to a vector search often slows it down, not speeds it up. Pre-filtering guarantees correctness, but if that subset is large you end up doing a near-linear scan. Post-filtering is fast when filters are loose, but restrictive filters require oversampling (searching many more neighbors) to avoid missing matches, and when only 10% of records match a filter, engines relying on post-filter fallbacks can spike to 200–300 ms under filtering in tail latencies. ANN indexes optimize for proximity, not boolean predicates — no native 'category' tree."
+      }
+    },
+    {
+      "id": "claim:agde:vecdb:007",
+      "statement": "pgvector (a Postgres extension) is the appropriate default for datasets under ~2M vectors when Postgres is already in the stack, offering full SQL join capability and zero additional infrastructure. Above 5–10M vectors or for sub-10ms latency requirements, dedicated vector databases (Qdrant, Pinecone, Weaviate, Milvus) become preferable: Qdrant provides best-in-class filtered search by integrating predicates inside HNSW traversal; Pinecone offers zero-ops managed scale at 3–8x cost premium; Milvus is designed for billion-vector sharded deployments. Past 2M vectors on a single Postgres instance, index build times can exceed 20 minutes.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "pgvector vs Pinecone vs Qdrant vs Weaviate (2026): Which We Actually Use in Production — Kalvium Labs",
+        "url_or_doi": "https://www.kalviumlabs.ai/blog/vector-databases-compared-pgvector-pinecone-qdrant-weaviate/",
+        "section": "Key scale thresholds and decision criteria",
+        "excerpt": "pgvector is the default choice for RAG systems under 2M vectors. Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. All four implement HNSW and achieve similar recall at comparable efSearch settings; the database choice affects accuracy in one specific case: selective metadata filtering."
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+Claim ID: claim:agentic-de:lakefs:004
+Source: lakeFS Concepts and Model - lakeFS Documentation
+URL: https://docs.lakefs.io/v1.65/understand/model/
+Retrieved: 2026-06-14
+
+Excerpt:
+"Branches are simply a pointer to a commit along with a set of uncommitted changes, and creating a branch is a zero-copy operation where instead of duplicating data, it involves creating a pointer to the source commit for the branch. The actual data itself is not stored inside lakeFS directly but in an underlying object store."
+
+Additional context from lakeFS FAQ (docs.lakefs.io/v1.66/understand/faq/):
+"No data duplication is done; it's all metadata management behind the scenes. lakeFS provides a powerful capability to create isolated environments for data experimentation and development without duplicating large datasets through its zero-copy branching mechanism, allowing users to modify and process data in isolation while avoiding the high storage costs of traditional data copying."
+
+lakeFS supports managing data in AWS S3, Azure Blob Storage, Google Cloud Storage, and any other object storage with an S3 interface (such as MinIO or Dell ECS).

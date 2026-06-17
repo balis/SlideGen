@@ -1,0 +1,12 @@
+Claim ID: claim:agentic-de:delta-time-travel:001
+Source: Remove unused data files with vacuum | Databricks on AWS
+URL: https://docs.databricks.com/aws/en/delta/vacuum
+Retrieved: 2026-06-14
+
+Excerpt:
+"The default retention threshold for data files after running VACUUM is 7 days. The retention window for the VACUUM command is determined by the delta.deletedFileRetentionDuration table property, which defaults to 7 days. This means VACUUM removes data files that are no longer referenced by a Delta table version in the last 7 days."
+
+Additional context from search results:
+"The ability to time travel back to a version older than the retention period is lost after running vacuum. The default configuration for VACUUM deletes stale data files that are older than seven days. As a result, if you run VACUUM with the default settings, you will only be able to time travel seven days into the past."
+
+"The default configuration for a Delta table allows you to time travel 30 days into the past. However, to do this, the underlying data files must be present. The default retention period of log files is 30 days, configurable through the delta.logRetentionDuration property."

@@ -1,0 +1,5 @@
+Source excerpt:
+"As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range."
+
+URL: https://towardsdatascience.com/hnsw-at-scale-why-your-rag-system-gets-worse-as-the-vector-database-grows/
+Retrieved: 2026-06-14

@@ -1,0 +1,78 @@
+{
+  "topic": "agentic-de",
+  "generated_at": "2026-06-14T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:schema-vs-dist-drift:001",
+      "statement": "Schema drift, distribution drift, and concept drift are three distinct failure modes in ML data pipelines: schema drift is a structural change (missing column, type change); distribution drift (covariate shift) is a change in P(X) with P(Y|X) unchanged; concept drift is a change in P(Y|X) with P(X) unchanged. Schema drift breaks pipelines visibly, while distribution and concept drift degrade models silently.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "book",
+        "title": "Data Distribution Shifts and Monitoring (Designing Machine Learning Systems, Ch. 8)",
+        "url_or_doi": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+        "section": "Types of Data Distribution Shifts",
+        "excerpt": "Covariate shift: P(X) changes, but P(Y|X) remains the same. Concept drift: P(Y|X) changes, but P(X) remains the same. Before COVID-19, a 3 bedroom apartment in San Francisco could cost $2,000,000. However, at the beginning of COVID-19...the same house would cost only $1,500,000."
+      }
+    },
+    {
+      "id": "claim:agentic-de:psi-kl-divergence:001",
+      "statement": "The Population Stability Index (PSI) quantifies distributional shift between a reference and current feature distribution. PSI equals the symmetric form of KL divergence (Jeffreys divergence): PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = sum of (p_i - q_i) * ln(p_i / q_i). Industry-standard thresholds are: PSI < 0.1 indicates no significant change; 0.1 <= PSI < 0.25 indicates moderate shift requiring attention; PSI >= 0.25 indicates significant shift requiring model investigation or retraining.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Population Stability Index (PSI) - Arize AI",
+        "url_or_doi": "https://arize.com/blog-course/population-stability-index-psi/",
+        "section": "PSI Definition and Thresholds",
+        "excerpt": "Population stability index (PSI) is a statistical measure with a basis in information theory that quantifies the difference between one probability distribution from a reference probability distribution. PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P). PSI < 0.1: No significant change. 0.1 <= PSI < 0.25: Moderate shift. PSI >= 0.25: Significant change."
+      }
+    },
+    {
+      "id": "claim:agentic-de:psi-kl-divergence:002",
+      "statement": "PSI is preferred over raw KL divergence for production monitoring because PSI is symmetric: swapping the baseline distribution p(x) and sample distribution q(x) yields the same value, whereas KL divergence is asymmetric and D_KL(P||Q) != D_KL(Q||P). This symmetry makes PSI more interpretable for comparing training-time vs. serving-time distributions regardless of which is designated as reference.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Difference between KL Divergence and PSI",
+        "url_or_doi": "https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12",
+        "section": "PSI vs KL Divergence",
+        "excerpt": "PSI has a number of advantages compared to KL divergence for troubleshooting data model comparisons because if you swap the baseline distribution p(x) and sample distribution q(x), you will get the same number."
+      }
+    },
+    {
+      "id": "claim:agentic-de:data-contracts-limits:001",
+      "statement": "Data contracts and schema validation catch structural breaks (missing columns, type mismatches, null violations) but cannot detect silent distributional shift in feature values. A feature column can pass every schema contract while its distribution shifts enough to invalidate model assumptions. Detecting distributional drift requires statistical monitoring (e.g., PSI, KL divergence, KS test) layered on top of contract enforcement.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Data Contracts: The Essential Framework for Preventing Schema Drift in AI Operations",
+        "url_or_doi": "https://www.axrail.ai/post/data-contracts-the-essential-framework-for-preventing-schema-drift-in-ai-operations",
+        "section": "Schema Validation Limitations",
+        "excerpt": "Schema validation prevents incompatible data from entering your pipeline but only catches structural drift, not statistical or conceptual changes. Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements."
+      }
+    },
+    {
+      "id": "claim:agentic-de:offline-online-gap:001",
+      "statement": "Offline metric improvements can fail to translate into online performance gains, and in some cases online metrics regress even as offline metrics improve. This occurs because offline evaluation datasets are curated and static while production inputs are dynamic and subject to feedback loops. Improvements in offline metrics lead to diminishing returns in online performance, and the ranking of models can change depending on the amount of initial offline data available.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Do Offline Metrics Predict Online Performance in Recommender Systems?",
+        "url_or_doi": "https://arxiv.org/abs/2011.07931",
+        "section": "Findings",
+        "excerpt": "Offline metrics are correlated with online performance over a range of environments. However, improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available."
+      }
+    },
+    {
+      "id": "claim:agentic-de:offline-online-gap:002",
+      "statement": "The offline-online metric gap is a specific failure mode where a model optimized for offline accuracy overfits to historical patterns and evaluation dataset quirks rather than improving real-world relevance. Contributing causes include temporal leakage in offline features (e.g., fraud labels available at evaluation time but not at prediction time), latency regressions invisible to accuracy metrics, and feedback loops where production model outputs reshape future training distributions.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "Why Your ML Model Works in Training But Fails in Production",
+        "url_or_doi": "https://towardsdatascience.com/why-your-ml-model-works-in-training-but-fails-in-production/",
+        "section": "Failure Modes",
+        "excerpt": "A model that looked great offline can mask a latency regression that drives users away. In fraud detection, offline recall improves dramatically when risky transactions come with confirmed fraud signals, but in production, the model is supposed to never see the future."
+      }
+    }
+  ]
+}

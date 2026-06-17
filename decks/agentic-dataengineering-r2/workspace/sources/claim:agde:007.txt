@@ -1,0 +1,29 @@
+SOURCE: Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers
+URL: https://developers.google.com/machine-learning/guides/rules-of-ml
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:skew-definition:001):
+"Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by:
+- A discrepancy between how you handle data in the training and serving pipelines.
+- A change in the data between when you train and when you serve.
+- A feedback loop between your model and your algorithm."
+
+Additional supporting quotes from the same document:
+
+Rule #29: "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time."
+
+Rule #31: "If you join data from a table at training and serving time, the data in the table may change" between those phases, causing prediction discrepancies.
+
+Rule #32: "Reuse code between your training pipeline and your serving pipeline whenever possible. This eliminates a source of training-serving skew."
+
+Rule #37 requires measurement across three comparison levels:
+- Training versus holdout data performance
+- Holdout versus next-day data performance
+- Next-day versus live data performance
+
+The guidance emphasizes that identical results between training and serving "should give you exactly the same result," suggesting engineering errors if discrepancies appear.
+
+NOTES:
+- This is Google's authoritative, publicly available engineering guide.
+- The three-part taxonomy of skew causes is verbatim from this document.
+- HIGH confidence: direct quotes from primary source.

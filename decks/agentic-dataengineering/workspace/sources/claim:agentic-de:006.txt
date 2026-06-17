@@ -1,0 +1,38 @@
+Source for claim:agentic-de:feature-eng-stateful:001
+
+Title: Data preprocessing for ML: options and recommendations
+Author: TensorFlow / TFX documentation
+URL: https://www.tensorflow.org/tfx/guide/tft_bestpractices
+
+Excerpt:
+"During training, you analyze the whole body of training data to compute
+quantities such as minimum, maximum, mean, and variance for transforming
+training data, evaluation data, and new data at prediction time."
+
+"For example, to normalize a numeric feature for training, you compute its
+mean (mu) and its standard deviation (sigma) across the whole of the training
+data. This computation is called a full-pass (or analyze) operation."
+
+"Full-pass transformations include the following:
+- MinMax scaling numerical features using min and max computed from the
+  training dataset.
+- Standard scaling (z-score normalization) numerical features using mu and
+  sigma computed on the training dataset.
+- Bucketizing numerical features using quantiles.
+- Imputing missing values using the median (numerical features) or the mode
+  (categorical features).
+- Converting strings (nominal values) to integers (indexes) by extracting
+  all the distinct values (vocabulary) of an input categorical feature."
+
+"In this scenario, transformations are stateful, because they use some
+precomputed statistics to perform the transformation."
+
+"The values then have to be stored somewhere to be used during model serving
+for prediction to transform the new raw data points as instance-level
+transformations, which avoids training-serving skew."
+
+"These transformations must be applied identically during training and
+prediction, because the model will be trained on the transformed features,
+not on the raw input values."
+
+Retrieved: 2026-06-14

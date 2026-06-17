@@ -1,0 +1,20 @@
+Source for claim:agentic-de:data-versioned-artifact:001
+
+Title: Data Versioning: ML Best Practices Checklist 2026
+URL: https://labelyourdata.com/articles/machine-learning/data-versioning
+
+Excerpt:
+"Managing and versioning data correctly is essential for reproducibility and
+traceability within ML pipelines. Modern frameworks automatically track and
+version every artifact — data, models, or evaluations — upon pipeline
+execution, adopting a data-first approach where all artifacts are versioned
+and identified by content hash."
+
+Additional context from search results:
+Some frameworks (e.g., HP CMF, DVC, lakeFS) adopt a data-first approach
+where all artifacts are versioned and identified by content hash, bringing
+Git-like semantics to data — allowing engineers to branch, commit, and roll
+back datasets just as they would with code. This contrasts with BI's
+approach of querying the current state of a live table.
+
+Retrieved: 2026-06-14

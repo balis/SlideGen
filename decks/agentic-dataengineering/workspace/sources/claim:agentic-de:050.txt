@@ -1,0 +1,18 @@
+Source excerpt for claim:agentic-de:agent-usecases:002
+
+Title: From Questions to Queries: An AI-powered Multi-Agent Framework for Spatial Text-to-SQL
+Source: arXiv preprint (2510.21045)
+
+Excerpt:
+In multi-agent pipelines, the Entity Extraction Agent interprets the question, the Metadata
+Retrieval Agent grounds it in the schema, the Query Logic Agent builds a high-level plan, the
+SQL Generation Agent converts that plan into executable SQL, and the Review Agent validates and
+repairs the result against database behavior. Agents exchange typed JSON outputs that act as
+explicit contracts between stages, where earlier outputs are validated before downstream use,
+and later stages are constrained by the schema evidence and logical decisions already established.
+
+Agentic architectures use stepwise planning that breaks complex questions into sub-tasks including
+entity resolution, KPI logic, date filters, and joins.
+
+URL: https://arxiv.org/pdf/2510.21045
+Retrieved: 2026-06-14

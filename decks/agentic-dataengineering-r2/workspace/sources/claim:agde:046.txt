@@ -1,0 +1,26 @@
+SOURCE FILE: claim:agde:hybrid-retrieval:001
+Retrieved: 2026-06-15
+
+URL: https://ranjankumar.in/bm25-vs-dense-retrieval-for-rag-engineers
+Title: BM25 vs Dense Retrieval for RAG: What Actually Breaks in Production
+Author: Ranjan Kumar
+
+FULL EXCERPT:
+"You can't pick between BM25 and dense retrieval. You need both. They fail in opposite ways."
+
+"BM25 is precise but brittle...Dense retrieval is robust but vague."
+
+"Exact identifiers survive [in BM25]. Error codes, ticket IDs, API endpoints, function names, configuration keys—anything that needs to be precisely correct rather than semantically similar."
+
+"[Dense retrieval] treats symbols as noise. Embedding models...treat tokens like 'E4392' or '/api/v2/users' as less important than readable text."
+
+"It [dense retrieval] over-generalizes short queries. Query: 'timeout'. Dense retrieval returns chunks about network, database, API timeouts—all semantically similar but unclear which one is needed."
+
+"BM25 isn't about semantic understanding. It's about not dropping facts on the floor."
+
+SUPPORTING CONTEXT (from additional web searches):
+"BM25 excels at finding exact terms, identifiers, product names, and rare words where the literal string matters, but falls apart when users paraphrase or use synonyms. Conversely, dense embeddings excel at capturing meaning and handling paraphrase, but fall apart on exact terms, numbers, and rare identifiers that weren't well-represented during embedding training." — from web search result summaries.
+
+"Vector search becomes weak when queries contain lexical anchors that must be matched exactly like IP addresses, error codes, log entries, precise configuration keys, or product SKUs. Embedding models are built to generalize meaning, not to guarantee that specific tokens map to exact documents containing those tokens." — from web search result summaries.
+
+"Production retrieval needs both the lexical precision of BM25 and the semantic recall of vector search. Hybrid search recovers both signals and produces far more useful candidate sets for RAG." — from web search result summaries.

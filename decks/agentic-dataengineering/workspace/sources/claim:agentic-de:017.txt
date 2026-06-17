@@ -1,0 +1,25 @@
+Claim ID: claim:agentic-de:feature-store-antipattern:001
+Statement: A feature store should not be adopted when the organization has a single model, a single ML team, or batch-only inference: in these scenarios the offline/online dual-store, streaming pipeline, and synchronization mechanism add ecosystem-level complexity without payoff, because batch pipelines have enough time to compute features on demand and there is no cross-team reuse to amortize the overhead.
+
+Source excerpts:
+
+[Xebia - You Still Don't Need A Feature Store]
+"If the feature store requires a streaming pipeline, a batch pipeline, an orchestrator, an offline store, an online store, and a sync mechanism -- you're adopting a feature ecosystem, not a feature store."
+
+URL: https://xebia.com/blog/you-still-don-t-need-a-feature-store/
+Retrieved: 2026-06-14
+
+[Multiple sources on batch-only / single-team scenarios]
+"Most machine learning teams do not need a feature store. A feature store solves problems for machine learning teams at a certain scale and operational maturity; if your team is not there, a feature store adds complexity without payoff."
+
+"For batch feature engineering + batch inference where there is no need for streaming features and model serving latency is not very low, you do not need an online feature store and a streaming pipeline to pre-compute the features, as you have enough time to compute the features on demand."
+
+"When a single ML team computes features and maintains them in a data store, this pattern is commonly applied in combination with models trained in batch."
+
+"If your ML applications primarily rely on batch processing without immediate needs for real-time feature updates, the real-time capabilities of a feature store may not be essential."
+
+URLs:
+- https://xebia.com/blog/you-still-don-t-need-a-feature-store/
+- https://tacnode.io/post/do-you-need-a-feature-store
+- https://chalk.ai/blog/what-is-a-feature-store
+Retrieved: 2026-06-14

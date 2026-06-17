@@ -1,0 +1,13 @@
+Source for claim:agentic-de:temporal-leak:001
+
+Title: Point-in-time joins — Feast: the Open Source Feature Store documentation
+URL: https://docs.feast.dev/getting-started/concepts/point-in-time-joins
+Section: Point-in-Time Joins
+
+Excerpt:
+"Feature values in Feast are modeled as time-series records. Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. This means Feast is able to reproduce the state of features at a specific point in the past. For each row within the entity dataframe, Feast will query and join the selected features from the appropriate feature view data source."
+
+Additional context from Feast documentation (Feature retrieval page):
+"Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models."
+
+Retrieved: 2026-06-14

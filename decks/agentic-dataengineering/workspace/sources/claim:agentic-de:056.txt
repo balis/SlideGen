@@ -1,0 +1,8 @@
+Source for claim:agentic-de:ml-lineage:002
+
+Title: Capturing end-to-end provenance for machine learning pipelines
+URL: https://www.sciencedirect.com/science/article/pii/S0306437924001534
+Retrieved: 2026-06-14
+
+Excerpt:
+Modern workflows for developing ML pipelines utilize ML artifact management systems (ML AMSs) such as MLflow in addition to traditional version control systems such as Git, which collect data, model, metadata and software artifacts used and produced in pipeline development workflows. However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities. MLflow2PROV introduces a comprehensive PROV-compliant provenance model that captures end-to-end provenance traces of ML pipelines, their artifacts, and their relationships based on MLflow and Git activities, enabling querying, analyzing, and processing of the collected provenance information.

@@ -1,0 +1,5 @@
+Source excerpt:
+"A higher efSearch (e.g., 500 vs. 100) increases recall by exploring more neighbors, but it slows down queries due to additional distance calculations. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency. efSearch must be set >= the desired number of nearest neighbors (k) to return meaningful results. efSearch and efConstruction have no effect on the memory usage. A higher M (e.g., 24 vs. 12) increases the graph's connectivity, improving recall by reducing the chance of search getting trapped in local minima. However, more connections also expand the index size (memory usage) and slow down build time."
+
+URL: https://milvus.io/ai-quick-reference/what-are-the-key-configuration-parameters-for-an-hnsw-index-such-as-m-and-efconstructionefsearch-and-how-does-each-influence-the-tradeoff-between-index-size-build-time-query-speed-and-recall
+Retrieved: 2026-06-14

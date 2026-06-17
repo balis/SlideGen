@@ -1,0 +1,18 @@
+Source for claim:agentic-de:ml-pipeline-contract:001
+
+Title: Data Distribution Shifts and Monitoring
+Author: Chip Huyen
+URL: https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html
+
+Excerpt:
+"Operational expectation violations are easier to detect, as they're usually
+accompanied by an operational breakage such as a timeout, a 404 error on a
+webpage, an out of memory error, a segmentation fault, etc. However, ML
+performance expectation violations are harder to detect."
+
+"A model does great when first deployed, but its performance degrades over time
+as the data distribution changes."
+
+"ML systems often fail silently."
+
+Retrieved: 2026-06-14

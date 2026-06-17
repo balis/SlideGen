@@ -1,0 +1,188 @@
+{
+  "version": 3,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Training-serving skew is a difference between ML model outputs during training and during serving, caused by a discrepancy between how data is handled in the training and serving pipelines, or by a change in data between when the model trains and when it serves [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source defines training-serving skew as a difference between 'performance' during training and serving, not a difference between 'ML model outputs'. Performance (metrics) and model outputs are not the same thing. Additionally, the source lists three causes; the bullet omits the third — 'A feedback loop between your model and your algorithm' — without qualification.",
+      "suggested_fix": "Training-serving skew is a difference between model performance during training and during serving, caused by: a discrepancy between how data is handled in the training and serving pipelines, a change in the data between when the model trains and when it serves, or a feedback loop between the model and the algorithm [claim:agentic-de:007]"
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "The best way to prevent skew from divergent code paths is to reuse the same feature engineering code for both training and serving, so that any given raw input maps to the same feature vector in both environments [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source's Rule 29 recommends a specific technique: save the features computed at serving time and pipe them to a log for use at training time. The bullet instead recommends 'reuse the same feature engineering code for both training and serving' — a different approach not stated in the source. The bullet substitutes a common engineering best practice for what the cited source actually says, and the two recommendations are mechanically distinct.",
+      "suggested_fix": "The best way to ensure training and serving consistency is to save the set of features used at serving time and pipe those features to a log to use at training time; even if this cannot be done for every example, doing it for a small fraction allows verifying consistency between serving and training [claim:agentic-de:008]"
+    },
+    {
+      "claim_id": "claim:agentic-de:009",
+      "slide": "Temporal Leakage — The Naive Join Trap",
+      "bullet": "Temporal leakage occurs when a naive join attaches current or future feature values to training rows instead of the values available at prediction time, producing over-optimistic offline metrics that do not generalise [claim:agentic-de:009]",
+      "source_excerpt": "Feature values in Feast are modeled as time-series records. Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. This means Feast is able to reproduce the state of features at a specific point in the past. For each row within the entity dataframe, Feast will query and join the selected features from the appropriate feature view data source. / Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:010",
+      "slide": "Temporal Leakage — The Naive Join Trap",
+      "bullet": "A point-in-time correct (as-of) join ensures the training set reflects the state of features at the timestamp of each label event, not the current state of the feature table [claim:agentic-de:010]",
+      "source_excerpt": "A point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table. In SQL, a PiT Join is an ASOF LEFT JOIN. The AS OF join ensures that the most recent value of the feature at the time of the timestamp is used in the training set.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "A difference in feature value distributions between training and serving data [claim:agentic-de:011] (What column)",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "A change in the joint probability distribution P(X, Y) between two time points — the relationship between inputs and the target evolves over time [claim:agentic-de:012] (What column)",
+      "source_excerpt": "In predictive analytics, data science, machine learning and related fields, concept drift is an evolution of data that invalidates the data model. It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways. / Concept drift is formally defined as a change in the joint probability distribution P(X,Y) between two time instances.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Using a different training corpus or a faulty sampling mechanism at data collection time [claim:agentic-de:011] (Root cause column)",
+      "source_excerpt": "One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "The statistical properties of the target variable change over time as the world changes [claim:agentic-de:012] (Root cause column)",
+      "source_excerpt": "It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Distribution skew exists when training and serving data distributions diverge — which can occur due to a different training corpus or a faulty sampling mechanism [claim:agentic-de:011] (When column)",
+      "source_excerpt": "Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Concept drift is a temporal phenomenon — the statistical properties of the target variable change over time [claim:agentic-de:012] (When column)",
+      "source_excerpt": "It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Engineering: align the training corpus and sampling mechanism with the serving distribution [claim:agentic-de:011] (Fix column)",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Monitoring and retraining: detect distributional shift and update the model [claim:agentic-de:012] (Fix column)",
+      "source_excerpt": "In predictive analytics, data science, machine learning and related fields, concept drift is an evolution of data that invalidates the data model. It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways. / The article distinguishes data drift (change in input distributions P(X)) from concept drift (change in the relationship P(Y|X)), noting that concept drift can occur even when input distributions remain stable.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "Embedding benchmark reproducibility (e.g., MTEB) requires pinning three components: the evaluation task protocol, the dataset revision, and the model checkpoint or API version [claim:agentic-de:023] (1st bullet)",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "Without coupling all three, result comparability is lost — changing any of task protocol, dataset revision, or model checkpoint produces different results [claim:agentic-de:023] (2nd bullet)",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:018",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Delta Lake time travel supports querying historical table versions by timestamp or version number; the default VACUUM retention period is 7 days (`delta.deletedFileRetentionDuration`), so time travel beyond 7 days requires explicitly increasing retention at the cost of additional storage [claim:agentic-de:018]",
+      "source_excerpt": "The default retention threshold for data files after running VACUUM is 7 days. The retention window for the VACUUM command is determined by the delta.deletedFileRetentionDuration table property, which defaults to 7 days. This means VACUUM removes data files that are no longer referenced by a Delta table version in the last 7 days. / The ability to time travel back to a version older than the retention period is lost after running vacuum. The default configuration for VACUUM deletes stale data files that are older than seven days. As a result, if you run VACUUM with the default settings, you will only be able to time travel seven days into the past.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Apache Iceberg implements time travel through immutable snapshots: each write creates a new snapshot referencing manifest lists and data files; historical queries reference the same underlying Parquet/ORC files without duplicating data, until snapshot accumulation causes metadata bloat [claim:agentic-de:019]",
+      "source_excerpt": "Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage. Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims that 'historical queries reference the same underlying Parquet/ORC files without duplicating data'. The source states 'Storing multiple snapshots and versions of data files increases the storage usage', which directly implies that data files are versioned and storage grows — contradicting the claim that there is no data duplication. The source supports metadata bloat from snapshot accumulation, but does not support the claim that historical queries reference files without duplication. The claim about 'immutable snapshots referencing manifest lists and data files' is also not found in this source.",
+      "suggested_fix": "Apache Iceberg implements time travel through snapshots: each write can create new versions of data and metadata files, increasing storage usage; over time snapshots accumulate and metadata files grow larger, increasing memory requirements for query planning [claim:agentic-de:019]"
+    },
+    {
+      "claim_id": "claim:agentic-de:020",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "DVC uses content-addressable storage with MD5 hashes to deduplicate data: files are stored in a cache keyed by hash, and lightweight `.dvc` metafiles tracked in Git act as pointers, linking each Git commit to an exact dataset state without storing large files in the repository [claim:agentic-de:020]",
+      "source_excerpt": "The cache uses content-addressable storage, meaning files are stored based on their hash. This prevents data duplication; if you have multiple copies of the same file (even with different names or locations), DVC stores only one copy in the cache. DVC calculates the file hash, a 32 characters long string (usually MD5). The first two characters are used to name the directory inside the cache, and the rest become the file name of the cached file. / Instead of storing large files directly in your Git repository, DVC stores lightweight metadata files (called .dvc files) that act as pointers to the actual data. These .dvc files are tracked by Git. Since the metafile is versioned by Git, DVC ties data to specific code versions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:021",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "lakeFS provides Git-like version control (branches, commits, merges) over object storage (S3, GCS, Azure Blob) using zero-copy branching: creating a branch is a metadata-only operation with no data duplication; storage overhead only occurs when data is actually modified on a branch [claim:agentic-de:021]",
+      "source_excerpt": "Branches are simply a pointer to a commit along with a set of uncommitted changes, and creating a branch is a zero-copy operation where instead of duplicating data, it involves creating a pointer to the source commit for the branch. The actual data itself is not stored inside lakeFS directly but in an underlying object store. / No data duplication is done; it's all metadata management behind the scenes. lakeFS provides a powerful capability to create isolated environments for data experimentation and development without duplicating large datasets through its zero-copy branching mechanism, allowing users to modify and process data in isolation while avoiding the high storage costs of traditional data copying.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "18 claims checked in this batch. 14 verified, 3 misrepresented, 0 unverified. Issues: (1) claim:agentic-de:007 — bullet says 'difference between ML model outputs' but source says 'difference between performance'; also omits the third cause (feedback loop) [MAJOR]; (2) claim:agentic-de:008 — bullet recommends 'reuse the same feature engineering code' but Rule 29 specifically recommends logging serving features for use at training time — a different technique [MAJOR]; (3) claim:agentic-de:019 — bullet claims Iceberg historical queries reference the same files 'without duplicating data' but source states storage increases due to 'versions of data files', contradicting the no-duplication claim [MAJOR]."
+}

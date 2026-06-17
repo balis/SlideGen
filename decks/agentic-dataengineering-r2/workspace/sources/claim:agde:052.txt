@@ -1,0 +1,19 @@
+SOURCE: What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog
+URL: https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025
+Retrieved: 2026-06-15
+
+FULL EXCERPT (when agents earn their place):
+"Agents succeed when they handle 'genuinely critical business functions' rather than peripheral tasks. The article emphasizes that 'the gap between demo and production' requires substantial engineering investment. Agents earn their place through measurable outcomes—Ramp's policy agent 'now handles over 65% of expense approvals autonomously,' while Digits rejected MCP for production due to unresolved security concerns, showing agents aren't universally appropriate."
+
+"The highest-stakes systems don't try to remove humans from the loop."
+
+ADDITIONAL SUPPORTING DATA:
+- Only 5.2% of teams have AI agents in production with real users (Cleanlab 2025 survey of 1,837 leaders).
+- Deloitte's 2025 survey of 500 US technology leaders found only 11% of organizations have agentic AI in active production, with 38% piloting and 30% exploring.
+- Gartner predicts that 40% of enterprise applications will feature task-specific AI agents by end of 2026, up from less than 5% in 2025.
+(Sources: ZenML blog synthesis; Atlan AI agents for data engineering guide, https://atlan.com/know/ai-agents-for-data-engineering/)
+
+NOTES:
+- The ZenML database is based on 1,200 documented LLMOps case studies, giving it empirical breadth.
+- Ramp and Digits are named production case studies, not hypothetical examples.
+- The contrast between Ramp (succeeded) and Digits (rejected agents for security reasons) illustrates agent suitability as a design decision, not a default.

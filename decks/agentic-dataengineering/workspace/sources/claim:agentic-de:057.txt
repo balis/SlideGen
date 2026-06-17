@@ -1,0 +1,9 @@
+Source for claim:agentic-de:prompt-injection-pipeline:003
+
+Title: PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models
+URL: https://arxiv.org/abs/2402.07867
+Published at: USENIX Security 2025
+Retrieved: 2026-06-14
+
+Excerpt:
+An attacker could inject a few malicious texts into the knowledge database of a RAG system to induce an LLM to generate an attacker-chosen target answer for an attacker-chosen target question. PoisonedRAG achieves a 90% attack success rate when injecting five malicious texts for each target question into a knowledge database with millions of texts. The knowledge database represents a new and practical attack surface in RAG systems. The research conducted systematic evaluations on multiple datasets (Natural Question, HotpotQA, MS-MARCO), 8 LLMs (e.g., GPT-4, LLaMA-2), and three real-world applications, including advanced RAG schemes, Wikipedia-based chatbot, and LLM agent. Several defenses were evaluated and the results show they are insufficient to defend against PoisonedRAG.

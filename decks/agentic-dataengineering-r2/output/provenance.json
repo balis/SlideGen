@@ -1,0 +1,759 @@
+{
+  "topic": "Data Engineering in the Age of AI",
+  "finalized_at": "2026-06-17",
+  "slides": 63,
+  "draft_iterations": 4,
+  "review_verdict": "APPROVED",
+  "code_execution": "PASS (3/3 python blocks; 1 sql block SKIPPED — no runner)",
+  "claims": [
+    {
+      "id": "claim:agde:001",
+      "statement": "ML systems fail silently: unlike traditional software that raises exceptions or dashboards that display visibly-wrong numbers, an ML model will continue returning predictions even when input data is incorrect or significantly shifted, producing low-quality outputs without raising any alarm.",
+      "source_url": "https://www.evidentlyai.com/ml-in-production/model-monitoring",
+      "source_title": "Model monitoring for ML in production: a comprehensive guide",
+      "source_file": "workspace/sources/claim:agde:001.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:002",
+      "statement": "Training-serving skew is a silent killer of ML model performance: the model still runs without errors, produces predictions, but those predictions are based on incorrect inputs and accuracy degrades silently—unlike data drift which develops gradually, skew can exist from day one and go unnoticed.",
+      "source_url": "https://dev.to/timeai/training-serving-skew-the-silent-model-killer-2abl",
+      "source_title": "Training-Serving Skew. The Silent Model Killer",
+      "source_file": "workspace/sources/claim:agde:002.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:003",
+      "statement": "Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI as the top of a pyramid: before deploying ML, organizations must first have data literacy, collection, and infrastructure in place, just as Maslow's hierarchy requires food and shelter before self-actualization.",
+      "source_url": "https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007",
+      "source_title": "The AI Hierarchy of Needs",
+      "source_file": "workspace/sources/claim:agde:003.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agde:004",
+      "statement": "According to the CrowdFlower 2016 Data Science Survey, 80% of data scientists' work consists of data preparation: 60% of respondents spent most of their time cleaning and organizing data, and 19% spent most of their time collecting data sets.",
+      "source_url": "https://www.kdnuggets.com/2016/04/crowdflower-2016-data-science-repost.html",
+      "source_title": "CrowdFlower 2016 Data Science Report",
+      "source_file": "workspace/sources/claim:agde:004.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agde:005",
+      "statement": "ML treats datasets as versioned, time-aware artifacts—immutable snapshots tied to a specific point in time—rather than as query targets. This is because ML reproducibility requires knowing exactly what data state produced a given model or index, a requirement absent in BI/analytics where the latest snapshot is always the correct answer.",
+      "source_url": "https://wandb.ai/site/articles/intro-to-mlops-data-and-model-versioning/",
+      "source_title": "Understanding AI version control for dataset and model versioning",
+      "source_file": "workspace/sources/claim:agde:005.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:006",
+      "statement": "Feature engineering is a stateful pipeline stage: transformation functions that normalize or encode features require statistics (means, standard deviations, vocabularies) computed solely on the training set ('fit-time statistics'), which must be stored and then reapplied identically during inference to prevent training-serving skew.",
+      "source_url": "https://docs.hopsworks.ai/latest/concepts/fs/feature_view/training_inference_pipelines/",
+      "source_title": "Consistent Transformations — Hopsworks Documentation",
+      "source_file": "workspace/sources/claim:agde:006.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "Data Engineering in the Age of AI"
+      ]
+    },
+    {
+      "id": "claim:agde:007",
+      "statement": "Training-serving skew is defined as a discrepancy between ML model feature engineering or data handling during training versus during deployment (serving), and is identified by Google as a central ML production failure mode with three root causes: (1) a discrepancy between how data is handled in training vs. serving pipelines, (2) a change in the data between when the model is trained and when it serves, and (3) a feedback loop between the model and its algorithm.",
+      "source_url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "source_title": "Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers",
+      "source_file": "workspace/sources/claim:agde:007.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:008",
+      "statement": "Divergent batch-training vs. online-inference code paths are a primary source of training-serving skew: when training pipelines and serving pipelines independently re-implement the same feature transformation, small differences in tokenization, string normalization, missing-value defaults, or floating-point rounding compound into a feature gap that silently degrades model performance at inference time.",
+      "source_url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+      "source_title": "Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers",
+      "source_file": "workspace/sources/claim:agde:008.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:009",
+      "statement": "Point-in-time correctness violations are the second source of training-serving skew: when feature generation, predictions, and label generation occur at different points in time, a naive join that does not constrain feature values to those available at the prediction timestamp incorporates future information, causing models to perform well in training but fail in production.",
+      "source_url": "https://apxml.com/courses/feature-stores-for-ml/chapter-3-data-consistency-quality/point-in-time-correctness",
+      "source_title": "Point-in-Time Correctness for Training Data — Feature Stores for ML (apxml.com)",
+      "source_file": "workspace/sources/claim:agde:009.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:010",
+      "statement": "A naive equi-join of a transactions table to a customer dimension table and timestamped labels—without constraining the customer attributes to those that existed at or before the transaction timestamp—leaks future customer state (e.g., post-event churn status, updated credit tier, aggregate fraud counts that include later incidents) into training rows, creating overly optimistic offline metrics that collapse at deployment.",
+      "source_url": "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+      "source_title": "Point-in-Time Joins — Feast: the Open Source Feature Store (docs.feast.dev)",
+      "source_file": "workspace/sources/claim:agde:010.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:011",
+      "statement": "Training-serving skew and concept/distribution drift are distinct failure modes that must not be conflated: skew is a consistency mismatch between two code paths (or between feature values used at training vs. serving time) that is present at the moment of deployment and does not require time to manifest; concept drift (P(Y|X) changes) and covariate/distribution drift (P(X) changes) are temporal phenomena in which the real world changes under a deployed model after it has been released.",
+      "source_url": "https://www.qwak.com/post/training-serving-skew-in-machine-learning",
+      "source_title": "What is training-serving skew in Machine Learning? — JFrog ML (Qwak)",
+      "source_file": "workspace/sources/claim:agde:011.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:012",
+      "statement": "Concept drift is formally defined as P(Y|X) changing while P(X) stays the same (the relationship between features and labels changes because the world changed), whereas covariate shift/distribution drift is P(X) changing while P(Y|X) stays the same (the input distribution changes). Both are temporal phenomena occurring after deployment, in contrast to training-serving skew which is an engineering defect present from day one.",
+      "source_url": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+      "source_title": "Data Distribution Shifts and Monitoring — Chip Huyen",
+      "source_file": "workspace/sources/claim:agde:012.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:013",
+      "statement": "A point-in-time (as-of) join prevents temporal leakage by retrieving, for each training example, only feature values whose timestamp is at or before the label's event_timestamp — ensuring that no future information is used during model training.",
+      "source_url": "https://docs.feast.dev/getting-started/concepts/feature-retrieval",
+      "source_title": "Feature Retrieval Concepts — Feast: the Open Source Feature Store",
+      "source_file": "workspace/sources/claim:agde:013.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:014",
+      "statement": "A feature store's offline/online/shared-transformation-definition pattern eliminates training-serving skew by enforcing that both the historical training path and the real-time serving path execute the same feature computation logic, declared once in a shared feature view registry.",
+      "source_url": "https://www.dragonflydb.io/blog/feature-store-architecture-and-storage",
+      "source_title": "Feature Stores: Architecture and Online/Offline Storage — DragonflyDB Blog",
+      "source_file": "workspace/sources/claim:agde:014.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:015",
+      "statement": "The offline/online store split in a feature store introduces a second consistency problem: the online store must be periodically materialized from the offline store, creating a window of staleness during which the two stores diverge; if materialization writes to only one store, eventual consistency breaks.",
+      "source_url": "https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency",
+      "source_title": "Online-Offline Feature Store Consistency — Hopsworks MLOps Dictionary",
+      "source_file": "workspace/sources/claim:agde:015.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:016",
+      "statement": "Dialect-specific ASOF JOIN syntax exists in DuckDB, ClickHouse, and kdb+; the concept originates from kdb+'s aj (as-of join) operator used extensively in quantitative finance; ClickHouse adopted it in 2019 with the constraint that an equality condition must accompany the inequality; DuckDB's implementation hash-partitions and sorts the right-hand side and benchmarks several orders of magnitude faster than equivalent window-function queries.",
+      "source_url": "https://duckdb.org/2023/09/15/asof-joins-fuzzy-temporal-lookups",
+      "source_title": "DuckDB AsOf Joins: Fuzzy Temporal Lookups — DuckDB Blog; Altinity ClickHouse ASOF blog",
+      "source_file": "workspace/sources/claim:agde:016.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:017",
+      "statement": "Point-in-time joins can be implemented in standard ANSI SQL using window functions (added in SQL:2003/2008) or LATERAL correlated subqueries; these portable approaches are functionally equivalent to dialect-specific ASOF JOIN but typically execute more slowly because the optimizer cannot apply the same merge-join strategy.",
+      "source_url": "https://docs.aws.amazon.com/dms/latest/sql-server-to-aurora-postgresql-migration-playbook/chap-sql-server-aurora-pg.sql.windowfunctions.html",
+      "source_title": "Window Functions in ANSI SQL (AWS Migration Playbook); LATERAL as Advanced SQL Feature (Medium)",
+      "source_file": "workspace/sources/claim:agde:017.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:018",
+      "statement": "A feature store is not warranted for a single-model, single-team, batch-only inference use case: when feature engineering, model training, and serving all run on a fixed batch schedule with no real-time latency requirements, the online store and materialization infrastructure add operational cost with no benefit, and simpler alternatives (SQL tables with versioned transformation scripts) suffice.",
+      "source_url": "https://madewithml.com/courses/mlops/feature-store/",
+      "source_title": "Feature Store — Made With ML by Anyscale; Do You Really Need a Feature Store? (Substack)",
+      "source_file": "workspace/sources/claim:agde:018.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:019",
+      "statement": "Apache Iceberg represents every table state as an immutable snapshot: a manifest list pointing to manifest files, each of which lists data files. Querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, making the snapshot ID a sufficient reproducibility token for a training dataset.",
+      "source_url": "https://iceberg.apache.org/spec/",
+      "source_title": "Apache Iceberg Table Spec — Snapshots",
+      "source_file": "workspace/sources/claim:agde:019.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:020",
+      "statement": "Delta Lake and Apache Iceberg both support time-travel queries by version number or timestamp, but retaining historical snapshots incurs ongoing storage cost. Expiring snapshots in Iceberg (via the expireSnapshots operation) or running VACUUM in Delta Lake permanently removes the referenced data files, eliminating the ability to time-travel to those versions. Operators must explicitly configure a retention policy that balances reproducibility window against storage cost.",
+      "source_url": "https://iceberg.apache.org/docs/1.5.1/maintenance/",
+      "source_title": "Apache Iceberg Maintenance — Expire Snapshots",
+      "source_file": "workspace/sources/claim:agde:020.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:021",
+      "statement": "DVC (Data Version Control) implements content-addressable storage for ML datasets: it computes an MD5 hash of each tracked file and stores a small .dvc metafile in Git, while the actual data lives in a remote (S3, GCS, etc.). Only new or modified files are stored in the remote cache; identical content is deduplicated by hash. This allows datasets to be reproduced by checking out any Git commit and running dvc pull.",
+      "source_url": "https://doc.dvc.org/user-guide/project-structure/internal-files",
+      "source_title": "DVC Internal Files — Cache",
+      "source_file": "workspace/sources/claim:agde:021.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:022",
+      "statement": "lakeFS implements Git-like versioning (branch, commit, merge, tag, revert) as a metadata layer directly over object storage (S3, Azure Blob, GCS) without copying data objects. Branch creation is a zero-copy operation: it creates a lightweight metadata pointer to the current commit, so that experiments can be isolated without duplicating terabytes of data. A lakeFS commit reference provides a reproducibility token analogous to a Git commit hash for code.",
+      "source_url": "https://lakefs.io/blog/scalable-ml-data-version-control-and-reproducibility/",
+      "source_title": "ML Data Version Control and Reproducibility at Scale — lakeFS Blog",
+      "source_file": "workspace/sources/claim:agde:022.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:023",
+      "statement": "The embedding model is baked into every stored vector: vectors produced by model version A and vectors produced by version B occupy incompatible geometric spaces, so mixing them makes similarity scores meaningless. Changing the embedding model therefore requires re-encoding the entire corpus and rebuilding the ANN index from scratch — a full re-index — before queries using the new model can be served correctly.",
+      "source_url": "https://milvus.io/ai-quick-reference/how-do-you-version-and-manage-changes-in-embedding-models",
+      "source_title": "How do you version and manage changes in embedding models? — Milvus AI Quick Reference",
+      "source_file": "workspace/sources/claim:agde:023.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:024",
+      "statement": "DVC scales to tens of thousands of files well but performance degrades significantly at hundreds of millions or billions of objects (petabyte-scale data lakes), because its MD5-hash-based caching becomes impractical at that scale. lakeFS, by contrast, keeps data I/O on a direct client-to-object-store path and handles only metadata through its server, making it operationally viable at very large scale; however, lakeFS requires deploying and maintaining a dedicated metadata server, whereas DVC has no additional infrastructure beyond the remote storage bucket.",
+      "source_url": "https://lakefs.io/blog/dvc-vs-git-vs-dolt-vs-lakefs/",
+      "source_title": "DVC vs. lakeFS: Data Versioning Compared — lakeFS Blog",
+      "source_file": "workspace/sources/claim:agde:024.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:025",
+      "statement": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes. Schema drift is a structural change (columns added, removed, or retyped). Distribution drift means P(X) changes while P(Y|X) remains the same. Concept drift means P(Y|X) changes — the input-output relationship itself shifts — while P(X) may remain stable.",
+      "source_url": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+      "source_title": "Data Distribution Shifts and Monitoring — Chip Huyen",
+      "source_file": "workspace/sources/claim:agde:025.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:026",
+      "statement": "Schema drift is also called 'virtual drift' in the concept-drift literature when the input distribution P(X) changes without altering the conditional P(Y|X), in contrast to 'real concept drift' in which P(Y|X) changes. The joint distribution can be decomposed as P(X,Y) = P(X)·P(Y|X), making these two components independently driftable.",
+      "source_url": "https://arxiv.org/abs/2004.05785",
+      "source_title": "Learning under Concept Drift: A Review (arXiv:2004.05785)",
+      "source_file": "workspace/sources/claim:agde:026.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:027",
+      "statement": "Population Stability Index (PSI) quantifies distributional shift of a feature between a reference dataset and a current dataset by binning values and computing PSI = Σ(C_i − R_i) × ln(C_i / R_i), where C_i and R_i are bin proportions. Rule-of-thumb thresholds: PSI < 0.1 = no significant change; 0.1–0.25 = moderate change; PSI > 0.25 = major population shift requiring model review.",
+      "source_url": "https://www.geeksforgeeks.org/data-science/population-stability-index-psi/",
+      "source_title": "Population Stability Index (PSI) — GeeksforGeeks",
+      "source_file": "workspace/sources/claim:agde:027.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317",
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:028",
+      "statement": "KL divergence measures distributional shift as D_KL(P||Q) = Σ P(x) log[P(x)/Q(x)]. It is asymmetric: swapping reference and sample distributions yields a different value. PSI is a symmetric variant of KL divergence equivalent to D_KL(P||Q) + D_KL(Q||P). Both are applied per-feature in production ML monitoring by binning continuous values.",
+      "source_url": "https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12",
+      "source_title": "Difference between KL Divergence and PSI — Medium / Shrutika Poyrekar",
+      "source_file": "workspace/sources/claim:agde:028.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:029",
+      "statement": "Data contracts (schema validation tools such as Great Expectations) enforce structural constraints — column presence, data types, nullability, value ranges — and reliably catch schema drift. They do not inherently detect silent distributional shift: a feature column can remain syntactically valid (correct type, no nulls) while its statistical distribution shifts substantially from what the model was trained on.",
+      "source_url": "https://medium.com/@manik.ruet08/drift-detection-monitoring-schema-logic-and-metric-changes-in-real-time-a2398428ccc1",
+      "source_title": "Drift Detection: Monitoring Schema, Logic, and Metric Changes in Real-Time — Medium",
+      "source_file": "workspace/sources/claim:agde:029.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:030",
+      "statement": "A well-documented failure mode in ML deployment is offline metrics improving while online metrics regress or stagnate. This occurs because offline test sets are static and do not reflect production distribution shifts, user-feedback loops, or latency constraints. Improvements in offline metrics lead to diminishing returns in online performance, and algorithm rankings on offline benchmarks can be reversed in live A/B tests.",
+      "source_url": "https://arxiv.org/abs/2011.07931",
+      "source_title": "Do Offline Metrics Predict Online Performance in Recommender Systems? (arXiv:2011.07931)",
+      "source_file": "workspace/sources/claim:agde:030.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:031",
+      "statement": "OpenAI's text-embedding-3-large (3072 dimensions, $0.13/1M tokens) supports Matryoshka truncation so that a 256-dimensional output still outperforms the full 1536-dimensional text-embedding-ada-002 on MTEB; text-embedding-3-small costs 5× less than ada-002 ($0.00002 vs $0.0001 per 1k tokens) with a higher average MTEB score (62.3% vs 61.0%), making dimension, quality, and cost an explicit three-way tradeoff at model-selection time.",
+      "source_url": "https://openai.com/index/new-embedding-models-and-api-updates/",
+      "source_title": "New embedding models and API updates | OpenAI",
+      "source_file": "workspace/sources/claim:agde:031.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:032",
+      "statement": "Embedding models trained with Matryoshka Representation Learning allow developers to truncate the output vector to a smaller dimension (e.g., passing a 'dimensions' parameter at inference time) to save vector-database storage with only modest quality loss, exposing dimension as a configurable performance-cost dial rather than a fixed property of the model.",
+      "source_url": "https://developers.openai.com/api/docs/guides/embeddings",
+      "source_title": "Vector embeddings | OpenAI API",
+      "source_file": "workspace/sources/claim:agde:032.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:033",
+      "statement": "OpenAI's Batch API for embeddings processes requests asynchronously within 24 hours at 50% of standard token prices, supports up to 50,000 embedding inputs and a 200 MB input file per batch, and draws from a separate rate-limit pool that does not consume synchronous per-model token quotas — making it the recommended path for large-scale offline embedding pipelines.",
+      "source_url": "https://developers.openai.com/api/docs/guides/batch",
+      "source_title": "Batch API | OpenAI API",
+      "source_file": "workspace/sources/claim:agde:033.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:034",
+      "statement": "When embedding hosted APIs enforce per-minute rate limits (e.g., Voyage AI's voyage-3.5 at 2,000 RPM and 8M TPM), the recommended throughput strategy is to send larger per-request batches to reduce request count, implement exponential backoff with jitter on HTTP 429 responses, and insert pacing delays between requests — the combination prevents thundering-herd retry storms while maximising token throughput within quota.",
+      "source_url": "https://docs.voyageai.com/docs/rate-limits",
+      "source_title": "Rate Limits - Introduction | Voyage AI",
+      "source_file": "workspace/sources/claim:agde:034.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:035",
+      "statement": "Idempotent re-embedding pipelines use a content hash (e.g., SHA-256 of the source text) stored alongside each vector: before calling the embedding API the pipeline checks whether the hash already exists in the embedding store and skips the call if so, reducing both API cost and re-processing risk. Optimal API batch size for cost-effective embedding is 100–500 texts per call.",
+      "source_url": "https://dev.to/ritwikareddykancharla/building-a-production-grade-rag-system-not-just-a-demo-2l0p",
+      "source_title": "Building a Production-Grade RAG System (Not Just a Demo) — DEV Community",
+      "source_file": "workspace/sources/claim:agde:035.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "— this is training-serving skew"
+      ]
+    },
+    {
+      "id": "claim:agde:036",
+      "statement": "Changing an embedding model in a production vector database requires re-encoding the entire corpus and rebuilding the ANN index from scratch because vectors from different models occupy incompatible geometric spaces — a query vector encoded by the new model cannot be meaningfully compared to stored vectors encoded by the old model, even when both models share the same output dimensionality. For a 1-million-item database this amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks.",
+      "source_url": "https://arxiv.org/abs/2509.23471",
+      "source_title": "Drift-Adapter: A Practical Approach to Near Zero-Downtime Embedding Model Upgrades in Vector Databases",
+      "source_file": "workspace/sources/claim:agde:036.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:037",
+      "statement": "Exact k-NN search requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and scanning it at SSD read throughput of 512 MB/s would require 1,000 seconds to answer a single query.",
+      "source_url": "https://arxiv.org/abs/1603.09320",
+      "source_title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+      "source_file": "workspace/sources/claim:agde:037.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:038",
+      "statement": "HNSW (Hierarchical Navigable Small World) is a graph-based ANN index that achieves polylogarithmic search complexity O(log n) via a multi-layer structure. Build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; the query-time parameter efSearch controls the recall-latency tradeoff at serving time. Increasing efSearch from 100 to 640 can improve recall@1 from ~0.85 to ~0.97 while proportionally increasing latency.",
+      "source_url": "https://arxiv.org/abs/1603.09320",
+      "source_title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+      "source_file": "workspace/sources/claim:agde:038.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:039",
+      "statement": "IVF (Inverted File) indexes partition vectors into clusters via k-means; at query time only nprobe clusters are searched, reducing cost at the expense of recall. Product Quantization (PQ) further compresses each vector by splitting it into subvectors and replacing each with a centroid index (controlled by nbits), enabling >100x memory reduction but introducing quantization error that degrades recall. For a 10M-vector 1536-dim dataset, raw storage is 61.4 GB; IVF-PQ with m=48, nbits=8 reduces this to ~480 MB — a 128x reduction.",
+      "source_url": "https://medium.com/etoai/product-quantization-compress-high-dimensional-vectors-dfcba98fab47",
+      "source_title": "Inverted File Product Quantization (IVF_PQ): Accelerate Vector Search by Creating Indices — LanceDB / Medium",
+      "source_file": "workspace/sources/claim:agde:039.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:040",
+      "statement": "DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index built on the Vamana graph algorithm. It indexes and serves a one-billion-point dataset (SIFT1B) on a single machine with 64 GB RAM and a commodity SSD, achieving >5,000 QPS at <3 ms mean latency and ≥95% 1-recall@1 — enabling 5–10x more points per node than in-memory graph indexes like HNSW at equivalent recall.",
+      "source_url": "https://neurips.cc/virtual/2019/poster/14308",
+      "source_title": "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node",
+      "source_file": "workspace/sources/claim:agde:040.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:041",
+      "statement": "Recall in ANN search is a tunable operating point, not a fixed guarantee. Approximate nearest neighbor search achieves speed gains by accepting 'silent' recall losses — vectors disappear from results without error notifications. Even with substantial latency budgets (efSearch producing 35ms latency), recall@1 may reach only 0.9, meaning the true nearest neighbor is absent in ~10% of queries. Recall also degrades silently as the dataset grows (10%+ drop from 50k to 200k vectors with fixed parameters), and HNSW deletes require soft-delete tombstoning rather than immediate graph repair, accumulating stale references until periodic cleanup.",
+      "source_url": "https://opensourceconnections.com/blog/2025/02/27/vector-search-navigating-recall-and-performance/",
+      "source_title": "Vector Search: Navigating Recall and Performance — OpenSource Connections",
+      "source_file": "workspace/sources/claim:agde:041.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:042",
+      "statement": "Metadata filtering interacts poorly with ANN indexes: post-filtering (ANN first, then apply predicate) can return zero results when a selective filter eliminates all ANN candidates; pre-filtering (apply predicate first, then ANN on the subset) degrades to brute force when the subset is large. Tight filters cause tail latencies of 200–300 ms in post-filter fallback engines. Modern dedicated vector databases (Qdrant, Weaviate) address this by integrating filters inside HNSW graph traversal, whereas pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates.",
+      "source_url": "https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/",
+      "source_title": "The Achilles Heel of Vector Search: Filters — Bits & Backprops",
+      "source_file": "workspace/sources/claim:agde:042.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:043",
+      "statement": "pgvector (a Postgres extension) is the appropriate default for datasets under ~2M vectors when Postgres is already in the stack, offering full SQL join capability and zero additional infrastructure. Above 5–10M vectors or for sub-10ms latency requirements, dedicated vector databases (Qdrant, Pinecone, Weaviate, Milvus) become preferable: Qdrant provides best-in-class filtered search by integrating predicates inside HNSW traversal; Pinecone offers zero-ops managed scale at 3–8x cost premium; Milvus is designed for billion-vector sharded deployments. Past 2M vectors on a single Postgres instance, index build times can exceed 20 minutes.",
+      "source_url": "https://www.kalviumlabs.ai/blog/vector-databases-compared-pgvector-pinecone-qdrant-weaviate/",
+      "source_title": "pgvector vs Pinecone vs Qdrant vs Weaviate (2026): Which We Actually Use in Production — Kalvium Labs",
+      "source_file": "workspace/sources/claim:agde:043.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:044",
+      "statement": "Chunking strategy is a foundational design decision in RAG pipelines: chunk size, boundary policy, and structure determine which information units are indexed and retrieved, and there is no universal optimal size — smaller chunks (64–128 tokens) favor fact-based queries while larger chunks (512–1024 tokens) favor contextual queries.",
+      "source_url": "https://arxiv.org/abs/2406.00456",
+      "source_title": "Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation",
+      "source_file": "workspace/sources/claim:agde:044.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:045",
+      "statement": "Chunking strategy affects retrieval precision and recall in opposing directions: large chunks can exceed token limits or include irrelevant content, reducing precision, while small chunks may lack the surrounding context needed for accurate generation — making chunk size a design tradeoff analogous to a schema-design decision.",
+      "source_url": "https://www.ai21.com/blog/query-dependent-chunking/",
+      "source_title": "Chunk size is query-dependent: a simple multi-scale approach to RAG retrieval",
+      "source_file": "workspace/sources/claim:agde:045.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:046",
+      "statement": "BM25 sparse retrieval and dense ANN retrieval fail in complementary ways: BM25 excels at exact-match queries (product codes, error codes, rare identifiers) but has no semantic understanding, while dense retrieval handles paraphrase and conceptual queries but may assign low scores to exact rare-term matches — making hybrid retrieval the recommended baseline for production RAG.",
+      "source_url": "https://ranjankumar.in/bm25-vs-dense-retrieval-for-rag-engineers",
+      "source_title": "BM25 vs Dense Retrieval for RAG: What Actually Breaks in Production",
+      "source_file": "workspace/sources/claim:agde:046.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits"
+      ]
+    },
+    {
+      "id": "claim:agde:047",
+      "statement": "Reciprocal Rank Fusion (RRF), introduced by Cormack, Clarke, and Büttcher at SIGIR 2009, is the standard algorithm for fusing BM25 and dense ANN ranked lists in hybrid search. RRF computes RRF(c) = Σ 1/(rank_i(c) + k) with k=60 as the smoothing constant; it operates on rank positions rather than raw scores, avoiding the score-incompatibility problem between sparse and dense systems, and has been shown to outperform Condorcet Fuse, CombMNZ, and individual learning-to-rank methods.",
+      "source_url": "https://dl.acm.org/doi/10.1145/1571941.1572114",
+      "source_title": "Reciprocal rank fusion outperforms condorcet and individual rank learning methods",
+      "source_file": "workspace/sources/claim:agde:047.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:048",
+      "statement": "Hybrid retrieval (BM25 + dense ANN fused via RRF) improves recall relative to either method alone because each retriever surface relevant documents the other misses: a two-stage pipeline of hybrid retrieval followed by neural reranking achieves Recall@5 of 0.816 versus 0.695 for hybrid RRF alone, 0.644 for BM25, and 0.587 for dense-only retrieval. The hybrid recall improvement is attributable to BM25 pulling in relevant documents that the dense retriever ranked too low.",
+      "source_url": "https://www.genzeon.com/hybrid-retrieval-deranking-in-rag-recall-precision/",
+      "source_title": "Hybrid Retrieval and Reranking in RAG: A Dual-Stage Approach to Improve Information Recall and Precision",
+      "source_file": "workspace/sources/claim:agde:048.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:049",
+      "statement": "Cross-encoder reranking is a second-stage operation that improves precision but cannot improve recall: a cross-encoder jointly encodes the query and each candidate passage through a shared transformer to produce a finer relevance score, but it operates only on the candidate set already retrieved by the first stage. Any relevant document not retrieved by the first-stage retriever is permanently lost; a reranker cannot recover it. The recall ceiling is set entirely by the first stage.",
+      "source_url": "https://mlpills.substack.com/p/issue-115-reranking-in-your-rag-pipeline",
+      "source_title": "Issue #115 — Reranking in your RAG pipeline (ML Pills)",
+      "source_file": "workspace/sources/claim:agde:049.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "batch in groups of batch_size to stay within rate limits",
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:050",
+      "statement": "The canonical failure mode of the two-stage RAG retrieval pipeline is a relevant chunk that was retrieved by the first stage but ranked just outside the top-k cutoff passed to the reranker or LLM. Because the reranker cannot access documents outside its input set, this chunk — though present in the corpus and even in the initial retrieval — is silently dropped. Increasing the first-stage retrieval window (higher k) mitigates this at the cost of reranking latency; the tradeoff must be explicitly set.",
+      "source_url": "https://arxiv.org/abs/2411.11767",
+      "source_title": "Drowning in Documents: Consequences of Scaling Reranker Inference",
+      "source_file": "workspace/sources/claim:agde:050.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:051",
+      "statement": "Anthropic and the broader industry have converged on a minimal definition of an AI agent as an LLM autonomously using tools in a loop, where the loop continues until a stopping condition (task completion or explicit termination) is reached — making it structurally distinct from a single LLM call (no loop) and from rule-based automation (no LLM reasoning).",
+      "source_url": "https://www.anthropic.com/research/building-effective-agents",
+      "source_title": "Building Effective AI Agents — Anthropic",
+      "source_file": "workspace/sources/claim:agde:051.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:052",
+      "statement": "A production survey of 1,200 LLMOps deployments found that agents succeed when applied to specific, bounded problems (e.g., Ramp's policy agent handling 65% of expense approvals autonomously) but fail when given open-ended tasks; the highest-stakes production systems do not try to remove humans from the loop entirely.",
+      "source_url": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+      "source_title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+      "source_file": "workspace/sources/claim:agde:052.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:053",
+      "statement": "A documented production incident (GetOnStack, 2025) demonstrated the 'expensive nondeterministic cron job' failure mode: a multi-agent market-data research system escalated from $127 to $47,000 in API costs over four weeks due to an infinite conversation loop between two agents (Analyzer and Verifier) running undetected for 11 days, caused by the absence of a per-agent budget ceiling and an external stopping condition.",
+      "source_url": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+      "source_title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+      "source_file": "workspace/sources/claim:agde:053.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:054",
+      "statement": "The architectural principle of treating agents as DAG nodes rather than orchestrators — decomposing complex workflows into bite-sized tasks within a directed acyclic graph — prevents agents from 'rabbit-holing' and ensures that even if a model behaves unexpectedly, the damage is contained to a single task. Stripe's compliance-review system achieved 96% helpfulness and 26% AHT reduction using this pattern.",
+      "source_url": "https://www.zenml.io/llmops-database/ai-powered-compliance-investigation-agents-for-enhanced-due-diligence",
+      "source_title": "Stripe: AI-Powered Compliance Investigation Agents — ZenML LLMOps Database",
+      "source_file": "workspace/sources/claim:agde:054.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:055",
+      "statement": "The most effective production LLM systems apply a hybrid architecture in which deterministic components (retrieval, validation, permissions) are implemented in infrastructure with hard guarantees, while nondeterministic components (reasoning, generation) are constrained through tool limitations and staged decision-making — using deterministic validation layers such as formal verification of LLM outputs against logic rules.",
+      "source_url": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+      "source_title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+      "source_file": "workspace/sources/claim:agde:055.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:056",
+      "statement": "Production deployments follow a progressive autonomy maturity ladder: (1) suggest-only — AI presents recommendations for human review; (2) human-approval-gated — agent acts on high-confidence cases while routing edge cases for approval; (3) bounded-autonomous — agent acts autonomously within defined policy limits, with periodic audits. Ramp implements this as a user-controlled 'autonomy slider' allowing teams to set dollar limits and approval requirements matching risk tolerance.",
+      "source_url": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+      "source_title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+      "source_file": "workspace/sources/claim:agde:056.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:057",
+      "statement": "Lineage and documentation generation is a well-suited agent use case: LLM-based metadata description generation for data catalogs achieves over 80% ROUGE-1 F1 and approximately 90% acceptance by data stewards, and providing agents with live metadata (certifications, definitions, lineage context) versus bare schemas produces a 3x improvement in text-to-SQL accuracy.",
+      "source_url": "https://arxiv.org/abs/2503.09003",
+      "source_title": "Leveraging Retrieval Augmented Generative LLMs For Automated Metadata Description Generation to Enhance Data Catalogs",
+      "source_file": "workspace/sources/claim:agde:057.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:058",
+      "statement": "Embeddings and trained model weights are derived personal data under GDPR: if a trained model stores personal information or makes it reproducible, the model is subject to deletion obligations, and erasure requests must propagate to vector stores and training sets, not only to source records.",
+      "source_url": "https://cloudsecurityalliance.org/blog/2025/04/11/the-right-to-be-forgotten-but-can-ai-forget",
+      "source_title": "The Right to Be Forgotten — But Can AI Forget?",
+      "source_file": "workspace/sources/claim:agde:058.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:059",
+      "statement": "Machine unlearning — removing the influence of specific training samples from already-trained model weights — is required to satisfy GDPR right-to-be-forgotten requests for ML models, because naive deletion from the training set does not affect weights already trained on that data.",
+      "source_url": "https://arxiv.org/abs/2411.17126",
+      "source_title": "From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models",
+      "source_file": "workspace/sources/claim:agde:059.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:060",
+      "statement": "ML lineage must extend beyond source tables to include ML artifacts: each model version and each vector index must record which data version (snapshot or commit hash) and which embedding model produced it, so that any artifact can be traced back to its inputs and reproduced or invalidated.",
+      "source_url": "https://atlan.com/know/ai-model-versioning-best-practices/",
+      "source_title": "AI Model Versioning Best Practices: MLOps Guide for Enterprises",
+      "source_file": "workspace/sources/claim:agde:060.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:061",
+      "statement": "OWASP LLM06:2025 (Excessive Agency) identifies least-privilege tool scoping as the primary mitigation for agentic AI systems: LLM extensions should be granted only the minimum permissions necessary, should not access downstream systems with broader privileges than the task requires, and all high-impact actions must be independently authorized and logged.",
+      "source_url": "https://www.oligo.security/academy/owasp-top-10-llm-updated-2025-examples-and-mitigation-strategies",
+      "source_title": "OWASP Top 10 LLM, Updated 2025: Examples & Mitigation Strategies",
+      "source_file": "workspace/sources/claim:agde:061.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:062",
+      "statement": "Data poisoning is a concrete attack surface for RAG-based pipelines: the PoisonedRAG attack (2024) demonstrated that injecting just five malicious documents into a knowledge database of 2.6 million texts achieves a 97% attack success rate, causing the LLM to generate attacker-chosen answers for targeted queries.",
+      "source_url": "https://arxiv.org/abs/2402.07867",
+      "source_title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+      "source_file": "workspace/sources/claim:agde:062.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    },
+    {
+      "id": "claim:agde:063",
+      "statement": "AI-assisted pipeline workflows must be evaluated jointly on reliability, cost-per-invocation, and latency — not accuracy alone. Research on the CLEAR framework shows that optimizing for accuracy alone yields agents 4.4–10.8× more expensive than cost-aware alternatives, and that single-run accuracy metrics (60%) overstate real reliability (25% across 8 runs).",
+      "source_url": "https://arxiv.org/abs/2511.14136",
+      "source_title": "Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems",
+      "source_file": "workspace/sources/claim:agde:063.txt",
+      "verdict": "VERIFIED",
+      "slides_used_in": [
+        "doc_B: 1/(4+60) + 1/(2+60) ≈ 0.0156 + 0.0161 = 0.0317"
+      ]
+    }
+  ],
+  "unused_claims": [],
+  "issues_resolved": [
+    {
+      "iteration": 4,
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "severity": "MAJOR",
+      "issue": "Bullet claimed HNSW achieves O(log n) search complexity; source (Malkov & Yashunin) states polylogarithmic O(log^k n).",
+      "resolution": "Reworded to 'polylogarithmic search complexity O(log^k n)'. NOTE: this bullet was byte-identical across v1-v3 yet scored VERIFIED->MINOR->MAJOR — fact-checker non-determinism, not a writer regression."
+    },
+    {
+      "iteration": 4,
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "severity": "MINOR",
+      "issue": "v3 rewrite of an unflagged bullet overreached: 'codifies these three root causes in Rules 29, 31, and 32' implies a 1:1 rule-to-cause mapping the source does not make (a rule-12 collateral regression from v2-VERIFIED text).",
+      "resolution": "Reworded to 'Google addresses skew mitigation in Rules 29, 31, and 32 ... covering code reuse and data consistency'."
+    }
+  ],
+  "advisory_minor_issues": [
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "issue": "The SLO framing is editorial interpretation, not a direct quote from the source. However, the source data clearly shows a tunable recall-latency tradeoff dependent on application requirements, which substantively supports the claim. The 'SLO' label is pedagogical framing, not a factual assertion.",
+      "suggested_fix": "None required — the framing is a reasonable inference from the data."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "issue": "The first half ('varies substantially across queries') is a near-verbatim match. The second half ('driven by the dominant query pattern') is an editorial inference. The source's actual recommendation is multi-scale indexing (indexing at multiple chunk sizes and aggregating), not selecting a single size based on dominant query pattern. The slide's framing is not contradicted but omits the source's preferred solution.",
+      "suggested_fix": "Consider adding a note that multi-scale chunking (indexing at multiple sizes) is the source's recommended approach, rather than implying a single size should be chosen based on the dominant query type."
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "issue": "The 0.25 threshold is supported by the GeeksforGeeks source, but the source note acknowledges that > 0.2 is the more commonly cited threshold for 'significant' shift. Using 0.25 is defensible but represents the less common convention. No factual error — both thresholds appear in industry practice.",
+      "suggested_fix": "Consider noting that 0.2 is an alternative common threshold, or use '> 0.2' as the more widely cited convention."
+    }
+  ],
+  "notes": "r2 run cap-stopped at v3 (blocking 13->9->1). v4 = manual surgical finalize: fixed the lone MAJOR (038, fact-checker-noise escalation on byte-identical text) and 1 MINOR rewrite regression (007). blocking_count=0, total_checked=149."
+}

@@ -1,0 +1,24 @@
+CLAIM ID: claim:agde:embedding-rate-limit-backoff:004
+
+SOURCE
+Title: Rate Limits - Introduction | Voyage AI Documentation
+URL: https://docs.voyageai.com/docs/rate-limits
+Type: Official documentation
+Retrieved: 2026-06-15
+
+EXCERPT
+"voyage-3.5 has 2000 RPM (requests per minute) and 8M TPM (tokens per minute). You can increase the number of documents you embed per request and increase your overall throughput by sending larger batches. Upon receiving a 429 error, implement exponentially increasing retry delays (e.g., 1, 2, 4 seconds) before retrying."
+
+SUPPORTING CONTEXT
+The Voyage AI rate limits documentation confirms:
+- Two limit dimensions apply simultaneously: RPM and TPM. Exhausting either triggers HTTP 429.
+- Rate limits increase automatically with cumulative spending tiers (Tier 1 → Tier 2 at ≥$100 paid → Tier 3 at ≥$1000 paid).
+- Batch size strategy: "embedding 512 documents with batch size 128 requires only 4 requests instead of 512, preventing RPM exhaustion."
+- Three recommended strategies: (1) larger per-request batches, (2) pacing delays, (3) exponential backoff.
+
+CORROBORATING SOURCE
+Title: Rate limits | OpenAI API
+URL: https://developers.openai.com/api/docs/guides/rate-limits
+Excerpt (from search results): "One easy way to avoid rate limit errors is to automatically retry requests with a random exponential backoff. Retrying with exponential backoff means performing a short sleep when a rate limit error is hit, then retrying the unsuccessful request."
+
+The exponential backoff with jitter recommendation is consistent across OpenAI and Voyage AI documentation, confirming this as an industry-standard practice for hosted embedding API pipelines.

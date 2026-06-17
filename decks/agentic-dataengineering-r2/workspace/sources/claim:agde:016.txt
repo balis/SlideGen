@@ -1,0 +1,34 @@
+SOURCE: DuckDB AsOf Joins: Fuzzy Temporal Lookups (DuckDB Blog)
+URL: https://duckdb.org/2023/09/15/asof-joins-fuzzy-temporal-lookups
+Retrieved: 2026-06-15
+
+EXCERPT (from DuckDB blog, fetched directly):
+"AsOf joins match rows based on nearby values rather than exact equality, making them ideal for temporal analytics. They find 'the value of a property as of a specific point in time' by locating the most recent matching record before a given timestamp."
+
+"DuckDB 'hash partitions and sorts the right hand side to make a temporary state table' during processing, then performs a merge join within each partition."
+
+Syntax from DuckDB documentation:
+"FROM holdings h ASOF JOIN prices p ON h.ticker = p.ticker AND h.when >= p.when"
+"FROM holdings h ASOF JOIN prices p USING(ticker, 'when')"
+
+"Benchmarks show AsOf joins significantly outperform standard SQL alternatives using window functions and inequality joins—sometimes by 'several orders of magnitude' depending on data characteristics and table sizes."
+
+---
+SOURCE: ASOF JOIN — Origins and ClickHouse adoption (Altinity Blog)
+URL: https://altinity.com/blog/2020-4-8-five-ways-to-handle-as-of-queries-in-clickhouse
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search results):
+"ASOF was originally implemented in ClickHouse in 2019 but is now in a few more database engines."
+"ClickHouse's ASOF implementation was based on the kdb+ asof operator, using the last column specified as the asof column that would represent the timestamp."
+"ClickHouse doesn't do pure ASOF joins, the 'as of' condition must be added on top of a regular equality condition."
+
+---
+SOURCE: kdb+ as-of join (aj) documentation — kdb+ and q documentation
+URL: https://code.kx.com/q/ref/aj/
+Retrieved: 2026-06-15
+
+From web search:
+"KDB has its infamous and extremely useful asof join (aj, aj0, afj, afj0), which is in absolute ubiquitous use in particular in finance and fields that deal a lot with time series."
+"The as-of-join (aj) is a unique built-in function in Q which natively supports time-series queries."
+"aj should run at a million or two trade records per second."

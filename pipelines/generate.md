@@ -85,22 +85,62 @@ across section boundaries.
 **On the first iteration (N == 1), launch one writer sub-agent per chunk,
 in parallel** — all Agent tool calls in a single assistant message.
 
-**On a revision (N > 1), regenerate only the chunks that have feedback.**
-Parse workspace/writer_feedback.md for the slide numbers it flags, and map each
-flagged slide to its chunk via the chunk `slide_range`s from split_outline.py.
-Then, in a single assistant message:
-- For every chunk whose slide range contains at least one flagged slide:
-  launch a writer sub-agent (inputs below). Each writer reads writer_feedback.md
-  and addresses only the items in its own slide range (writer.md rule 8).
-- For every chunk with **no** flagged slide: do **not** regenerate it. Copy the
-  previous iteration's chunk file forward unchanged, byte-exact via python (Bash
+**On a revision (N > 1), apply only the changes feedback calls for — never
+regenerate a chunk wholesale just because it contains one flagged bullet.**
+Regenerating a chunk is not idempotent: the model rewrites already-verified
+bullets in the *unflagged* slides that share the chunk and can introduce fresh
+misrepresentations into text that was correct. The routing below confines each
+change to the bullet that needs it.
+
+workspace/writer_feedback.md (built in Step 4+5) tags every blocking item as
+**SURGICAL** or **REWRITE**, and for surgical items carries the exact **OLD** line
+and exact **NEW** line. Parse it, map each flagged slide to its chunk via the
+`slide_range`s from split_outline.py, and classify each chunk. Then, in a single
+assistant message, handle every chunk:
+
+- **Clean chunk (no feedback in its slide range):** do **not** regenerate it. Copy
+  the previous iteration's chunk file forward unchanged, byte-exact via python (Bash
   `cp` is blocked — see the Sandbox note):
   `python3 -c "import shutil; shutil.copyfile('{topic_dir}/workspace/draft_v{N-1}_part_{KK}.md', '{topic_dir}/workspace/draft_v{N}_part_{KK}.md')"`
-  Regenerating a clean chunk is not idempotent — the model rewrites already-
-  verified bullets and can introduce new misrepresentations into slides that
-  were correct — so clean chunks are carried forward verbatim. Because the bytes
-  are unchanged, Step 4+5 carries their prior VERIFIED verdicts forward too
-  (incremental verification) instead of re-checking identical text.
+
+- **Surgical-only chunk (every feedback item in its range is SURGICAL):** do **not**
+  launch a writer. Copy the prior chunk file forward byte-exact (command above), then
+  *you* (the orchestrator) apply each surgical edit to the copied file: Read it, then
+  for each item use the Edit tool to replace its exact **OLD** line with its exact
+  **NEW** line. The OLD line must match exactly one line in the file; if it does not
+  match uniquely, the feedback's OLD text is stale — stop and report rather than
+  guessing. Record the (slide, claim_id) of every bullet you edit — that list is the
+  chunk's only contribution to the re-check set `R` (Step 4+5). Every other bullet in
+  the chunk stays byte-identical to the prior draft and carries its prior verdict
+  forward. A literal line replacement touches only the flagged bullet, so verified
+  neighbors cannot regress.
+
+- **Chunk with any REWRITE item:** launch a writer sub-agent for that chunk. A REWRITE
+  item needs judgment a literal replacement cannot express — restructuring a slide,
+  splitting or merging bullets, removing or retagging a citation to a different
+  claim/source, or content the fix only describes. Pass the writer `prior_chunk_path`
+  (the prior chunk file) and require it to carry every non-flagged slide and bullet
+  forward byte-identical, changing only the flagged bullets (writer.md rules 8 and 12).
+  Fold any SURGICAL items in the same chunk into that writer's feedback so it applies
+  them too — do **not** also run an orchestrator Edit pass on writer-rewritten text
+  (the OLD lines would no longer match). Every (slide, claim_id) in a writer-touched
+  chunk goes into `R`.
+
+  **Enforce rule 12 when the writer returns (mechanical, not trust-based).** writer.md
+  rule 12 tells the writer to change only the flagged bullets and carry every other line
+  forward byte-identical, but that is a soft instruction the model can violate — in a
+  real run a writer rewrote an *unflagged*, previously-VERIFIED bullet and regressed it.
+  So verify: diff the returned `draft_v{N}_part_{KK}.md` against `prior_chunk_path` line
+  by line (e.g.
+  `python3 -c "import difflib,sys; a=open(sys.argv[1]).read().splitlines(); b=open(sys.argv[2]).read().splitlines(); print('\n'.join(difflib.unified_diff(a,b,lineterm='')))" PRIOR NEW`).
+  **Every** differing line must belong to a slide+bullet named in this chunk's feedback.
+  If an **unflagged** line changed, the writer overstepped: revert those specific lines
+  to their `prior_chunk_path` bytes (re-Edit them back to the prior text), or re-dispatch
+  the writer telling it explicitly to leave those bullets identical. Only flagged-bullet
+  lines may differ from the prior chunk — this makes rule 12 an invariant, so a REWRITE
+  for one slide cannot silently regress a verified neighbor. (After any revert, the
+  reverted bullets are byte-identical to the prior draft and qualify for carry-forward;
+  only the genuinely-changed flagged bullets remain in `R`.)
 
 Each writer sub-agent receives:
 - `outline_path`: workspace/outline.md
@@ -111,6 +151,10 @@ Each writer sub-agent receives:
 - `writer_feedback_path`: workspace/writer_feedback.md (pass this path
   whether or not the file exists; the writer checks for existence and
   addresses only the items in its slide range)
+- `prior_chunk_path`: workspace/draft_v{N-1}_part_{KK}.md (revisions only —
+  the previous version of *this* chunk; the writer starts from it and changes
+  only the flagged bullets, carrying every other line forward byte-identical
+  per writer.md rule 12)
 - `style_guide`: the paragraph composed above
 
 Each sub-agent writes its assigned slide range to its `output_path` (raw
@@ -155,18 +199,36 @@ the top and `---` separators between chunks.
   sources cannot reveal a new truth, it only resamples the fact-checker's
   non-determinism and can flip a previously-VERIFIED claim to MISREPRESENTED,
   which wastes budget and blocks convergence. Partition `C`:
-  - **Carry-forward set (skip re-check):** a citation qualifies iff **(a)** it
-    lives in a chunk carried forward byte-identical this iteration — i.e.
-    `draft_v{N}_part_{KK}.md` is byte-identical to `draft_v{N-1}_part_{KK}.md`
-    (you know which parts you regenerated vs copied in Step 3; confirm with a byte
-    compare, e.g. `python3 -c "import sys;sys.exit(open(a,'rb').read()!=open(b,'rb').read())"`)
-    **and (b)** it was VERIFIED in workspace/review_v{N-1}.json. Carry its prior
-    verdict forward verbatim (VERIFIED, severity null). This is sound because
-    sources are frozen after Step 1, so identical bullet text against an identical
-    source yields the same correct verdict.
-  - **Re-check set `R`:** everything else — every citation in a regenerated chunk,
-    every citation that was MISREPRESENTED or UNVERIFIED in review_v{N-1}.json, and
-    any citation new to this draft. These are the only pairs batched out below.
+  - **Carry-forward set (skip re-check).** A citation skips re-check and keeps a prior
+    VERIFIED verdict if it qualifies under **either** rule:
+    - **Unchanged-and-passed:** it was VERIFIED in workspace/review_v{N-1}.json **and**
+      its own bullet text is unchanged this iteration — i.e. **either (a)** it lives in
+      a clean chunk carried forward byte-identical (`draft_v{N}_part_{KK}.md` is
+      byte-identical to `draft_v{N-1}_part_{KK}.md`; confirm with a byte compare, e.g.
+      `python3 -c "import sys;sys.exit(open(a,'rb').read()!=open(b,'rb').read())"`),
+      **or (b)** it lives in a **surgically-edited** chunk (Step 3) and is **not** one
+      of the (slide, claim_id) bullets you edited there (you applied those edits line
+      by line, so you know exactly which lines changed; cross-check that the differing
+      lines equal the lines you edited).
+    - **(c) Verdict hysteresis (carry-best on identical bytes):** even if the citation
+      was MISREPRESENTED or UNVERIFIED in review_v{N-1}.json, if its **current exact
+      bullet text** is byte-identical to the `bullet` of a VERIFIED entry in **any**
+      prior review (review_v1 .. review_v{N-1}), carry that VERIFIED verdict forward and
+      exclude it from `R`. Sources are frozen after Step 1, so text that earned VERIFIED
+      on those exact bytes once is correct on them always; a later MISREPRESENTED on the
+      *same bytes* is fact-checker non-determinism, not a new truth. Without this, a
+      noise-flagged claim re-enters `R` every round and can escalate
+      (VERIFIED→MINOR→MAJOR) until it spuriously blocks finalization at the iteration
+      cap — an observed real-run failure. Hysteresis is deliberately asymmetric:
+      identical bytes keep their **best** historical verdict, never their worst, and a
+      citation leaves this protection the moment its **text changes**.
+    Carry the qualifying citation's prior VERIFIED verdict forward verbatim (severity
+    null).
+  - **Re-check set `R`:** everything else — every citation in a writer-regenerated
+    chunk, every bullet you surgically edited this iteration, every citation that was
+    MISREPRESENTED or UNVERIFIED in review_v{N-1}.json **and is not rescued by
+    hysteresis rule (c)**, and any citation new to this draft. These are the only pairs
+    batched out below.
 - Split `R` into 3-4 roughly equal batches. Pass each sub-agent its
   **explicit list of (slide, claim_id) pairs** — not just a slide range. A bare
   slide range lets a batch silently sample a subset; an explicit list is a
@@ -188,16 +250,34 @@ the top and `---` separators between chunks.
   verdict. Include the **full claim_verdicts entries** for all MISREPRESENTED and
   UNVERIFIED claims — with their bullet text, source excerpt, `severity`, issue
   description, and suggested fix. For VERIFIED claims (fresh or carried-forward)
-  write a **compact per-citation entry** — `{slide, claim_id, verdict:"VERIFIED"}`
-  — **not** a bare count: the next iteration's carry-forward lookup needs to know
-  exactly which (slide, claim_id) pairs passed, so review_vN.json must carry a
-  verdict for every one of the `C` citations. Record `total_checked` (must equal
+  write a **compact per-citation entry** — `{slide, claim_id, verdict:"VERIFIED",
+  bullet:"<exact citing line>"}` — **not** a bare count: the next iteration's
+  carry-forward **and verdict-hysteresis** lookups need to know exactly which
+  (slide, claim_id) pairs passed **and the exact text that passed**, so review_vN.json
+  must carry a verdict (with its `bullet` text) for every one of the `C` citations. Record `total_checked` (must equal
   `C` = carried-forward + `|R|`), `rechecked_count` (= `|R|`),
   `misrepresented_count`, and the severity breakdown `critical_count`,
   `major_count`, `minor_count`, plus `blocking_count` (= critical + major). Do not
   summarize or omit detail for flagged claims during the merge. **Verdict is
   APPROVED iff `blocking_count == 0`** (MINOR-only issues still approve — see the
   feedback step); otherwise NEEDS_REVISION.
+
+**Consensus gate on newly-blocking verdicts (apply before reading the merge as final).**
+A single fresh fact-check sample can over-score a claim — the same byte-identical bullet
+has been observed scoring VERIFIED, then MINOR, then MAJOR across runs. So before a
+citation that was **non-blocking in review_v{N-1}** (VERIFIED or MINOR there) is allowed
+to count as CRITICAL/MAJOR in review_vN, re-sample it: dispatch **2 additional
+independent fact-checker sub-agents** on just that (slide, claim_id) pair (same inputs as
+the batch). Take the **majority of the 3** verdicts (the original batch verdict + the 2
+resamples): accept the blocking severity only if **≥2 of 3** agree it is CRITICAL/MAJOR.
+If the majority is non-blocking, record the majority verdict (VERIFIED, or MINOR with the
+majority's issue/fix) in review_vN instead, and do **not** let it block. Then recompute
+`blocking_count` and the severity breakdown from the post-consensus verdicts. Scope: gate
+only **escalations** — a citation already CRITICAL/MAJOR in review_v{N-1} is genuine
+carry-over work and needs no resample; a citation **new** to this draft is genuinely new
+content and is checked normally (not gated). This stops single-sample noise from
+manufacturing a spurious blocker, especially at the iteration cap where there is no round
+left to fix it.
 
 **After both complete**, gate on severity, not raw count. MINOR issues are
 advisory — real, but they do not change the takeaway and must **not** force
@@ -207,12 +287,30 @@ that prevents convergence; the deck is "done" when nothing CRITICAL/MAJOR remain
 not when zero nitpicks remain.
 
 - If code failures exist OR `blocking_count > 0` (verdict NEEDS_REVISION):
-  Combine the **blocking** issues (CRITICAL/MAJOR) and any code failures into
-  workspace/writer_feedback.md — one entry per flagged slide with its [claim:id],
-  the problem, and the suggested fix. You **may** also fold in MINOR issues that
-  fall inside a chunk already being regenerated for a blocking reason (cheap to fix
-  while that chunk is rewritten); never regenerate an otherwise-clean chunk for a
-  MINOR issue alone.
+  Build workspace/writer_feedback.md from the **blocking** issues (CRITICAL/MAJOR)
+  and any code failures — one entry per flagged bullet with its slide title and
+  [claim:id]. **Classify and format each item so Step 3 can route it:**
+  - Tag each item **SURGICAL** or **REWRITE**:
+    - **SURGICAL** — the fix is a single self-contained line replacement: the
+      review's `suggested_fix` is a concrete corrected bullet, the claim_id stays the
+      same, and nothing structural changes (no splitting/merging bullets, no new
+      slide, no hunting for a different source). Most dropped-qualifier and
+      wrong-figure fixes are surgical.
+    - **REWRITE** — the fix needs judgment: restructuring a slide, splitting or
+      merging bullets, removing or retagging a citation to a different claim/source,
+      or content the `suggested_fix` only describes rather than states verbatim.
+  - For every **SURGICAL** item, record the exact **OLD** line (copy the citing line
+    verbatim from draft_v{N}.md — leading `- `, any `**bold**`, and the trailing
+    `[claim:id]` included) and the exact **NEW** line, formatted identically, so the
+    orchestrator can apply it as a literal Edit with no reformatting. The NEW line is
+    the review's `suggested_fix` wrapped to mirror the OLD line's formatting.
+  - For every **REWRITE** item, state the problem and the intended fix as prose; the
+    chunk's writer applies it.
+  Code failures are REWRITE items (the writer must fix the code). You **may** also
+  fold in a MINOR issue only when its chunk already has a writer scheduled for a
+  REWRITE item (cheap while that chunk is open) — tag it the same way; otherwise
+  leave MINORs advisory for Step 6. Never schedule a writer, or a surgical edit, for
+  an otherwise-clean chunk on account of a MINOR alone.
   If iteration < 3: go to Step 3.
   If iteration >= 3: stop. Do **not** assume the latest draft is the best —
   regeneration can leave an iteration worse than its predecessor. Rank all of
@@ -309,14 +407,21 @@ If review verdict is APPROVED and code results all PASS (or were skipped):
 
 - **Research cache**: If workspace/claim_registry.json already exists and run.md has not
   changed, skip Step 1 entirely.
-- **Carry clean chunks forward**: On a revision (N > 1), only chunks with feedback
-  in their slide range are regenerated; chunks with no feedback are copied forward
-  from the previous iteration unchanged (see Step 3). This avoids re-introducing
-  errors into verified slides and cuts writer cost to the flagged fraction.
+- **Surgical edits over chunk regeneration**: On a revision (N > 1), a known fix
+  (a concrete replacement bullet, same claim_id) is applied by the orchestrator as a
+  literal line edit to the carried-forward chunk — no writer runs, so the unflagged
+  verified bullets sharing that chunk are byte-untouched and cannot regress. A writer
+  runs only for a chunk with an open-ended REWRITE item (restructuring, retagging, new
+  content), and even then it carries every unflagged bullet forward byte-identical
+  (writer.md rule 12). Chunks with no feedback are copied forward unchanged. This is
+  the fix for the regression mode where regenerating a chunk to repair one bullet
+  rewrote — and broke — previously-verified neighbors in the same chunk.
 - **Incremental verification**: Verification (Step 4+5) re-checks only the changed
   or previously-flagged citations on a revision — the re-check set `R`. Citations on
   byte-identical carried-forward chunks that already passed keep their prior VERIFIED
-  verdict instead of being re-checked. Sources are frozen after Step 1, so identical
+  verdict instead of being re-checked. On a surgically-edited chunk the granularity is
+  per-bullet: only the bullets the orchestrator actually changed enter `R`; every
+  other bullet keeps its prior verdict even though the file as a whole differs. Sources are frozen after Step 1, so identical
   bullet text against an identical source has a known-correct verdict; re-running the
   fact-checker on it cannot reveal a new truth, it only resamples the checker's
   non-determinism — which wastes the bulk of the fact-check budget (on a late
@@ -335,10 +440,12 @@ If review verdict is APPROVED and code results all PASS (or were skipped):
 - Never finalize (overwrite output/slides.md) unless the review verdict is
   APPROVED (blocking_count == 0) and code checks pass. A cap-stop is not APPROVED:
   report the best draft, do not finalize.
-- A carried-forward verdict is valid only when **both** the chunk bytes and the
-  source file are unchanged from the iteration it came from. If a source file was
-  touched after Step 1, or a part file's bytes changed, that citation belongs in
-  `R` and must be re-checked — never carry a verdict across changed inputs.
+- A carried-forward verdict is valid only when the **bullet's own line** and its
+  **source file** are unchanged from the iteration it came from — either the whole
+  chunk is byte-identical, or the chunk was only surgically edited and this bullet was
+  not one of the edited lines. If a source file was touched after Step 1, or the
+  bullet's line changed (by a writer or a surgical edit), that citation belongs in `R`
+  and must be re-checked — never carry a verdict across changed inputs.
 - After the merge, assert `total_checked == C` (carried-forward + `|R|`). If they
   disagree, a citation was dropped or double-counted — stop and report.
 - If any step produces an empty file or fails silently, stop and report.

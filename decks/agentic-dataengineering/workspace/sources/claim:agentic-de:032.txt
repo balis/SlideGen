@@ -1,0 +1,12 @@
+Source for claim:agentic-de:batch-embedding:003
+
+Title: Embeddings API Max Batch Size - OpenAI Developer Community
+URL: https://community.openai.com/t/embeddings-api-max-batch-size/655329
+Retrieved: 2026-06-14
+
+Excerpt:
+"Batch size of 2048 succeeded. Batch size of 2049 failed with error: Error code: 400 — '$.input' is invalid. Please check the API reference."
+
+"There is not only a batch size limit, but also a max_tokens_per_request."
+
+Note: This is community-verified empirical testing, not official documentation. The 2048 limit is consistently reported by multiple users.

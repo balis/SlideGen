@@ -1,0 +1,27 @@
+Claim ID: claim:agentic-de:asof-join:002
+Statement: ASOF JOIN is a dialect-specific SQL extension -- originally built into kdb+ (aj function) for finance, implemented in ClickHouse in 2019, and supported by DuckDB and Snowflake -- while databases lacking it (e.g., PostgreSQL) must emulate it with an ANSI-standard LATERAL JOIN or a window function (ROW_NUMBER with a filtered self-join).
+
+Source excerpts:
+
+[DuckDB Documentation]
+"AsOf joins embody some common temporal analytic semantics, which can be cumbersome and slow to implement in standard SQL."
+Syntax: FROM holdings h ASOF JOIN prices p ON h.ticker = p.ticker AND h.when >= p.when
+URL: https://duckdb.org/docs/current/guides/sql_features/asof_join
+Retrieved: 2026-06-14
+
+[ClickHouse Blog - Joins Part 1]
+"The ASOF JOIN, implemented for ClickHouse in 2019 by Martijn Bakker and Artem Zuikov"
+"The ON clause of the ASOF JOIN is required and specifies an exact match condition next to the non-exact match condition of the AND clause."
+"ClickHouse currently doesn't support (yet) joins without any part of the join keys performing strict matching."
+URL: https://clickhouse.com/blog/clickhouse-fully-supports-joins-part1
+Retrieved: 2026-06-14
+
+[kdb+ Documentation]
+The as-of join (aj) syntax is: aj[c1...cn;t1;t2]. For each record in t1, the result has one record with the items in t1, and if there are matching records in t2, the items of the last matching record (with time <= t1's time) are appended.
+URL: https://code.kx.com/q/ref/aj/
+Retrieved: 2026-06-14
+
+[ANSI SQL alternatives]
+"LATERAL is one of the standard ANSI SQL features, and the term originates with ANSI SQL standards." Using ROW_NUMBER() with an ORDER BY clause and filtering where the row number equals 1 provides a way to emulate point-in-time ASOF join behavior across different SQL databases.
+URL: https://docs.snowflake.com/en/sql-reference/constructs/asof-join (Snowflake ASOF JOIN docs, also references alternatives)
+Retrieved: 2026-06-14

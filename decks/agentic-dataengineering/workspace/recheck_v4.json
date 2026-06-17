@@ -1,0 +1,78 @@
+{
+  "version": 4,
+  "batch": 1,
+  "batch_verdict": "VERIFIED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Training-serving skew is a difference between performance during training and during serving, caused by: (1) divergent data handling in training vs. serving pipelines, (2) data changes between training and serving time, or (3) feedback loops between model and algorithm [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Prevention: log the features used at serving time and replay them during training to verify consistency between the two environments [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Apache Iceberg implements time travel through immutable snapshots: each write creates a new snapshot referencing manifest lists and data files; historical queries follow older snapshot pointers, but even small data changes create new versions of data and metadata files, increasing storage usage, and over time snapshot accumulation also causes metadata bloat [claim:agentic-de:019]",
+      "source_excerpt": "Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage. Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "When a trained ML model is proven to leak personal data from training and the affected data subject has requested erasure under GDPR's Right to Be Forgotten, erasing the personal data from the training set alone is insufficient — machine unlearning methods must also be applied to the trained model itself [claim:agentic-de:055]",
+      "source_excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model. GDPR grants data subjects the Right to Be Forgotten, mandating companies fulfill data erasure requests, particularly when asked to erase specific training data from their well-trained predictive models.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:056",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "Current ML artifact management systems such as MLflow provide provenance capabilities that are still rudimentary — mainly due to incomplete traces, coarse granularity, and limited query capabilities — motivating PROV-compliant lineage models that capture end-to-end relationships between data versions and model artifacts [claim:agentic-de:056]",
+      "source_excerpt": "Modern workflows for developing ML pipelines utilize ML artifact management systems (ML AMSs) such as MLflow ... However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities. MLflow2PROV introduces a comprehensive PROV-compliant provenance model that captures end-to-end provenance traces of ML pipelines, their artifacts, and their relationships based on MLflow and Git activities.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "bullet": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain on average across benchmarks, up to 48.7% latency reduction over non-speculative execution, and 26.0% cost reduction compared to Monte Carlo search-based verification [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "bullet": "Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand, enabling operators to select their preferred operating point across all three dimensions [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "7 citations checked in this batch. 7 verified, 0 misrepresented, 0 unverified."
+}

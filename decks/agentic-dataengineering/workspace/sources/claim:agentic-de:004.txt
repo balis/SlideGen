@@ -1,0 +1,18 @@
+Source for claim:agentic-de:hierarchy-of-needs:002
+
+Title: CrowdFlower Data Science Report 2016
+Secondary source: ADTmag, "Data Scientists Love Jobs, Dislike What They Do Most: Clean Data"
+URL: https://adtmag.com/articles/2016/03/25/data-science-report.aspx
+
+Excerpt:
+"Almost the same percentage of respondents reported they spent most of their
+time cleaning data (60 percent) as those who reported that task to be the
+least enjoyable part of their job (57 percent)."
+
+An additional 19 percent of time was reported spent on collecting data sets,
+bringing the total data preparation effort to approximately 79 percent.
+
+Note: The "80% of time on data" figure widely cited in industry originates
+from this 2016 CrowdFlower survey of approximately 80 data scientists.
+
+Retrieved: 2026-06-14

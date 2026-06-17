@@ -1,0 +1,238 @@
+{
+  "version": 2,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "ANN search achieves speed by accepting silent recall losses — vectors disappear from results without any error notification",
+      "source_excerpt": "Approximate nearest neighbor (ANN) search achieves speed gains by accepting 'silent' recall losses — vectors disappearing from results without explicit notification to users.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "Even with a substantial latency budget, recall@1 may reach only 0.9, meaning the true nearest neighbour is absent in ~10% of queries",
+      "source_excerpt": "At k=240 (35ms latency), recall@1 reaches only 0.9, meaning 'for about 10% of the queries, the true top nearest neighbor is missing from the result.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "Recall degrades silently as the dataset grows: a 10%+ drop from 50k to 200k vectors with fixed index parameters has been observed",
+      "source_excerpt": "Retrieval quality degrades silently as the vector database grows, even when latency remains stable. Recall drops by 10%+ as database grows from 50k to 200k.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Post-filtering (run ANN first, then apply predicate) can return zero results when a selective filter eliminates all ANN candidates",
+      "source_excerpt": "In post-filtering scenarios, none of the nearest documents may match the filter, resulting in 0% recall regardless of vector index performance.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Pre-filtering (apply predicate first, then run ANN on the subset) degrades to brute force when the filtered subset is large",
+      "source_excerpt": "Pre-filtering ('filter-then-search') guarantees correctness, but if that subset is large you end up doing a near-linear scan.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Tight filters cause tail latencies of 200–300 ms in post-filter fallback engines",
+      "source_excerpt": "engines relying on post-filter fallbacks can spike to 200–300 ms under filtering in tail latencies.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Dedicated vector databases such as Qdrant and Weaviate address this by integrating filters inside HNSW graph traversal; pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates",
+      "source_excerpt": "Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. pgvector: post-filter on candidate set; selective queries (10% selectivity on 5M vectors) scan 500K candidates.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source excerpt explicitly confirms that Qdrant integrates filters inside HNSW traversal, but does not mention Weaviate by name. The bullet asserts 'Qdrant and Weaviate' both address this via in-graph filtering, but only Qdrant is confirmed by the cited source. Weaviate is an unsupported addition.",
+      "suggested_fix": "Dedicated vector databases such as Qdrant address this by integrating filters inside HNSW graph traversal; pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates."
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "pgvector is the appropriate default for datasets under ~2M vectors when Postgres is already in the stack, offering full SQL join capability and zero additional infrastructure",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors... Use pgvector if you're already running Postgres, you want vectors alongside your application data, and your dataset is under 10M vectors — no separate service, no sync layer, and no new infrastructure.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Above 5–10M vectors or for sub-20ms p95 latency requirements, dedicated vector databases become preferable",
+      "source_excerpt": "For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Above 5-10 million vectors, pgvector requires careful tuning of shared_buffers, work_mem, and HNSW parameters to maintain fast queries.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Qdrant provides best-in-class filtered search by integrating predicates inside HNSW traversal; Pinecone offers zero-ops managed scale at a 3–8x cost premium; Milvus is designed for billion-vector sharded deployments",
+      "source_excerpt": "Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Use Milvus if you're working at billion-vector scale: it's built for massive datasets and has the most mature sharding and partitioning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Past 2M vectors on a single Postgres instance, index build times can exceed 20 minutes",
+      "source_excerpt": "Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "RAG retrieval is a two-stage data pipeline: stage 1 (retrieval) maximizes recall by casting a wide net; stage 2 (reranking) maximizes precision by scoring the retrieved set more carefully",
+      "source_excerpt": "Stage 1: Retrieval (Recall)...cast a wide net. Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:044",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "Chunking is the schema-design decision that precedes both stages: chunk size, boundary policy, and structure determine which information units are indexed and retrieved",
+      "source_excerpt": "The paper's central finding is that no single granularity is optimal across queries — the optimal chunk size is query-dependent. This directly supports framing chunking strategy as a design decision with performance consequences analogous to schema design in databases.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:044",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "There is no universal optimal chunk size — smaller chunks (64–128 tokens) favor fact-based queries while larger chunks (512–1024 tokens) favor contextual queries",
+      "source_excerpt": "Smaller chunks (64-128 tokens) are optimal for datasets with concise, fact-based answers, whereas larger chunks (512-1024 tokens) improve retrieval in datasets requiring broader contextual understanding.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Large chunks can exceed token limits or include irrelevant content, reducing precision; small chunks may lack surrounding context needed for accurate generation",
+      "source_excerpt": "Large chunks can exceed token limits or retrieve irrelevant information, reducing retrieval precision, while small chunks might miss the context necessary for effective generation.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Chunk size is a design tradeoff: increasing it improves context availability but dilutes specificity; decreasing it sharpens specificity but loses context",
+      "source_excerpt": "As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "This tradeoff is directly analogous to schema-design decisions about table granularity — the right answer depends on the dominant query pattern",
+      "source_excerpt": "the best-performing chunk size varies substantially across queries, even when querying the same corpus. Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source file for claim:agde:045 (AI21 Labs blog on query-dependent chunking) contains no mention of schema-design decisions, table granularity, or any database design analogy. The bullet asserts a specific analogy — chunk size tradeoff is 'directly analogous to schema-design decisions about table granularity' — that is entirely absent from the cited source. The source supports only the query-dependency of chunk size and the precision-context tradeoff, not the database schema framing.",
+      "suggested_fix": "Chunk size is a query-dependent design tradeoff — the best-performing size varies substantially across queries, making it a decision that should be driven by the dominant query pattern rather than treated as a fixed one-time tuning parameter."
+    },
+    {
+      "claim_id": "claim:agde:046",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "BM25 sparse retrieval and dense ANN retrieval fail in complementary directions: BM25 excels at exact-match queries (product codes, error codes, rare identifiers) but has no semantic understanding",
+      "source_excerpt": "You can't pick between BM25 and dense retrieval. You need both. They fail in opposite ways. Exact identifiers survive [in BM25]. Error codes, ticket IDs, API endpoints, function names, configuration keys — anything that needs to be precisely correct rather than semantically similar. BM25 isn't about semantic understanding.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:046",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "Dense retrieval handles paraphrase and conceptual queries but may assign low scores to exact rare-term matches — making hybrid retrieval the recommended baseline for production RAG",
+      "source_excerpt": "[Dense retrieval] treats symbols as noise. Embedding models treat tokens like 'E4392' or '/api/v2/users' as less important than readable text. Production retrieval needs both the lexical precision of BM25 and the semantic recall of vector search. Hybrid search recovers both signals and produces far more useful candidate sets for RAG.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "RRF (Reciprocal Rank Fusion), introduced at SIGIR 2009, is the standard fusion algorithm: it computes RRF(c) = Σ 1/(rank_i(c) + k) with k=60, operating on rank positions rather than raw scores",
+      "source_excerpt": "Venue: Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval (SIGIR 2009). RRF formula: RRF(c) = Σ 1/(rank_i(c) + k), where rank_i(c) is the rank of document c in retrieval system i, and k=60 is the standard smoothing constant. RRF relies solely on the ranking positions of the combined mechanisms, which makes it independent of their specific implementations.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Code — Reciprocal Rank Fusion",
+      "bullet": "RRF operates on rank positions, not raw scores — this avoids the score-incompatibility problem between BM25 and cosine similarity",
+      "source_excerpt": "RRF relies solely on the ranking positions of the combined mechanisms, which makes it independent of their specific implementations. Instead of trying to somehow normalize arbitrary scores, RRF ignores the scores entirely and focuses on rank.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "Measured Recall@5: dense-only 0.587, BM25-only 0.644, hybrid RRF 0.695, hybrid RRF + neural reranker 0.816",
+      "source_excerpt": "A two-stage pipeline combining hybrid retrieval with neural reranking achieves Recall@5 of 0.816 compared to 0.695 for Hybrid RRF alone (+17.4%), 0.644 for BM25 (+26.7%), and 0.587 for dense retrieval (+39.0%).",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "The hybrid recall gain is attributable to BM25 pulling in relevant documents the dense retriever ranked too low — not to reranking, which cannot improve recall",
+      "source_excerpt": "re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "23 claims checked in this batch. 21 verified, 2 misrepresented, 0 unverified. Issues found: (1) Slide 'Metadata Filtering and ANN — The Interaction Problem', bullet 4 (claim:agde:042): Weaviate named alongside Qdrant as implementing in-graph filtering, but only Qdrant is confirmed by the source excerpt — MINOR. (2) Slide 'Chunking Strategy — A Schema Design Decision', bullet 3 (claim:agde:045): The 'directly analogous to schema-design decisions about table granularity' analogy is entirely absent from the cited source (AI21 Labs chunking blog); the source supports only query-dependency of chunk size — MAJOR."
+}

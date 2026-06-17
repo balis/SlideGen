@@ -1,0 +1,388 @@
+{
+  "version": 1,
+  "batch": 3,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; they cannot be changed after index construction without a full rebuild [claim:agde:038]",
+      "source_excerpt": "Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source confirms that M and efConstruction set the recall ceiling, but the clause 'they cannot be changed after index construction without a full rebuild' is not stated in any source excerpt. It is a reasonable inference, but no source excerpt explicitly states that changing these parameters requires a full rebuild.",
+      "suggested_fix": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall [claim:agde:038]"
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The query-time parameter efSearch is the operational dial: increasing it from 100 to 640 can improve recall@1 from ~0.85 to ~0.97 while proportionally increasing latency [claim:agde:038]",
+      "source_excerpt": "Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states the improvement was from efSearch=10 (recall@1=0.56) to efSearch=640 (recall@1=0.97), not from efSearch=100 (recall@1=~0.85) to 640. The starting efSearch value and starting recall value are both wrong. The Milvus source does mention efSearch=100 yielding ~85% recall independently, but the source excerpt documents a range from 10 to 640, not 100 to 640. Combining separate data points into a single 'increasing from X to Y' progression not stated in any source excerpt is a distortion.",
+      "suggested_fix": "The query-time parameter efSearch is the operational dial: increasing it from 10 to 640 can improve recall@1 from ~0.56 to ~0.97, while latency rises from ~5 ms to ~68 ms [claim:agde:038]"
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The recall-latency tradeoff should be treated as a tuned SLO, not a fixed property — the right efSearch value depends on the latency budget and the recall requirement for the application [claim:agde:038]",
+      "source_excerpt": "Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "IVF partitions vectors into clusters; at query time only nprobe clusters are searched, trading recall for speed; increasing nprobe recovers recall at the cost of more work [claim:agde:039]",
+      "source_excerpt": "IVF partitions vectors into clusters using k-means, with each cluster having a centroid. During queries, the system identifies the closest centroids (controlled by nprobe) and searches only within those clusters. Higher nprobe increases recall at the cost of more distance computations.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "PQ splits each vector into subvectors and replaces each with a centroid index (controlled by nbits), introducing quantization error that degrades recall [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "For a 10M-vector 1536-dim dataset, raw storage is 61.4 GB; IVF-PQ with m=48, nbits=8 reduces this to ~480 MB — a 128x memory reduction [claim:agde:039]",
+      "source_excerpt": "For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "ANN search achieves speed by accepting silent recall losses — vectors disappear from results without any error notification [claim:agde:041]",
+      "source_excerpt": "Approximate nearest neighbor (ANN) search achieves speed gains by accepting 'silent' recall losses — vectors disappearing from results without explicit notification to users.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "Even with a substantial latency budget, recall@1 may reach only 0.9, meaning the true nearest neighbour is absent in ~10% of queries [claim:agde:041]",
+      "source_excerpt": "At k=240 (35ms latency), recall@1 reaches only 0.9, meaning 'for about 10% of the queries, the true top nearest neighbor is missing from the result.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "Recall degrades silently as the dataset grows: a 10%+ drop from 50k to 200k vectors with fixed index parameters has been observed [claim:agde:041]",
+      "source_excerpt": "Retrieval quality degrades silently as the vector database grows, even when latency remains stable. Recall drops by 10%+ as database grows from 50k to 200k.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "HNSW deletes require soft-delete tombstoning rather than immediate graph repair, accumulating stale references until periodic cleanup [claim:agde:041]",
+      "source_excerpt": "Tombstones are records that mark deleted objects. In an HNSW index, tombstones are regularly cleaned up, triggered periodically by the cleanupIntervalSeconds parameter. Simply removing a node from an HNSW graph can break navigation paths for other nodes — to do a 'hard delete' and permanently remove data from a sparse graph index like HNSW, the entire index has to be rebuilt.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Post-filtering (run ANN first, then apply predicate) can return zero results when a selective filter eliminates all ANN candidates [claim:agde:042]",
+      "source_excerpt": "In post-filtering scenarios, none of the nearest documents may match the filter, resulting in 0% recall regardless of vector index performance.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Pre-filtering (apply predicate first, then run ANN on the subset) degrades to brute force when the filtered subset is large [claim:agde:042]",
+      "source_excerpt": "Pre-filtering ('filter-then-search') guarantees correctness, but if that subset is large you end up doing a near-linear scan.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Tight filters cause tail latencies of 200–300 ms in post-filter fallback engines [claim:agde:042]",
+      "source_excerpt": "when only 10% of records match a filter, engines relying on post-filter fallbacks can spike to 200–300 ms under filtering in tail latencies.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:042",
+      "slide": "Metadata Filtering and ANN — The Interaction Problem",
+      "bullet": "Dedicated vector databases such as Qdrant and Weaviate address this by integrating filters inside HNSW graph traversal; pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates [claim:agde:042]",
+      "source_excerpt": "Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. pgvector: post-filter on candidate set; selective queries (10% selectivity on 5M vectors) scan 500K candidates.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source excerpt explicitly names only Qdrant as integrating filters inside HNSW graph traversal. Weaviate is not named in the source excerpt for this claim (claim:agde:042). Source 2 mentions 'Modern vector databases often employ sophisticated indexing techniques' in general terms but does not name Weaviate specifically. The slide's co-listing of Weaviate with Qdrant introduces a claim not directly supported by the source excerpt.",
+      "suggested_fix": "Dedicated vector databases such as Qdrant address this by integrating filters inside HNSW graph traversal; pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates [claim:agde:042]"
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "pgvector is the appropriate default for datasets under ~2M vectors when Postgres is already in the stack, offering full SQL join capability and zero additional infrastructure [claim:agde:043]",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Above 5–10M vectors or for sub-10ms p95 latency requirements, dedicated vector databases become preferable [claim:agde:043]",
+      "source_excerpt": "For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states the latency threshold as 'sub-20ms p95' but the slide says 'sub-10ms p95.' The slide halves the latency threshold from what the source supports, making dedicated databases appear necessary at a much more demanding (lower) latency target than the source states.",
+      "suggested_fix": "Above 5–10M vectors or for sub-20ms p95 latency requirements, dedicated vector databases become preferable [claim:agde:043]"
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Qdrant provides best-in-class filtered search by integrating predicates inside HNSW traversal; Pinecone offers zero-ops managed scale at a 3–8x cost premium; Milvus is designed for billion-vector sharded deployments [claim:agde:043]",
+      "source_excerpt": "Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Use Milvus if you're working at billion-vector scale: it's built for massive datasets and has the most mature sharding and partitioning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Choosing a Vector Store — pgvector vs. Dedicated Databases",
+      "bullet": "Past 2M vectors on a single Postgres instance, index build times can exceed 20 minutes [claim:agde:043]",
+      "source_excerpt": "Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:044",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "RAG retrieval is a two-stage data pipeline: stage 1 (retrieval) maximizes recall by casting a wide net; stage 2 (reranking) maximizes precision by scoring the retrieved set more carefully [claim:agde:044]",
+      "source_excerpt": "Retrieving from multiple knowledge sources with one fixed strategy usually leads to under-exploitation of information. To mitigate this drawback, inspired by Mix-of-Expert, the authors introduce Mix-of-Granularity (MoG), a method that dynamically determines the optimal granularity of a knowledge source based on input queries using a router.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source for claim:agde:044 is the Mix-of-Granularity paper (arXiv:2406.00456), which is entirely about chunking granularity optimization, not about a two-stage retrieval-then-reranking pipeline architecture. Neither the primary source excerpt nor its supporting context describes a 'two-stage data pipeline' with a retrieval stage followed by a reranking stage. This bullet is incorrectly attributed to claim:agde:044.",
+      "suggested_fix": "Remove [claim:agde:044] citation from this bullet, or retag it to a source that describes the two-stage RAG pipeline architecture (e.g., claim:agde:049 which covers the retrieval/reranking distinction)."
+    },
+    {
+      "claim_id": "claim:agde:044",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "Chunking is the schema-design decision that precedes both stages: chunk size, boundary policy, and structure determine which information units are indexed and retrieved [claim:agde:044]",
+      "source_excerpt": "Retrieving from multiple knowledge sources with one fixed strategy usually leads to under-exploitation of information. The paper's central finding is that no single granularity is optimal across queries — the optimal chunk size is query-dependent.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:044",
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "bullet": "There is no universal optimal chunk size — smaller chunks (64–128 tokens) favor fact-based queries while larger chunks (512–1024 tokens) favor contextual queries [claim:agde:044]",
+      "source_excerpt": "Smaller chunks (64-128 tokens) are optimal for datasets with concise, fact-based answers, whereas larger chunks (512-1024 tokens) improve retrieval in datasets requiring broader contextual understanding.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Large chunks can exceed token limits or include irrelevant content, reducing precision; small chunks may lack surrounding context needed for accurate generation [claim:agde:045]",
+      "source_excerpt": "smaller chunks preserve fine-grained details but lose context; larger chunks capture broader meaning but dilute specific facts. Large chunks can exceed token limits or retrieve irrelevant information, reducing retrieval precision, while small chunks might miss the context necessary for effective generation.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Chunk size is a design tradeoff: increasing it improves context availability but dilutes specificity; decreasing it sharpens specificity but loses context [claim:agde:045]",
+      "source_excerpt": "As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "This tradeoff is directly analogous to schema-design decisions about table granularity — the right answer depends on the dominant query pattern [claim:agde:045]",
+      "source_excerpt": "smaller chunks preserve fine-grained details but lose context; larger chunks capture broader meaning but dilute specific facts. Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source excerpt does not mention schema-design decisions, table granularity, or any database schema analogy. The analogy to schema-design and table granularity is the writer's own framing and is not supported by any text in the source file. The claim that 'the right answer depends on the dominant query pattern' is reasonably inferable from the source's discussion of query-dependent chunk size, but the schema analogy itself is unsupported.",
+      "suggested_fix": "Chunk size is a design tradeoff where the right answer depends on the dominant query pattern — the same corpus may benefit from different chunk sizes for different query types [claim:agde:045]"
+    },
+    {
+      "claim_id": "claim:agde:046",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "BM25 sparse retrieval and dense ANN retrieval fail in complementary directions: BM25 excels at exact-match queries (product codes, error codes, rare identifiers) but has no semantic understanding [claim:agde:046]",
+      "source_excerpt": "You can't pick between BM25 and dense retrieval. You need both. They fail in opposite ways. Exact identifiers survive [in BM25]. Error codes, ticket IDs, API endpoints, function names, configuration keys—anything that needs to be precisely correct rather than semantically similar.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:046",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "Dense retrieval handles paraphrase and conceptual queries but may assign low scores to exact rare-term matches — making hybrid retrieval the recommended baseline for production RAG [claim:agde:046]",
+      "source_excerpt": "Dense retrieval is robust but vague. It [dense retrieval] treats symbols as noise. Embedding models...treat tokens like 'E4392' or '/api/v2/users' as less important than readable text. Production retrieval needs both the lexical precision of BM25 and the semantic recall of vector search. Hybrid search recovers both signals and produces far more useful candidate sets for RAG.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:046",
+      "slide": "Hybrid Retrieval — BM25 + Dense ANN",
+      "bullet": "RRF (Reciprocal Rank Fusion), introduced at SIGIR 2009, is the standard fusion algorithm: it computes RRF(c) = Σ 1/(rank_i(c) + k) with k=60, operating on rank positions rather than raw scores [claim:agde:047]",
+      "source_excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. [Published at: Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval, pages 758–759, Boston MA USA, July 2009. Authors: Gordon V. Cormack, Charles L A Clarke, Stefan Büttcher.]",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Code — Reciprocal Rank Fusion",
+      "bullet": "RRF operates on rank positions, not raw scores — this avoids the score-incompatibility problem between BM25 and cosine similarity [claim:agde:047]",
+      "source_excerpt": "RRF relies solely on the ranking positions of the combined mechanisms, which makes it independent of their specific implementations. Instead of trying to somehow normalize arbitrary scores, RRF ignores the scores entirely and focuses on rank.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "Hybrid retrieval (BM25 + dense ANN fused via RRF) improves recall because each retriever surfaces relevant documents the other misses [claim:agde:048]",
+      "source_excerpt": "re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "Measured Recall@5: dense-only 0.587, BM25-only 0.644, hybrid RRF 0.695, hybrid RRF + neural reranker 0.816 [claim:agde:048]",
+      "source_excerpt": "A two-stage pipeline combining hybrid retrieval with neural reranking achieves Recall@5 of 0.816 compared to 0.695 for Hybrid RRF alone (+17.4%), 0.644 for BM25 (+26.7%), and 0.587 for dense retrieval (+39.0%).",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:048",
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "bullet": "The hybrid recall gain is attributable to BM25 pulling in relevant documents the dense retriever ranked too low — not to reranking, which cannot improve recall [claim:agde:048]",
+      "source_excerpt": "re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "A cross-encoder jointly encodes the query and each candidate passage through a shared transformer to produce a finer-grained relevance score — improving precision within the retrieved set [claim:agde:049]",
+      "source_excerpt": "Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top. A cross-encoder takes the full query and a single candidate passage as joint input to a transformer, and directly predicts a relevance score.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "Reranking operates only on the candidate set already retrieved by stage 1: any relevant document not retrieved is permanently lost to the reranker [claim:agde:049]",
+      "source_excerpt": "a dual encoder retrieves the top 50 to 100 candidates, with high recall mattering here because any relevant document that misses this cut is permanently gone.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Cross-Encoder Reranking — What It Can and Cannot Do",
+      "bullet": "The recall ceiling is set entirely by stage 1; a reranker cannot raise it [claim:agde:049]",
+      "source_excerpt": "If your retriever recall is poor, no reranker can save you. If the initial candidate set omits a large fraction of relevant documents, no reranking strategy can fully recover them.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Relevant Chunk Outside Top-k",
+      "bullet": "The canonical two-stage RAG failure: a relevant chunk is present in the corpus, retrieved by stage 1, but ranked just outside the top-k cutoff passed to the reranker or LLM — and is silently dropped [claim:agde:050]",
+      "source_excerpt": "while rerankers initially help with small values for K, reranking with large K decreases recall precipitously, often dropping beneath the quality of standalone retrievers. The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The primary source (arXiv:2411.11767) describes failures where relevant documents were NOT retrieved by the first stage at all ('the initial bi-encoder failed to retrieve'). The slide describes a different failure mode: the chunk WAS retrieved by stage 1 but ranked just outside the top-k cutoff passed to stage 2. These are structurally distinct failure modes. The source addresses recall limitations of the first-stage retriever, not the top-k cutoff between the two stages. The supporting context does include 'The right chunk is in the retrieved set, but it's ranked below irrelevant ones' which is closer to the slide's scenario but still describes ranking within the passed set (a precision problem), not cutoff at the handoff boundary.",
+      "suggested_fix": "The canonical two-stage RAG failure: relevant documents are absent from stage 1's retrieved set — the initial retriever's recall ceiling means a reranker cannot recover them. A related failure is when a retrieved chunk ranks just outside the top-k cutoff passed to stage 2 and is silently dropped [claim:agde:050]"
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Relevant Chunk Outside Top-k",
+      "bullet": "Because the reranker cannot access documents outside its input set, the chunk is permanently lost even though it was retrieved [claim:agde:050]",
+      "source_excerpt": "The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source says 'no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve' — describing documents that were never retrieved by stage 1. The slide says 'the chunk is permanently lost even though it was retrieved' — claiming the chunk was retrieved by stage 1 but then lost, which contradicts the source's scenario where the document was not retrieved in the first place. The distinction 'even though it was retrieved' inverts the source's failure mode.",
+      "suggested_fix": "Because the reranker cannot recover documents the first-stage retriever failed to retrieve, any relevant chunk absent from stage 1's output is permanently lost [claim:agde:050]"
+    },
+    {
+      "claim_id": "claim:agde:050",
+      "slide": "The Canonical Failure — Relevant Chunk Outside Top-k",
+      "bullet": "Mitigations: increase the stage-1 retrieval window (higher k at the cost of reranking latency), or improve stage-1 recall via hybrid retrieval to reduce the probability that the relevant chunk ranks low [claim:agde:050]",
+      "source_excerpt": "while rerankers initially help with small values for K, reranking with large K decreases recall precipitously, often dropping beneath the quality of standalone retrievers.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states that 'reranking with large K decreases recall precipitously' — meaning increasing K does NOT reliably mitigate the failure. The slide recommends 'increase the stage-1 retrieval window (higher k)' as a mitigation, but the source's finding is that higher K for the reranker actually worsens recall. The mitigation advice contradicts the cited paper's key finding.",
+      "suggested_fix": "Mitigations: improve stage-1 recall directly via hybrid retrieval (BM25 + dense ANN), since the source evidence shows that simply increasing the reranker's K does not reliably improve and may even decrease recall [claim:agde:050]"
+    },
+    {
+      "claim_id": "claim:agde:051",
+      "slide": "What Is an Agent? (Precise Definition)",
+      "bullet": "An AI agent is an LLM autonomously using tools in a loop, where the loop continues until a stopping condition — task completion or explicit termination — is reached [claim:agde:051]",
+      "source_excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "36 claims checked in this batch. 22 verified, 8 misrepresented, 0 unverified. Key issues: (1) claim:agde:038 — efSearch range is misquoted as '100 to 640' (should be '10 to 640') and starting recall is wrong (~0.85 vs 0.56); the 'cannot be changed without full rebuild' clause is also unsupported by the source. (2) claim:agde:042 — Weaviate named alongside Qdrant but the source excerpt only explicitly names Qdrant for in-graph filter integration. (3) claim:agde:043 — latency threshold misquoted as 'sub-10ms' when the source says 'sub-20ms.' (4) claim:agde:044 — the 'two-stage pipeline' bullet is incorrectly attributed to the MoG chunking paper, which does not describe pipeline architecture. (5) claim:agde:045 — the schema/table-granularity analogy is the writer's own framing, not in the source. (6) claim:agde:050 — all three bullets misrepresent the cited paper (arXiv:2411.11767), which addresses the first stage's recall ceiling, not the top-k cutoff at the stage boundary; the mitigation bullet directly contradicts the paper's finding that increasing reranker K decreases recall."
+}

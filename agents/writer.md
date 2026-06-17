@@ -14,6 +14,9 @@ the other chunks by `tools/concat_draft.py`.
 - `output_path` — workspace/draft_v{N}_part_{KK}.md (where `KK` is zero-padded)
 - `writer_feedback_path` — workspace/writer_feedback.md (only on revision
   iterations; ignore if it does not exist)
+- `prior_chunk_path` — workspace/draft_v{N-1}_part_{KK}.md (revision iterations
+  only; the previous version of *this* chunk. Start from it and carry every
+  unflagged line forward byte-identical — see rule 12. Ignore if not supplied.)
 - `style_guide` — a short paragraph in your prompt describing tone, audience,
   abbreviations, and any cross-section conventions
 
@@ -99,13 +102,27 @@ inserts the inter-chunk separator.
    even if the outline references them.
 8. If `writer_feedback_path` exists, read it. Address every feedback point that
    targets a slide in **your** range. Ignore feedback for slides outside your
-   range — those are owned by other writer agents.
+   range — those are owned by other writer agents. On a revision, change **only**
+   the flagged bullets and carry everything else forward unchanged — see rule 12.
 9. Mark any code block that needs execution testing with: `<!-- EXEC_TEST -->`
 10. Follow the `style_guide` exactly so the assembled deck is consistent.
 11. Slide headings are descriptive titles only. The outline labels slides as
     `## Slide N: Title` for numbering — strip that scaffolding so your heading is
     `## Title`, never `## Slide N: Title`. Slide numbers are positional; they must
     not appear in any heading.
+12. **On a revision, preserve everything not flagged.** If `prior_chunk_path` is
+    supplied, start from it and reproduce every slide and every bullet
+    **byte-for-byte**, changing **only** the specific bullets named in your feedback
+    items. Do not reword, reorder, re-punctuate, or "improve" any unflagged bullet,
+    heading, speaker note, or lecturer note — even if you would phrase it differently.
+    Regenerating clean text from scratch is the main source of regressions: a
+    previously-VERIFIED bullet rewritten anew can drift into a misrepresentation. The
+    fact-checker re-checks only the bullets that changed, so an unflagged bullet you
+    leave identical keeps its verdict for free; one you touch gets re-checked and may
+    regress. When in doubt, copy the prior line verbatim. **This is enforced:** after
+    you return, the orchestrator diffs your output against the prior chunk and reverts
+    (or re-dispatches) any unflagged line you changed — so rewording untouched bullets
+    is wasted effort at best and a re-dispatch at worst.
 
 ## Return value
 

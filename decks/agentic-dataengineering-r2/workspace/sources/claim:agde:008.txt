@@ -1,0 +1,21 @@
+SOURCE: Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers
+URL: https://developers.google.com/machine-learning/guides/rules-of-ml
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:skew-code-paths:002):
+Rule #32: "Reuse code between your training pipeline and your serving pipeline whenever possible. This eliminates a source of training-serving skew. Try not to use two different programming languages between training and serving. That decision will make it nearly impossible for you to share code."
+
+Additional context from same source:
+"In online processing, you must handle each request as it arrives (e.g., you must do a separate lookup for each query), whereas in batch processing, you can combine tasks (e.g., making a join). At serving time, you are doing online processing, whereas training is a batch processing task."
+
+SUPPORTING QUOTE from secondary source (JFrog ML / Qwak):
+URL: https://www.qwak.com/post/training-serving-skew-in-machine-learning
+"Two codepaths compute 'the same' feature slightly differently. Common causes include: Different preprocessing code paths for training and serving, feature computation at different points in time (training uses future data, serving uses only past), different handling of nulls, different categorical encoding mappings, unit differences, and different normalization parameters."
+
+SUPPORTING QUOTE from tertiary source (Training-Serving Skew on ploomber.io / search results):
+"Divergent code paths where training pipelines and serving pipelines re-implement the same transformation, with small differences in tokenization, string normalization, missing-value defaults, or floating-point rounding compounding into a feature gap."
+
+NOTES:
+- The core Rule #32 quote is verbatim from Google's official documentation.
+- The "divergent code paths" framing is corroborated by multiple independent sources.
+- HIGH confidence.

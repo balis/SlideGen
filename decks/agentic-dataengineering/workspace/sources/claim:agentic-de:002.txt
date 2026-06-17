@@ -1,0 +1,21 @@
+Source for claim:agentic-de:ml-pipeline-contract:002
+
+Title: Hidden Technical Debt in Machine Learning Systems
+Authors: D. Sculley, G. Holt, D. Golovin, E. Davydov, T. Phillips, D. Ebner,
+         V. Chaudhary, M. Young, J. Crespo, D. Dennison (Google)
+Published: NIPS 2015 (NeurIPS)
+URL/DOI: https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-syst
+
+Excerpt:
+"Only a small fraction of real-world ML systems is composed of the ML code,
+as shown by the small black box in the middle [of Figure 1]. The required
+surrounding infrastructure is vast and complex."
+
+The paper's famous Figure 1 shows a tiny "ML Code" box surrounded by much
+larger boxes for data collection, data verification, feature extraction,
+configuration, resource management, analysis tools, process management,
+serving infrastructure, and monitoring.
+
+"It is common to incur massive ongoing maintenance costs in real-world ML systems."
+
+Retrieved: 2026-06-14

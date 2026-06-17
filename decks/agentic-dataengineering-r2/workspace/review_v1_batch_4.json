@@ -1,0 +1,388 @@
+{
+  "version": 1,
+  "batch": 4,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:051",
+      "slide": "What Is an Agent? (Precise Definition)",
+      "bullet": "An AI agent is an LLM autonomously using tools in a loop, where the loop continues until a stopping condition — task completion or explicit termination — is reached [claim:agde:051]",
+      "source_excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:053",
+      "slide": "Production Case Study — The Expensive Nondeterministic Cron Job",
+      "bullet": "In 2025, GetOnStack's multi-agent market-data research system escalated from $127 to $47,000 in API costs over four weeks due to an infinite conversation loop between two agents (Analyzer and Verifier) running undetected for 11 days [claim:agde:053]",
+      "source_excerpt": "GetOnStack experienced catastrophic cost escalation: 'their multi-agent system for market data research escalated from $127 in weekly costs to $47,000 over four weeks due to an infinite conversation loop between agents running undetected for 11 days.' The failure mechanism: 'Agent A requested help from Agent B, which in turn asked Agent A for clarification, creating a recursive pattern that neither agent had the logic to break.'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "Two distortions: (1) The source says '$127 in weekly costs' — the $127 was a weekly cost figure, not a one-time starting amount; the draft omits 'weekly' and implies a simple one-off starting cost, which understates the rate of escalation. (2) The agents are identified in the draft as 'Analyzer and Verifier' but the source refers to them only as 'Agent A' and 'Agent B' — these named labels do not appear anywhere in the source and appear to be fabricated.",
+      "suggested_fix": "In 2025, GetOnStack's multi-agent market-data research system escalated from $127 in weekly costs to $47,000 over four weeks due to an infinite conversation loop between two agents running undetected for 11 days [claim:agde:053]"
+    },
+    {
+      "claim_id": "claim:agde:053",
+      "slide": "Production Case Study — The Expensive Nondeterministic Cron Job",
+      "bullet": "Root causes: no per-agent budget ceiling and no external stopping condition that would have terminated the session before the next API call [claim:agde:053]",
+      "source_excerpt": "ROOT CAUSES IDENTIFIED IN POST-MORTEM: 1. No per-agent budget ceiling 2. No enforcement mechanism that would have terminated the session before the next API call",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:052",
+      "slide": "Where Agents Earn Their Place — Bounded Problems",
+      "bullet": "A production survey of 1,200 LLMOps deployments found that agents succeed on specific, bounded problems — for example, Ramp's policy agent handles 65% of expense approvals autonomously — but fail when given open-ended tasks [claim:agde:052]",
+      "source_excerpt": "Agents succeed when they handle 'genuinely critical business functions' rather than peripheral tasks... Ramp's policy agent 'now handles over 65% of expense approvals autonomously'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states Ramp's agent handles 'over 65%' of expense approvals; the bullet drops the qualifier 'over' and states exactly '65%', understating the reported figure.",
+      "suggested_fix": "A production survey of 1,200 LLMOps deployments found that agents succeed on specific, bounded problems — for example, Ramp's policy agent handles over 65% of expense approvals autonomously — but fail when given open-ended tasks [claim:agde:052]"
+    },
+    {
+      "claim_id": "claim:agde:052",
+      "slide": "Where Agents Earn Their Place — Bounded Problems",
+      "bullet": "The highest-stakes production systems do not try to remove humans from the loop entirely [claim:agde:052]",
+      "source_excerpt": "The highest-stakes systems don't try to remove humans from the loop.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:057",
+      "slide": "Data Engineering Agent Use Cases and Their Failure Modes",
+      "bullet": "Providing agents with live metadata — certifications, definitions, lineage context — versus bare schemas produces a 3x improvement in text-to-SQL accuracy; LLM-based metadata description generation achieves over 80% ROUGE-1 F1 and approximately 90% acceptance by data stewards [claim:agde:057]",
+      "source_excerpt": "Providing agents with live metadata — certifications, definitions, lineage context — versus bare schemas produced a 3x improvement in text-to-SQL accuracy... Evaluation of such approaches demonstrates high accuracy, factual grounding, and very low toxicity, with over 80% ROUGE-1 F1 and nearly 90% acceptance by data stewards.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:055",
+      "slide": "Data Engineering Agent Use Cases and Their Failure Modes",
+      "bullet": "The most effective production systems apply a hybrid architecture: deterministic components (retrieval, validation, permissions) are implemented in infrastructure with hard guarantees, while nondeterministic components (reasoning, generation) are constrained through tool limitations and staged decision-making [claim:agde:055]",
+      "source_excerpt": "The database reveals a critical distinction: Deterministic components (retrieval, validation, permissions): Build in infrastructure; architectural constraints provide guarantees prompts cannot. Nondeterministic components (reasoning, generation): Constrain through tool limitations and staged decision-making. Traditional ML, deterministic rules, and LLMs each have strengths. The most effective production systems combine all three.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:055",
+      "slide": "Architectural Principle — Narrowing the Nondeterministic Boundary",
+      "bullet": "The most effective production systems apply a hybrid architecture: deterministic components (retrieval, validation, permissions) are implemented in infrastructure with hard guarantees; nondeterministic components (reasoning, generation) are constrained through tool limitations and staged decision-making [claim:agde:055]",
+      "source_excerpt": "The database reveals a critical distinction: Deterministic components (retrieval, validation, permissions): Build in infrastructure; architectural constraints provide guarantees prompts cannot. Nondeterministic components (reasoning, generation): Constrain through tool limitations and staged decision-making. The most effective production systems combine all three.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:054",
+      "slide": "Architectural Principle — Narrowing the Nondeterministic Boundary",
+      "bullet": "Stripe's compliance-review system, using this pattern, achieved 96% helpfulness and a 26% reduction in average handling time [claim:agde:054]",
+      "source_excerpt": "The solution achieved a 96% helpfulness rating from reviewers and reduced average handling time by 26%, enabling compliance teams to scale without linearly increasing headcount while maintaining complete auditability for regulatory requirements.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:054",
+      "slide": "Agents as DAG Nodes, Not Orchestrators",
+      "bullet": "Decomposing complex workflows into a DAG with agents as bounded nodes prevents agents from 'rabbit-holing' and contains the blast radius of unexpected model behavior to a single task [claim:agde:054]",
+      "source_excerpt": "Breaking complex workflows into tasks that fit in agent working memory is critical for evaluation, quality assurance, and incremental progress... Stripe's compliance review into bite-sized tasks orchestrated by a directed acyclic graph prevents agents from 'rabbit-holing on irrelevant data.' The architecture ensures 'even if the model behaves unexpectedly, the damage is contained to a single task.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:056",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "Production deployments follow a three-stage progressive autonomy ladder: (1) suggest-only — AI presents recommendations for human review; (2) human-approval-gated — agent acts on high-confidence cases, routes edge cases for approval; (3) bounded-autonomous — agent acts within defined policy limits with periodic audits [claim:agde:056]",
+      "source_excerpt": "Progressive autonomy patterns dominate production systems: 1) Suggestions only (initial stage), 2) Autonomous for high-confidence cases (middle stage), 3) Human approval for edge cases (ongoing requirement).",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source's three-stage ladder is: (1) Suggestions only, (2) Autonomous for high-confidence cases, (3) Human approval for edge cases. The draft collapses the source's stages 2 and 3 into its stage 2 ('human-approval-gated'), and introduces a third stage 'bounded-autonomous — agent acts within defined policy limits with periodic audits' that does not appear in the source's three-stage enumeration. The source notes explicitly flag that the 'suggest-only → human-approval-gated → bounded-autonomous' labeling is the lecture's own formulation, not directly from the cited source.",
+      "suggested_fix": "Production deployments follow a three-stage progressive autonomy pattern: (1) suggestions only — AI presents recommendations for human review; (2) autonomous for high-confidence cases; (3) human approval for edge cases as an ongoing requirement [claim:agde:056]"
+    },
+    {
+      "claim_id": "claim:agde:056",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "Ramp implements this as a user-controlled autonomy slider allowing teams to set dollar limits and approval requirements matching their risk tolerance [claim:agde:056]",
+      "source_excerpt": "Ramp exemplifies staged deployment: systems begin 'with AI as suggestions before graduating to autonomous actions.' Their approach uses an 'autonomy slider' enabling teams to 'specify exactly where and when agents can act autonomously,' reflecting recognition that 'different organisations and teams have vastly different risk tolerances.'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet adds 'dollar limits' as a specific capability of Ramp's autonomy slider. The source describes the slider as allowing teams to 'specify exactly where and when agents can act autonomously' to match risk tolerances, but does not mention dollar limits as a specific feature.",
+      "suggested_fix": "Ramp implements this as a user-controlled autonomy slider allowing teams to specify exactly where and when agents can act autonomously, matching their risk tolerance [claim:agde:056]"
+    },
+    {
+      "claim_id": "claim:agde:058",
+      "slide": "Embeddings Are Derived Personal Data — GDPR Obligations",
+      "bullet": "Embeddings and trained model weights are derived personal data under GDPR: if a trained model stores personal information or makes it reproducible, the model is subject to deletion obligations [claim:agde:058]",
+      "source_excerpt": "According to supervisory authorities, if a trained model stores personal information or makes it reproducible, the model is subject to the obligation to delete.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:058",
+      "slide": "Embeddings Are Derived Personal Data — GDPR Obligations",
+      "bullet": "Erasure requests must propagate to vector stores and training sets, not only to source records [claim:agde:058]",
+      "source_excerpt": "Erasure compliance requires knowing what personal data was processed, in which sessions, and in what form — including data pulled into context windows, passed to tool calls, or used to generate embeddings. For RAG architectures using vector stores, embeddings derived from personal data require targeted vector store management as part of any erasure process.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:059",
+      "slide": "Embeddings Are Derived Personal Data — GDPR Obligations",
+      "bullet": "Machine unlearning — removing the influence of specific training samples from already-trained weights — is required to satisfy right-to-be-forgotten requests; naive deletion from the training set does not affect weights already trained on that data [claim:agde:059]",
+      "source_excerpt": "Recent privacy regulations grant data subjects the Right to Be Forgotten and mandate companies fulfill data erasure requests, but companies face great challenges in complying with these regulations when asked to erase specific training data from well-trained predictive models. ML models potentially memorize training data, making it important to unlearn what they have learned from data that is to be deleted. Exact unlearning involves retraining the model from scratch on a new dataset that does not contain the removal samples, while approximate unlearning comprises techniques to remove the influence of specific training examples from trained model weights without full retraining.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:060",
+      "slide": "ML Lineage Extended to Artifacts",
+      "bullet": "ML lineage must extend beyond source tables to ML artifacts: each model version and each vector index must record which data snapshot and which embedding model version produced it [claim:agde:060]",
+      "source_excerpt": "Teams should version their document indices, embedding models, and chunking configurations, treating any retrieval pipeline change as effectively a change to the model's knowledge base. Each model version linking to specific data versions and processing configurations to create reproducible training runs that can be rebuilt exactly using the same inputs and parameters.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:060",
+      "slide": "ML Lineage Extended to Artifacts",
+      "bullet": "This audit trail satisfies requirements under GDPR, EU AI Act, HIPAA, and SOX [claim:agde:060]",
+      "source_excerpt": "Model versioning links every prediction to the exact model version, training data snapshot, and code commit that produced it. This audit trail satisfies requirements under GDPR, the EU AI Act, HIPAA, and SOX.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:061",
+      "slide": "Least-Privilege Tool Scoping for Agents (OWASP LLM06)",
+      "bullet": "OWASP LLM06:2025 (Excessive Agency) identifies least-privilege tool scoping as the primary mitigation for agentic AI systems: LLM extensions should be granted only the minimum permissions necessary [claim:agde:061]",
+      "source_excerpt": "OWASP breaks LLM06 Excessive Agency into three root causes: 1. Excessive functionality — agents can reach tools beyond their task scope 2. Excessive permissions — tools operate with broader privileges than necessary 3. Excessive autonomy — high-impact actions proceed without human oversight. Limit Functionality: Restrict available extensions and features to the minimum required for the application. Granular Permissions: Assign minimal and role-specific permissions to LLM extensions interacting with other systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:061",
+      "slide": "Least-Privilege Tool Scoping for Agents (OWASP LLM06)",
+      "bullet": "Agents should not access downstream systems with broader privileges than the task requires, and all high-impact actions must be independently authorized and logged [claim:agde:061]",
+      "source_excerpt": "Extensions having permissions on downstream systems that are not needed, such as an extension intended to read data connecting with UPDATE, INSERT and DELETE permissions. Applications failing to independently verify and approve high-impact actions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:062",
+      "slide": "Data Poisoning and Prompt Injection as Pipeline Security Surfaces",
+      "bullet": "Data poisoning is a concrete attack surface for RAG-based pipelines: the PoisonedRAG attack (2024) demonstrated that injecting just five malicious documents into a knowledge base of 2.6 million texts achieves a 97% attack success rate [claim:agde:062]",
+      "source_excerpt": "The system achieves a 97% ASR by injecting 5 malicious texts for each target question into a knowledge database (with 2,681,468 clean texts) in black-box settings on the Natural Questions dataset.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states '5 malicious texts for each target question' — i.e., 5 documents per attacked query, not 5 total documents. The draft omits the 'for each target question' qualifier, implying only 5 malicious documents total in the entire corpus are sufficient for a 97% attack success rate. This overstates the efficiency of the attack and misrepresents the experimental setup.",
+      "suggested_fix": "Data poisoning is a concrete attack surface for RAG-based pipelines: the PoisonedRAG attack (2024) demonstrated that injecting just five malicious documents per target question into a knowledge base of 2.6 million texts achieves a 97% attack success rate [claim:agde:062]"
+    },
+    {
+      "claim_id": "claim:agde:062",
+      "slide": "Data Poisoning and Prompt Injection as Pipeline Security Surfaces",
+      "bullet": "The knowledge base of a RAG pipeline is a new attack surface; prompt injection can enter via retrieved documents, not only via the user prompt [claim:agde:062]",
+      "source_excerpt": "The knowledge database in a RAG system introduces a new and practical attack surface. Attackers can inject malicious content through various means — Wikipedia editing, fake news posts, or compromising enterprise knowledge bases — without needing direct access to the LLM or retriever components.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:063",
+      "slide": "Joint Evaluation — Reliability, Cost, and Latency",
+      "bullet": "AI-assisted pipeline workflows must be evaluated jointly on reliability, cost-per-invocation, and latency — not accuracy alone [claim:agde:063]",
+      "source_excerpt": "The CLEAR framework dimensions: Cost: Controlled evaluation preventing wasteful resource allocation. Latency: Response time performance. Efficacy: Task completion accuracy. Assurance: Security and policy compliance metrics. Reliability: Consistency across multiple executions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:063",
+      "slide": "Joint Evaluation — Reliability, Cost, and Latency",
+      "bullet": "Optimizing for accuracy alone yields agents 4.4–10.8× more expensive than cost-aware alternatives with comparable performance [claim:agde:063]",
+      "source_excerpt": "Optimizing for accuracy alone yields agents 4.4-10.8x more expensive than cost-aware alternatives while maintaining comparable performance levels.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:063",
+      "slide": "Joint Evaluation — Reliability, Cost, and Latency",
+      "bullet": "Single-run accuracy (60%) overstates real reliability: the same agents achieve only 25% consistency across 8 runs [claim:agde:063]",
+      "source_excerpt": "When agents are evaluated across multiple runs rather than single executions, metrics drop substantially—from 60% accuracy in isolated runs to just 25% when assessed for 8-run consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:001",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "ML systems fail silently — unlike software exceptions, degraded predictions accumulate without raising alarms (LO1) [claim:agde:001]",
+      "source_excerpt": "Software errors are usually visible: if things don't work, you will get an error message. With machine learning, you may encounter different types of errors: a model returning an unreliable or biased prediction. Such errors are 'silent': a model will typically respond as long as it can process the incoming data inputs. Even if the input data is incorrect or significantly different – the model will make a potentially low-quality prediction without raising an alarm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Training-serving skew is the central ML-data failure mode; Google identifies divergent code paths and point-in-time violations as its root causes (LO2) [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The Google source identifies three root causes: (1) discrepancy in data handling between training and serving pipelines, (2) data change between training and serving time, (3) feedback loops between model and algorithm. The bullet attributes 'divergent code paths and point-in-time violations' to Google as the root causes. 'Point-in-time violations' does not appear in the Google source at all — it is a separate lecture concept. Furthermore, the third Google cause (feedback loops) is dropped entirely from the bullet. The attribution to Google is therefore inaccurate for both the labels used and the scope of causes listed.",
+      "suggested_fix": "Training-serving skew is the central ML-data failure mode; Google identifies three root causes: divergent data handling between training and serving pipelines, data change between training and serving time, and feedback loops between model and algorithm (LO2) [claim:agde:007]"
+    },
+    {
+      "claim_id": "claim:agde:013",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Point-in-time joins eliminate temporal leakage by constraining feature values to those available at or before the event timestamp (LO3) [claim:agde:013]",
+      "source_excerpt": "Feast solves several common issues in this flow: Training-serving skew and complex data joins: Feature values often exist across multiple tables. Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models. Feast performs a point-in-time join (also called a 'last known good value' temporal join): for each entity row, it retrieves the latest feature values with a timestamp at or before the entity row's event_timestamp.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:019",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Iceberg snapshot IDs, DVC hashes, and lakeFS commit references are the reproducibility tokens for ML datasets; expiring snapshots permanently destroys the ability to reconstruct a training run (LO4) [claim:agde:019]",
+      "source_excerpt": "A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot... Furthermore, once written, data and metadata files are immutable until they are deleted. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The citation [claim:agde:019] supports only the Iceberg snapshot ID reproducibility claim. The bullet also asserts that DVC hashes and lakeFS commit references are reproducibility tokens for ML datasets, but these are covered by separate claims (:021 and :022) whose sources are not cited here. The source for :019 (Apache Iceberg spec) contains no mention of DVC or lakeFS. The bullet also asserts that 'expiring snapshots permanently destroys the ability to reconstruct a training run' — the Iceberg spec confirms snapshots can be deleted but does not use this language; this is from claim:agde:020's source, not :019. The citation therefore covers only a fraction of what the bullet claims.",
+      "suggested_fix": "Iceberg snapshot IDs serve as reproducibility tokens for ML datasets: each snapshot is an immutable record of table state at a point in time, and expiring snapshots permanently removes the referenced data files [claim:agde:019]"
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "PSI quantifies distributional shift per feature; data contracts catch schema drift but not statistical drift — both layers are required (LO5) [claim:agde:027]",
+      "source_excerpt": "PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution and Ri represents the proportion in the reference distribution. Less than 0.1: insignificant change, no action required. 0.1–0.25: some minor change, check other scorecard monitoring metrics. Greater than 0.25: major shift in population, need to delve deeper.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The citation [claim:agde:027] covers only PSI and distributional shift measurement. The second clause — 'data contracts catch schema drift but not statistical drift — both layers are required' — is not supported by source :027, which is purely about PSI. This second clause belongs to claim:agde:029 (Great Expectations / schema validation). The bullet cites only :027 for a compound claim that spans two distinct claims.",
+      "suggested_fix": "PSI quantifies distributional shift per feature by computing Σ(Ci − Ri) × ln(Ci/Ri) across bins, with PSI > 0.25 indicating a major population shift requiring model review (LO5) [claim:agde:027]"
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Changing an embedding model requires a full re-index: vectors from different models occupy incompatible geometric spaces (LO6) [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems. When that model is upgraded, the stored vectors become incompatible with queries encoded by the new model. Vectors from different models live in incompatible vector spaces — you cannot mix old and new vectors in the same index.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Exact k-NN is O(n·d) per query and infeasible at billion-vector scale; ANN indexes trade guaranteed recall for tractable latency (LO7) [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline; the reranker improves precision but cannot recover recall lost in stage 1 (LO8) [claim:agde:047]",
+      "source_excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. RRF relies solely on the ranking positions of the combined mechanisms, which makes it independent of their specific implementations.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The citation [claim:agde:047] is the SIGIR 2009 RRF paper, which supports only the RRF fusion algorithm claim. The second clause — 'the reranker improves precision but cannot recover recall lost in stage 1' — is not supported by source :047 and belongs to a different claim (claim:agde:049, the cross-encoder reranking slide). The bullet conflates two distinct claims under a single citation that covers only one of them.",
+      "suggested_fix": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline; RRF combines ranked lists from multiple retrievers and consistently outperforms any individual retrieval system (LO8) [claim:agde:047]"
+    },
+    {
+      "claim_id": "claim:agde:051",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "An agent is an LLM using tools in a loop with a stopping condition; treat agents as DAG nodes with bounded scope, not as open-ended orchestrators (LO9) [claim:agde:051]",
+      "source_excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:058",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Embeddings are derived personal data under GDPR; erasure obligations propagate to vector stores and model weights, and machine unlearning is an open problem (LO10) [claim:agde:058]",
+      "source_excerpt": "According to supervisory authorities, if a trained model stores personal information or makes it reproducible, the model is subject to the obligation to delete. For RAG architectures using vector stores, embeddings derived from personal data require targeted vector store management as part of any erasure process. For models that have already been trained, there are no proven, scalable solutions to guarantee compliance with the right to erasure.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:014",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Feature stores: Feast implements the offline/online/shared-transformation-definition pattern; Hopsworks adds streaming ingestion and on-demand transformations [claim:agde:014]",
+      "source_excerpt": "Feature stores are essentially dual-database systems, containing a columnar data store for historical (offline) feature data and an online (low-latency) row-oriented data store for serving precomputed features to online applications. Training requires reproducible historical features with time-travel capabilities (scanning terabytes across months), while serving demands sub-10ms access to the latest values—workloads so divergent that single-database solutions inevitably caused training-serving skew, unsustainable costs, or both.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source for claim:agde:014 (DragonflyDB feature store architecture article) describes the dual-store architecture of feature stores generally, but does not mention Feast by name, Hopsworks by name, the specific label 'shared-transformation-definition pattern', or Hopsworks's specific capabilities (streaming ingestion, on-demand transformations). The bullet makes specific product-level claims that are not supported by the cited source.",
+      "suggested_fix": "Feature stores implement a dual-store architecture: a columnar offline store for historical training data with time-travel capabilities, and a low-latency online store for sub-10ms serving — both populated from a shared feature definition to prevent training-serving skew [claim:agde:014]"
+    },
+    {
+      "claim_id": "claim:agde:018",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Feature store adoption: not warranted for single-model, single-team, batch-only inference — simpler SQL tables with versioned scripts suffice [claim:agde:018]",
+      "source_excerpt": "If your ML applications primarily rely on batch processing without immediate needs for real-time feature updates, the real-time capabilities of a feature store may not be essential. In batch feature engineering + batch inference scenarios where feature engineering, model training and model serving are all conducted at a fixed interval with no need for streaming features and low model serving latency requirements, you do not need an online feature store. The minimal viable feature store—warehouse tables organized with clear conventions, feature logic versioned in git, and batch computation using existing tools—provides the essential benefits of consistency and reusability without operational overhead.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Dataset versioning: DVC for Git-friendly moderate-scale projects; lakeFS for large-scale object storage with zero-copy branching [claim:agde:021]",
+      "source_excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5)... DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets. Large files, directories and ML models are replaced with small metafiles, which in turn point to the original data. This gives you Git-like versioning semantics (branching, tagging, diffing) for datasets.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source for claim:agde:021 covers only DVC. The bullet also claims 'lakeFS for large-scale object storage with zero-copy branching' but lakeFS is covered by a separate claim (claim:agde:022) whose source is not cited here. The Further Reading bullet cites only [claim:agde:021] for both DVC and lakeFS, but the :021 source contains no information about lakeFS.",
+      "suggested_fix": "Dataset versioning: DVC implements content-addressable Git-friendly versioning for moderate-scale projects — a .dvc metafile in Git plus actual data in a remote cache [claim:agde:021]; lakeFS provides zero-copy branching over object storage for large-scale data lakes [claim:agde:022]"
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-10ms latency requirements [claim:agde:043]",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors. Past 2M vectors on a single Postgres instance, you'll see index build times exceed 20 minutes. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source specifies 'sub-20ms p95 latency' as the threshold where Pinecone becomes preferable. The bullet changes this to 'sub-10ms latency requirements', which is a more stringent threshold not stated in the source.",
+      "suggested_fix": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-20ms p95 latency requirements [claim:agde:043]"
+    }
+  ],
+  "summary": "38 claims checked in this batch. 20 verified, 18 misrepresented, 0 unverified."
+}

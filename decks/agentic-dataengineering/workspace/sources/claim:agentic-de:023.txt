@@ -1,0 +1,13 @@
+Claim ID: claim:agentic-de:dataset-versioning:006
+Source: Maintaining MTEB: Towards Long Term Usability and Reproducibility of Embedding Benchmarks
+URL: https://arxiv.org/pdf/2506.21182
+Retrieved: 2026-06-14
+
+Excerpt:
+"A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency."
+
+Supporting context from labelyourdata.com (Data Versioning: ML Best Practices Checklist 2026):
+URL: https://labelyourdata.com/articles/machine-learning/data-versioning
+"Each model training run is now tied to a unique snapshot ID, so we always know which data produced which results." — Eren Hukumdar, Co-Founder, Entrapeer
+
+"Three engineers had been training on varying versions of the same dataset with no record of changes...The fix was a strict data lineage system with checksums, mandatory metadata tagging, and immutable snapshots tied to model versions." — Mircea Dima, CTO, AlgoCademy

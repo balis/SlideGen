@@ -1,0 +1,24 @@
+Claim ID: claim:agentic-de:feature-store-arch:002
+Statement: The dual-store architecture of a feature store introduces a second consistency problem: keeping the offline and online stores synchronized. Because batch features may take minutes or hours to compute and upload, and streaming features have inherent network latencies, online features can become stale relative to the offline store, causing models to serve predictions on temporally misaligned data.
+
+Source excerpts:
+
+[Hopsworks - Online-Offline Feature Store Consistency]
+"Features stored in both online and offline stores should be consistent, maintained through a replication protocol with consistency guarantees that keeps feature data in sync."
+
+"While 100% consistency is desirable, it's not always possible because realtime features consume streams with inherent network latencies, and there's additional latency to write to the key-value store before models can fetch updated features for inference, usually in the order of milliseconds to seconds. For batch features, computing and uploading could take minutes or hours, particularly for midnight-accurate features that wait for upstream data to arrive and be transformed."
+
+URL: https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency
+Retrieved: 2026-06-14
+
+[Hopsworks - Consistency via Kafka]
+"Hopsworks feature pipelines write features to a topic in Kafka with an Avro schema, and both the online and offline stores have the same schema. Internal services in Hopsworks copy the data in the Kafka topic to the tables in the online and offline stores, ensuring eventually consistent feature data. Correctness is ensured by Kafka providing at-least-once guarantees when the data is written to the Kafka topic. However, after the data has been acknowledged as written to Kafka, duplicates may have been introduced to the feature data."
+
+URL: https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency
+Retrieved: 2026-06-14
+
+[Substack - The stubborn persistence of online-offline inconsistency]
+"Rather than 'feature staleness,' the right frame is cross-system temporal alignment -- avoiding situations where models serve confidently wrong predictions because two correct systems disagreed about when now is."
+
+URL: https://simplicityissota.substack.com/p/the-stubborn-persistence-of-online
+Retrieved: 2026-06-14

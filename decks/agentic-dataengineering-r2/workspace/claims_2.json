@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of AI — Training/Serving Skew",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:skew-definition:001",
+      "statement": "Training-serving skew is defined as a discrepancy between ML model feature engineering or data handling during training versus during deployment (serving), and is identified by Google as a central ML production failure mode with three root causes: (1) a discrepancy between how data is handled in training vs. serving pipelines, (2) a change in the data between when the model is trained and when it serves, and (3) a feedback loop between the model and its algorithm.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers",
+        "url_or_doi": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+        "section": "Training-Serving Skew section / Rules 29, 31, 32",
+        "excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm."
+      }
+    },
+    {
+      "id": "claim:agde:skew-code-paths:002",
+      "statement": "Divergent batch-training vs. online-inference code paths are a primary source of training-serving skew: when training pipelines and serving pipelines independently re-implement the same feature transformation, small differences in tokenization, string normalization, missing-value defaults, or floating-point rounding compound into a feature gap that silently degrades model performance at inference time.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Rules of Machine Learning: Best Practices for ML Engineering — Google for Developers",
+        "url_or_doi": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+        "section": "Rule #32: Reuse code between your training pipeline and your serving pipeline whenever possible",
+        "excerpt": "Rule #32: Reuse code between your training pipeline and your serving pipeline whenever possible. This eliminates a source of training-serving skew. Try not to use two different programming languages between training and serving. That decision will make it nearly impossible for you to share code."
+      }
+    },
+    {
+      "id": "claim:agde:skew-pit-violation:003",
+      "statement": "Point-in-time correctness violations are the second source of training-serving skew: when feature generation, predictions, and label generation occur at different points in time, a naive join that does not constrain feature values to those available at the prediction timestamp incorporates future information, causing models to perform well in training but fail in production.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Point-in-Time Correctness for Training Data — Feature Stores for ML (apxml.com)",
+        "url_or_doi": "https://apxml.com/courses/feature-stores-for-ml/chapter-3-data-consistency-quality/point-in-time-correctness",
+        "section": "Point-in-Time Correctness: Definition and Impact",
+        "excerpt": "When feature generation, predictions, and label generation occur at different points in time, data leakage can easily be introduced into your training sets—this is often called the point-in-time correctness problem. Using current feature values for historical training examples incorporates future information, causing models to perform well in training but fail in production."
+      }
+    },
+    {
+      "id": "claim:agde:temporal-leak-naive-join:004",
+      "statement": "A naive equi-join of a transactions table to a customer dimension table and timestamped labels—without constraining the customer attributes to those that existed at or before the transaction timestamp—leaks future customer state (e.g., post-event churn status, updated credit tier, aggregate fraud counts that include later incidents) into training rows, creating overly optimistic offline metrics that collapse at deployment.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Point-in-Time Joins — Feast: the Open Source Feature Store (docs.feast.dev)",
+        "url_or_doi": "https://docs.feast.dev/getting-started/concepts/point-in-time-joins",
+        "section": "Point-in-Time Join Mechanics",
+        "excerpt": "Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. For each row within the entity dataframe, Feast will scan backward in time from the entity dataframe timestamp up to a maximum of the TTL time specified. The last row in the entity dataframe was outside of the TTL window (the event happened 11 hours after the feature row) and also couldn't be joined."
+      }
+    },
+    {
+      "id": "claim:agde:skew-vs-drift:005",
+      "statement": "Training-serving skew and concept/distribution drift are distinct failure modes that must not be conflated: skew is a consistency mismatch between two code paths (or between feature values used at training vs. serving time) that is present at the moment of deployment and does not require time to manifest; concept drift (P(Y|X) changes) and covariate/distribution drift (P(X) changes) are temporal phenomena in which the real world changes under a deployed model after it has been released.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "What is training-serving skew in Machine Learning? — JFrog ML (Qwak)",
+        "url_or_doi": "https://www.qwak.com/post/training-serving-skew-in-machine-learning",
+        "section": "Training-Serving Skew vs. Data Drift",
+        "excerpt": "In training-serving skew, there is no 'drift'. Drift assumes that there is a change during the production of the model. This isn't the case with training-serving skew, which is more of a mismatch. Data drift is a change over time, while training-serving skew is a mismatch across environments. Training-serving skew represents a mismatch between the training environment and the production environment that occurs at a single point in time, rather than a temporal drift."
+      }
+    },
+    {
+      "id": "claim:agde:drift-taxonomy:006",
+      "statement": "Concept drift is formally defined as P(Y|X) changing while P(X) stays the same (the relationship between features and labels changes because the world changed), whereas covariate shift/distribution drift is P(X) changing while P(Y|X) stays the same (the input distribution changes). Both are temporal phenomena occurring after deployment, in contrast to training-serving skew which is an engineering defect present from day one.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Data Distribution Shifts and Monitoring — Chip Huyen",
+        "url_or_doi": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+        "section": "Types of Distribution Shifts",
+        "excerpt": "Covariate shift: P(X) changes, but P(Y|X) remains the same. Concept drift: P(Y|X) changes, but P(X) remains the same. Example of concept drift: Before COVID-19, a San Francisco apartment cost $2M; after, the same apartment costs $1.5M despite identical features. Data shifts happen all the time, suddenly, gradually, or seasonally. A model does great when first deployed, but its performance degrades over time as the data distribution changes."
+      }
+    }
+  ]
+}

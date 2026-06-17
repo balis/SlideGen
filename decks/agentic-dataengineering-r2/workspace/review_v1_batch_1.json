@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:001",
+      "slide": "The Silent Failure Problem",
+      "bullet": "ML systems fail silently: unlike traditional software that raises exceptions or dashboards that display visibly-wrong numbers, a model will continue returning predictions even when input data is incorrect or significantly shifted, producing low-quality outputs without raising any alarm. [claim:agde:001]",
+      "source_excerpt": "Software errors are usually visible: if things don't work, you will get an error message. With machine learning, you may encounter different types of errors: a model returning an unreliable or biased prediction. Such errors are 'silent': a model will typically respond as long as it can process the incoming data inputs. Even if the input data is incorrect or significantly different – the model will make a potentially low-quality prediction without raising an alarm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:003",
+      "slide": "The AI Hierarchy of Needs",
+      "bullet": "Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI as the top of a pyramid: before deploying ML, organizations must first have data literacy, collection, and infrastructure in place, just as Maslow's hierarchy requires food and shelter before self-actualization. [claim:agde:003]",
+      "source_excerpt": "Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI) is great, but you first need food, water, and shelter (data literacy, collection, and infrastructure). Companies that have not yet built the infrastructure to implement the most basic data science algorithms and operations should not be thinking about AI.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:004",
+      "slide": "The AI Hierarchy of Needs",
+      "bullet": "According to the CrowdFlower 2016 Data Science Survey, 80% of data scientists' work consists of data preparation: 60% of respondents spent most of their time cleaning and organizing data, and 19% spent most of their time collecting data sets. [claim:agde:004]",
+      "source_excerpt": "According to a 2016 survey by CrowdFlower, as much as 80% of the work of data scientists consists of data preparation, including 19% of time spent on collecting data sets and 60% on cleaning and organising data. 3 out of every 5 data scientists surveyed actually spend the most time cleaning and organizing data.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:001",
+      "slide": "BI vs. ML — A Different Contract on the Pipeline",
+      "bullet": "ML systems fail silently: unlike traditional software that raises exceptions or dashboards that display visibly-wrong numbers, a model will continue returning predictions even when input data is incorrect or significantly shifted, producing low-quality outputs without raising any alarm. [claim:agde:001]",
+      "source_excerpt": "Software errors are usually visible: if things don't work, you will get an error message. With machine learning, you may encounter different types of errors: a model returning an unreliable or biased prediction. Such errors are 'silent': a model will typically respond as long as it can process the incoming data inputs. Even if the input data is incorrect or significantly different – the model will make a potentially low-quality prediction without raising an alarm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:005",
+      "slide": "BI vs. ML — A Different Contract on the Pipeline",
+      "bullet": "ML treats datasets as versioned, time-aware artifacts — immutable snapshots tied to a specific point in time — rather than as query targets, because ML reproducibility requires knowing exactly what data state produced a given model or index, a requirement absent in BI where the latest snapshot is always the correct answer. [claim:agde:005]",
+      "source_excerpt": "Data and models are important artifacts in ML that need to be versioned, similar to how source code is versioned in traditional software development. An artifact is a versioned object where each version is an immutable snapshot of files and assets. The principles behind data version control are simple: treat data as immutable, keep a full history of changes, and preserve lineage, so every version is auditable.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:005",
+      "slide": "Data as a Versioned, Time-Aware Artifact",
+      "bullet": "ML treats datasets as versioned, time-aware artifacts — immutable snapshots tied to a specific point in time — rather than as query targets, because reproducibility requires knowing exactly what data state produced a given model or index [claim:agde:005]",
+      "source_excerpt": "Data and models are important artifacts in ML that need to be versioned, similar to how source code is versioned in traditional software development. An artifact is a versioned object where each version is an immutable snapshot of files and assets. The principles behind data version control are simple: treat data as immutable, keep a full history of changes, and preserve lineage, so every version is auditable.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:006",
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "bullet": "Feature engineering is a stateful pipeline stage: transformation functions that normalize or encode features require statistics (means, standard deviations, vocabularies) computed solely on the training set ('fit-time statistics'), which must be stored and then reapplied identically during inference to prevent training-serving skew. [claim:agde:006]",
+      "source_excerpt": "Transformation functions take as input a single value (or small number of values), they often require state (such as the mean value of a feature to normalize the input), and they output a single value or a list of values. It is crucial that the transformations performed when creating features (for training or serving) are consistent - use the same code - to avoid training/serving skew. Any state required to compute the transformation, such as the arithmetic mean of a numerical feature in the train set, is also stored with the function, enabling consistent transformations during inference.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:006",
+      "slide": "Stateful sklearn Pipeline — Fit vs. Transform",
+      "bullet": "Feature engineering is a stateful pipeline stage: transformation functions require fit-time statistics computed solely on training data, which must be stored and reapplied identically at inference to prevent training-serving skew. [claim:agde:006]",
+      "source_excerpt": "Transformation functions take as input a single value (or small number of values), they often require state (such as the mean value of a feature to normalize the input), and they output a single value or a list of values. It is crucial that the transformations performed when creating features (for training or serving) are consistent - use the same code - to avoid training/serving skew. Any state required to compute the transformation, such as the arithmetic mean of a numerical feature in the train set, is also stored with the function, enabling consistent transformations during inference.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Training-serving skew is defined as a discrepancy between ML model feature engineering or data handling during training versus during deployment (serving) [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source defines training-serving skew as 'a difference between performance during training and performance during serving' — a performance-level definition. The bullet narrows this to 'a discrepancy between ML model feature engineering or data handling,' which is more specific than Google's definition and omits the performance framing. The source defines it at the outcome level (performance difference) with three causal roots; the bullet conflates the definition with one of those causal roots.",
+      "suggested_fix": "Training-serving skew is defined by Google as a difference between model performance during training and performance during serving, caused by one of three root causes: divergent data handling in training vs. serving pipelines, data change between training and serving, or a feedback loop between model and algorithm. [claim:agde:007]"
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Google identifies it as a central ML production failure mode with three root causes: divergent data handling in training vs. serving pipelines, data change between training and serving, and feedback loops between model and algorithm [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:002",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Skew is a silent killer: the model runs without errors and produces predictions, but those predictions are based on incorrect inputs and accuracy degrades without raising any alarm [claim:agde:002]",
+      "source_excerpt": "Training-serving skew is a silent killer of ML model performance. Training-serving skew happens when the data, feature logic, preprocessing, or assumptions used during training differ from what the model sees in production. The insidious part is your model still runs without errors. It produces predictions. But those predictions are based on incorrect inputs. Accuracy degrades silently. Unlike data drift, which develops gradually, skew can exist from day one and go unnoticed until someone digs into why the model is underperforming.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:002",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Unlike data drift, which develops gradually after deployment, skew can exist from day one and go unnoticed [claim:agde:002]",
+      "source_excerpt": "Training-serving skew is a silent killer of ML model performance. Training-serving skew happens when the data, feature logic, preprocessing, or assumptions used during training differ from what the model sees in production. The insidious part is your model still runs without errors. It produces predictions. But those predictions are based on incorrect inputs. Accuracy degrades silently. Unlike data drift, which develops gradually, skew can exist from day one and go unnoticed until someone digs into why the model is underperforming.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:008",
+      "slide": "Two Root Causes of Skew",
+      "bullet": "Divergent batch-training vs. online-inference code paths are a primary source of skew: when training and serving pipelines independently re-implement the same feature transformation, small differences in tokenization, string normalization, missing-value defaults, or floating-point rounding compound into a feature gap that silently degrades model performance [claim:agde:008]",
+      "source_excerpt": "Rule #32: 'Reuse code between your training pipeline and your serving pipeline whenever possible. This eliminates a source of training-serving skew. Try not to use two different programming languages between training and serving. That decision will make it nearly impossible for you to share code.' ... 'Divergent code paths where training pipelines and serving pipelines re-implement the same transformation, with small differences in tokenization, string normalization, missing-value defaults, or floating-point rounding compounding into a feature gap.'",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:009",
+      "slide": "Two Root Causes of Skew",
+      "bullet": "Point-in-time correctness violations are the second root cause: when feature generation, predictions, and label generation occur at different points in time, a naive join that does not constrain feature values to those available at the prediction timestamp incorporates future information, causing models to perform well in training but fail in production [claim:agde:009]",
+      "source_excerpt": "When feature generation, predictions, and label generation occur at different points in time, data leakage can easily be introduced into your training sets—this is often called the point-in-time correctness problem. Using current feature values for historical training examples incorporates future information, causing models to perform well in training but fail in production.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:010",
+      "slide": "The Temporal Leak (Naive Join)",
+      "bullet": "A naive equi-join of a transactions table to a customer dimension table and timestamped labels — without constraining customer attributes to those that existed at or before the transaction timestamp — leaks future customer state into training rows, creating overly optimistic offline metrics that collapse at deployment [claim:agde:010]",
+      "source_excerpt": "Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. For each row within the entity dataframe, Feast will scan backward in time from the entity dataframe timestamp up to a maximum of the TTL time specified. ... without backward time scanning, a standard SQL equi-join between a transactions table, a customer dimension table, and a labels table (all keyed on customer_id without timestamp constraint) will pick up the latest available customer attributes regardless of whether they were available at transaction time. If a customer's credit tier, lifetime value, or aggregate fraud count was updated after the labeled event, the training row will reflect that updated (future) state rather than the state at prediction time.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:011",
+      "slide": "Skew vs. Drift — Do Not Conflate Them",
+      "bullet": "Training-serving skew and concept/distribution drift are distinct failure modes: skew is a consistency mismatch between two code paths or between feature values used at training vs. serving time, present at the moment of deployment and requiring no time to manifest [claim:agde:011]",
+      "source_excerpt": "In training-serving skew, there is no 'drift'. Drift assumes that there is a change during the production of the model. This isn't the case with training-serving skew, which is more of a mismatch. Data drift is a change over time, while training-serving skew is a mismatch across environments. Training-serving skew represents a mismatch between the training environment and the production environment that occurs at a single point in time, rather than a temporal drift.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:012",
+      "slide": "Skew vs. Drift — Do Not Conflate Them",
+      "bullet": "Concept drift is formally defined as P(Y|X) changing while P(X) stays the same — the relationship between features and labels changes because the world changed; covariate shift is P(X) changing while P(Y|X) stays the same [claim:agde:012]",
+      "source_excerpt": "Covariate shift: P(X) changes, but P(Y|X) remains the same. Concept drift: P(Y|X) changes, but P(X) remains the same. Example of concept drift: Before COVID-19, a San Francisco apartment cost $2M; after, the same apartment costs $1.5M despite identical features.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:011",
+      "slide": "Skew vs. Drift — Do Not Conflate Them",
+      "bullet": "Both drift types are temporal phenomena occurring after deployment; training-serving skew is an engineering defect present from day one [claim:agde:011]",
+      "source_excerpt": "In training-serving skew, there is no 'drift'. Drift assumes that there is a change during the production of the model. This isn't the case with training-serving skew, which is more of a mismatch. Data drift is a change over time, while training-serving skew is a mismatch across environments. Training-serving skew represents a mismatch between the training environment and the production environment that occurs at a single point in time, rather than a temporal drift. ... The critical distinction: skew represents a mismatch revealed immediately upon deployment, not a degradation over time.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Section Checkpoint — Skew Diagnosis Heuristic",
+      "bullet": "Training-serving skew is defined as a discrepancy between ML model feature engineering or data handling during training versus during deployment (serving) [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "Same issue as on the 'What Is Training/Serving Skew?' slide: the source defines skew at the outcome level (a performance difference), not as a discrepancy in 'feature engineering or data handling.' The bullet conflates the definition with one causal root.",
+      "suggested_fix": "Training-serving skew is defined by Google as a difference between model performance during training and performance during serving — with root causes including divergent data handling, data change between training and serving time, and feedback loops. [claim:agde:007]"
+    },
+    {
+      "claim_id": "claim:agde:002",
+      "slide": "Section Checkpoint — Skew Diagnosis Heuristic",
+      "bullet": "Skew can exist from day one and go unnoticed, because the model continues producing predictions without raising errors even when feature inputs are systematically wrong [claim:agde:002]",
+      "source_excerpt": "Training-serving skew is a silent killer of ML model performance. ... The insidious part is your model still runs without errors. It produces predictions. But those predictions are based on incorrect inputs. Accuracy degrades silently. Unlike data drift, which develops gradually, skew can exist from day one and go unnoticed until someone digs into why the model is underperforming.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:013",
+      "slide": "Point-in-Time Joins — The Mechanism",
+      "bullet": "A point-in-time join prevents temporal leakage by retrieving, for each training example, only feature values whose timestamp is at or before the label's event_timestamp — ensuring that no future information is used during model training. [claim:agde:013]",
+      "source_excerpt": "Feast performs a point-in-time join (also called a 'last known good value' temporal join): for each entity row, it retrieves the latest feature values with a timestamp at or before the entity row's event_timestamp.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:017",
+      "slide": "Point-in-Time Join in SQL (ANSI Window Function)",
+      "bullet": "Point-in-time joins can be implemented in standard ANSI SQL using window functions (added in SQL:2003/2008) or LATERAL correlated subqueries; these portable approaches are functionally equivalent to dialect-specific ASOF JOIN but typically execute more slowly because the optimizer cannot apply the same merge-join strategy. [claim:agde:017]",
+      "source_excerpt": "Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. Window functions use an OVER clause to define the window and frame for a data set to be processed. ... Point-in-time joins can be implemented in standard SQL using: (1) ANSI window functions (LAST_VALUE OVER a RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ORDER BY timestamp), or (2) LATERAL/CROSS APPLY correlated subqueries. Dialect-specific ASOF JOIN syntax (DuckDB, ClickHouse, kdb+) provides the same semantics with optimized execution.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:016",
+      "slide": "ASOF JOIN — Dialect-Specific Fast Path",
+      "bullet": "Dialect-specific ASOF JOIN syntax exists in DuckDB, ClickHouse, and kdb+; the concept originates from kdb+'s aj (as-of join) operator used extensively in quantitative finance; ClickHouse adopted it in 2019 with the constraint that an equality condition must accompany the inequality; DuckDB's implementation hash-partitions and sorts the right-hand side and benchmarks several orders of magnitude faster than equivalent window-function queries. [claim:agde:016]",
+      "source_excerpt": "AsOf joins match rows based on nearby values rather than exact equality, making them ideal for temporal analytics. ... DuckDB 'hash partitions and sorts the right hand side to make a temporary state table' during processing, then performs a merge join within each partition. ... Benchmarks show AsOf joins significantly outperform standard SQL alternatives using window functions and inequality joins—sometimes by 'several orders of magnitude' depending on data characteristics and table sizes. ... ASOF was originally implemented in ClickHouse in 2019 but is now in a few more database engines. ... ClickHouse's ASOF implementation was based on the kdb+ asof operator, using the last column specified as the asof column that would represent the timestamp. ... ClickHouse doesn't do pure ASOF joins, the 'as of' condition must be added on top of a regular equality condition.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet states the concept 'originates from kdb+'s aj operator.' The source says ClickHouse's implementation 'was based on the kdb+ asof operator,' but does not explicitly state kdb+ is the original inventor of ASOF JOIN in general. The source also does not confirm kdb+'s aj is 'used extensively in quantitative finance' — the source says 'KDB has its infamous and extremely useful asof join (aj, aj0, afj, afj0), which is in absolute ubiquitous use in particular in finance and fields that deal a lot with time series,' which does support 'used extensively in quantitative finance.' The origination claim is the main concern: the source supports it only indirectly (ClickHouse based its design on kdb+), not as a direct statement that kdb+ invented ASOF JOIN broadly. However, this is a borderline MINOR issue since the inference is reasonable from the source.",
+      "suggested_fix": "Dialect-specific ASOF JOIN syntax exists in DuckDB, ClickHouse, and kdb+; ClickHouse's implementation was based on kdb+'s aj (as-of join) operator, which is widely used in quantitative finance; ClickHouse adopted it in 2019 with the constraint that an equality condition must accompany the inequality; DuckDB's implementation hash-partitions and sorts the right-hand side and benchmarks several orders of magnitude faster than equivalent window-function queries. [claim:agde:016]"
+    },
+    {
+      "claim_id": "claim:agde:014",
+      "slide": "Feature Store Architecture — The Three-Part Pattern",
+      "bullet": "A feature store's offline/online/shared-transformation-definition pattern eliminates training-serving skew by enforcing that both the historical training path and the real-time serving path execute the same feature computation logic, declared once in a shared feature view registry. [claim:agde:014]",
+      "source_excerpt": "Feature stores are essentially dual-database systems, containing a columnar data store for historical (offline) feature data and an online (low-latency) row-oriented data store for serving precomputed features to online applications. ... Training requires reproducible historical features with time-travel capabilities (scanning terabytes across months), while serving demands sub-10ms access to the latest values—workloads so divergent that single-database solutions inevitably caused training-serving skew, unsustainable costs, or both.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet's core claim is that a feature store eliminates skew by enforcing 'the same feature computation logic, declared once in a shared feature view registry.' The source (DragonflyDB) describes the dual-database architecture but does not mention a 'shared feature view registry' or the concept of logic declared once in a registry. The source supports a dual-store architecture eliminating skew through architectural design, but does not specifically state the 'single declared definition' mechanism that the bullet attributes to it. The cited source is about storage architecture, not the shared-definition mechanism. The claim:agde:014 statement itself (in the registry) includes the shared-definition framing, but the source file for 014 does not explicitly support it — the source supports the dual-store split but not the 'declared once in a shared feature view registry' formulation.",
+      "suggested_fix": "A feature store's offline/online dual-store architecture reduces training-serving skew by serving both training and inference from stores populated by the same materialization pipeline, avoiding the divergent-reimplementation problem that arises when training and serving teams independently write feature logic. [claim:agde:014]"
+    },
+    {
+      "claim_id": "claim:agde:015",
+      "slide": "The Second Consistency Problem — Offline/Online Staleness",
+      "bullet": "The offline/online store split in a feature store introduces a second consistency problem: the online store must be periodically materialized from the offline store, creating a window of staleness during which the two stores diverge; if materialization writes to only one store, eventual consistency breaks. [claim:agde:015]",
+      "source_excerpt": "Every time a materialization job runs (backfill or scheduled), it generates a new dataframe of the corresponding feature window. If customers enable both online and offline store, that same table must be merged into both online and offline store. If the dataframe is only merged into one but not the other, it will break the eventual consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:018",
+      "slide": "When NOT to Adopt a Feature Store",
+      "bullet": "A feature store is not warranted for a single-model, single-team, batch-only inference use case: when feature engineering, model training, and serving all run on a fixed batch schedule with no real-time latency requirements, the online store and materialization infrastructure add operational cost with no benefit, and simpler alternatives (SQL tables with versioned transformation scripts) suffice. [claim:agde:018]",
+      "source_excerpt": "If your ML applications primarily rely on batch processing without immediate needs for real-time feature updates, the real-time capabilities of a feature store may not be essential. ... In batch feature engineering + batch inference scenarios where feature engineering, model training and model serving are all conducted at a fixed interval with no need for streaming features and low model serving latency requirements, you do not need an online feature store and a streaming to pre-compute the features, as you have enough time to compute the features on demand. ... The minimal viable feature store—warehouse tables organized with clear conventions, feature logic versioned in git, and batch computation using existing tools—provides the essential benefits of consistency and reusability without operational overhead.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:005",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "ML treats datasets as versioned, time-aware artifacts — immutable snapshots tied to a specific point in time — rather than as query targets, because reproducibility requires knowing exactly what data state produced a given model or index [claim:agde:005]",
+      "source_excerpt": "Data and models are important artifacts in ML that need to be versioned, similar to how source code is versioned in traditional software development. An artifact is a versioned object where each version is an immutable snapshot of files and assets. The principles behind data version control are simple: treat data as immutable, keep a full history of changes, and preserve lineage, so every version is auditable.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "The embedding model is baked into every stored vector: vectors from model version A and version B occupy incompatible geometric spaces, so mixing them makes similarity scores meaningless; changing the embedding model requires a full re-index of the entire corpus [claim:agde:023]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. When query embeddings are generated by model version B but index embeddings were built with version A, those vector spaces are not compatible and similarity scores become meaningless. A single collection in your database must only contain vectors from the same model, and if you mix them, your search results will be random noise.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:019",
+      "slide": "Lakehouse Time-Travel — Delta and Iceberg Snapshots",
+      "bullet": "Apache Iceberg represents every table state as an immutable snapshot — a manifest list pointing to manifest files, each listing data files — so querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, making the snapshot ID a sufficient reproducibility token for a training dataset [claim:agde:019]",
+      "source_excerpt": "A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot. Manifests are tracked by a manifest list for each table snapshot. A manifest is an immutable Avro file that lists data files or delete files, along with each file's partition data tuple, metrics, and tracking information. Furthermore, once written, data and metadata files are immutable until they are deleted. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says 'A snapshot is the state of a table at some point in time, including the set of all data files' and 'Snapshots can be used for time-travel queries.' The bullet's claim that 'the snapshot ID is a sufficient reproducibility token for a training dataset' is an inference not directly stated in the source. The source confirms snapshots pin data files to a point in time and that snapshots support time-travel, but does not assert the snapshot ID alone is 'sufficient' as a reproducibility token (e.g., it says nothing about whether schema evolution or transformation code is also needed). This is a scope mismatch: 'sufficient' is stronger than what the source directly asserts.",
+      "suggested_fix": "Apache Iceberg represents every table state as an immutable snapshot — a manifest list pointing to manifest files, each listing data files — so querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, enabling time-travel to any prior table state for training dataset reconstruction. [claim:agde:019]"
+    },
+    {
+      "claim_id": "claim:agde:020",
+      "slide": "Lakehouse Time-Travel — Delta and Iceberg Snapshots",
+      "bullet": "Delta Lake and Apache Iceberg both support time-travel queries by version number or timestamp, but retaining historical snapshots incurs ongoing storage cost; expiring snapshots in Iceberg (via `expireSnapshots`) or running `VACUUM` in Delta Lake permanently removes the referenced data files, eliminating the ability to time-travel to those versions [claim:agde:020]",
+      "source_excerpt": "Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries. ... VACUUM deletes stale files no longer referenced by the Delta transaction log. Delta Lake retains old data files for 7 days by default, though the default configuration allows you to time travel 30 days into the past if underlying data files are present. VACUUM removes unreferenced files only when they are no longer referenced by the Delta log and are older than the configured retention threshold. Shorter retention risks breaking time travel and long queries, while longer retention means more storage cost but safer recovery.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:020",
+      "slide": "Lakehouse Time-Travel — Delta and Iceberg Snapshots",
+      "bullet": "Operators must explicitly configure a retention policy that balances the reproducibility window against storage cost [claim:agde:020]",
+      "source_excerpt": "Retention policy can be configured through properties min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms. ... Shorter retention risks breaking time travel and long queries, while longer retention means more storage cost but safer recovery.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "DVC — Content-Addressable Dataset Versioning",
+      "bullet": "DVC implements content-addressable storage for ML datasets: it computes an MD5 hash of each tracked file and stores a small `.dvc` metafile in Git, while the actual data lives in a remote (S3, GCS, etc.); only new or modified files are stored in the remote cache, with identical content deduplicated by hash [claim:agde:021]",
+      "source_excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache, and the rest becoming the file name of the cached file. ... DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "DVC — Content-Addressable Dataset Versioning",
+      "bullet": "Reproducing a dataset at any prior state requires only `git checkout <commit>` followed by `dvc pull` — the metafile in Git drives retrieval of the exact data version [claim:agde:021]",
+      "source_excerpt": "Large files, directories and ML models are replaced with small metafiles, which in turn point to the original data. This gives you Git-like versioning semantics (branching, tagging, diffing) for datasets that can be gigabytes or terabytes in size, without bloating your repository. ... DVC lets you capture the versions of your data and models in Git commits, while storing them on-premises or in cloud storage.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet states the reproduction procedure as 'git checkout <commit>' followed by 'dvc pull.' The source confirms DVC metafiles in Git point to remote data and that DVC enables Git-like versioning, but does not explicitly describe this two-command reproduction workflow. The claim is reasonable and widely documented in DVC usage guides, but the specific 'git checkout + dvc pull' procedure is not stated in the provided source excerpt. This is an UNVERIFIABLE specific claim against the provided excerpt, but the mechanism is logically entailed by the described architecture.",
+      "suggested_fix": "Reproducing a dataset at any prior state is possible because the `.dvc` metafile stored in Git records the content-addressable hash of each tracked file, enabling retrieval of the exact data version from the remote cache corresponding to any Git commit. [claim:agde:021]"
+    },
+    {
+      "claim_id": "claim:agde:022",
+      "slide": "lakeFS — Git Semantics Over Object Storage",
+      "bullet": "lakeFS implements Git-like versioning (branch, commit, merge, tag, revert) as a metadata layer directly over object storage (S3, Azure Blob, GCS) without copying data objects; branch creation is a zero-copy operation that creates a lightweight metadata pointer to the current commit [claim:agde:022]",
+      "source_excerpt": "lakeFS provides Git-like operations such as branching, committing, merging, and reverting for datasets stored in object storage. Branching is a zero-copy procedure in lakeFS. ... Branch creation is a zero-copy operation that enables reading from a snapshot of the data controlled by the experiment, ensuring that datasets remain unchanged across runs, even if the main branch gets updated. ... lakeFS operates as a metadata layer on top of object storage systems such as Amazon S3, Azure Blob Storage, and Google Cloud Storage, storing repository metadata describing commits, branches, and tags, enabling versioned views of data without copying underlying objects.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet includes 'tag' in the list of Git-like operations. The source lists 'branching, committing, merging, and reverting' — 'tag' is not mentioned in the primary excerpt. The additional context mentions 'commits, branches, and tags' in Wikipedia, which does support tags, so this is a borderline case. However, 'revert' is listed in the bullet and is listed in the claim statement, but the source excerpt only lists 'branching, committing, merging, and reverting' — 'reverting' is supported. The main gap is 'tag' being supported only by the secondary Wikipedia source (mentioned in the ADDITIONAL CONTEXT of the source file), not the primary excerpt. This is a MINOR issue since tags are mentioned in the additional context.",
+      "suggested_fix": "lakeFS implements Git-like versioning (branch, commit, merge, revert) as a metadata layer directly over object storage (S3, Azure Blob, GCS) without copying data objects; branch creation is a zero-copy operation that creates a lightweight metadata pointer to the current commit [claim:agde:022]"
+    },
+    {
+      "claim_id": "claim:agde:022",
+      "slide": "lakeFS — Git Semantics Over Object Storage",
+      "bullet": "A lakeFS commit reference provides a reproducibility token analogous to a Git commit hash for code, allowing any experiment to be reproduced by checking out the same lakeFS commit of the dataset even as the underlying data evolves [claim:agde:022]",
+      "source_excerpt": "Every run can be reproduced by checking out the same lakeFS commit of the dataset, and even as the underlying data evolves, the commit reference ensures you can retrieve the exact training data used. ... A lakeFS commit reference provides a reproducibility token analogous to a Git commit hash for code.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:020",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "Iceberg/Delta time-travel is built into the table format with no additional tooling, but couples reproducibility to the table format and incurs storage cost for retained snapshots; `VACUUM`/`expireSnapshots` permanently destroys the reproducibility window if run without an explicit retention policy [claim:agde:020]",
+      "source_excerpt": "Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries. Retention policy can be configured through properties min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms. ... VACUUM deletes stale files no longer referenced by the Delta transaction log. ... Shorter retention risks breaking time travel and long queries, while longer retention means more storage cost but safer recovery.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says VACUUM/expireSnapshots 'permanently destroys the reproducibility window if run without an explicit retention policy.' The source confirms that expiring snapshots removes the ability to time-travel to those versions, and that retention must be configured. However, the source does not say running VACUUM 'without an explicit retention policy' is the danger — Delta has a default 7-day retention policy, so VACUUM is not run 'without' a policy but with a default one. The statement 'permanently destroys the reproducibility window if run without an explicit retention policy' implies no default exists, but the source says 'Delta Lake retains old data files for 7 days by default.' The framing slightly overstates the risk of running VACUUM without configuration.",
+      "suggested_fix": "Iceberg/Delta time-travel is built into the table format with no additional tooling, but couples reproducibility to the table format and incurs storage cost for retained snapshots; running `expireSnapshots` in Iceberg or `VACUUM` in Delta Lake permanently removes referenced data files, eliminating time-travel to those versions — operators must configure a retention policy appropriate for their reproducibility window rather than relying on defaults. [claim:agde:020]"
+    }
+  ],
+  "summary": "36 claims checked in this batch. 24 verified, 8 misrepresented, 0 unverified. Issues: claim:agde:007 is misrepresented on two slides (definition narrows source's performance-level definition to a causal-root-level one — MINOR each); claim:agde:016 overstates the origination claim for ASOF JOIN (MINOR); claim:agde:014 attributes a 'shared feature view registry' mechanism to a source that only describes the dual-store architecture (MAJOR); claim:agde:019 claims snapshot ID is 'sufficient' reproducibility token, stronger than source supports (MINOR); claim:agde:021 second bullet's specific two-command procedure (git checkout + dvc pull) is not stated in provided source (MINOR); claim:agde:022 first bullet includes 'tag' not listed in primary source excerpt (MINOR); claim:agde:020 on the comparison slide overstates risk of running VACUUM as 'without a retention policy' when Delta has a default (MINOR)."
+}

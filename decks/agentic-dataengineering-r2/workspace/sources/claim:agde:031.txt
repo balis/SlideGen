@@ -1,0 +1,20 @@
+CLAIM ID: claim:agde:embedding-model-dim-tradeoff:001
+
+SOURCE
+Title: New embedding models and API updates | OpenAI
+URL: https://openai.com/index/new-embedding-models-and-api-updates/
+Type: Official documentation / product announcement
+Retrieved: 2026-06-15
+
+EXCERPT
+"On the MTEB benchmark, a text-embedding-3-large embedding can be shortened to a size of 256 while still outperforming an unshortened text-embedding-ada-002 embedding with a size of 1536. Comparing text-embedding-ada-002 to text-embedding-3-small, the average score on the MTEB benchmark has increased from 61.0% to 62.3%. Pricing for text-embedding-3-small has been reduced by 5X compared to text-embedding-ada-002, from a price per 1k tokens of $0.0001 to $0.00002."
+
+SUPPORTING CONTEXT
+The announcement confirms:
+- text-embedding-3-large: 3072 dimensions, $0.13/1M tokens (= $0.00013/1k tokens)
+- text-embedding-3-small: 1536 dimensions, $0.00002/1k tokens (5x cheaper than ada-002)
+- text-embedding-ada-002: 1536 dimensions, $0.0001/1k tokens, MTEB avg 61.0%
+- text-embedding-3-small: MTEB avg 62.3%
+- Matryoshka truncation: 256-dim text-embedding-3-large beats full 1536-dim ada-002
+
+This establishes the dimension / quality / cost three-way tradeoff at model selection time — the core assertion of the claim.

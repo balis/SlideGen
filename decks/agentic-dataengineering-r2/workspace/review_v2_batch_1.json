@@ -1,0 +1,238 @@
+{
+  "version": 2,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Section Checkpoint — Skew Diagnosis Heuristic",
+      "bullet": "Training-serving skew is defined as a discrepancy between ML model feature engineering or data handling during training versus during deployment (serving) [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source defines training-serving skew as 'a difference between performance during training and performance during serving' — a performance gap. The bullet redefines it as 'a discrepancy between ML model feature engineering or data handling during training versus deployment,' conflating the definition with one of the three listed root causes (data-handling discrepancy). The slide's definition is narrower than the source's performance-based definition and omits the other two root causes (data change over time; feedback loops).",
+      "suggested_fix": "Training-serving skew is defined as a difference between model performance during training and performance during serving, caused by discrepancies in data handling, changes in data between training and serving time, or feedback loops between the model and its algorithm [claim:agde:007]"
+    },
+    {
+      "claim_id": "claim:agde:016",
+      "slide": "ASOF JOIN — Dialect-Specific Fast Path",
+      "bullet": "Dialect-specific ASOF JOIN syntax exists in DuckDB, ClickHouse, and kdb+; the concept originates from kdb+'s aj (as-of join) operator used extensively in quantitative finance; ClickHouse adopted it in 2019 with the constraint that an equality condition must accompany the inequality; DuckDB's implementation hash-partitions and sorts the right-hand side and benchmarks several orders of magnitude faster than equivalent window-function queries. [claim:agde:016]",
+      "source_excerpt": "AsOf joins match rows based on nearby values rather than exact equality, making them ideal for temporal analytics. ASOF was originally implemented in ClickHouse in 2019 but is now in a few more database engines. ClickHouse's ASOF implementation was based on the kdb+ asof operator. KDB has its infamous and extremely useful asof join (aj, aj0, afj, afj0), which is in absolute ubiquitous use in particular in finance. DuckDB 'hash partitions and sorts the right hand side to make a temporary state table' during processing. Benchmarks show AsOf joins significantly outperform standard SQL alternatives using window functions and inequality joins—sometimes by 'several orders of magnitude' depending on data characteristics and table sizes. ClickHouse doesn't do pure ASOF joins, the 'as of' condition must be added on top of a regular equality condition.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:014",
+      "slide": "Feature Store Architecture — The Three-Part Pattern",
+      "bullet": "A feature store's offline/online dual-store architecture eliminates training-serving skew by ensuring that both the historical training path and the real-time serving path read from the same materialized feature values, removing the divergent code-path problem. [claim:agde:014]",
+      "source_excerpt": "Training requires reproducible historical features with time-travel capabilities (scanning terabytes across months), while serving demands sub-10ms access to the latest values—workloads so divergent that single-database solutions inevitably caused training-serving skew, unsustainable costs, or both. Feature stores are essentially dual-database systems, containing a columnar data store for historical (offline) feature data and an online (low-latency) row-oriented data store for serving precomputed features to online applications.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:019",
+      "slide": "Lakehouse Time-Travel — Delta and Iceberg Snapshots",
+      "bullet": "Apache Iceberg represents every table state as an immutable snapshot — a manifest list pointing to manifest files, each listing data files — so querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, making the snapshot ID a sufficient reproducibility token for a training dataset [claim:agde:019]",
+      "source_excerpt": "A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot. Manifests are tracked by a manifest list for each table snapshot. A manifest is an immutable Avro file that lists data files or delete files, along with each file's partition data tuple, metrics, and tracking information. Furthermore, once written, data and metadata files are immutable until they are deleted. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:020",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "Iceberg/Delta time-travel is built into the table format with no additional tooling, but couples reproducibility to the table format and incurs storage cost for retained snapshots; `VACUUM`/`expireSnapshots` permanently destroys the reproducibility window if run without an explicit retention policy [claim:agde:020]",
+      "source_excerpt": "Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries. Retention policy can be configured through properties min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms. VACUUM deletes stale files no longer referenced by the Delta transaction log. Shorter retention risks breaking time travel and long queries, while longer retention means more storage cost but safer recovery.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:025",
+      "slide": "Three Drift Types — Schema, Distribution, Concept",
+      "bullet": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) may remain stable [claim:agde:025]",
+      "source_excerpt": "Covariate shift: when P(X) changes, but P(Y|X) remains the same. Concept drift: when P(Y|X) changes, but P(X) remains the same.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source defines concept drift as 'P(Y|X) changes, but P(X) remains the same' — P(X) definitionally does not change. The bullet softens this to 'P(X) may remain stable,' implying P(X) could also change in concept drift. This contradicts the source's definition, which makes P(X) stability a required condition of concept drift, not an optional one. The 'may' qualifier fundamentally changes the meaning and would cause students to conflate concept drift with joint distribution shift.",
+      "suggested_fix": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) remains the same [claim:agde:025]"
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "Changing an embedding model requires re-encoding the entire corpus and rebuilding the ANN index from scratch: a query vector from the new model cannot be meaningfully compared to corpus vectors from the old model, even when both models share the same output dimensionality [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems. Downtime: Typical interruption periods range from 4–8 hours.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source says upgrading embedding models 'typically necessitates' re-encoding and rebuilding — a qualified statement. The bullet states it 'requires' re-encoding, which is absolute and drops the 'typically' qualifier. The existence of the Drift-Adapter workaround described in the same source paper confirms this is not always required. Dropping 'typically' converts a strong tendency into an absolute rule.",
+      "suggested_fix": "Changing an embedding model typically requires re-encoding the entire corpus and rebuilding the ANN index from scratch: a query vector from the new model cannot be meaningfully compared to corpus vectors from the old model, even when both models share the same output dimensionality [claim:agde:036]"
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "For a 1-million-item database, a full re-index amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems. Downtime: Typical interruption periods range from 4–8 hours.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:023",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "Embedding model version must be tracked as part of ML lineage alongside data snapshot and code version: mixing vectors from different model versions makes similarity scores meaningless [claim:agde:023]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. When query embeddings are generated by model version B but index embeddings were built with version A, those vector spaces are not compatible and similarity scores become meaningless. A single collection in your database must only contain vectors from the same model, and if you mix them, your search results will be random noise.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "Exact k-NN requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "A dataset of 10⁹ SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory; scanning it at SSD throughput of 512 MB/s would require 1,000 seconds to answer a single query [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "ANN indexes trade a bounded recall loss for orders-of-magnitude speedup — they are necessary, not optional, beyond a few hundred thousand vectors [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "This bullet makes three claims not present in the source: (1) ANN indexes provide 'orders-of-magnitude speedup' — the source only establishes that exact k-NN is slow, not that ANN achieves orders-of-magnitude improvement; (2) recall loss is 'bounded' — the source does not state this; (3) ANN is necessary 'beyond a few hundred thousand vectors' — the source says exact k-NN becomes 'computationally inefficient as the data size becomes million or billion-scale,' not at a few hundred thousand. The citation is being used to support claims that are editorial extensions well beyond what the source states.",
+      "suggested_fix": "ANN indexes are necessary at million- or billion-vector scale because exact k-NN becomes computationally infeasible at those sizes [claim:agde:037] — remove unsupported claims about 'bounded recall loss,' 'orders-of-magnitude speedup,' and the 'few hundred thousand vectors' threshold, or retag this bullet to a source that explicitly makes those claims."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "HNSW is a graph-based ANN index achieving O(log n) search complexity via a multi-layer navigable small-world structure [claim:agde:038]",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales, enabling efficient navigation from coarse to fine granularity during search operations. Build-time parameters M and efConstruction determine graph connectivity and set the ceiling on recall; the query-time parameter efSearch expands or contracts the candidate set explored. Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source file states 'Navigable small world graphs have polylogarithmic search complexity of O(log^k n)' — polylogarithmic is more general than O(log n). The bullet simplifies this to 'O(log n)' which is a subcase of polylogarithmic. While the source file also uses the term 'logarithmic search complexity' in one phrase, it clarifies this as 'polylogarithmic O(log^k n).' For a survey slide this is a minor precision loss, but it misrepresents the source's stated complexity class.",
+      "suggested_fix": "HNSW is a graph-based ANN index achieving polylogarithmic search complexity via a multi-layer navigable small-world structure [claim:agde:038]"
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "IVF partitions vectors into clusters via k-means; at query time only nprobe clusters are searched, reducing cost at the expense of recall [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction. IVF partitions vectors into clusters using k-means, with each cluster having a centroid. During queries, the system identifies the closest centroids (controlled by nprobe) and searches only within those clusters. Higher nprobe increases recall at the cost of more distance computations.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "PQ compresses each vector by splitting it into subvectors and replacing each with a centroid index, enabling >100x memory reduction at the cost of quantization error [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:040",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index that serves a billion-point dataset on a single machine with 64 GB RAM at >5,000 QPS and <3 ms mean latency [claim:agde:040]",
+      "source_excerpt": "DiskANN is a graph-based indexing and search system that can index, store, and search a billion point database on a single workstation with just 64 GB RAM and an inexpensive solid-state drive (SSD). On the billion point SIFT1B bigann dataset, DiskANN serves over 5000 queries a second with less than 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine. In the high recall regime, DiskANN can index and serve 5-10x more points per node compared to state-of-the-art graph-based methods such as HNSW and NSG.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; they cannot be changed after index construction without a full rebuild [claim:agde:038]",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales, enabling efficient navigation from coarse to fine granularity during search operations. Build-time parameters M and efConstruction determine graph connectivity and set the ceiling on recall; the query-time parameter efSearch expands or contracts the candidate set explored. Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "'They cannot be changed after index construction without a full rebuild' is not stated in the source. The source only says M and efConstruction 'set the ceiling on recall.' The 'cannot be changed without full rebuild' is an operational implication not present in the cited source.",
+      "suggested_fix": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall [claim:agde:038] — remove the unsupported clause about inability to change them without a full rebuild, or add a source that explicitly states this."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The query-time parameter efSearch is the operational dial: increasing it from 10 to 640 can improve recall@1 from ~0.56 to ~0.97 while proportionally increasing latency [claim:agde:038]",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales, enabling efficient navigation from coarse to fine granularity during search operations. Build-time parameters M and efConstruction determine graph connectivity and set the ceiling on recall; the query-time parameter efSearch expands or contracts the candidate set explored. Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet says efSearch increases latency 'proportionally.' The source gives concrete numbers: efSearch goes from 10 to 640 (64x increase) while latency goes from 5.31 ms to 68.28 ms (~13x increase). The latency increase is sub-proportional, not proportional. 'Proportionally' is a quantitative claim the source directly contradicts. This could mislead students about the cost of recall tuning.",
+      "suggested_fix": "The query-time parameter efSearch is the operational dial: increasing it from 10 to 640 can improve recall@1 from ~0.56 to ~0.97, while latency rises from ~5 ms to ~68 ms [claim:agde:038]"
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The recall-latency tradeoff should be treated as a tuned SLO, not a fixed property — the right efSearch value depends on the latency budget and the recall requirement for the application [claim:agde:038]",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales, enabling efficient navigation from coarse to fine granularity during search operations. Build-time parameters M and efConstruction determine graph connectivity and set the ceiling on recall; the query-time parameter efSearch expands or contracts the candidate set explored. Empirically, increasing efSearch from 10 to 640 improved recall@1 from 0.56 to 0.97, while latency rose from 5.31 ms to 68.28 ms.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source documents the empirical relationship between efSearch, recall, and latency but does not recommend treating the tradeoff as an 'SLO' or say that the 'right efSearch value depends on the latency budget and the recall requirement.' These are reasonable engineering conclusions, but they are editorial additions not stated in the cited source. The claim ID is being stretched to support a recommendation the source doesn't make.",
+      "suggested_fix": "The recall-latency tradeoff is controlled by efSearch at query time: higher values recover recall at the cost of latency [claim:agde:038] — remove the unsupported 'tuned SLO' framing or cite a source that makes that operational recommendation."
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "IVF partitions vectors into clusters; at query time only nprobe clusters are searched, trading recall for speed; increasing nprobe recovers recall at the cost of more work [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction. IVF partitions vectors into clusters using k-means, with each cluster having a centroid. During queries, the system identifies the closest centroids (controlled by nprobe) and searches only within those clusters. Higher nprobe increases recall at the cost of more distance computations.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "PQ splits each vector into subvectors and replaces each with a centroid index (controlled by nbits), introducing quantization error that degrades recall [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction. PQ makes tradeoffs between recall, performance, and memory usage.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "IVF-PQ — The Memory Compression Case",
+      "bullet": "For a 10M-vector 1536-dim dataset, raw storage is 61.4 GB; IVF-PQ with m=48, nbits=8 reduces this to ~480 MB — a 128x memory reduction [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. The number of bits that each subquantizer can use (nbits) defines the number of centroids assigned to each subspace as k = 2^nbits. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:041",
+      "slide": "Recall as a Silently-Violated SLO",
+      "bullet": "ANN search achieves speed by accepting silent recall losses — vectors disappear from results without any error notification [claim:agde:041]; Even with a substantial latency budget, recall@1 may reach only 0.9, meaning the true nearest neighbour is absent in ~10% of queries [claim:agde:041]; Recall degrades silently as the dataset grows: a 10%+ drop from 50k to 200k vectors with fixed index parameters has been observed [claim:agde:041]; HNSW deletes require soft-delete tombstoning rather than immediate graph repair, accumulating stale references until periodic cleanup [claim:agde:041]",
+      "source_excerpt": "Approximate nearest neighbor (ANN) search achieves speed gains by accepting 'silent' recall losses — vectors disappearing from results without explicit notification to users. At k=240 (35ms latency), recall@1 reaches only 0.9, meaning 'for about 10% of the queries, the true top nearest neighbor is missing from the result.' Recall drops by 10%+ as database grows from 50k to 200k. When using HNSW, indexing a document is not a stateless operation; it updates the state of the graph and the sequence of updates directly impacts the final structure. Tombstones are records that mark deleted objects. In an HNSW index, tombstones are regularly cleaned up... Simply removing a node from an HNSW graph can break navigation paths for other nodes — to do a 'hard delete' and permanently remove data from a sparse graph index like HNSW, the entire index has to be rebuilt. HNSW handles append well; large-scale deletes/compaction are harder. Vector indexes mark to-be-deleted data with a tombstone as a type of soft delete.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "23 claims checked in this batch. 13 verified, 7 misrepresented, 0 unverified. Key issues: (1) claim:agde:007 — slide redefines training-serving skew as a data-handling discrepancy rather than the source's performance-gap definition (MAJOR); (2) claim:agde:025 — 'may remain stable' softens the source's 'remains the same' for P(X) in concept drift, creating a definitional error (MAJOR); (3) claim:agde:036 first occurrence — 'requires' replaces 'typically necessitates,' dropping a critical qualifier (MAJOR); (4) claim:agde:037 third bullet — unsupported claims about 'bounded recall loss,' 'orders-of-magnitude speedup,' and 'few hundred thousand vectors' threshold are not in the source (MAJOR); (5) claim:agde:038 on the HNSW-in-Depth slide — 'proportionally increasing latency' contradicts the source data showing sub-proportional latency growth (MAJOR); (6) Two MINOR issues: O(log n) simplification of polylogarithmic complexity, and editorial claims about 'cannot be changed without full rebuild' and 'SLO framing' that have no basis in the cited source."
+}

@@ -37,18 +37,31 @@ EXTENSIONS = {
 def extract_blocks(md_text):
     """Return list of (language, code, slide_context) for EXEC_TEST blocks."""
     blocks = []
-    # Find code blocks preceded by EXEC_TEST marker (with up to 5 lines between)
-    pattern = re.compile(
+    # Pattern A: EXEC_TEST marker BEFORE the code block (with up to 5 lines between)
+    pattern_before = re.compile(
         r'<!--\s*EXEC_TEST\s*-->(?:\s*\n){0,5}\s*```(\w+)\n(.*?)```',
         re.DOTALL
     )
-    for match in pattern.finditer(md_text):
+    for match in pattern_before.finditer(md_text):
         lang = match.group(1).lower()
         code = match.group(2)
-        # Get surrounding slide title for context
         preceding = md_text[:match.start()].rfind('## ')
         title = md_text[preceding:match.start()].split('\n')[0].strip() if preceding >= 0 else "unknown"
         blocks.append({"lang": lang, "code": code, "slide": title})
+
+    # Pattern B: EXEC_TEST marker AFTER the code block (with up to 5 lines between)
+    # Use [^`] alternation to prevent spanning across code fences
+    pattern_after = re.compile(
+        r'```(\w+)\n((?:(?!```)[\s\S])*?)```\s*\n(?:\s*\n){0,5}\s*<!--\s*EXEC_TEST\s*-->',
+    )
+    for match in pattern_after.finditer(md_text):
+        lang = match.group(1).lower()
+        code = match.group(2)
+        preceding = md_text[:match.start()].rfind('## ')
+        title = md_text[preceding:match.start()].split('\n')[0].strip() if preceding >= 0 else "unknown"
+        # Avoid duplicates if both patterns match the same block
+        if not any(b["code"] == code and b["lang"] == lang for b in blocks):
+            blocks.append({"lang": lang, "code": code, "slide": title})
     return blocks
 
 def run_java(code, tmpdir):

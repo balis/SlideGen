@@ -1,0 +1,10 @@
+Source for claim:agentic-de:cross-encoder-rerank:001
+
+Title: New Research: Cross-Encoder Reranking Improves RAG Accuracy by 40%
+URL: https://app.ailog.fr/en/blog/news/reranking-cross-encoders-study
+Retrieved: 2026-06-14
+
+Excerpt:
+"Two-Stage (Bi-Encoder + Cross-Encoder): Query -> Embed -> Vector Search -> Top-100 -> Cross-Encoder Rerank -> Top-10 -> LLM. The study identified optimal hyperparameters: Retrieve 50-100 candidates, rerank to 10 documents, with batch size of 32 for optimal GPU performance."
+
+"MIT study demonstrates that two-stage retrieval with cross-encoder reranking significantly outperforms single-stage vector search across multiple benchmarks. Studies show +33-40% accuracy improvement for only +120ms latency on average."

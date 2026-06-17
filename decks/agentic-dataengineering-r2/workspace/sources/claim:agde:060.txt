@@ -1,0 +1,19 @@
+SOURCE: AI Model Versioning Best Practices: MLOps Guide for Enterprises
+URL: https://atlan.com/know/ai-model-versioning-best-practices/
+Retrieved: 2026-06-15
+Publisher: Atlan
+
+EXCERPTS:
+"Teams should version their document indices, embedding models, and chunking configurations, treating any retrieval pipeline change as effectively a change to the model's knowledge base."
+
+"Model versioning links every prediction to the exact model version, training data snapshot, and code commit that produced it. This audit trail satisfies requirements under GDPR, the EU AI Act, HIPAA, and SOX."
+
+"Each model version linking to specific data versions and processing configurations to create reproducible training runs that can be rebuilt exactly using the same inputs and parameters."
+
+"The platform should enforce conditions, such as minimum quality scores, mandatory bias testing, and ownership requirements, that model versions must satisfy before advancing through stage gates."
+
+ADDITIONAL CONTEXT (from neptune.ai and MLflow documentation, web search summary):
+"ML lineage connects source data, feature engineering, datasets, models and predictions, enabling reproduction of results and documentation of provenance, and helping trace unexpected model outputs back to the dataset version, feature pipeline and source data used during training or inference."
+
+"By logging the DVC commit hash as a parameter on every training run, a bridge can be created so models in the MLflow registry can be traced back to the exact Git tag, which maps to the exact dataset in S3."
+Source: https://aws.amazon.com/blogs/machine-learning/end-to-end-lineage-with-dvc-and-amazon-sagemaker-ai-mlflow-apps/

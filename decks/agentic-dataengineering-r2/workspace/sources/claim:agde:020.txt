@@ -1,0 +1,32 @@
+CLAIM ID: claim:agde:reproducibility:002
+STATEMENT: Delta Lake and Apache Iceberg both support time-travel queries by version number or timestamp, but retaining historical snapshots incurs ongoing storage cost. Expiring snapshots in Iceberg (via the expireSnapshots operation) or running VACUUM in Delta Lake permanently removes the referenced data files, eliminating the ability to time-travel to those versions. Operators must explicitly configure a retention policy that balances reproducibility window against storage cost.
+
+SOURCE (PRIMARY — Iceberg)
+--------------------------
+Title: Apache Iceberg Maintenance — Expire Snapshots
+URL: https://iceberg.apache.org/docs/1.5.1/maintenance/
+Section: Expire Snapshots
+Type: Official project documentation (Apache Software Foundation)
+Retrieved: 2026-06-15
+
+EXCERPT
+-------
+"Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries. Retention policy can be configured through properties min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms."
+
+SOURCE (SECONDARY — Delta Lake VACUUM)
+---------------------------------------
+Title: Remove unused data files with vacuum — Azure Databricks
+URL: https://learn.microsoft.com/en-in/azure/databricks/delta/vacuum
+Section: VACUUM
+Type: Official Microsoft/Databricks documentation
+Retrieved: 2026-06-15
+
+EXCERPT
+-------
+"VACUUM deletes stale files no longer referenced by the Delta transaction log. Delta Lake retains old data files for 7 days by default, though the default configuration allows you to time travel 30 days into the past if underlying data files are present. VACUUM removes unreferenced files only when they are no longer referenced by the Delta log and are older than the configured retention threshold. Shorter retention risks breaking time travel and long queries, while longer retention means more storage cost but safer recovery."
+
+METADATA NOTE
+-------------
+An Iceberg table with hourly commits over 12 months can accumulate 2-4GB of metadata (snapshots, manifests, manifest lists), while Delta's transaction log for equivalent activity is typically 200-500MB.
+Source: https://lakefs.io/blog/iceberg-time-travel/
+Retrieved: 2026-06-15

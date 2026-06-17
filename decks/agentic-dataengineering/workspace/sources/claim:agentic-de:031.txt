@@ -1,0 +1,10 @@
+Source for claim:agentic-de:batch-embedding:002
+
+Title: Complete Guide to OpenAI and Gemini Batch API: 50% Cost-Saving Solutions and Official Top-up Access (2026)
+URL: https://help.apiyi.com/en/openai-gemini-batch-api-official-topup-guide-2026-en.html
+Retrieved: 2026-06-14
+
+Excerpt:
+"Price Discount: -50%. Request Limit per Batch: 50,000 requests. Split into multiple batches if exceeded. Completion Window: 24 hours. Only '24h' is currently supported. Rate Limits: Dedicated. Batch interfaces have their own TPD (Tokens Per Day) quota, which is completely separate from standard TPM/RPM limits. Does not consume synchronous TPM."
+
+Supported endpoint: /v1/embeddings is explicitly listed as a supported batch endpoint.

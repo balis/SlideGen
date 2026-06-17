@@ -1,0 +1,13 @@
+Source for claim:agentic-de:data-contracts-limits:001
+
+Title: Data Contracts: The Essential Framework for Preventing Schema Drift in AI Operations
+Publisher: Axrail AI
+URL: https://www.axrail.ai/post/data-contracts-the-essential-framework-for-preventing-schema-drift-in-ai-operations
+Retrieved: 2026-06-14
+
+Excerpt:
+"Schema validation prevents incompatible data from entering your pipeline but only catches structural drift, not statistical or conceptual changes."
+
+"Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements."
+
+"Implementing effective data contracts requires both technical components – schema definitions, validation mechanisms, monitoring systems – and organizational elements like governance processes, ownership models, and communication frameworks, which together create a robust defense against schema drift while enabling controlled evolution."

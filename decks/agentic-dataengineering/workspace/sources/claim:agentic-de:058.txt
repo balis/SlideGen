@@ -1,0 +1,8 @@
+Source for claim:agentic-de:agent-security:004
+
+Title: Taming Various Privilege Escalation in LLM-Based Agent Systems: A Mandatory Access Control Framework
+URL: https://arxiv.org/abs/2601.11893
+Retrieved: 2026-06-14
+
+Excerpt:
+LLM agents operating with excessive permissions can be manipulated through prompt injection and other attacks to perform unintended actions, including accessing sensitive data beyond their operational scope, executing unintended system commands, and escalating from low-privilege to high-privilege operations. Rather than allowing agents blanket access, the approach enforces granular permission controls based on agent role and task requirements. This mirrors security models from operating systems and mobile platforms, implementing restricted access models for agent tools where least-privilege principles govern which tools agents can access, limiting their capabilities to only necessary functions.

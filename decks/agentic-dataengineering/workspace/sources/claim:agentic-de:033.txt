@@ -1,0 +1,12 @@
+Source for claim:agentic-de:embedding-model-lock:004
+
+Title: Why Vector Migration Matters More Than You Think — Schift Blog
+URL: https://schift.io/blog/why-vector-migration-matters/
+Retrieved: 2026-06-14
+
+Excerpt:
+"Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model."
+
+"When you embed 'quarterly revenue report' with OpenAI's ada-002, you get a specific 1536-dimensional point in space. When you embed the same text with text-embedding-3-large, you get a completely different 3072-dimensional point in a completely different space."
+
+"If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results — they are just wrong."

@@ -1,0 +1,21 @@
+SOURCE: Point-in-Time Correctness for Training Data — Feature Stores for ML (apxml.com)
+URL: https://apxml.com/courses/feature-stores-for-ml/chapter-3-data-consistency-quality/point-in-time-correctness
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:skew-pit-violation:003):
+"When feature generation, predictions, and label generation occur at different points in time, data leakage can easily be introduced into your training sets—this is often called the point-in-time correctness problem. Using current feature values for historical training examples incorporates future information, causing models to perform well in training but fail in production."
+
+Additional quotes from the same source:
+"Point-in-time correct feature lookups is a mechanism essential for preventing leakage and ensuring that training data accurately reflects the information state at the moment a prediction would have occurred. Point-in-time correctness creates a training dataset that accurately reflects feature values as of the time a label observation was recorded."
+
+SUPPORTING QUOTE from Amazon SageMaker documentation (from search results):
+URL: https://aws.amazon.com/blogs/machine-learning/build-accurate-ml-training-datasets-using-point-in-time-queries-with-amazon-sagemaker-feature-store-and-apache-spark/
+"In time-series models, data leakage typically is caused by adding features to your training set that occurred after a given prediction would have occurred. More specifically, any feature values added to a row of training data that occurred after the prediction would have actually been generated would constitute data leakage."
+
+SUPPORTING QUOTE from dotData (from search results):
+URL: https://dotdata.com/blog/preventing-data-leakage-in-feature-engineering-strategies-and-solutions/
+"If you join the June 20th feature value with the June 15th churn label for training, your model learns from information (the post-churn status) that wasn't available before the churn event occurred. This introduces data leakage, leading to overly optimistic performance estimates during training."
+
+NOTES:
+- The apxml.com source is a feature store course module; its content is corroborated by AWS SageMaker official docs and multiple practitioner sources.
+- Confidence is HIGH for the claim's core assertion; the primary excerpt is from a course page rather than a peer-reviewed paper, but the underlying mechanism is consistent with Feast docs (docs.feast.dev) and Amazon SageMaker documentation.

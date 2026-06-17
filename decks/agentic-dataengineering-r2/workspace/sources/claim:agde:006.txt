@@ -1,0 +1,22 @@
+CLAIM ID: claim:agde:ml-contract:006
+STATEMENT: Feature engineering is a stateful pipeline stage: transformation functions that normalize or encode features require statistics (means, standard deviations, vocabularies) computed solely on the training set ('fit-time statistics'), which must be stored and then reapplied identically during inference to prevent training-serving skew.
+
+SOURCE URL: https://docs.hopsworks.ai/latest/concepts/fs/feature_view/training_inference_pipelines/
+TITLE: Consistent Transformations — Hopsworks Documentation
+PUBLISHER: Hopsworks
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Transformation functions take as input a single value (or small number of values), they often require state (such as the mean value of a feature to normalize the input), and they output a single value or a list of values. It is crucial that the transformations performed when creating features (for training or serving) are consistent - use the same code - to avoid training/serving skew. Any state required to compute the transformation, such as the arithmetic mean of a numerical feature in the train set, is also stored with the function, enabling consistent transformations during inference."
+
+SUPPORTING SOURCE (scikit-learn):
+URL: https://scikit-learn.org/stable/common_pitfalls.html
+Title: Common pitfalls and recommended practices — scikit-learn documentation
+Key point from search results: "Use fit_transform() on training data to compute and apply transformations, and use transform() on test/validation data to apply those same learned transformations." When applying fit_transform to the training set, the method scales the data and learns the parameters (e.g., mean and standard deviation). "Computing a different mean and standard deviation based on the test data is problematic because your model has no idea what the distribution of the test data is during training." The learned parameters are applied to both training and test data using transform() to prevent data leakage.
+
+SUPPORTING SOURCE (Hopsworks built-in functions):
+URL: https://docs.hopsworks.ai/latest/concepts/mlops/data_transformations/
+Key point: "When computing statistics, the system will compute the necessary statistics for the specific function in the background, such as min and max values for min_max_scaler; mean and standard deviation. When training data is split into train, test and validation sets, the necessary statistics for the transformation functions are automatically computed only on the train set. This prevents leakage of information from the validation and test set into the model."
+
+ADDITIONAL CONTEXT:
+The statefulness of feature engineering distinguishes it from a stateless query: a SELECT that computes mean(age) FROM training_data returns different numbers at different points in time, but a serialized StandardScaler fitted on a specific training snapshot will always apply the same mean and std regardless of when inference occurs. This is why feature preprocessing artifacts (fitted scalers, tokenizer vocabularies, quantile transformers) must be versioned alongside model weights.

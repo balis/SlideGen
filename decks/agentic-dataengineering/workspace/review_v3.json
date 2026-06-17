@@ -1,0 +1,538 @@
+{
+  "version": 3,
+  "verdict": "NEEDS_REVISION",
+  "total_checked": 91,
+  "rechecked_count": 52,
+  "misrepresented_count": 14,
+  "critical_count": 1,
+  "major_count": 5,
+  "minor_count": 8,
+  "blocking_count": 6,
+  "claim_verdicts": [
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:005",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:003",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:004",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:002",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "claim_id": "claim:agentic-de:006",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:013",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:014",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:015",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:016",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When NOT to Adopt a Feature Store",
+      "claim_id": "claim:agentic-de:017",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:026",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:028",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:029",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:030",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:031",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:033",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:034",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:035",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "claim_id": "claim:agentic-de:032",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:043",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:044",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:045",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:046",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:047",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Top-k Cutoff Failure Mode",
+      "claim_id": "claim:agentic-de:048",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:049",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:050",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:051",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:053",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Training-serving skew is a difference between ML model outputs during training and during serving, caused by a discrepancy between how data is handled in the training and serving pipelines, or by a change in data between when the model trains and when it serves [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source defines training-serving skew as a difference between 'performance' during training and serving, not a difference between 'ML model outputs'. Performance (metrics) and model outputs are not the same thing. Additionally, the source lists three causes; the bullet omits the third \u2014 'A feedback loop between your model and your algorithm' \u2014 without qualification.",
+      "suggested_fix": "Training-serving skew is a difference between model performance during training and during serving, caused by: a discrepancy between how data is handled in the training and serving pipelines, a change in the data between when the model trains and when it serves, or a feedback loop between the model and the algorithm [claim:agentic-de:007]"
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "The best way to prevent skew from divergent code paths is to reuse the same feature engineering code for both training and serving, so that any given raw input maps to the same feature vector in both environments [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source's Rule 29 recommends a specific technique: save the features computed at serving time and pipe them to a log for use at training time. The bullet instead recommends 'reuse the same feature engineering code for both training and serving' \u2014 a different approach not stated in the source. The bullet substitutes a common engineering best practice for what the cited source actually says, and the two recommendations are mechanically distinct.",
+      "suggested_fix": "The best way to ensure training and serving consistency is to save the set of features used at serving time and pipe those features to a log to use at training time; even if this cannot be done for every example, doing it for a small fraction allows verifying consistency between serving and training [claim:agentic-de:008]"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:009",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:010",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:018",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "bullet": "Apache Iceberg implements time travel through immutable snapshots: each write creates a new snapshot referencing manifest lists and data files; historical queries reference the same underlying Parquet/ORC files without duplicating data, until snapshot accumulation causes metadata bloat [claim:agentic-de:019]",
+      "source_excerpt": "Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage. Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims that 'historical queries reference the same underlying Parquet/ORC files without duplicating data'. The source states 'Storing multiple snapshots and versions of data files increases the storage usage', which directly implies that data files are versioned and storage grows \u2014 contradicting the claim that there is no data duplication. The source supports metadata bloat from snapshot accumulation, but does not support the claim that historical queries reference files without duplication. The claim about 'immutable snapshots referencing manifest lists and data files' is also not found in this source.",
+      "suggested_fix": "Apache Iceberg implements time travel through snapshots: each write can create new versions of data and metadata files, increasing storage usage; over time snapshots accumulate and metadata files grow larger, increasing memory requirements for query planning [claim:agentic-de:019]"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:020",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:021",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "bullet": "Treeverse (lakeFS) acquired the DVC open-source project from Iterative.ai; DVC continues as a lightweight Git-based tool for smaller data-science projects while lakeFS serves enterprise-scale AI/ML infrastructure [claim:agentic-de:022]",
+      "source_excerpt": "lakeFS announced it has acquired the DVC open source project from Iterative.ai. DVC will continue as an independent open source tool focused on data scientists working with smaller datasets, while lakeFS will continue to advance enterprise-grade data version control infrastructure for organizations managing AI and ML at scale.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source excerpt names 'lakeFS' as the acquirer, not 'Treeverse (lakeFS)' \u2014 Treeverse is the company behind lakeFS but is not mentioned in the source. More importantly, the slide characterises DVC as a 'lightweight Git-based tool', but the source says only 'independent open source tool focused on data scientists working with smaller datasets' \u2014 neither 'lightweight' nor 'Git-based' appear in the source excerpt.",
+      "suggested_fix": "lakeFS acquired the DVC open-source project from Iterative.ai; DVC continues as an independent open-source tool for data scientists working with smaller datasets while lakeFS serves enterprise-scale AI/ML infrastructure [claim:agentic-de:022]"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Detecting distributional drift requires statistical monitoring (PSI, KL divergence, KS test) layered on top of contract enforcement [claim:agentic-de:027]",
+      "source_excerpt": "Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports the concept of layering additional monitoring on top of schema/contract enforcement, but does not name PSI, KL divergence, or KS test. These specific statistical methods are not present in the source excerpt and cannot be attributed to it.",
+      "suggested_fix": "Detecting distributional drift requires statistical monitoring (e.g., feature drift detection) layered on top of contract enforcement [claim:agentic-de:027]"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "**Dedicated engines** (e.g., Qdrant, Milvus) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source names only Qdrant as the dedicated engine example; the bullet adds Milvus as a second example without source support. The substantive claim (scaling/quantization as the decision axis) is fully supported, but Milvus is an unsourced addition.",
+      "suggested_fix": "**Dedicated engines** (e.g., Qdrant) are the better choice when you need to scale beyond what a single Postgres instance handles or require advanced quantization features"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:056",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "Embeddings and trained models are derived data that can encode and leak personal information from source records",
+      "source_excerpt": "Modern workflows for developing ML pipelines utilize ML artifact management systems (ML AMSs) such as MLflow in addition to traditional version control systems such as Git, which collect data, model, metadata and software artifacts used and produced in pipeline development workflows. However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities. MLflow2PROV introduces a comprehensive PROV-compliant provenance model that captures end-to-end provenance traces of ML pipelines, their artifacts, and their relationships based on MLflow and Git activities, enabling querying, analyzing, and processing of the collected provenance information.",
+      "verdict": "MISREPRESENTED",
+      "severity": "CRITICAL",
+      "issue": "Citation mismatch. The source for claim:agentic-de:056 is about ML pipeline provenance and MLflow's lineage limitations (the MLflow2PROV paper). It contains no content about embeddings or trained models encoding or leaking personal information. The bullet's privacy claim is entirely unsupported by this source.",
+      "suggested_fix": "Remove the [claim:agentic-de:056] tag from this bullet and find a source that directly supports the claim that embeddings and trained models can encode and leak personal information (e.g., a membership inference or model inversion paper). Alternatively, remove or re-tag this bullet."
+    },
+    {
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "When a trained ML model is proven to leak personal data from training, GDPR Article 17 requires not only erasing that personal data from the training set but also applying machine unlearning methods to the trained model itself; deleting the source data alone is insufficient in such cases",
+      "source_excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model. GDPR grants data subjects the Right to Be Forgotten, mandating companies fulfill data erasure requests, particularly when asked to erase specific training data from their well-trained predictive models.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet drops a critical condition: the source states the machine unlearning obligation is triggered when (1) it is proven the model leaks personal data AND (2) the data subject has requested the erasure. The bullet omits the second condition \u2014 that an erasure request must have been made \u2014 making the obligation appear broader than the source states. Additionally, the bullet attributes the requirement to 'GDPR Article 17' specifically; the source only mentions 'GDPR' and 'the Right to Be Forgotten' without citing the article number.",
+      "suggested_fix": "When a trained ML model is proven to leak personal data from training and the affected data subject has requested erasure under GDPR's Right to Be Forgotten, it is not sufficient to erase the personal data from the training set alone \u2014 machine unlearning methods must also be applied to the trained model itself"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:056",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:057",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:058",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:059",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "bullet": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain over non-verifying baselines, up to 48.7% latency reduction via speculative execution, and 26.0% cost reduction through counterfactual-guided verifier placement",
+      "source_excerpt": "Sherlock is a principled serving framework for agentic workflows that jointly optimizes latency, cost, and accuracy. Sherlock identifies and verifies error-prone nodes through counterfactual analysis and dynamic verifier selection, effectively balancing reliability and efficiency. Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks. Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet misrepresents the baseline for the 26.0% cost reduction figure. The source states the cost reduction is 'compared to the Monte Carlo search-based method' \u2014 a competing verification approach. The bullet rewrites this as 'through counterfactual-guided verifier placement', which describes Sherlock's own mechanism, not the comparison baseline, inverting the meaning. Additionally, '18.3% accuracy gain over non-verifying baselines' \u2014 the source says 'on average across benchmarks' without specifying the comparison as 'non-verifying baselines'; the bullet adds an unsourced baseline label.",
+      "suggested_fix": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain on average across benchmarks, up to 48.7% latency reduction over non-speculative execution, and 26.0% cost reduction compared to Monte Carlo search-based verification"
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "bullet": "Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost, establishing that these three dimensions are not independently optimizable but must be balanced as a system",
+      "source_excerpt": "Sherlock is a principled serving framework for agentic workflows that jointly optimizes latency, cost, and accuracy. Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks. Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The first part ('Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost') is directly supported. The appended clause 'establishing that these three dimensions are not independently optimizable but must be balanced as a system' is an editorial interpretation not stated in the source. The source says these are jointly optimized and configurable; the implication that they are 'not independently optimizable' is an inference beyond the text.",
+      "suggested_fix": "Sherlock exposes user-configurable knobs to flexibly trade off reliability, latency, and cost on demand, enabling operators to select their preferred operating point across all three dimensions"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Training-serving skew is caused by a discrepancy between how data is handled in training and serving pipelines, or by data changes between training and serving time",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source lists three causes of training-serving skew; the bullet omits the third \u2014 'A feedback loop between your model and your algorithm.' While the bullet does not explicitly claim to be exhaustive, presenting only two of three named causes may mislead readers into thinking the list is complete.",
+      "suggested_fix": "Training-serving skew is caused by a discrepancy between how data is handled in training and serving pipelines, by data changes between training and serving time, or by a feedback loop between the model and the serving algorithm"
+    },
+    {
+      "claim_id": "claim:agentic-de:015",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "A feature store prevents skew and feature duplication through shared transformation definitions applied identically across an offline store and an online store",
+      "source_excerpt": "One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew. Transformation code is reused across environments preventing training-serving skew and frees teams from having to rewrite code from one environment to the next. Feature stores address training-serving skew by centralizing feature computation in a single pipeline that serves both offline and online stores.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet claims a feature store prevents 'feature duplication.' The source excerpts do not use this term or directly state this benefit. The source mentions preventing skew, reusing transformation code, and centralizing computation \u2014 but 'feature duplication' as a distinct problem prevented by a feature store is not stated. The claim may be inferrable but is not supported by the text.",
+      "suggested_fix": "A feature store prevents training-serving skew through shared transformation definitions applied identically across an offline store and an online store, eliminating the need to rewrite feature computation logic for each environment"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:033",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Each embedding model defines its own coordinate system \u2014 changing the model invalidates all stored vectors and forces full re-embedding, creating de facto vendor lock-in",
+      "source_excerpt": "Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model. When you embed 'quarterly revenue report' with OpenAI's ada-002, you get a specific 1536-dimensional point in space. When you embed the same text with text-embedding-3-large, you get a completely different 3072-dimensional point in a completely different space. If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results \u2014 they are just wrong.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet adds 'creating de facto vendor lock-in' \u2014 a consequence not stated in the source. The source describes incompatibility and the need for re-embedding when switching models, but does not characterize this as 'vendor lock-in.' This is an editorial framing not supported by the excerpt.",
+      "suggested_fix": "Each embedding model defines its own coordinate system \u2014 changing the model makes all stored vectors incompatible and forces full re-embedding of the entire corpus"
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "ANN recall is a silently violated SLO: as a vector database grows or parameters drift, retrieval quality degrades without raising errors while latency metrics remain stable",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly\u2014especially under approximate search\u2014while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet adds 'or parameters drift' as a second cause of silent recall degradation alongside database growth. The source only mentions database growth ('as vector databases grow') as the cause; parameter drift is not stated. This introduces an unsupported additional causal mechanism.",
+      "suggested_fix": "ANN recall is a silently violated SLO: as a vector database grows, retrieval quality degrades without raising errors while latency metrics remain stable"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:049",
+      "verdict": "VERIFIED"
+    }
+  ]
+}

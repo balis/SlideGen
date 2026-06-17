@@ -1,0 +1,523 @@
+{
+  "version": 1,
+  "verdict": "NEEDS_REVISION",
+  "total_checked": 85,
+  "rechecked_count": 85,
+  "misrepresented_count": 17,
+  "critical_count": 0,
+  "major_count": 6,
+  "minor_count": 11,
+  "blocking_count": 6,
+  "claim_verdicts": [
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Silent Failure \u2014 ML vs. BI Pipelines",
+      "claim_id": "claim:agentic-de:005",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:003",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:004",
+      "slide": "The Data Science Hierarchy of Needs",
+      "bullet": "A 2016 CrowdFlower survey found that data scientists spend roughly 80% of their time on data preparation: 60% cleaning and organizing data, 19% collecting datasets [claim:agentic-de:004]",
+      "source_excerpt": "Almost the same percentage of respondents reported they spent most of their time cleaning data (60 percent) as those who reported that task to be the least enjoyable part of their job (57 percent). An additional 19 percent of time was reported spent on collecting data sets, bringing the total data preparation effort to approximately 79 percent.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says the total data preparation effort is approximately 79 percent, not 80%. The bullet rounds up to 80% and says 'roughly 80%' which is close but the exact figure is 79%. Additionally, the 60% figure in the source refers to the percentage of respondents who 'spent most of their time cleaning data,' not that cleaning consumes exactly 60% of time. The source conflates proportion-of-respondents with proportion-of-time, but the bullet presents these as direct time percentages.",
+      "suggested_fix": "A 2016 CrowdFlower survey found that data scientists spend roughly 79% of their time on data preparation: 60% reported spending most of their time cleaning and organizing data, and an additional 19% of time was spent collecting datasets [claim:agentic-de:004]"
+    },
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:002",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "claim_id": "claim:agentic-de:006",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Training-serving skew is a difference between model outputs during training and during serving, caused by divergent code paths for feature engineering or by data changes between training and serving [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says 'difference between model outputs' but the source says 'difference between performance during training and performance during serving.' The source describes a performance difference, not an output difference. Additionally, the bullet lists only two causes (divergent code paths and data changes) but the source lists three causes, omitting 'a feedback loop between your model and your algorithm.' The omission of the feedback loop cause is a scope narrowing.",
+      "suggested_fix": "Training-serving skew is a difference between performance during training and during serving, caused by divergent data handling in training and serving pipelines, data changes between training and serving, or feedback loops between model and algorithm [claim:agentic-de:007]"
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Prevention: reuse the same feature-engineering code for both training and serving so that any raw input maps to the same feature vector in both environments [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source (Rule 29) does not say 'reuse the same feature-engineering code.' It says the best approach is to save serving-time features and pipe them to a log for training-time use. This is a log-and-replay strategy, not a shared-code strategy. The bullet conflates two distinct approaches: code reuse (a general best practice) and Rule 29's specific log-and-replay recommendation. The cited source (Rule 29) supports the second bullet on this slide, not this first one.",
+      "suggested_fix": "Prevention: log the features used at serving time and replay them during training to verify consistency between the two environments [claim:agentic-de:008]"
+    },
+    {
+      "slide": "What Is Training-Serving Skew?",
+      "claim_id": "claim:agentic-de:008",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:009",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:010",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:013",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Point-in-Time / As-Of Joins",
+      "claim_id": "claim:agentic-de:014",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:015",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Feature Store Architecture",
+      "claim_id": "claim:agentic-de:016",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When NOT to Adopt a Feature Store",
+      "claim_id": "claim:agentic-de:017",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:018",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:018",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "bullet": "Time-travel queries reference the same underlying Parquet/ORC files \u2014 no data duplication \u2014 but snapshot accumulation causes metadata bloat [claim:agentic-de:019]",
+      "source_excerpt": "Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage. Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims 'no data duplication' for time-travel queries, but the source explicitly says 'Even small changes in the data can result in the creation of new versions of data and metadata files' and 'Storing multiple snapshots and versions of data files increases the storage usage.' The source \u2014 titled 'The Dark Side of Apache Iceberg's Data Time Travel Feature' \u2014 emphasizes that storage DOES increase with both data and metadata file versions. The bullet inverts the source's message by claiming storage efficiency where the source warns about storage overhead.",
+      "suggested_fix": "Time-travel queries follow older snapshot pointers, but even small data changes create new versions of data and metadata files, increasing storage usage; over time snapshot accumulation also causes metadata bloat [claim:agentic-de:019]"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:020",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:021",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:022",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:022",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:022",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:025",
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "bullet": "Industry-standard thresholds: PSI < 0.1 = no significant change; 0.1 <= PSI < 0.25 = moderate shift; PSI >= 0.25 = significant shift requiring investigation or retraining [claim:agentic-de:025]",
+      "source_excerpt": "Standard interpretation thresholds: PSI < 0.1: No significant change. 0.1 \u2264 PSI < 0.25: Minor shift, requires attention. PSI \u2265 0.25: Major shift, requires investigation and likely action.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide says 'moderate shift' for the 0.1-0.25 range, but the source says 'Minor shift, requires attention.' The slide also says 'significant shift' for >=0.25, but the source says 'Major shift.' These are wording differences that slightly inflate the severity labels used by the source.",
+      "suggested_fix": "Industry-standard thresholds: PSI < 0.1 = no significant change; 0.1 <= PSI < 0.25 = minor shift requiring attention; PSI >= 0.25 = major shift requiring investigation and likely action [claim:agentic-de:025]"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:026",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:028",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Offline metric improvements can fail to translate into online gains \u2014 in some cases online metrics regress even as offline metrics improve, because offline datasets are static while production inputs are dynamic and subject to feedback loops [claim:agentic-de:028]",
+      "source_excerpt": "Offline metrics are correlated with online performance over a range of environments. However, improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims 'in some cases online metrics regress even as offline metrics improve,' but the source says 'improvements in offline metrics lead to diminishing returns in online performance.' Diminishing returns means smaller gains, not regression (actively getting worse). The source also does not mention 'feedback loops' \u2014 that phrase is absent from this source. The bullet overstates the source's finding from 'diminishing returns' to 'regression.'",
+      "suggested_fix": "Offline metric improvements show diminishing returns in online performance \u2014 the ranking of models can change depending on available offline data, so offline improvements do not reliably predict proportional online gains [claim:agentic-de:028]"
+    },
+    {
+      "claim_id": "claim:agentic-de:029",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "The offline-online metric gap arises when a model overfits to historical patterns: temporal leakage in offline features, latency regressions invisible to accuracy metrics, and feedback loops where model outputs reshape future training distributions all contribute [claim:agentic-de:029]",
+      "source_excerpt": "A model that looked great offline can mask a latency regression that drives users away. In fraud detection, offline recall improves dramatically when risky transactions come with confirmed fraud signals, but in production, the model is supposed to never see the future. Offline datasets are always approximations of production. They may underrepresent edge cases, omit new user behaviors, or reflect historical patterns that have already shifted.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet lists 'feedback loops where model outputs reshape future training distributions' as a contributing cause, but the source does not mention feedback loops at all. The source discusses latency regressions, temporal leakage (fraud signals), and offline datasets being approximations \u2014 but the feedback loop mechanism is not supported by this source. The other two causes (temporal leakage, latency regressions) are supported.",
+      "suggested_fix": "The offline-online metric gap arises when a model overfits to historical patterns: temporal leakage in offline features (e.g., fraud labels available at evaluation time but not at prediction time), latency regressions invisible to accuracy metrics, and offline datasets that underrepresent edge cases or reflect shifted historical patterns all contribute [claim:agentic-de:029]"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:030",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:031",
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "bullet": "The Batch API processes embedding requests asynchronously within a 24-hour window at a 50 % cost discount, with dedicated TPD quotas separate from synchronous TPM/RPM limits, allowing up to 50 000 inputs per batch submission without consuming real-time capacity [claim:agentic-de:031]",
+      "source_excerpt": "Price Discount: -50%. Request Limit per Batch: 50,000 requests. Split into multiple batches if exceeded. Completion Window: 24 hours. Only '24h' is currently supported. Rate Limits: Dedicated. Batch interfaces have their own TPD (Tokens Per Day) quota, which is completely separate from standard TPM/RPM limits. Does not consume synchronous TPM.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says 'up to 50,000 embedding inputs per batch submission' but the source says '50,000 requests' per batch, not inputs. A single embedding request can contain multiple inputs (up to 2,048 per request per claim:032). The bullet conflates 'requests' with 'inputs,' understating the actual throughput by potentially 2,048x.",
+      "suggested_fix": "The Batch API processes embedding requests asynchronously within a 24-hour window at a 50 % cost discount, with dedicated TPD quotas separate from synchronous TPM/RPM limits, allowing up to 50 000 requests per batch submission (split into multiple batches if exceeded) without consuming real-time capacity [claim:agentic-de:031]"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:033",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:034",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "claim_id": "claim:agentic-de:035",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "claim_id": "claim:agentic-de:032",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:036",
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "bullet": "At billion scale this is infeasible: brute-force scan of 10^9 128-d SIFT vectors would take ~17 minutes per query and require 512 GB of RAM",
+      "source_excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states that exact k-NN is 'computationally inefficient' and 'impractical' at billion scale, but does not contain the specific figures '~17 minutes per query' or '512 GB of RAM'. These numbers appear to be derived/fabricated rather than sourced. The claim registry statement includes these figures, but the actual source excerpt does not support them.",
+      "suggested_fix": "At billion scale this is infeasible: brute-force exact k-NN search becomes computationally impractical at million- or billion-scale datasets [claim:agentic-de:036]"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**In-algorithm filtering** (e.g., Qdrant ACORN, Pinecone merged indexes) modifies traversal to maintain both recall and efficiency",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source discusses the pre-filtering vs post-filtering recall problem but does not mention 'Qdrant ACORN' or 'Pinecone merged indexes' as specific in-algorithm filtering solutions. The bullet attributes specific product names to this source that do not appear in the cited excerpt. The general concept of in-algorithm filtering as a third approach is reasonable but the specific examples are not supported by this source.",
+      "suggested_fix": "**In-algorithm filtering** modifies traversal to maintain both recall and efficiency, avoiding the recall loss of pre-filtering and the wasted compute of post-filtering [claim:agentic-de:040]"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "pgvector eliminates a new service, enables SQL joins of vector similarity with relational predicates in one query, and is sufficient for datasets up to low millions of vectors",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports pgvector eliminating a new service and scaling beyond a single Postgres instance being the trigger for a dedicated DB. However, the source does not mention 'SQL joins of vector similarity with relational predicates in one query' or specify 'low millions of vectors' as a threshold. These details are reasonable inferences but are not stated in the cited source excerpt.",
+      "suggested_fix": "pgvector eliminates a new service \u2014 adding vector search is one migration on an existing Postgres instance \u2014 and is the better choice when your dataset fits within a single Postgres instance [claim:agentic-de:041]"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "Dedicated engines offer horizontal scaling, advanced quantization, and hybrid BM25+vector ranking needed beyond ~10 M vectors or at high query concurrency",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports horizontal scaling and advanced quantization features as reasons to choose a dedicated engine. However, the source does not mention 'hybrid BM25+vector ranking', the '~10 M vectors' threshold, or 'high query concurrency'. The bullet adds specifics not present in the cited source.",
+      "suggested_fix": "Dedicated engines offer horizontal scaling across clusters and advanced quantization features needed when you outgrow what a single Postgres instance handles [claim:agentic-de:041]"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:043",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "claim_id": "claim:agentic-de:044",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:045",
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "bullet": "**Reciprocal Rank Fusion (RRF)** combines ranked lists by scoring each document *d* as RRFscore(*d*) = \u2211 1/(*k* + rank(*d*)), where *k* is typically 60; it requires no score normalisation and outperforms both Condorcet Fuse and individual rank-learning methods",
+      "source_excerpt": "Reciprocal Rank Fusion is a simple method for combining the document rankings from multiple IR systems. RRF consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. The RRF formula scores each document d as: RRFscore(d) = sum over all ranking lists R of 1/(k + r_R(d)), where r_R(d) is the rank of document d in list R and k is a constant (typically 60). The method requires no score normalisation, operating purely on rank positions.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says RRF 'outperforms both Condorcet Fuse and individual rank-learning methods'. The source says RRF yields 'better results than any individual system, and better results than the standard method Condorcet Fuse.' The source does not mention 'individual rank-learning methods' -- it says 'individual system' (meaning individual IR systems in the ensemble, not rank-learning methods). The bullet conflates 'individual system' with 'individual rank-learning methods', which are different concepts.",
+      "suggested_fix": "**Reciprocal Rank Fusion (RRF)** combines ranked lists by scoring each document *d* as RRFscore(*d*) = \u2211 1/(*k* + rank(*d*)), where *k* is typically 60; it requires no score normalisation and outperforms both Condorcet Fuse and any individual retrieval system in the ensemble [claim:agentic-de:045]"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:046",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:047",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Top-k Cutoff Failure Mode",
+      "claim_id": "claim:agentic-de:048",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:049",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "What Is an Agent? \u2014 A Precise Definition",
+      "claim_id": "claim:agentic-de:054",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:050",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Agent Use Cases and Failure Modes",
+      "claim_id": "claim:agentic-de:051",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:052",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agentic-de:053",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:055",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:056",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:057",
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "bullet": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90%+ attack success rate, establishing the RAG knowledge base as a practical attack surface [claim:agentic-de:057]",
+      "source_excerpt": "PoisonedRAG achieves a 90% attack success rate when injecting five malicious texts for each target question into a knowledge database with millions of texts.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide states '90%+' but the source states '90%' without a '+' qualifier. Adding '+' overstates the reported figure.",
+      "suggested_fix": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90% attack success rate, establishing the RAG knowledge base as a practical attack surface [claim:agentic-de:057]"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:058",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:059",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "bullet": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain over non-verifying baselines, up to 48.7% latency reduction via speculative execution, and 26.0% cost reduction through counterfactual-guided verifier placement [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The slide misrepresents the comparison baselines for all three metrics. The source says the 18.3% accuracy gain is 'on average across benchmarks' (not 'over non-verifying baselines'); the 48.7% latency reduction is 'over non-speculative execution' (not generically 'via speculative execution'); and the 26.0% cost reduction is 'compared to the Monte Carlo search-based method' (not 'through counterfactual-guided verifier placement'). Collapsing three distinct comparison points into the framing of 'non-verifying baselines' distorts the claim \u2014 the cost saving is relative to another verification method, not to a non-verifying baseline.",
+      "suggested_fix": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain on average across benchmarks, up to 48.7% latency reduction over non-speculative execution, and 26.0% cost reduction compared to Monte Carlo search-based verification [claim:agentic-de:060]"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:001",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Training-serving skew is the central failure mode: divergent code paths between training and serving pipelines cause silent prediction degradation [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide calls training-serving skew 'the central failure mode,' but the source does not rank it relative to other failure modes \u2014 it simply defines it. Additionally, the source lists three causes (discrepant data handling, data changes, feedback loops) but the slide singles out only 'divergent code paths,' omitting the other two causes. The phrase 'silent prediction degradation' does not appear in the source.",
+      "suggested_fix": "Training-serving skew \u2014 divergent data handling, data drift, or feedback loops between training and serving pipelines \u2014 causes prediction quality to degrade in production [claim:agentic-de:007]"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:015",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:023",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:033",
+      "verdict": "VERIFIED"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:042",
+      "verdict": "VERIFIED"
+    },
+    {
+      "claim_id": "claim:agentic-de:049",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Agents are LLMs in a loop with tool access \u2014 prefer the simplest solution and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:049]",
+      "source_excerpt": "Agents are systems where LLMs dynamically direct their own processes and tool usage. Agents operate in a loop where they use tools based on environmental feedback. Anthropic strongly advises: finding the simplest solution possible, and only increasing complexity when needed.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet attributes the concept of 'narrow the nondeterministic boundary with deterministic validation' to claim:agentic-de:049 (Anthropic's Building Effective Agents), but this concept does not appear in that source. It originates from claim:agentic-de:051 (the Arkency blog post on nondeterministic guardrails). The first half of the bullet (LLMs in a loop, simplest solution) is supported by claim:agentic-de:049, but the second half is a citation mismatch.",
+      "suggested_fix": "Agents are LLMs in a loop with tool access \u2014 prefer the simplest solution [claim:agentic-de:049] and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:051]"
+    }
+  ]
+}

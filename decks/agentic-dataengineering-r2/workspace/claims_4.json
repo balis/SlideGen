@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of Artificial Intelligence — Reproducibility Strategy for ML Datasets",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:reproducibility:001",
+      "statement": "Apache Iceberg represents every table state as an immutable snapshot: a manifest list pointing to manifest files, each of which lists data files. Querying a specific snapshot ID retrieves exactly the set of data files that existed at that point in time, making the snapshot ID a sufficient reproducibility token for a training dataset.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Iceberg Table Spec — Snapshots",
+        "url_or_doi": "https://iceberg.apache.org/spec/",
+        "section": "Snapshots",
+        "excerpt": "A snapshot is the state of a table at some point in time, including the set of all data files. One or more manifest files are used to store a snapshot, which tracks all of the files in a table at some point in time. A manifest list is a file that lists manifest files; one per snapshot. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot."
+      }
+    },
+    {
+      "id": "claim:agde:reproducibility:002",
+      "statement": "Delta Lake and Apache Iceberg both support time-travel queries by version number or timestamp, but retaining historical snapshots incurs ongoing storage cost. Expiring snapshots in Iceberg (via the expireSnapshots operation) or running VACUUM in Delta Lake permanently removes the referenced data files, eliminating the ability to time-travel to those versions. Operators must explicitly configure a retention policy that balances reproducibility window against storage cost.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Apache Iceberg Maintenance — Expire Snapshots",
+        "url_or_doi": "https://iceberg.apache.org/docs/1.5.1/maintenance/",
+        "section": "Expire Snapshots",
+        "excerpt": "Snapshots accumulate until they are expired by the expireSnapshots operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small. Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries. Retention policy can be configured through properties min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms."
+      }
+    },
+    {
+      "id": "claim:agde:reproducibility:003",
+      "statement": "DVC (Data Version Control) implements content-addressable storage for ML datasets: it computes an MD5 hash of each tracked file and stores a small .dvc metafile in Git, while the actual data lives in a remote (S3, GCS, etc.). Only new or modified files are stored in the remote cache; identical content is deduplicated by hash. This allows datasets to be reproduced by checking out any Git commit and running dvc pull.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "DVC Internal Files — Cache",
+        "url_or_doi": "https://doc.dvc.org/user-guide/project-structure/internal-files",
+        "section": "Cache",
+        "excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache, and the rest becoming the file name of the cached file. DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets."
+      }
+    },
+    {
+      "id": "claim:agde:reproducibility:004",
+      "statement": "lakeFS implements Git-like versioning (branch, commit, merge, tag, revert) as a metadata layer directly over object storage (S3, Azure Blob, GCS) without copying data objects. Branch creation is a zero-copy operation: it creates a lightweight metadata pointer to the current commit, so that experiments can be isolated without duplicating terabytes of data. A lakeFS commit reference provides a reproducibility token analogous to a Git commit hash for code.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "ML Data Version Control and Reproducibility at Scale — lakeFS Blog",
+        "url_or_doi": "https://lakefs.io/blog/scalable-ml-data-version-control-and-reproducibility/",
+        "section": "Zero-Copy Branching and Reproducibility",
+        "excerpt": "lakeFS provides Git-like operations such as branching, committing, merging, and reverting for datasets stored in object storage. Branching is a zero-copy procedure in lakeFS. With lakeFS, you can version all aspects of an ML experiment, including the data. Every run can be reproduced by checking out the same lakeFS commit of the dataset, and even as the underlying data evolves, the commit reference ensures you can retrieve the exact training data used."
+      }
+    },
+    {
+      "id": "claim:agde:reproducibility:005",
+      "statement": "The embedding model is baked into every stored vector: vectors produced by model version A and vectors produced by version B occupy incompatible geometric spaces, so mixing them makes similarity scores meaningless. Changing the embedding model therefore requires re-encoding the entire corpus and rebuilding the ANN index from scratch — a full re-index — before queries using the new model can be served correctly.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "How do you version and manage changes in embedding models? — Milvus AI Quick Reference",
+        "url_or_doi": "https://milvus.io/ai-quick-reference/how-do-you-version-and-manage-changes-in-embedding-models",
+        "section": "Why model changes require full re-indexing",
+        "excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. When query embeddings are generated by model version B but index embeddings were built with version A, those vector spaces are not compatible and similarity scores become meaningless. A single collection in your database must only contain vectors from the same model, and if you mix them, your search results will be random noise."
+      }
+    },
+    {
+      "id": "claim:agde:reproducibility:006",
+      "statement": "DVC scales to tens of thousands of files well but performance degrades significantly at hundreds of millions or billions of objects (petabyte-scale data lakes), because its MD5-hash-based caching becomes impractical at that scale. lakeFS, by contrast, keeps data I/O on a direct client-to-object-store path and handles only metadata through its server, making it operationally viable at very large scale; however, lakeFS requires deploying and maintaining a dedicated metadata server, whereas DVC has no additional infrastructure beyond the remote storage bucket.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "DVC vs. lakeFS: Data Versioning Compared — lakeFS Blog",
+        "url_or_doi": "https://lakefs.io/blog/dvc-vs-git-vs-dolt-vs-lakefs/",
+        "section": "Scalability and operational tradeoffs",
+        "excerpt": "DVC is capable of handling tens of thousands of files or moderate dataset sizes well, but its performance starts degrading when you task it with managing hundreds of millions or billions of objects. Typically, metadata operations will be done by calling the lakeFS server, while reading and writing the data itself will usually be done by directly communicating between the client and object store. DVC's cost is mostly developer time, while lakeFS's cost is service maintenance — backups, upgrades, policies."
+      }
+    }
+  ]
+}

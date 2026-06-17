@@ -1,0 +1,11 @@
+SOURCE: Feature Store Architecture — Offline and Online Storage (DragonflyDB Blog)
+URL: https://www.dragonflydb.io/blog/feature-store-architecture-and-storage
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search results):
+"Feature stores are essentially dual-database systems, containing a columnar data store for historical (offline) feature data and an online (low-latency) row-oriented data store for serving precomputed features to online applications."
+
+"Training requires reproducible historical features with time-travel capabilities (scanning terabytes across months), while serving demands sub-10ms access to the latest values—workloads so divergent that single-database solutions inevitably caused training-serving skew, unsustainable costs, or both."
+
+Additional context:
+"The offline store is designed for storing large volumes of historical feature data, with its primary purpose being to serve data for generating training sets. Since training set generation is a batch process that can tolerate higher latency, the offline store is typically built on scalable, cost-effective technologies like a data lake (e.g., S3, GCS with Parquet files) or a cloud data warehouse (e.g., BigQuery, Snowflake, Redshift). The online store is optimized for low-latency, single-row lookups. When an inference service receives a request, it needs to fetch the corresponding feature vector in milliseconds, which requires a high-throughput, key-value database like Redis, DynamoDB, or Cassandra."

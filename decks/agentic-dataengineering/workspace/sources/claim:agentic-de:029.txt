@@ -1,0 +1,15 @@
+Source for claim:agentic-de:offline-online-gap:002
+
+Title: Why Your ML Model Works in Training But Fails in Production
+Publisher: Towards Data Science
+URL: https://towardsdatascience.com/why-your-ml-model-works-in-training-but-fails-in-production/
+Retrieved: 2026-06-14
+
+Excerpt:
+"A model that looked great offline can mask a latency regression that drives users away."
+
+"In fraud detection, offline recall improves dramatically when risky transactions come with confirmed fraud signals, but in production, the model is supposed to never see the future."
+
+"Offline datasets are always approximations of production. They may underrepresent edge cases, omit new user behaviors, or reflect historical patterns that have already shifted."
+
+"A model can look improved offline and still cause new issues in real usage, especially if the deployment environment is noisy or user inputs change over time."

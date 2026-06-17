@@ -1,0 +1,20 @@
+SOURCE: From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models
+URL: https://arxiv.org/abs/2411.17126
+Retrieved: 2026-06-15
+Authors: (See arxiv page)
+Year: 2024
+
+EXCERPTS (from web search abstract summary):
+"Recent privacy regulations grant data subjects the Right to Be Forgotten and mandate companies fulfill data erasure requests, but companies face great challenges in complying with these regulations when asked to erase specific training data from well-trained predictive models."
+
+"ML models potentially memorize training data, making it important to unlearn what they have learned from data that is to be deleted."
+
+"Exact unlearning involves retraining the model from scratch on a new dataset that does not contain the removal samples, while approximate unlearning comprises techniques to remove the influence of specific training examples from trained model weights without full retraining."
+
+"Approximate unlearning is particularly significant for LLMs, where retraining is highly costly and impractical."
+
+ADDITIONAL CONTEXT (from Machine Unlearning Wikipedia and related papers, web search summary):
+"Neural networks' memorization tendency is especially problematic when dealing with complex models, limited training data, and the presence of long-tailed distributions."
+
+Related paper: "Ghost Data: Representational Inertia and the Quest for Verifiable Forgetting in Modern Artificial Intelligence" (2025) — finding: "fine-tuning does not completely erase previously learned patterns," identifying lingering activation patterns as "Ghost Data."
+URL: (Semantic Scholar result from search)

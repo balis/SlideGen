@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:019",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Time-travel queries reference the same underlying Parquet/ORC files — no data duplication — but snapshot accumulation causes metadata bloat [claim:agentic-de:019]",
+      "source_excerpt": "Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage. Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims 'no data duplication' for time-travel queries, but the source explicitly says 'Even small changes in the data can result in the creation of new versions of data and metadata files' and 'Storing multiple snapshots and versions of data files increases the storage usage.' The source — titled 'The Dark Side of Apache Iceberg's Data Time Travel Feature' — emphasizes that storage DOES increase with both data and metadata file versions. The bullet inverts the source's message by claiming storage efficiency where the source warns about storage overhead.",
+      "suggested_fix": "Time-travel queries follow older snapshot pointers, but even small data changes create new versions of data and metadata files, increasing storage usage; over time snapshot accumulation also causes metadata bloat [claim:agentic-de:019]"
+    },
+    {
+      "claim_id": "claim:agentic-de:020",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "Content-addressable storage with MD5 hashes; files cached by hash to deduplicate; lightweight `.dvc` metafiles in Git act as pointers linking each commit to an exact dataset state [claim:agentic-de:020]",
+      "source_excerpt": "The cache uses content-addressable storage, meaning files are stored based on their hash. This prevents data duplication; if you have multiple copies of the same file (even with different names or locations), DVC stores only one copy in the cache. DVC calculates the file hash, a 32 characters long string (usually MD5). ... Instead of storing large files directly in your Git repository, DVC stores lightweight metadata files (called .dvc files) that act as pointers to the actual data. These .dvc files are tracked by Git.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:021",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "Git-like branches, commits, and merges over object storage (S3, GCS, Azure Blob) using zero-copy branching — creating a branch is a metadata-only operation with no data duplication [claim:agentic-de:021]",
+      "source_excerpt": "Branches are simply a pointer to a commit along with a set of uncommitted changes, and creating a branch is a zero-copy operation where instead of duplicating data, it involves creating a pointer to the source commit for the branch. The actual data itself is not stored inside lakeFS directly but in an underlying object store. ... lakeFS supports managing data in AWS S3, Azure Blob Storage, Google Cloud Storage, and any other object storage with an S3 interface.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "Smaller data-science projects with Git-centric workflows [claim:agentic-de:022] (DVC sweet spot)",
+      "source_excerpt": "DVC will continue as an independent open source tool focused on data scientists working with smaller datasets, while lakeFS will continue to advance enterprise-grade data version control infrastructure for organizations managing AI and ML at scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "Enterprise-scale AI/ML infrastructure requiring branch isolation and atomic commits [claim:agentic-de:022] (lakeFS sweet spot)",
+      "source_excerpt": "DVC will continue as an independent open source tool focused on data scientists working with smaller datasets, while lakeFS will continue to advance enterprise-grade data version control infrastructure for organizations managing AI and ML at scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:022",
+      "slide": "Content-Addressable Versioning — DVC and lakeFS",
+      "bullet": "Treeverse (lakeFS) acquired DVC from Iterative.ai in November 2025, positioning lakeFS as the unified standard for data version control while DVC continues as a lightweight Git-based tool [claim:agentic-de:022]",
+      "source_excerpt": "lakeFS announced it has acquired the DVC open source project from Iterative.ai. This strategic acquisition brings together the two pioneering forces in the industry, positioning lakeFS as the leading industry standard for data version control. ... DVC will continue as an independent open source tool focused on data scientists working with smaller datasets.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:024",
+      "slide": "Three Kinds of Drift",
+      "bullet": "**Schema drift** — a structural change such as a missing column or type mismatch; breaks pipelines visibly [claim:agentic-de:024]",
+      "source_excerpt": "The fourth concern is that the schema that your features follow can change over time. If you don't have a way to version your schemas and map each of your features to its expected schema, the cause of the reported alert might be due to the mismatched schema rather than a change in the data.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:024",
+      "slide": "Three Kinds of Drift",
+      "bullet": "**Distribution drift** (covariate shift) — P(X) changes while P(Y|X) stays the same; degrades models silently [claim:agentic-de:024]",
+      "source_excerpt": "Covariate shift: P(X) changes, but P(Y|X) remains the same. This refers to the first decomposition of the joint distribution.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:024",
+      "slide": "Three Kinds of Drift",
+      "bullet": "**Concept drift** — P(Y|X) changes while P(X) stays the same; degrades models silently [claim:agentic-de:024]",
+      "source_excerpt": "Concept drift: P(Y|X) changes, but P(X) remains the same. This refers to the first decomposition of the joint distribution.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:025",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "PSI quantifies distributional shift between a reference and current feature distribution: PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = sum of (p_i - q_i) * ln(p_i / q_i) [claim:agentic-de:025]",
+      "source_excerpt": "Population stability index (PSI) is a statistical measure with a basis in information theory that quantifies the difference between one probability distribution from a reference probability distribution. PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = Σ (p_i - q_i) * ln(p_i / q_i)",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:025",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "Industry-standard thresholds: PSI < 0.1 = no significant change; 0.1 <= PSI < 0.25 = moderate shift; PSI >= 0.25 = significant shift requiring investigation or retraining [claim:agentic-de:025]",
+      "source_excerpt": "Standard interpretation thresholds: PSI < 0.1: No significant change. 0.1 ≤ PSI < 0.25: Minor shift, requires attention. PSI ≥ 0.25: Major shift, requires investigation and likely action.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide says 'moderate shift' for the 0.1-0.25 range, but the source says 'Minor shift, requires attention.' The slide also says 'significant shift' for >=0.25, but the source says 'Major shift.' These are wording differences that slightly inflate the severity labels used by the source.",
+      "suggested_fix": "Industry-standard thresholds: PSI < 0.1 = no significant change; 0.1 <= PSI < 0.25 = minor shift requiring attention; PSI >= 0.25 = major shift requiring investigation and likely action [claim:agentic-de:025]"
+    },
+    {
+      "claim_id": "claim:agentic-de:026",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "PSI is preferred over raw KL divergence for production monitoring because PSI is symmetric — swapping baseline p(x) and sample q(x) yields the same value, whereas KL divergence is asymmetric (D_KL(P||Q) != D_KL(Q||P)) [claim:agentic-de:026]",
+      "source_excerpt": "PSI has a number of advantages compared to KL divergence for troubleshooting data model comparisons because if you swap the baseline distribution p(x) and sample distribution q(x), you will get the same number. ... PSI is the Jeffreys divergence (symmetric KL), which resolves the asymmetry problem of raw KL divergence where D_KL(P||Q) ≠ D_KL(Q||P).",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Data contracts catch structural breaks (missing columns, type mismatches, null violations) but cannot detect silent distributional shift in feature values — a column can pass every schema contract while its distribution shifts enough to invalidate model assumptions [claim:agentic-de:027]",
+      "source_excerpt": "Schema validation prevents incompatible data from entering your pipeline but only catches structural drift, not statistical or conceptual changes. Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Detecting distributional drift requires statistical monitoring (PSI, KL divergence, KS test) layered on top of contract enforcement [claim:agentic-de:027]",
+      "source_excerpt": "Schema validation prevents incompatible data from entering your pipeline but only catches structural drift, not statistical or conceptual changes. Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:028",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Offline metric improvements can fail to translate into online gains — in some cases online metrics regress even as offline metrics improve, because offline datasets are static while production inputs are dynamic and subject to feedback loops [claim:agentic-de:028]",
+      "source_excerpt": "Offline metrics are correlated with online performance over a range of environments. However, improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet claims 'in some cases online metrics regress even as offline metrics improve,' but the source says 'improvements in offline metrics lead to diminishing returns in online performance.' Diminishing returns means smaller gains, not regression (actively getting worse). The source also does not mention 'feedback loops' — that phrase is absent from this source. The bullet overstates the source's finding from 'diminishing returns' to 'regression.'",
+      "suggested_fix": "Offline metric improvements show diminishing returns in online performance — the ranking of models can change depending on available offline data, so offline improvements do not reliably predict proportional online gains [claim:agentic-de:028]"
+    },
+    {
+      "claim_id": "claim:agentic-de:029",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "The offline-online metric gap arises when a model overfits to historical patterns: temporal leakage in offline features, latency regressions invisible to accuracy metrics, and feedback loops where model outputs reshape future training distributions all contribute [claim:agentic-de:029]",
+      "source_excerpt": "A model that looked great offline can mask a latency regression that drives users away. In fraud detection, offline recall improves dramatically when risky transactions come with confirmed fraud signals, but in production, the model is supposed to never see the future. Offline datasets are always approximations of production. They may underrepresent edge cases, omit new user behaviors, or reflect historical patterns that have already shifted.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet lists 'feedback loops where model outputs reshape future training distributions' as a contributing cause, but the source does not mention feedback loops at all. The source discusses latency regressions, temporal leakage (fraud signals), and offline datasets being approximations — but the feedback loop mechanism is not supported by this source. The other two causes (temporal leakage, latency regressions) are supported.",
+      "suggested_fix": "The offline-online metric gap arises when a model overfits to historical patterns: temporal leakage in offline features (e.g., fraud labels available at evaluation time but not at prediction time), latency regressions invisible to accuracy metrics, and offline datasets that underrepresent edge cases or reflect shifted historical patterns all contribute [claim:agentic-de:029]"
+    },
+    {
+      "claim_id": "claim:agentic-de:030",
+      "slide": "Embedding Model Selection — Dimensions, Quality, Cost",
+      "bullet": "OpenAI's text-embedding-3-small (1 536 dimensions, MTEB 62.3 %) costs $0.02 per million tokens; text-embedding-3-large (3 072 dimensions, MTEB 64.6 %) costs $0.13 per million tokens — a 6.5x price premium for roughly 2 MTEB points, making the small model the default for most RAG workloads [claim:agentic-de:030]",
+      "source_excerpt": "text-embedding-3-small: $0.02 per million tokens, 1,536 dimensions (minimum 512 with Matryoshka support), MTEB score 62.3. text-embedding-3-large: $0.13 per million tokens, 3,072 dimensions (minimum 256 with Matryoshka support), MTEB score 64.6. text-embedding-3-small is the better choice for most RAG applications due to superior cost-to-performance. The large model's 2-3 point MTEB advantage is rarely worth the 6.5x price premium for most applications.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:031",
+      "slide": "Embedding Model Selection — Dimensions, Quality, Cost",
+      "bullet": "The Batch API processes embedding requests asynchronously within a 24-hour window at a 50 % cost discount, with dedicated TPD quotas separate from synchronous TPM/RPM limits, allowing up to 50 000 inputs per batch submission without consuming real-time capacity [claim:agentic-de:031]",
+      "source_excerpt": "Price Discount: -50%. Request Limit per Batch: 50,000 requests. Split into multiple batches if exceeded. Completion Window: 24 hours. Only '24h' is currently supported. Rate Limits: Dedicated. Batch interfaces have their own TPD (Tokens Per Day) quota, which is completely separate from standard TPM/RPM limits. Does not consume synchronous TPM.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says 'up to 50,000 embedding inputs per batch submission' but the source says '50,000 requests' per batch, not inputs. A single embedding request can contain multiple inputs (up to 2,048 per request per claim:032). The bullet conflates 'requests' with 'inputs,' understating the actual throughput by potentially 2,048x.",
+      "suggested_fix": "The Batch API processes embedding requests asynchronously within a 24-hour window at a 50 % cost discount, with dedicated TPD quotas separate from synchronous TPM/RPM limits, allowing up to 50 000 requests per batch submission (split into multiple batches if exceeded) without consuming real-time capacity [claim:agentic-de:031]"
+    },
+    {
+      "claim_id": "claim:agentic-de:033",
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "bullet": "Each embedding model defines its own coordinate system — vectors from one model are incompatible with those from another, even when dimensions match; changing models forces a full re-embedding and re-indexing of the entire corpus, and failure to do so produces silent retrieval degradation rather than an error [claim:agentic-de:033]",
+      "source_excerpt": "Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model. If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results — they are just wrong.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:034",
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "bullet": "Re-embedding cost creates de facto vendor lock-in: ~$1 300 for 100 M tokens with text-embedding-3-large, plus hours of compute and doubled infrastructure during migration — most teams pick one model early and never change it because the switching cost is too high [claim:agentic-de:034]",
+      "source_excerpt": "100 million tokens at OpenAI's text-embedding-3-large pricing costs around $1,300. Teams often run old and new embedding pipelines simultaneously during migration — doubling infrastructure costs. A 10M document corpus takes hours to re-embed, even with parallelism. Most teams pick one embedding model early in a project and never change it. Not because it is the best model for their use case — because the switching cost is too high. That is vendor lock-in.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:035",
+      "slide": "Idempotent Re-Embedding and the Model Lock-In Problem",
+      "bullet": "Idempotent re-embedding pipelines use content-addressable hashing: chunk hashes are computed, compared against stored hashes, and only new or modified chunks are sent for embedding — unchanged chunks are skipped, avoiding redundant API calls and index mutations [claim:agentic-de:035]",
+      "source_excerpt": "On document ingestion, all chunk hashes are computed for new versions, compared against stored hashes, and chunks are classified as new, modified, deleted, or unchanged, with only new and modified chunks processed for embedding. Deduplication in staging areas can use deterministic hashing, such as computing MD5 hashes of event identifiers combined with timestamps as idempotency keys.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "21 claims checked in this batch. 16 verified, 4 misrepresented, 0 unverified."
+}

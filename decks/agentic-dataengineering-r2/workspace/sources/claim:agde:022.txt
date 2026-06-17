@@ -1,0 +1,24 @@
+CLAIM ID: claim:agde:reproducibility:004
+STATEMENT: lakeFS implements Git-like versioning (branch, commit, merge, tag, revert) as a metadata layer directly over object storage (S3, Azure Blob, GCS) without copying data objects. Branch creation is a zero-copy operation: it creates a lightweight metadata pointer to the current commit, so that experiments can be isolated without duplicating terabytes of data. A lakeFS commit reference provides a reproducibility token analogous to a Git commit hash for code.
+
+SOURCE
+------
+Title: ML Data Version Control and Reproducibility at Scale — lakeFS Blog
+URL: https://lakefs.io/blog/scalable-ml-data-version-control-and-reproducibility/
+Section: Zero-Copy Branching and Reproducibility
+Type: Web (vendor documentation/blog)
+Retrieved: 2026-06-15
+
+EXCERPT
+-------
+"lakeFS provides Git-like operations such as branching, committing, merging, and reverting for datasets stored in object storage. Branching is a zero-copy procedure in lakeFS. With lakeFS, you can version all aspects of an ML experiment, including the data. Every run can be reproduced by checking out the same lakeFS commit of the dataset, and even as the underlying data evolves, the commit reference ensures you can retrieve the exact training data used. Branch creation is a zero-copy operation that enables reading from a snapshot of the data controlled by the experiment, ensuring that datasets remain unchanged across runs, even if the main branch gets updated."
+
+ADDITIONAL CONTEXT
+------------------
+"lakeFS operates as a metadata layer on top of object storage systems such as Amazon S3, Azure Blob Storage, and Google Cloud Storage, storing repository metadata describing commits, branches, and tags, enabling versioned views of data without copying underlying objects."
+Source: https://en.wikipedia.org/wiki/LakeFS
+Retrieved: 2026-06-15
+
+"lakeFS supports managing data in AWS S3, Azure Blob Storage, Google Cloud Storage, and any other object storage with an S3 interface (such as a MinIO or Dell ECS)."
+Source: https://lakefs.io/blog/scalable-ml-data-version-control-and-reproducibility/
+Retrieved: 2026-06-15

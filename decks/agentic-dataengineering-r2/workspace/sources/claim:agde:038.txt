@@ -1,0 +1,30 @@
+SOURCE FILE FOR claim:agde:vecdb:002
+=====================================
+
+CLAIM: HNSW (Hierarchical Navigable Small World) is a graph-based ANN index that achieves polylogarithmic search complexity O(log n) via a multi-layer structure. Build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; the query-time parameter efSearch controls the recall-latency tradeoff at serving time. Increasing efSearch from 100 to 640 can improve recall@1 from ~0.85 to ~0.97 while proportionally increasing latency.
+
+SOURCE 1:
+TITLE: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs
+URL / DOI: https://arxiv.org/abs/1603.09320
+AUTHORS: Yu. A. Malkov, D. A. Yashunin
+PUBLICATION: arXiv:1603.09320 (IEEE TPAMI 2018)
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales. Navigable small world graphs have polylogarithmic search complexity of O(log^k n). Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal."
+
+SOURCE 2:
+TITLE: Understanding Recall in HNSW Search — Vector Search: Navigating Recall and Performance
+URL / DOI: https://opensourceconnections.com/blog/2025/02/27/vector-search-navigating-recall-and-performance/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"The empirical data demonstrates efSearch's direct impact: increasing k from 10 to 640 improved recall@1 from 0.56 to 0.97, but latency jumped from 5.31ms to 68.28ms. Build-time parameters M and efConstruction set the ceiling on the recall approximate search can achieve."
+
+SOURCE 3 (Milvus documentation reference on parameters):
+TITLE: What are the key configuration parameters for an HNSW index (such as M and efConstruction/efSearch)?
+URL / DOI: https://milvus.io/ai-quick-reference/what-are-the-key-configuration-parameters-for-an-hnsw-index-such-as-m-and-efconstructionefsearch-and-how-does-each-influence-the-tradeoff-between-index-size-build-time-query-speed-and-recall
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Doubling efSearch from 200 to 400 might only improve recall by 5% while doubling search time. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency. Typical efSearch values range from slightly above k (e.g., 40) to several hundreds, depending on the desired recall."

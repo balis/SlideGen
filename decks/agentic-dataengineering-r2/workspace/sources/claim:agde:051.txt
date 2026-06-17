@@ -1,0 +1,17 @@
+SOURCE: Building Effective AI Agents — Anthropic
+URL: https://www.anthropic.com/research/building-effective-agents
+Retrieved: 2026-06-15
+
+FULL EXCERPT:
+"Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task."
+
+ADDITIONAL CONTEXT (from Simon Willison's summary of the same Anthropic guidance):
+"An agent is a system that runs tools in a loop to achieve a goal." (https://simonwillison.net/2025/May/22/tools-in-a-loop/)
+
+The Oracle developer blog additionally characterizes the loop structure as a "Thought→Action→Observation" pattern: "a user submits a query and the agent calls the LLM to obtain an initial token sequence, then if the agent detects that the output requires a tool call, it executes the tool, obtains the result, concatenates the result with the context, and calls the LLM again, repeating these steps until a termination condition is met."
+(https://blogs.oracle.com/developers/what-is-the-ai-agent-loop-the-core-architecture-behind-autonomous-ai-systems)
+
+NOTES:
+- This is Anthropic's own published guidance, making it authoritative as an industry definition.
+- The distinction from rule-based automation (no LLM reasoning) and single LLM call (no iterative loop) is implicit in the definition and explicit in the "Building Effective Agents" article's framing of when NOT to use agents.
+- The Anthropic article explicitly advises: "Many of our customers have been surprised to discover that some of their most impactful implementations don't use agents at all, but are instead simple prompt chains."

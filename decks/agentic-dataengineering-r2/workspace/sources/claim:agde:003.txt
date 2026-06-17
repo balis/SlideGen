@@ -1,0 +1,19 @@
+CLAIM ID: claim:agde:ml-contract:003
+STATEMENT: Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI as the top of a pyramid: before deploying ML, organizations must first have data literacy, collection, and infrastructure in place, just as Maslow's hierarchy requires food and shelter before self-actualization.
+
+SOURCE URL: https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007
+ALTERNATE URL: https://medium.com/hackernoon/the-ai-hierarchy-of-needs-18f111fcc007
+TITLE: The AI Hierarchy of Needs
+AUTHOR: Monica Rogati
+PUBLISHER: HackerNoon / Medium
+PUBLISHED: June 12, 2017
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI) is great, but you first need food, water, and shelter (data literacy, collection, and infrastructure). Companies that have not yet built the infrastructure to implement the most basic data science algorithms and operations should not be thinking about AI."
+
+ADDITIONAL CONTEXT:
+The pyramid layers from bottom to top are: Data Collection → Data Flow/Infrastructure → Exploration & Transformation → Analytics & Features → Experimentation → Machine Learning/AI. Rogati's central argument is that organizations rush to AI without building the foundational data infrastructure. She cautions: "The data science hierarchy of needs is not an excuse to build disconnected, over-engineered infrastructure for a year, but rather to start with a small, vertical section of your product and make it work well end-to-end, then grow horizontally."
+
+NOTE ON THE 70-80% FIGURE IN OBJECTIVE 1:
+The original Rogati (2017) article does not cite a specific "70-80% of effort in the data layers" percentage. The commonly-cited figure derives from the CrowdFlower 2016 Data Science Survey (claim:agde:ml-contract:004), which found 80% of data scientist work is data preparation. The "data science hierarchy of needs" framework conceptually supports placing the majority of effort at the data layers, but the 70-80% quantification is sourced from the CrowdFlower survey, not from Rogati directly.

@@ -1,0 +1,28 @@
+SOURCE: Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems
+URL: https://arxiv.org/abs/2511.14136
+Retrieved: 2026-06-15
+Authors: (See arxiv page)
+Year: 2024/2025
+
+EXCERPTS (fetched from https://arxiv.org/html/2511.14136v1):
+"Optimizing for accuracy alone yields agents 4.4-10.8x more expensive than cost-aware alternatives while maintaining comparable performance levels."
+
+"Cost variations of up to 50x can occur for similar precision levels when evaluation lacks cost controls."
+
+"When agents are evaluated across multiple runs rather than single executions, metrics drop substantially—from 60% accuracy in isolated runs to just 25% when assessed for 8-run consistency."
+
+"Expert evaluation (N=15) demonstrated that CLEAR better predicts production success (correlation ρ=0.83) compared to accuracy-focused metrics alone (ρ=0.41)."
+
+The CLEAR framework dimensions:
+- Cost: Controlled evaluation preventing wasteful resource allocation
+- Latency: Response time performance
+- Efficacy: Task completion accuracy
+- Assurance: Security and policy compliance metrics
+- Reliability: Consistency across multiple executions
+
+ADDITIONAL CONTEXT (from web search on AI pipeline evaluation):
+"Every LLM call, retrieval step, and tool invocation should carry token counts and estimated cost as its own span, so teams can identify the exact workflow step driving spend."
+
+"A 2-point improvement in accuracy might cost $50,000 additional spend per 10,000 tasks, an unacceptable trade-off for most enterprises."
+
+"Reliability is measured by schema validation pass rate with JSONDecodeError rate targeting 0%. Latency is measured by P90 and P99 response times. Cost is tracked as average cost per successful run via API billing metrics."

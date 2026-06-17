@@ -1,0 +1,228 @@
+{
+  "version": 1,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:001",
+      "slide": "Silent Failure — ML vs. BI Pipelines",
+      "bullet": "ML models continue producing predictions whose quality degrades without raising any operational alarm, unlike traditional software that crashes with errors or timeouts [claim:agentic-de:001]",
+      "source_excerpt": "Operational expectation violations are easier to detect, as they're usually accompanied by an operational breakage such as a timeout, a 404 error on a webpage, an out of memory error, a segmentation fault, etc. However, ML performance expectation violations are harder to detect. ... ML systems often fail silently.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:005",
+      "slide": "Silent Failure — ML vs. BI Pipelines",
+      "bullet": "ML consumption shifts data's role from \"query target\" (BI: run SQL against the current state) to \"versioned, time-aware artifact\" (ML: the exact dataset snapshot that produced a model must be reproducible) [claim:agentic-de:005]",
+      "source_excerpt": "Managing and versioning data correctly is essential for reproducibility and traceability within ML pipelines. Modern frameworks automatically track and version every artifact — data, models, or evaluations — upon pipeline execution, adopting a data-first approach where all artifacts are versioned and identified by content hash.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:003",
+      "slide": "The Data Science Hierarchy of Needs",
+      "bullet": "Monica Rogati's \"AI Hierarchy of Needs\" (2017) frames AI/ML as the top of a pyramid whose foundational layers are data collection, infrastructure, exploration/transformation, and analytics/features — organizations must build these data layers before they can effectively use ML [claim:agentic-de:003]",
+      "source_excerpt": "Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI) is great, but you first need food, water and shelter (data literacy, collection and infrastructure). The pyramid has five layers from bottom to top: 1. Data collection 2. Data flow / infrastructure 3. Exploration / transformation 4. Analytics / features 5. AI / Deep Learning",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:004",
+      "slide": "The Data Science Hierarchy of Needs",
+      "bullet": "A 2016 CrowdFlower survey found that data scientists spend roughly 80% of their time on data preparation: 60% cleaning and organizing data, 19% collecting datasets [claim:agentic-de:004]",
+      "source_excerpt": "Almost the same percentage of respondents reported they spent most of their time cleaning data (60 percent) as those who reported that task to be the least enjoyable part of their job (57 percent). An additional 19 percent of time was reported spent on collecting data sets, bringing the total data preparation effort to approximately 79 percent.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source says the total data preparation effort is approximately 79 percent, not 80%. The bullet rounds up to 80% and says 'roughly 80%' which is close but the exact figure is 79%. Additionally, the 60% figure in the source refers to the percentage of respondents who 'spent most of their time cleaning data,' not that cleaning consumes exactly 60% of time. The source conflates proportion-of-respondents with proportion-of-time, but the bullet presents these as direct time percentages.",
+      "suggested_fix": "A 2016 CrowdFlower survey found that data scientists spend roughly 79% of their time on data preparation: 60% reported spending most of their time cleaning and organizing data, and an additional 19% of time was spent collecting datasets [claim:agentic-de:004]"
+    },
+    {
+      "claim_id": "claim:agentic-de:002",
+      "slide": "The Data Science Hierarchy of Needs",
+      "bullet": "In real-world ML systems, the actual ML code is only a small fraction of the total system; surrounding infrastructure for data collection, feature extraction, configuration, monitoring, and serving dwarfs the model code [claim:agentic-de:002]",
+      "source_excerpt": "Only a small fraction of real-world ML systems is composed of the ML code, as shown by the small black box in the middle [of Figure 1]. The required surrounding infrastructure is vast and complex. The paper's famous Figure 1 shows a tiny 'ML Code' box surrounded by much larger boxes for data collection, data verification, feature extraction, configuration, resource management, analysis tools, process management, serving infrastructure, and monitoring.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:006",
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "bullet": "Transformations that require full-pass statistics — computing mean, standard deviation, vocabulary, or quantile boundaries over the training set — are stateful: the statistics must be persisted and reapplied identically at serving time to avoid training-serving skew [claim:agentic-de:006]",
+      "source_excerpt": "During training, you analyze the whole body of training data to compute quantities such as minimum, maximum, mean, and variance for transforming training data, evaluation data, and new data at prediction time. ... In this scenario, transformations are stateful, because they use some precomputed statistics to perform the transformation. The values then have to be stored somewhere to be used during model serving for prediction to transform the new raw data points as instance-level transformations, which avoids training-serving skew.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Training-serving skew is a difference between model outputs during training and during serving, caused by divergent code paths for feature engineering or by data changes between training and serving [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says 'difference between model outputs' but the source says 'difference between performance during training and performance during serving.' The source describes a performance difference, not an output difference. Additionally, the bullet lists only two causes (divergent code paths and data changes) but the source lists three causes, omitting 'a feedback loop between your model and your algorithm.' The omission of the feedback loop cause is a scope narrowing.",
+      "suggested_fix": "Training-serving skew is a difference between performance during training and during serving, caused by divergent data handling in training and serving pipelines, data changes between training and serving, or feedback loops between model and algorithm [claim:agentic-de:007]"
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Prevention: reuse the same feature-engineering code for both training and serving so that any raw input maps to the same feature vector in both environments [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source (Rule 29) does not say 'reuse the same feature-engineering code.' It says the best approach is to save serving-time features and pipe them to a log for training-time use. This is a log-and-replay strategy, not a shared-code strategy. The bullet conflates two distinct approaches: code reuse (a general best practice) and Rule 29's specific log-and-replay recommendation. The cited source (Rule 29) supports the second bullet on this slide, not this first one.",
+      "suggested_fix": "Prevention: log the features used at serving time and replay them during training to verify consistency between the two environments [claim:agentic-de:008]"
+    },
+    {
+      "claim_id": "claim:agentic-de:008",
+      "slide": "What Is Training-Serving Skew?",
+      "bullet": "Google's Rule 29: save the features used at serving time and pipe them into a log for training-time validation [claim:agentic-de:008]",
+      "source_excerpt": "The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time. Even if you can't do this for every example, do it for a small fraction, such that you can verify the consistency between serving and training.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:009",
+      "slide": "Temporal Leakage — The Naive Join Trap",
+      "bullet": "Temporal leakage occurs when a naive join attaches current or future feature values to training rows instead of the values available at prediction time, producing over-optimistic offline metrics that do not generalise [claim:agentic-de:009]",
+      "source_excerpt": "Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models. ... Feast is able to reproduce the state of features at a specific point in the past.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:010",
+      "slide": "Temporal Leakage — The Naive Join Trap",
+      "bullet": "In the transactions/customer/labels schema, a join on `customer_id` without a temporal predicate picks up post-event attribute changes (e.g., a credit-limit increase recorded after a fraud label), leaking future information into the feature vector [claim:agentic-de:010]",
+      "source_excerpt": "A point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table. In SQL, a PiT Join is an ASOF LEFT JOIN. The AS OF join ensures that the most recent value of the feature at the time of the timestamp is used in the training set. ... Training-serving skew is a difference between ML model outputs during the training and during serving. It is essentially a discrepancy between an ML model's feature engineering code during training and during deployment.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:011",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Skew is a consistency bug between two code paths that is fixable by engineering discipline [claim:agentic-de:011]",
+      "source_excerpt": "TensorFlow Data Validation can detect distribution skew between training and serving data. Distribution skew occurs when the distribution of feature values for training data is significantly different from serving data. One of the key causes for distribution skew is using either a completely different corpus for training data generation to overcome lack of initial data in the desired corpus. Another reason is a faulty sampling mechanism that only chooses a subsample of the serving data to train on.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:012",
+      "slide": "Skew vs. Drift — Don't Conflate Them",
+      "bullet": "Drift is a change in the joint distribution P(X, Y) over time — the underlying relationship between inputs and outputs evolves, requiring monitoring and retraining [claim:agentic-de:012]",
+      "source_excerpt": "In predictive analytics, data science, machine learning and related fields, concept drift is an evolution of data that invalidates the data model. It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways. Formal definition: Concept drift is a change in the joint probability distribution P(X,Y) between two time instances t and t+w.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:013",
+      "slide": "Point-in-Time / As-Of Joins",
+      "bullet": "A point-in-time (as-of) join retrieves, for each training example, the latest feature value that existed at or before the label timestamp, preventing temporal leakage [claim:agentic-de:013]",
+      "source_excerpt": "In SQL, a PiT Join is an ASOF LEFT JOIN -- a point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table (containing the labels). ASOF LEFT JOINS start with a table containing both the labels/observations (for training) and a timestamp column, and join feature values from another table with every row in the output table containing the feature AS OF the value of the point in time of timestamp value from the label table. Avoiding label leakage ensures that the features used for training are only derived from data available at the point in time corresponding to the label, which prevents label leakage.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:014",
+      "slide": "Point-in-Time / As-Of Joins",
+      "bullet": "ASOF JOIN is a dialect-specific SQL extension — originally from kdb+, now supported by DuckDB, ClickHouse, and Snowflake — while databases lacking it must emulate it with LATERAL JOIN or ROW_NUMBER window functions [claim:agentic-de:014]",
+      "source_excerpt": "[DuckDB] AsOf joins embody some common temporal analytic semantics, which can be cumbersome and slow to implement in standard SQL. [ClickHouse] The ASOF JOIN, implemented for ClickHouse in 2019 by Martijn Bakker and Artem Zuikov. [kdb+] The as-of join (aj) syntax is: aj[c1...cn;t1;t2]. [ANSI SQL alternatives] LATERAL is one of the standard ANSI SQL features. Using ROW_NUMBER() with an ORDER BY clause and filtering where the row number equals 1 provides a way to emulate point-in-time ASOF join behavior. [Snowflake ASOF JOIN docs]",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:015",
+      "slide": "Feature Store Architecture",
+      "bullet": "A feature store prevents training-serving skew through a three-part architecture: an offline store (column-oriented, for batch training-set generation), an online store (row-oriented / key-value, for low-latency serving), and shared transformation definitions ensuring both stores apply identical logic [claim:agentic-de:015]",
+      "source_excerpt": "[Aerospike] Feature storage can be thought of as a dual-database system ... An offline feature store is a feature registry where all features are stored and works as a shared data store, functioning as a data warehouse for your features. One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew. [Databricks] Feature stores address training-serving skew by centralizing feature computation in a single pipeline that serves both offline and online stores.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:016",
+      "slide": "Feature Store Architecture",
+      "bullet": "The dual-store design introduces a second consistency problem: keeping offline and online stores synchronized, since batch features may take minutes or hours to compute and streaming features have inherent network latencies, causing online features to become stale [claim:agentic-de:016]",
+      "source_excerpt": "[Hopsworks] Features stored in both online and offline stores should be consistent, maintained through a replication protocol with consistency guarantees that keeps feature data in sync. While 100% consistency is desirable, it's not always possible because realtime features consume streams with inherent network latencies, and there's additional latency to write to the key-value store before models can fetch updated features for inference, usually in the order of milliseconds to seconds. For batch features, computing and uploading could take minutes or hours.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:017",
+      "slide": "When NOT to Adopt a Feature Store",
+      "bullet": "A feature store adds ecosystem-level complexity without payoff when the organization has a single model, a single ML team, or batch-only inference: batch pipelines have enough time to compute features on demand, and there is no cross-team reuse to amortize the overhead of an offline/online dual-store, streaming pipeline, and synchronization mechanism [claim:agentic-de:017]",
+      "source_excerpt": "[Xebia] If the feature store requires a streaming pipeline, a batch pipeline, an orchestrator, an offline store, an online store, and a sync mechanism -- you're adopting a feature ecosystem, not a feature store. [Multiple sources] Most machine learning teams do not need a feature store. A feature store solves problems for machine learning teams at a certain scale and operational maturity; if your team is not there, a feature store adds complexity without payoff. For batch feature engineering + batch inference where there is no need for streaming features and model serving latency is not very low, you do not need an online feature store and a streaming pipeline to pre-compute the features, as you have enough time to compute the features on demand.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "ML reproducibility requires pinning three layers to the same point in time: data state (lakehouse snapshots or content-addressed versions), code/pipeline state (Git commits), and embedding-model version (checkpoint or API version) [claim:agentic-de:023]",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency. ... Each model training run is now tied to a unique snapshot ID, so we always know which data produced which results. ... Three engineers had been training on varying versions of the same dataset with no record of changes...The fix was a strict data lineage system with checksums, mandatory metadata tagging, and immutable snapshots tied to model versions.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "bullet": "Without coupling all three layers, re-running a pipeline on \"the same data\" can produce different results if the embedding model has changed [claim:agentic-de:023]",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:018",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Default 7-day VACUUM (`delta.deletedFileRetentionDuration`); extending retention costs additional storage [claim:agentic-de:018]",
+      "source_excerpt": "The default retention threshold for data files after running VACUUM is 7 days. The retention window for the VACUUM command is determined by the delta.deletedFileRetentionDuration table property, which defaults to 7 days. This means VACUUM removes data files that are no longer referenced by a Delta table version in the last 7 days. ... The ability to time travel back to a version older than the retention period is lost after running vacuum.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:018",
+      "slide": "Lakehouse Time Travel — Delta Lake and Iceberg",
+      "bullet": "Older data files removed by VACUUM [claim:agentic-de:018]",
+      "source_excerpt": "The default retention threshold for data files after running VACUUM is 7 days. ... VACUUM removes data files that are no longer referenced by a Delta table version in the last 7 days. ... The ability to time travel back to a version older than the retention period is lost after running vacuum.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "22 claims checked in this batch. 19 verified, 3 misrepresented, 0 unverified."
+}

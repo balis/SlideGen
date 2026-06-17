@@ -1,0 +1,66 @@
+{
+  "topic": "agentic-dataengineering",
+  "generated_at": "2026-06-14T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:asof-join:001",
+      "statement": "A point-in-time (as-of) join retrieves, for each training example with a timestamp, the latest feature value that existed at or before that moment, thereby preventing temporal leakage -- the use of feature values that were not yet available when the label was recorded.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Point-in-Time Correct Joins - MLOps Dictionary, Hopsworks",
+        "url_or_doi": "https://www.hopsworks.ai/dictionary/point-in-time-correct-joins",
+        "section": "Definition",
+        "excerpt": "In SQL, a PiT Join is an ASOF LEFT JOIN -- a point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table (containing the labels). Avoiding label leakage ensures that the features used for training are only derived from data available at the point in time corresponding to the label."
+      }
+    },
+    {
+      "id": "claim:agentic-de:asof-join:002",
+      "statement": "ASOF JOIN is a dialect-specific SQL extension -- originally built into kdb+ (aj function) for finance, implemented in ClickHouse in 2019, and supported by DuckDB and Snowflake -- while databases lacking it (e.g., PostgreSQL) must emulate it with an ANSI-standard LATERAL JOIN or a window function (ROW_NUMBER with a filtered self-join).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "AsOf Join - DuckDB Documentation; ClickHouse Joins Blog; Snowflake ASOF JOIN docs",
+        "url_or_doi": "https://duckdb.org/docs/current/guides/sql_features/asof_join",
+        "section": "ASOF JOIN syntax and semantics",
+        "excerpt": "AsOf joins embody some common temporal analytic semantics, which can be cumbersome and slow to implement in standard SQL. DuckDB syntax: FROM holdings h ASOF JOIN prices p ON h.ticker = p.ticker AND h.when >= p.when. ClickHouse: 'The ASOF JOIN, implemented for ClickHouse in 2019 by Martijn Bakker and Artem Zuikov.' LATERAL is one of the standard ANSI SQL features; using ROW_NUMBER() with an ORDER BY clause and filtering where the row number equals 1 provides a way to emulate point-in-time ASOF join behavior."
+      }
+    },
+    {
+      "id": "claim:agentic-de:feature-store-arch:001",
+      "statement": "A feature store prevents training-serving skew and feature duplication through a three-part architecture: an offline store (column-oriented, for batch training-set generation), an online store (row-oriented / key-value, for low-latency serving), and shared transformation definitions that ensure both stores apply identical feature-computation logic.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Feature Store 101: Build, Serve, and Scale ML Features - Aerospike; Databricks Feature Store Guide",
+        "url_or_doi": "https://aerospike.com/blog/feature-store/",
+        "section": "Feature Store Architecture",
+        "excerpt": "Feature storage can be thought of as a dual-database system: an offline feature store functions as a data warehouse for your features; the online store provides low-latency access. One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew."
+      }
+    },
+    {
+      "id": "claim:agentic-de:feature-store-arch:002",
+      "statement": "The dual-store architecture of a feature store introduces a second consistency problem: keeping the offline and online stores synchronized. Because batch features may take minutes or hours to compute and upload, and streaming features have inherent network latencies, online features can become stale relative to the offline store, causing models to serve predictions on temporally misaligned data.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Online-Offline Feature Store Consistency - MLOps Dictionary, Hopsworks",
+        "url_or_doi": "https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency",
+        "section": "Consistency Guarantees",
+        "excerpt": "Features stored in both online and offline stores should be consistent, maintained through a replication protocol with consistency guarantees. While 100% consistency is desirable, it's not always possible because realtime features consume streams with inherent network latencies, and there's additional latency to write to the key-value store. For batch features, computing and uploading could take minutes or hours. Hopsworks addresses this via a single write path using Kafka as an intermediate broker, providing at-least-once guarantees but potentially introducing duplicates."
+      }
+    },
+    {
+      "id": "claim:agentic-de:feature-store-antipattern:001",
+      "statement": "A feature store should not be adopted when the organization has a single model, a single ML team, or batch-only inference: in these scenarios the offline/online dual-store, streaming pipeline, and synchronization mechanism add ecosystem-level complexity without payoff, because batch pipelines have enough time to compute features on demand and there is no cross-team reuse to amortize the overhead.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Do You Really Need a Feature Store? - Lak Lakshmanan / TDS; Xebia - You Still Don't Need A Feature Store; Tacnode Blog",
+        "url_or_doi": "https://xebia.com/blog/you-still-don-t-need-a-feature-store/",
+        "section": "When not to adopt",
+        "excerpt": "Most machine learning teams do not need a feature store. A feature store solves problems for ML teams at a certain scale and operational maturity; if your team is not there, a feature store adds complexity without payoff. For batch feature engineering + batch inference where there is no need for streaming features and model serving latency is not very low, you do not need an online feature store. If the feature store requires a streaming pipeline, a batch pipeline, an orchestrator, an offline store, an online store, and a sync mechanism -- you're adopting a feature ecosystem, not a feature store."
+      }
+    }
+  ]
+}

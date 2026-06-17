@@ -1,0 +1,15 @@
+Claim ID: claim:agentic-de:dataset-versioning:005
+Source: lakeFS Acquires DVC, Uniting Data Version Control Pioneers to Accelerate AI-ready Data
+URL: https://www.prnewswire.com/news-releases/lakefs-acquires-dvc-uniting-data-version-control-pioneers-to-accelerate-ai-ready-data-302618339.html
+Retrieved: 2026-06-14
+
+Excerpt:
+"lakeFS announced it has acquired the DVC open source project from Iterative.ai. This strategic acquisition brings together the two pioneering forces in the industry, positioning lakeFS as the leading industry standard for data version control – from individual data science projects to enterprise AI infrastructure serving Fortune 100 companies."
+
+"DVC will continue as an independent open source tool focused on data scientists working with smaller datasets, while lakeFS will continue to advance enterprise-grade data version control infrastructure for organizations managing AI and ML at scale."
+
+"This acquisition builds on lakeFS's recent momentum, including its $20 million growth funding round announced in July 2025."
+
+Additional confirmation from DVC blog:
+URL: https://dvc.org/blog/dvc-joins-lakefs-your-questions-answered/
+"DVC will remain its own project and brand for the foreseeable future."

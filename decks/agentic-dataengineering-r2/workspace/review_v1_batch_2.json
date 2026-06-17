@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:021",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "DVC stores an MD5 metafile in Git and the actual data in a remote, making it Git-friendly and requiring no additional infrastructure, but performance degrades significantly at hundreds of millions or billions of objects (petabyte-scale data lakes) because per-file MD5 hashing is not viable at that scale [claim:agde:021] [claim:agde:024]",
+      "source_excerpt": "The DVC cache is a content-addressable storage (by default in .dvc/cache), which adds a layer of indirection between code and data. DVC calculates the file hash, a 32 characters long string (usually MD5), with the first two characters used to name the directory inside the cache. DVC uses content-addressable storage (MD5 hashes), so it stores only new or modified files rather than duplicating entire datasets.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:024",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "DVC stores an MD5 metafile in Git and the actual data in a remote, making it Git-friendly and requiring no additional infrastructure, but performance degrades significantly at hundreds of millions or billions of objects (petabyte-scale data lakes) because per-file MD5 hashing is not viable at that scale [claim:agde:021] [claim:agde:024]",
+      "source_excerpt": "DVC is capable of handling tens of thousands of files or moderate dataset sizes well, but its performance starts degrading when you task it with managing hundreds of millions or billions of objects. Caching becomes unrealistic when you're operating on a petabyte scale and using hundreds of millions of objects. DVC's cost is mostly developer time, while lakeFS's cost is service maintenance — backups, upgrades, policies.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:022",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "lakeFS provides zero-copy branching and commit references over object storage at very large scale by routing only metadata through its server while data I/O goes directly to the object store; however, it requires deploying and maintaining a dedicated metadata server [claim:agde:022] [claim:agde:024]",
+      "source_excerpt": "lakeFS provides Git-like operations such as branching, committing, merging, and reverting for datasets stored in object storage. Branching is a zero-copy procedure in lakeFS. With lakeFS, you can version all aspects of an ML experiment, including the data. Every run can be reproduced by checking out the same lakeFS commit of the dataset, and even as the underlying data evolves, the commit reference ensures you can retrieve the exact training data used. Branch creation is a zero-copy operation that enables reading from a snapshot of the data controlled by the experiment, ensuring that datasets remain unchanged across runs, even if the main branch gets updated.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:024",
+      "slide": "Comparison — Three Reproducibility Strategies",
+      "bullet": "lakeFS provides zero-copy branching and commit references over object storage at very large scale by routing only metadata through its server while data I/O goes directly to the object store; however, it requires deploying and maintaining a dedicated metadata server [claim:agde:022] [claim:agde:024]",
+      "source_excerpt": "Typically, metadata operations will be done by calling the lakeFS server, while reading and writing the data itself will usually be done by directly communicating between the client and object store. This allows lakeFS to stay out of the data path, making it very efficient even with extremely large volumes of data. DVC's cost is mostly developer time, while lakeFS's cost is service maintenance — backups, upgrades, policies.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:025",
+      "slide": "Three Drift Types — Schema, Distribution, Concept",
+      "bullet": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) may remain stable [claim:agde:025]",
+      "source_excerpt": "Covariate shift: when P(X) changes, but P(Y|X) remains the same. Concept drift: when P(Y|X) changes, but P(X) remains the same. Schema drift (structural change such as a column being added, removed, or retyped) is categorised separately from statistical distributional shift.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states that for concept drift 'P(X) remains the same', but the slide softens this to 'P(X) may remain stable'. The source's Chip Huyen definition is unambiguous: concept drift is when P(Y|X) changes but P(X) remains the same. The slide's qualifier 'may' overgeneralizes the definition to cover cases where both P(X) and P(Y|X) change simultaneously, which is a separate scenario not described in the cited source excerpt.",
+      "suggested_fix": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) remains the same [claim:agde:025]"
+    },
+    {
+      "claim_id": "claim:agde:026",
+      "slide": "Three Drift Types — Schema, Distribution, Concept",
+      "bullet": "The joint distribution can be decomposed as P(X,Y) = P(X)·P(Y|X), making the distributional and conditional components independently driftable [claim:agde:026]",
+      "source_excerpt": "Since the joint probability P_t(X, y) can be decomposed into two parts as P_t(X, y) = P_t(X) × P_t(y|X), concept drift can be triggered by three sources: (1) P_t(X) ≠ P_{t+1}(X) while P_t(y|X) = P_{t+1}(y|X) — covariate drift; (2) P_t(y|X) ≠ P_{t+1}(y|X) while P_t(X) = P_{t+1}(X) — real concept drift; (3) both changing together.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Measuring Distribution Drift — PSI and KL Divergence",
+      "bullet": "PSI quantifies distributional shift by binning feature values and computing PSI = Σ(Cᵢ − Rᵢ) × ln(Cᵢ/Rᵢ), where Cᵢ and Rᵢ are current and reference bin proportions; rule-of-thumb thresholds are PSI < 0.1 (no significant change), 0.1–0.25 (moderate), > 0.25 (major shift requiring model review) [claim:agde:027]",
+      "source_excerpt": "PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution and Ri represents the proportion in the reference distribution. Less than 0.1: insignificant change, no action required. 0.1–0.25: some minor change, check other scorecard monitoring metrics. Greater than 0.25: major shift in population, need to delve deeper.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:028",
+      "slide": "Measuring Distribution Drift — PSI and KL Divergence",
+      "bullet": "KL divergence measures shift as D_KL(P||Q) = Σ P(x) log[P(x)/Q(x)] and is asymmetric; PSI is a symmetric variant equivalent to D_KL(P||Q) + D_KL(Q||P), avoiding the asymmetry problem when reference and sample are interchangeable [claim:agde:028]",
+      "source_excerpt": "KL divergence is a non-symmetric measure of the difference between two distributions: if you swap the baseline distribution p(x) and sample distribution q(x), you will get a different number. PSI is a symmetric derivation of KL Divergence, mathematically equivalent to KL(P||Q) + KL(Q||P). KL Divergence and PSI are the two metrics which are commonly used to monitor data drift in model monitoring.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:029",
+      "slide": "What Data Contracts Cannot Catch",
+      "bullet": "Data contracts and schema validation tools such as Great Expectations enforce structural constraints — column presence, data types, nullability, value ranges — and reliably catch schema drift [claim:agde:029]",
+      "source_excerpt": "Schema validation catches structural drift but only that — not statistical or conceptual changes. Schema drift breaks pipelines, logic drift invalidates business reports, and metric drift silently corrupts models and decisions. Schema validation is one of the most critical features of data contracts, ensuring that the structure of data aligns with what a model or pipeline expects.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:029",
+      "slide": "What Data Contracts Cannot Catch",
+      "bullet": "A feature column can remain syntactically valid (correct type, no nulls, values in range) while its statistical distribution shifts substantially from what the model was trained on — structural validation does not detect this [claim:agde:029]",
+      "source_excerpt": "Many silent failures pass structural checks — the schema remains intact, but the data shifts in ways that don't match real-world dynamics, while distributional monitoring catches these subtle degradations early. A feature like device_type might suddenly start emitting new values like 'unknown_device_v3' — technically remaining a string so nothing broke structurally, but the model started seeing a new bucket that never existed in training.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:030",
+      "slide": "The Offline-Online Metrics Trap",
+      "bullet": "A well-documented failure mode in ML deployment is offline metrics improving while online metrics regress or stagnate — offline test sets are static and do not reflect production distribution shifts, user-feedback loops, or latency constraints [claim:agde:030]",
+      "source_excerpt": "Improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available. Offline metrics are correlated with online performance over a range of environments, but the relationship is not straightforward.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:030",
+      "slide": "The Offline-Online Metrics Trap",
+      "bullet": "Algorithm rankings on offline benchmarks can reverse in live A/B tests, meaning a model that beats the incumbent offline may underperform it in production [claim:agde:030]",
+      "source_excerpt": "Improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available. Offline metrics are correlated with online performance over a range of environments, but the relationship is not straightforward. 'Metric Mismatch' is frequently observed in industrial applications, where gains in offline validation metrics fail to translate into online performance.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide asserts rankings 'can reverse in live A/B tests,' implying a direction flip (a model that wins offline loses online). The source says rankings 'vary' and that improvements in offline metrics lead to 'diminishing returns' online — it does not explicitly state that ranking reversals (where the offline winner becomes the online loser) occur. 'Varies' and 'diminishing returns' are weaker than 'reverses.' The additional RecSys 2025 source confirms a 'gap' and 'Metric Mismatch' but still does not explicitly support ranking reversal in A/B tests.",
+      "suggested_fix": "Algorithm rankings on offline benchmarks do not reliably predict online performance — a model that improves offline metrics may deliver diminishing returns or fail to outperform the incumbent in production [claim:agde:030]"
+    },
+    {
+      "claim_id": "claim:agde:029",
+      "slide": "Observability Strategy — Layered Monitoring",
+      "bullet": "Data contracts (Great Expectations, schema validation) form layer 1 and catch schema drift reliably, but do not detect distributional shift [claim:agde:029]",
+      "source_excerpt": "Schema validation catches structural drift but only that — not statistical or conceptual changes. Many silent failures pass structural checks — the schema remains intact, but the data shifts in ways that don't match real-world dynamics.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Observability Strategy — Layered Monitoring",
+      "bullet": "Distributional monitors computing PSI per feature form layer 2 and detect covariate shift that passes structural checks; PSI > 0.25 per feature triggers model review [claim:agde:027]",
+      "source_excerpt": "PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution and Ri represents the proportion in the reference distribution. Greater than 0.25: major shift in population, need to delve deeper.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:030",
+      "slide": "Observability Strategy — Layered Monitoring",
+      "bullet": "Online model metrics evaluated via A/B test or shadow mode form layer 3 and are the definitive gate, because offline metrics can improve while online metrics regress [claim:agde:030]",
+      "source_excerpt": "Improvements in offline metrics lead to diminishing returns in online performance. Offline metrics are correlated with online performance over a range of environments, but the relationship is not straightforward. 'Metric Mismatch' is frequently observed in industrial applications, where gains in offline validation metrics fail to translate into online performance.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:023",
+      "slide": "Embeddings in Context",
+      "bullet": "Every stored vector is baked to a specific embedding model version: vectors from model A and model B occupy incompatible geometric spaces, so mixing them makes similarity scores meaningless [claim:agde:023]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. When query embeddings are generated by model version B but index embeddings were built with version A, those vector spaces are not compatible and similarity scores become meaningless. A single collection in your database must only contain vectors from the same model, and if you mix them, your search results will be random noise.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:023",
+      "slide": "Embeddings in Context",
+      "bullet": "Changing the embedding model requires re-encoding the entire corpus and rebuilding the ANN index from scratch before queries using the new model can be served correctly [claim:agde:023]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. The most straightforward approach involves building an entirely new index with re-encoded data in parallel, and once the new index is ready and validated, traffic is swapped to it.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:031",
+      "slide": "Model Selection — Dimension, Quality, Cost Tradeoff",
+      "bullet": "OpenAI text-embedding-3-large (3072 dims, $0.13/1M tokens) supports Matryoshka truncation: a 256-dimensional output still outperforms the full 1536-dim text-embedding-ada-002 on MTEB, making dimension a configurable dial rather than a fixed property [claim:agde:031]",
+      "source_excerpt": "On the MTEB benchmark, a text-embedding-3-large embedding can be shortened to a size of 256 while still outperforming an unshortened text-embedding-ada-002 embedding with a size of 1536. Comparing text-embedding-ada-002 to text-embedding-3-small, the average score on the MTEB benchmark has increased from 61.0% to 62.3%. Pricing for text-embedding-3-small has been reduced by 5X compared to text-embedding-ada-002, from a price per 1k tokens of $0.0001 to $0.00002.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:032",
+      "slide": "Model Selection — Dimension, Quality, Cost Tradeoff",
+      "bullet": "Embedding models trained with Matryoshka Representation Learning expose dimension as an explicit performance-cost tradeoff: truncating to a smaller dimension saves vector-database storage with only modest quality loss [claim:agde:032]",
+      "source_excerpt": "text-embedding-3-large is OpenAI's flagship text embedding model, producing 3072-dimensional vectors that can be truncated to smaller sizes via Matryoshka representation learning. Because the model is trained with Matryoshka representation learning, you can pass a smaller dimensions parameter (for example 1024 or 256) to save storage in your vector database with only a modest quality loss.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:031",
+      "slide": "Model Selection — Dimension, Quality, Cost Tradeoff",
+      "bullet": "text-embedding-3-small costs 5× less than ada-002 ($0.00002 vs $0.0001 per 1k tokens) with a higher average MTEB score (62.3% vs 61.0%), so model selection involves an explicit three-way tradeoff: dimension, quality, and cost [claim:agde:031]",
+      "source_excerpt": "Comparing text-embedding-ada-002 to text-embedding-3-small, the average score on the MTEB benchmark has increased from 61.0% to 62.3%. Pricing for text-embedding-3-small has been reduced by 5X compared to text-embedding-ada-002, from a price per 1k tokens of $0.0001 to $0.00002.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:033",
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "bullet": "OpenAI's Batch API processes embedding requests asynchronously within 24 hours at 50% of standard token prices, supports up to 50,000 embedding inputs and a 200 MB input file per batch, and draws from a separate rate-limit pool that does not consume synchronous per-model token quotas [claim:agde:033]",
+      "source_excerpt": "A single batch may include up to 50,000 requests, and a batch input file can be up to 200 MB in size. /v1/embeddings batches are restricted to a maximum of 50,000 embedding inputs across all requests in the batch. Batch API rate limits are separate from existing per-model rate limits. The Batch API processes requests asynchronously within 24 hours at 50% of standard token prices.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:034",
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "bullet": "For synchronous embedding paths with per-minute rate limits, the recommended strategy is to send larger per-request batches to reduce request count, implement exponential backoff with jitter on HTTP 429 responses, and insert pacing delays — the combination prevents thundering-herd retry storms while maximising token throughput within quota [claim:agde:034]",
+      "source_excerpt": "voyage-3.5 has 2000 RPM (requests per minute) and 8M TPM (tokens per minute). You can increase the number of documents you embed per request and increase your overall throughput by sending larger batches. Upon receiving a 429 error, implement exponentially increasing retry delays (e.g., 1, 2, 4 seconds) before retrying. One easy way to avoid rate limit errors is to automatically retry requests with a random exponential backoff.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:035",
+      "slide": "Idempotent Embedding Pipeline",
+      "bullet": "Idempotent re-embedding pipelines use a content hash (SHA-256 of source text) stored alongside each vector: before calling the embedding API the pipeline checks whether the hash already exists in the embedding store and skips the call if so, reducing both API cost and re-processing risk [claim:agde:035]",
+      "source_excerpt": "Re-running your ingestion pipeline shouldn't create duplicates. Embedding is where your API costs live. Two habits that pay off immediately: batching and caching. The implementation stores embeddings keyed by text hash to avoid re-computing duplicates. The sweet spot for batch size is 100–500 texts per API call.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:035",
+      "slide": "Idempotent Embedding Pipeline",
+      "bullet": "Optimal API batch size for cost-effective embedding is 100–500 texts per call [claim:agde:035]",
+      "source_excerpt": "The sweet spot for batch size is 100–500 texts per API call.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "Changing an embedding model requires re-encoding the entire corpus and rebuilding the ANN index from scratch: a query vector from the new model cannot be meaningfully compared to corpus vectors from the old model, even when both models share the same output dimensionality [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. When models have the same dimension but are different models, there's no crash, but search returns garbage results because vectors from different models occupy incompatible semantic spaces.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "For a 1-million-item database, a full re-index amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:023",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "Embedding model version must be tracked as part of ML lineage alongside data snapshot and code version: mixing vectors from different model versions makes similarity scores meaningless [claim:agde:023]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates reencoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption and computational cost. When query embeddings are generated by model version B but index embeddings were built with version A, those vector spaces are not compatible and similarity scores become meaningless. A single collection in your database must only contain vectors from the same model, and if you mix them, your search results will be random noise.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "Exact k-NN requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "A dataset of 10⁹ SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory; scanning it at SSD throughput of 512 MB/s would require 1,000 seconds to answer a single query [claim:agde:037]",
+      "source_excerpt": "A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "ANN indexes trade a bounded recall loss for orders-of-magnitude speedup — they are necessary, not optional, beyond a few hundred thousand vectors [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale. A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states exact k-NN becomes infeasible at 'million or billion-scale.' The slide asserts ANN indexes are necessary 'beyond a few hundred thousand vectors,' which moves the threshold below what the source supports. The source does not characterize a few hundred thousand vectors as requiring ANN; it establishes the infeasibility threshold at million-scale.",
+      "suggested_fix": "ANN indexes trade a bounded recall loss for orders-of-magnitude speedup — they are necessary, not optional, at million- or billion-vector scale [claim:agde:037]"
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "HNSW is a graph-based ANN index achieving O(log n) search complexity via a multi-layer navigable small-world structure [claim:agde:038]",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales. Navigable small world graphs have polylogarithmic search complexity of O(log^k n). Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "IVF partitions vectors into clusters via k-means; at query time only nprobe clusters are searched, reducing cost at the expense of recall [claim:agde:039]",
+      "source_excerpt": "IVF partitions vectors into clusters using k-means, with each cluster having a centroid. During queries, the system identifies the closest centroids (controlled by nprobe) and searches only within those clusters. Higher nprobe increases recall at the cost of more distance computations.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:039",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "PQ compresses each vector by splitting it into subvectors and replacing each with a centroid index, enabling >100x memory reduction at the cost of quantization error [claim:agde:039]",
+      "source_excerpt": "With Product Quantization, instead of storing full vectors, each vector is compressed into a compact code, and during search, distances are approximated using the codes. IVFPQ greatly reduces memory usage and I/O cost, enabling the index to handle billions of vectors with manageable memory. For a knowledge base of 10 million documents each embedded as a 1536-dimensional vector, raw storage requires 61.4 GB, but with PQ using m=48 and nbits=8, just 480 MB is needed — a 128x reduction.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:040",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index that serves a billion-point dataset on a single machine with 64 GB RAM at >5,000 QPS and <3 ms mean latency [claim:agde:040]",
+      "source_excerpt": "DiskANN is a graph-based indexing and search system that can index, store, and search a billion point database on a single workstation with just 64 GB RAM and an inexpensive solid-state drive (SSD). On the billion point SIFT1B bigann dataset, DiskANN serves over 5000 queries a second with less than 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine. In the high recall regime, DiskANN can index and serve 5-10x more points per node compared to state-of-the-art graph-based methods such as HNSW and NSG.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide omits the recall qualifier. The source specifies that DiskANN achieves >5,000 QPS at <3 ms mean latency at '95%+ 1-recall@1'. Stating only QPS and latency without the associated recall level is misleading — any ANN index can achieve high QPS at low latency if you sacrifice recall. The recall figure is essential context for interpreting the performance numbers.",
+      "suggested_fix": "DiskANN (NeurIPS 2019, Microsoft Research) is a disk-resident ANN index that serves a billion-point dataset on a single machine with 64 GB RAM at >5,000 QPS and <3 ms mean latency at ≥95% 1-recall@1 [claim:agde:040]"
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; they cannot be changed after index construction without a full rebuild [claim:agde:038]",
+      "source_excerpt": "Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The query-time parameter efSearch is the operational dial: increasing it from 100 to 640 can improve recall@1 from ~0.85 to ~0.97 while proportionally increasing latency [claim:agde:038]",
+      "source_excerpt": "The empirical data demonstrates efSearch's direct impact: increasing k from 10 to 640 improved recall@1 from 0.56 to 0.97, but latency jumped from 5.31ms to 68.28ms. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide states 'increasing efSearch from 100 to 640 can improve recall@1 from ~0.85 to ~0.97.' No single source excerpt provides these exact numbers as a matched pair. Source 2 shows that increasing k (efSearch) from 10 to 640 improves recall from 0.56 to 0.97 — the starting point is k=10 (recall 0.56), not k=100 (recall ~0.85). Source 3 says efSearch=100 gives ~85% recall, but does not report what efSearch=640 gives. The slide synthesizes incompatible data points across different dataset/context conditions and presents them as a matched measurement, which the source does not support as stated.",
+      "suggested_fix": "The query-time parameter efSearch is the operational dial: efSearch=100 yields ~85% recall while higher values (e.g., efSearch=640) can push recall@1 to ~0.97, with latency increasing proportionally [claim:agde:038]"
+    }
+  ],
+  "summary": "36 claims checked in this batch. 28 verified, 5 misrepresented, 0 unverified. Issues found: (1) claim:agde:025 on 'Three Drift Types' slide — concept drift definition softened from 'P(X) remains the same' to 'P(X) may remain stable', overgeneralizing the source (MINOR). (2) claim:agde:030 on 'Offline-Online Metrics Trap' slide — ranking 'reversal' is stronger than what the source supports ('varies', 'diminishing returns') (MINOR). (3) claim:agde:037 on 'Why Exact k-NN Fails at Scale' slide — infeasibility threshold pushed from million-scale (per source) to 'few hundred thousand vectors' (MINOR). (4) claim:agde:040 on 'ANN Index Families' slide — DiskANN performance figures omit the recall qualifier (≥95% 1-recall@1) that gives the numbers their meaning (MINOR). (5) claim:agde:038 on 'HNSW in Depth' slide — recall numbers for efSearch 100→640 synthesize data from two different sources/dataset conditions and do not appear as a matched pair in either source (MINOR)."
+}

@@ -1,0 +1,12 @@
+Source for claim:agentic-de:rrf:001
+
+Title: Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning Methods
+Authors: Gordon V. Cormack, Charles L. A. Clarke, Stefan Buettcher
+URL/DOI: https://doi.org/10.1145/1571941.1572114
+Venue: SIGIR 2009, Proceedings of the 32nd International ACM SIGIR Conference, pp. 758-759
+Retrieved: 2026-06-14
+
+Excerpt:
+"Reciprocal Rank Fusion is a simple method for combining the document rankings from multiple IR systems. RRF consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse."
+
+The RRF formula scores each document d as: RRFscore(d) = sum over all ranking lists R of 1/(k + r_R(d)), where r_R(d) is the rank of document d in list R and k is a constant (typically 60). The method requires no score normalisation, operating purely on rank positions.

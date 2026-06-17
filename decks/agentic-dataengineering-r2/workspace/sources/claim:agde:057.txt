@@ -1,0 +1,26 @@
+SOURCE: Leveraging Retrieval Augmented Generative LLMs For Automated Metadata Description Generation to Enhance Data Catalogs
+URL: https://arxiv.org/abs/2503.09003
+Retrieved: 2026-06-15
+
+SUPPORTING SOURCE: Data Quality for AI Agent Harnesses: 3 Production Failures — Atlan
+URL: https://atlan.com/know/data-quality-ai-agent-harnesses/
+
+SUPPORTING SOURCE: Agentic Text-to-SQL: A Detailed Guide — PuppyGraph
+URL: https://www.puppygraph.com/blog/agentic-text-to-sql
+
+FULL EXCERPT (from arxiv paper abstract summary, 2503.09003):
+"Automated metadata generation aims to provide an overall framework for enterprises to effectively scale metadata curation and enrich data catalogs, thereby improving data catalog searchability and usability. Evaluation of such approaches demonstrates high accuracy, factual grounding, and very low toxicity, with over 80% ROUGE-1 F1 and nearly 90% acceptance by data stewards."
+
+EXCERPT (metadata impact on text-to-SQL, from Atlan AI agents for data engineering guide):
+"Providing agents with live metadata — certifications, definitions, lineage context — versus bare schemas produced a 3x improvement in text-to-SQL accuracy. What harness engineering needs is a catalog that propagates governance signals automatically, gates access based on certification status, and makes semantic definitions machine-readable."
+
+EXCERPT (text-to-SQL verification layer, from Atlan data quality failures guide):
+"Multi-agent pipelines for text-to-SQL receive natural language queries and progressively transform them into validated SQL statements, with an Entity Extraction Agent interpreting questions, a Metadata Retrieval Agent grounding queries in the schema, a Query Logic Agent building plans, a SQL Generation Agent converting plans into executable SQL, and a Review Agent validating results."
+
+"The Self-Correction & Execution Layer represents the 'Quality Control Lab' and features a Sandbox Execution Engine where queries are tested against a live or mirrored database environment. If the database returns a runtime error or a timeout, the Refiner Agent captures the specific traceback and uses this feedback to 'reflect' on the failure."
+
+NOTES:
+- The arxiv paper (2503.09003) provides quantitative grounding (>80% ROUGE-1 F1, ~90% steward acceptance) for the lineage/doc generation claim.
+- The 3x improvement stat for metadata vs. bare schema is from Atlan, a data governance vendor, which may have promotional motivation; confidence is MEDIUM for this specific figure.
+- Text-to-SQL verification layer (sandbox execution + self-correction loop) is a well-documented architectural pattern appearing across multiple independent sources.
+- The lineage/doc generation use case is distinct from text-to-SQL: agents generate human-readable descriptions and lineage for catalog assets, not executable queries. The two use cases together illustrate the breadth of appropriate data engineering agent applications.

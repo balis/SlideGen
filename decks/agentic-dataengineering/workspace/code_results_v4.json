@@ -1,0 +1,23 @@
+{
+  "blocks_found": 2,
+  "passed": 1,
+  "failed": 1,
+  "results": [
+    {
+      "lang": "sql",
+      "slide": "## Temporal Leakage \u2014 The Naive Join Trap",
+      "status": "SKIPPED",
+      "stdout": "",
+      "stderr": "No runner for language: sql",
+      "returncode": null
+    },
+    {
+      "lang": "python",
+      "slide": "## Batch Throughput and Rate-Limit Handling",
+      "status": "FAIL",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/tmpoy58bmq5/snippet.py\", line 5, in <module>\n    client = OpenAI()\n  File \"/home/balis/.local/lib/python3.10/site-packages/openai/_client.py\", line 137, in __init__\n    raise OpenAIError(\nopenai.OpenAIError: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable\n",
+      "returncode": 1
+    }
+  ]
+}

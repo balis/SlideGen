@@ -1,0 +1,39 @@
+{
+  "blocks_found": 4,
+  "passed": 4,
+  "failed": 0,
+  "results": [
+    {
+      "lang": "python",
+      "slide": "## Stateful sklearn Pipeline \u2014 Fit vs. Transform",
+      "status": "PASS",
+      "stdout": "mean: [  2. 400.]\nscale: [  0.81649658 163.29931619]\nprediction: [0]\n",
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "lang": "sql",
+      "slide": "## The Temporal Leak (Naive Join)",
+      "status": "SKIPPED",
+      "stdout": "",
+      "stderr": "No runner for language: sql",
+      "returncode": null
+    },
+    {
+      "lang": "python",
+      "slide": "## Idempotent Embedding Pipeline",
+      "status": "PASS",
+      "stdout": "",
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "lang": "python",
+      "slide": "## Code \u2014 Reciprocal Rank Fusion",
+      "status": "PASS",
+      "stdout": "doc_A: 0.0325\ndoc_C: 0.0323\ndoc_B: 0.0318\n",
+      "stderr": "",
+      "returncode": 0
+    }
+  ]
+}

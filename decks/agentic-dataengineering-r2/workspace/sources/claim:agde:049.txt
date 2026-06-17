@@ -1,0 +1,27 @@
+SOURCE FILE: claim:agde:reranking:001
+Retrieved: 2026-06-15
+
+PRIMARY SOURCE:
+URL: https://mlpills.substack.com/p/issue-115-reranking-in-your-rag-pipeline
+Title: Issue #115 — Reranking in your RAG pipeline
+Publisher: ML Pills (technical newsletter)
+
+FULL EXCERPT:
+"Stage 1: Retrieval (Recall)...cast a wide net."
+"Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top."
+"If you send an LLM 20 documents, and the one correct answer is buried in the middle of 19 irrelevant ones, the LLM often misses it."
+"a Cross-Encoder to read the top 50 candidates and push the best ones to the top"
+
+The article explains that Cross-Encoders process query and document together simultaneously in a shared transformer, enabling fine-grained relevance judgment, unlike bi-encoder embedding models which encode query and document independently.
+
+SUPPORTING CONTEXT:
+"A cross-encoder takes the full query and a single candidate passage as joint input to a transformer, and directly predicts a relevance score. Because it can attend across all query and passage tokens simultaneously, it typically achieves higher precision than dual-encoders." — from web search result summaries covering multiple sources.
+
+"a dual encoder retrieves the top 50 to 100 candidates, with high recall mattering here because any relevant document that misses this cut is permanently gone." — from Pinecone rerankers documentation (https://www.pinecone.io/learn/series/rag/rerankers/)
+
+"the paradigm involves stage 1 (retrieve broadly to achieve high recall with N=50 or N=100 candidates) and stage 2 (use a more powerful, query-aware model to score and reorder candidates). The reranker reorders the list, with only the top 5 to 10 results reaching the user or the LLM." — from web search result summaries.
+
+ADDITIONAL SUPPORTING SOURCE:
+URL: https://www.pinecone.io/learn/series/rag/rerankers/
+Title: Rerankers and Two-Stage Retrieval (Pinecone documentation)
+"any relevant document that misses this cut is permanently gone"

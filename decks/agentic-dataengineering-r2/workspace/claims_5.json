@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of AI — Data Quality and Observability for ML",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:drift-taxonomy:001",
+      "statement": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes. Schema drift is a structural change (columns added, removed, or retyped). Distribution drift means P(X) changes while P(Y|X) remains the same. Concept drift means P(Y|X) changes — the input-output relationship itself shifts — while P(X) may remain stable.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Data Distribution Shifts and Monitoring — Chip Huyen",
+        "url_or_doi": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+        "section": "Types of distribution shift",
+        "excerpt": "Covariate shift: when P(X) changes, but P(Y|X) remains the same. ... Concept drift: when P(Y|X) changes, but P(X) remains the same."
+      }
+    },
+    {
+      "id": "claim:agde:drift-taxonomy:002",
+      "statement": "Schema drift is also called 'virtual drift' in the concept-drift literature when the input distribution P(X) changes without altering the conditional P(Y|X), in contrast to 'real concept drift' in which P(Y|X) changes. The joint distribution can be decomposed as P(X,Y) = P(X)·P(Y|X), making these two components independently driftable.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Learning under Concept Drift: A Review (arXiv:2004.05785)",
+        "url_or_doi": "https://arxiv.org/abs/2004.05785",
+        "section": "Concept drift taxonomy",
+        "excerpt": "Real concept drifts happen when the relation between the input and the target changes: P_t(y|x) ≠ P_{t+1}(y|x) whilst P_t(x) = P_{t+1}(x). Virtual drift is drift in P(x) without affecting P(y|x), also known as covariate shift or dataset shift."
+      }
+    },
+    {
+      "id": "claim:agde:psi:003",
+      "statement": "Population Stability Index (PSI) quantifies distributional shift of a feature between a reference dataset and a current dataset by binning values and computing PSI = Σ(C_i − R_i) × ln(C_i / R_i), where C_i and R_i are bin proportions. Rule-of-thumb thresholds: PSI < 0.1 = no significant change; 0.1–0.25 = moderate change; PSI > 0.25 = major population shift requiring model review.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Population Stability Index (PSI) — GeeksforGeeks",
+        "url_or_doi": "https://www.geeksforgeeks.org/data-science/population-stability-index-psi/",
+        "section": "PSI formula and thresholds",
+        "excerpt": "PSI = Σ(Ci - Ri) × ln(Ci/Ri), where Ci represents the proportion in the current distribution and Ri represents the proportion in the reference distribution. Less than 0.1: insignificant change, no action required; 0.1–0.25: some minor change; Greater than 0.25: major shift in population, need to delve deeper."
+      }
+    },
+    {
+      "id": "claim:agde:kl-divergence:004",
+      "statement": "KL divergence measures distributional shift as D_KL(P||Q) = Σ P(x) log[P(x)/Q(x)]. It is asymmetric: swapping reference and sample distributions yields a different value. PSI is a symmetric variant of KL divergence equivalent to D_KL(P||Q) + D_KL(Q||P). Both are applied per-feature in production ML monitoring by binning continuous values.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Difference between KL Divergence and PSI — Medium / Shrutika Poyrekar",
+        "url_or_doi": "https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12",
+        "section": "Comparison of KL divergence and PSI",
+        "excerpt": "KL divergence is a non-symmetric measure: if you swap the baseline distribution p(x) and sample distribution q(x), you will get a different number. PSI is a symmetric derivation of KL Divergence, mathematically equivalent to KL(P||Q) + KL(Q||P). KL Divergence and PSI are the two metrics which are commonly used to monitor data drift in model monitoring."
+      }
+    },
+    {
+      "id": "claim:agde:data-contracts-limits:005",
+      "statement": "Data contracts (schema validation tools such as Great Expectations) enforce structural constraints — column presence, data types, nullability, value ranges — and reliably catch schema drift. They do not inherently detect silent distributional shift: a feature column can remain syntactically valid (correct type, no nulls) while its statistical distribution shifts substantially from what the model was trained on.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Drift Detection: Monitoring Schema, Logic, and Metric Changes in Real-Time — Medium",
+        "url_or_doi": "https://medium.com/@manik.ruet08/drift-detection-monitoring-schema-logic-and-metric-changes-in-real-time-a2398428ccc1",
+        "section": "Schema vs. distributional monitoring",
+        "excerpt": "Schema drift breaks pipelines, logic drift invalidates business reports, and metric drift silently corrupts models and decisions. Schema validation catches structural drift but only that — not statistical or conceptual changes. Many silent failures pass structural checks — the schema remains intact, but the data shifts in ways that don't match real-world dynamics."
+      }
+    },
+    {
+      "id": "claim:agde:offline-online-gap:006",
+      "statement": "A well-documented failure mode in ML deployment is offline metrics improving while online metrics regress or stagnate. This occurs because offline test sets are static and do not reflect production distribution shifts, user-feedback loops, or latency constraints. Improvements in offline metrics lead to diminishing returns in online performance, and algorithm rankings on offline benchmarks can be reversed in live A/B tests.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Do Offline Metrics Predict Online Performance in Recommender Systems? (arXiv:2011.07931)",
+        "url_or_doi": "https://arxiv.org/abs/2011.07931",
+        "section": "Abstract / Conclusions",
+        "excerpt": "Improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available. Offline metrics are correlated with online performance over a range of environments, but the relationship is not straightforward."
+      }
+    }
+  ]
+}

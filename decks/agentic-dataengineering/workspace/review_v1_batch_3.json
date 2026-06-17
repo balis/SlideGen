@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "batch": 3,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:032",
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "bullet": "The synchronous OpenAI embeddings endpoint accepts a maximum of 2 048 inputs per request; exceeding this returns a 400 error, so throughput optimization requires batching inputs within this cap and staying within the account's TPM quota, typically via client-side rate limiting with exponential backoff",
+      "source_excerpt": "Batch size of 2048 succeeded. Batch size of 2049 failed with error: Error code: 400 — '$.input' is invalid. Please check the API reference. There is not only a batch size limit, but also a max_tokens_per_request.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:036",
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "bullet": "Exact k-NN search requires O(N * D) distance computations per query, where N is the dataset size and D the dimensionality",
+      "source_excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:036",
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "bullet": "At billion scale this is infeasible: brute-force scan of 10^9 128-d SIFT vectors would take ~17 minutes per query and require 512 GB of RAM",
+      "source_excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source states that exact k-NN is 'computationally inefficient' and 'impractical' at billion scale, but does not contain the specific figures '~17 minutes per query' or '512 GB of RAM'. These numbers appear to be derived/fabricated rather than sourced. The claim registry statement includes these figures, but the actual source excerpt does not support them.",
+      "suggested_fix": "At billion scale this is infeasible: brute-force exact k-NN search becomes computationally impractical at million- or billion-scale datasets [claim:agentic-de:036]"
+    },
+    {
+      "claim_id": "claim:agentic-de:037",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "HNSW recall is tuned via efSearch: increasing it from 100 to 500 raises recall from ~85% to ~98% but increases per-query latency from ~1 ms to ~5 ms on a 10 M-vector dataset",
+      "source_excerpt": "A higher efSearch (e.g., 500 vs. 100) increases recall by exploring more neighbors, but it slows down queries due to additional distance calculations. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:038",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "IVF-PQ combines cluster-based partitioning with product quantization; sweeping nprobe from 1 to 256 moves recall from ~70% to ~99% while throughput drops from 50,000 QPS to 300 QPS",
+      "source_excerpt": "With nprobe values ranging from 1 to 256, recall ranges from 70% to 99%, with query throughput decreasing from 50,000 QPS to 300 QPS and latency increasing from 0.02ms to 3.3ms respectively.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:039",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "DiskANN stores the graph index on SSD with a compressed representation in RAM, enabling billion-point search on a single node with 64 GB RAM — achieving >5,000 QPS at 95%+ recall with <3 ms mean latency",
+      "source_excerpt": "On the billion point SIFT1B bigann dataset, DiskANN serves > 5000 queries a second with < 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine with 64GB RAM and an SSD.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Metadata filtering interacts destructively with ANN graph traversal",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**Pre-filtering** (skip non-matching nodes during traversal) caps recall at ~57% because filtered-out nodes serve as routing states connecting graph regions",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**Post-filtering** preserves >99% recall but wastes compute on results that are discarded after retrieval",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**In-algorithm filtering** (e.g., Qdrant ACORN, Pinecone merged indexes) modifies traversal to maintain both recall and efficiency",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source discusses the pre-filtering vs post-filtering recall problem but does not mention 'Qdrant ACORN' or 'Pinecone merged indexes' as specific in-algorithm filtering solutions. The bullet attributes specific product names to this source that do not appear in the cited excerpt. The general concept of in-algorithm filtering as a third approach is reasonable but the specific examples are not supported by this source.",
+      "suggested_fix": "**In-algorithm filtering** modifies traversal to maintain both recall and efficiency, avoiding the recall loss of pre-filtering and the wasted compute of post-filtering [claim:agentic-de:040]"
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "ANN recall is a silently violated SLO: as the database grows or parameters drift, retrieval quality degrades without raising exceptions",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Latency metrics remain stable while progressively weaker context is fed to downstream consumers such as RAG, increasing hallucinations",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Going from 0.8 to 0.95 recall increases HNSW latency by ~31% and IVF latency by ~3x on SIFT10M",
+      "source_excerpt": "Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "pgvector eliminates a new service, enables SQL joins of vector similarity with relational predicates in one query, and is sufficient for datasets up to low millions of vectors",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports pgvector eliminating a new service and scaling beyond a single Postgres instance being the trigger for a dedicated DB. However, the source does not mention 'SQL joins of vector similarity with relational predicates in one query' or specify 'low millions of vectors' as a threshold. These details are reasonable inferences but are not stated in the cited source excerpt.",
+      "suggested_fix": "pgvector eliminates a new service — adding vector search is one migration on an existing Postgres instance — and is the better choice when your dataset fits within a single Postgres instance [claim:agentic-de:041]"
+    },
+    {
+      "claim_id": "claim:agentic-de:041",
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "bullet": "Dedicated engines offer horizontal scaling, advanced quantization, and hybrid BM25+vector ranking needed beyond ~10 M vectors or at high query concurrency",
+      "source_excerpt": "pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source supports horizontal scaling and advanced quantization features as reasons to choose a dedicated engine. However, the source does not mention 'hybrid BM25+vector ranking', the '~10 M vectors' threshold, or 'high query concurrency'. The bullet adds specifics not present in the cited source.",
+      "suggested_fix": "Dedicated engines offer horizontal scaling across clusters and advanced quantization features needed when you outgrow what a single Postgres instance handles [claim:agentic-de:041]"
+    },
+    {
+      "claim_id": "claim:agentic-de:043",
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "bullet": "Chunking strategy is a foundational design decision: chunk size, overlap, and segmentation method define retrieval quality, and a well-tuned strategy can improve retrieval accuracy by up to 40% compared to naive approaches",
+      "source_excerpt": "In production LLM RAG pipelines, chunking is not just a preprocessing step — it defines the quality of retrieval and the effectiveness of agent memory. A well-tuned chunking strategy can improve retrieval accuracy by 40% compared to naive approaches.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:044",
+      "slide": "RAG as a Two-Stage Data Pipeline",
+      "bullet": "Hybrid retrieval runs sparse BM25 and dense ANN search in parallel, then fuses the two ranked lists — ensuring lexical matches the dense model ranks too low (error codes, IP addresses, config flags) are not lost",
+      "source_excerpt": "In real systems that handle logs, docs, and configuration snippets, vectors alone regularly return answers that sound plausible but are wrong because they miss short, literal tokens like IPs, error codes, and config flags.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:045",
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "bullet": "**Reciprocal Rank Fusion (RRF)** combines ranked lists by scoring each document *d* as RRFscore(*d*) = ∑ 1/(*k* + rank(*d*)), where *k* is typically 60; it requires no score normalisation and outperforms both Condorcet Fuse and individual rank-learning methods",
+      "source_excerpt": "Reciprocal Rank Fusion is a simple method for combining the document rankings from multiple IR systems. RRF consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. The RRF formula scores each document d as: RRFscore(d) = sum over all ranking lists R of 1/(k + r_R(d)), where r_R(d) is the rank of document d in list R and k is a constant (typically 60). The method requires no score normalisation, operating purely on rank positions.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says RRF 'outperforms both Condorcet Fuse and individual rank-learning methods'. The source says RRF yields 'better results than any individual system, and better results than the standard method Condorcet Fuse.' The source does not mention 'individual rank-learning methods' -- it says 'individual system' (meaning individual IR systems in the ensemble, not rank-learning methods). The bullet conflates 'individual system' with 'individual rank-learning methods', which are different concepts.",
+      "suggested_fix": "**Reciprocal Rank Fusion (RRF)** combines ranked lists by scoring each document *d* as RRFscore(*d*) = ∑ 1/(*k* + rank(*d*)), where *k* is typically 60; it requires no score normalisation and outperforms both Condorcet Fuse and any individual retrieval system in the ensemble [claim:agentic-de:045]"
+    },
+    {
+      "claim_id": "claim:agentic-de:046",
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "bullet": "**Cross-encoder re-ranking** is the second stage: a bi-encoder retrieves 50-100 candidates quickly, then a cross-encoder jointly encodes each (query, document) pair to produce a refined relevance score, reordering candidates so the top 5-10 passed to the LLM are the most relevant",
+      "source_excerpt": "Two-Stage (Bi-Encoder + Cross-Encoder): Query -> Embed -> Vector Search -> Top-100 -> Cross-Encoder Rerank -> Top-10 -> LLM. The study identified optimal hyperparameters: Retrieve 50-100 candidates, rerank to 10 documents, with batch size of 32 for optimal GPU performance.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:047",
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "bullet": "**Recall vs. precision separation**: hybrid search improves recall (surfaces lexical matches the dense model misses), while re-ranking improves precision (reorders the already-retrieved set); a re-ranker cannot fix recall because it never sees documents that were not retrieved in the first stage",
+      "source_excerpt": "Two-stage retrieval separates candidate generation (fast, broad search) from ranking (slow, precise evaluation). Your initial retrieval needs to be fast and cast a wide net. Your reranker needs to be accurate and selective. Cross-encoders process query and document together, capturing interactions between them for more accurate relevance scoring.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:048",
+      "slide": "The Top-k Cutoff Failure Mode",
+      "bullet": "A canonical RAG failure occurs when a relevant chunk is retrieved but ranked just outside the top-k cutoff (e.g., at position 11 when k = 10) — the system indexed and retrieved the document, but the LLM never sees it, upper-bounding generation quality by the missing evidence regardless of the model's reasoning capacity",
+      "source_excerpt": "Whenever a truly relevant document has rank greater than k, the model's generation is upper-bounded by missing evidence, regardless of reasoning capacity. When a document needed sits at position eleven in the results just outside the top ten, the system had not failed to index or retrieve it but it was ranked below ten other documents.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "21 claims checked in this batch. 16 verified, 5 misrepresented, 0 unverified."
+}

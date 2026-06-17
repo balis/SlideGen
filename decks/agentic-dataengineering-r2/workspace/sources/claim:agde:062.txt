@@ -1,0 +1,25 @@
+SOURCE: PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models
+URL: https://arxiv.org/abs/2402.07867
+Retrieved: 2026-06-15
+Authors: Wei Zou, Runpeng Geng, Binghui Wang, Jinyuan Jia
+Year: 2024
+Venue: USENIX Security 2025
+
+EXCERPTS (fetched from https://arxiv.org/html/2402.07867v3):
+"An attacker could inject a few malicious texts into the knowledge database of a RAG system to induce an LLM to generate an attacker-chosen target answer."
+
+"The system achieves a 97% ASR by injecting 5 malicious texts for each target question into a knowledge database (with 2,681,468 clean texts) in black-box settings on the Natural Questions dataset."
+
+"Under white-box conditions with multiple datasets, ASRs consistently exceed 90%."
+
+"The knowledge database in a RAG system introduces a new and practical attack surface."
+
+"The attack decomposes malicious texts into two components: a Generation Component (I) crafted to satisfy the generation condition — ensuring the LLM produces the target answer when given this text as context — and a Retrieval Component (S) designed to satisfy the retrieval condition — making the malicious text retrievable for target questions."
+
+"Attackers can inject malicious content through various means — Wikipedia editing, fake news posts, or compromising enterprise knowledge bases — without needing direct access to the LLM or retriever components."
+
+ADDITIONAL CONTEXT (from promptfoo.dev RAG poisoning article):
+"Just five carefully crafted documents in a database of millions can successfully manipulate AI responses 90% of the time."
+
+Attack types documented: Instruction Injection, Context Poisoning, Retrieval Manipulation, Data Extraction, Prompt Leakage.
+Source: https://www.promptfoo.dev/blog/rag-poisoning/

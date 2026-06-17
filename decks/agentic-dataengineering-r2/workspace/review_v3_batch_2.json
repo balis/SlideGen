@@ -1,0 +1,108 @@
+{
+  "version": 3,
+  "batch": 2,
+  "batch_verdict": "VERIFIED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; they cannot be changed after index construction without a full rebuild [claim:agde:038]",
+      "source_excerpt": "Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "The clause 'cannot be changed after index construction without a full rebuild' is not explicitly stated in the source, but is a correct implication of the term 'build-time parameters' and standard HNSW behavior. No factual error.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The query-time parameter efSearch is the operational dial: increasing it from 10 to 640 can improve recall@1 from ~0.56 to ~0.97, while latency rises from ~5 ms to ~68 ms [claim:agde:038]",
+      "source_excerpt": "The empirical data demonstrates efSearch's direct impact: increasing k from 10 to 640 improved recall@1 from 0.56 to 0.97, but latency jumped from 5.31ms to 68.28ms.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "The source says 'increasing k from 10 to 640' in the context of demonstrating 'efSearch's direct impact.' The slide correctly attributes the effect to efSearch. Numbers match exactly (0.56, 0.97, ~5ms, ~68ms). Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth — Parameters and Recall/Latency Tradeoff",
+      "bullet": "The recall-latency tradeoff should be treated as a tuned SLO, not a fixed property — the right efSearch value depends on the latency budget and the recall requirement for the application [claim:agde:038]",
+      "source_excerpt": "Typical efSearch values range from slightly above k (e.g., 40) to several hundreds, depending on the desired recall. Doubling efSearch from 200 to 400 might only improve recall by 5% while doubling search time.",
+      "verdict": "SUPPORTED",
+      "severity": "MINOR",
+      "issue": "The SLO framing is editorial interpretation, not a direct quote from the source. However, the source data clearly shows a tunable recall-latency tradeoff dependent on application requirements, which substantively supports the claim. The 'SLO' label is pedagogical framing, not a factual assertion.",
+      "suggested_fix": "None required — the framing is a reasonable inference from the data."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Large chunks can exceed token limits or include irrelevant content, reducing precision; small chunks may lack surrounding context needed for accurate generation [claim:agde:045]",
+      "source_excerpt": "Large chunks can exceed token limits or retrieve irrelevant information, reducing retrieval precision, while small chunks might miss the context necessary for effective generation.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "Near-verbatim match with the source. The slide says 'include irrelevant content' where the source says 'retrieve irrelevant information' — semantically identical. Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "Chunk size is a design tradeoff: increasing it improves context availability but dilutes specificity; decreasing it sharpens specificity but loses context [claim:agde:045]",
+      "source_excerpt": "As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "Accurately paraphrases the source. The slide's 'dilutes specificity' corresponds to the source's 'losing fine-grained details'; the slide's 'loses context' corresponds to the source's 'sacrifice the surrounding context.' Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy — A Schema Design Decision",
+      "bullet": "The best-performing chunk size varies substantially across queries — making this a decision that should be driven by the dominant query pattern rather than treated as a fixed one-time tuning parameter [claim:agde:045]",
+      "source_excerpt": "the best-performing chunk size varies substantially across queries, even when querying the same corpus. Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy.",
+      "verdict": "SUPPORTED",
+      "severity": "MINOR",
+      "issue": "The first half ('varies substantially across queries') is a near-verbatim match. The second half ('driven by the dominant query pattern') is an editorial inference. The source's actual recommendation is multi-scale indexing (indexing at multiple chunk sizes and aggregating), not selecting a single size based on dominant query pattern. The slide's framing is not contradicted but omits the source's preferred solution.",
+      "suggested_fix": "Consider adding a note that multi-scale chunking (indexing at multiple sizes) is the source's recommended approach, rather than implying a single size should be chosen based on the dominant query type."
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "PSI quantifies distributional shift per feature — values above 0.25 indicate a major population shift requiring model review (LO5) [claim:agde:027]",
+      "source_excerpt": "Greater than 0.25: major shift in population, need to delve deeper. NOTE: The original threshold commonly cited is PSI < 0.1 (no change), 0.1–0.2 (moderate), > 0.2 (significant). The 0.25 upper boundary also appears in some industry sources. Both sets of thresholds are rule-of-thumb conventions.",
+      "verdict": "SUPPORTED",
+      "severity": "MINOR",
+      "issue": "The 0.25 threshold is supported by the GeeksforGeeks source, but the source note acknowledges that > 0.2 is the more commonly cited threshold for 'significant' shift. Using 0.25 is defensible but represents the less common convention. No factual error — both thresholds appear in industry practice.",
+      "suggested_fix": "Consider noting that 0.2 is an alternative common threshold, or use '> 0.2' as the more widely cited convention."
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline [claim:agde:047]",
+      "source_excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system. Because RRF operates on rank positions instead of raw scores, it has become the default hybrid search ranking method in OpenSearch, Elasticsearch, Azure AI Search, MongoDB Atlas, and Weaviate.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "The source confirms RRF is 'the default hybrid search ranking method' across major search platforms, which directly supports calling it the 'production baseline.' Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Lecture Summary — Ten Key Takeaways",
+      "bullet": "a cross-encoder reranker improves precision within the retrieved set but cannot recover recall lost at stage 1 (LO8) [claim:agde:049]",
+      "source_excerpt": "a dual encoder retrieves the top 50 to 100 candidates, with high recall mattering here because any relevant document that misses this cut is permanently gone. the paradigm involves stage 1 (retrieve broadly to achieve high recall) and stage 2 (use a more powerful, query-aware model to score and reorder candidates). The reranker reorders the list, with only the top 5 to 10 results reaching the user or the LLM.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "The source explicitly states that any document missing from the stage-1 retrieval is 'permanently gone' and that the reranker 'reorders the list' — directly supporting the claim that a reranker cannot recover recall lost at stage 1. Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-20ms p95 latency requirements [claim:agde:043]",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Qdrant indexes payload fields and runs filters inside the HNSW graph traversal. Use Milvus if you're working at billion-vector scale.",
+      "verdict": "SUPPORTED",
+      "severity": null,
+      "issue": "All specifics match the source: pgvector under 2M vectors, the three named alternatives (Qdrant, Pinecone, Milvus), and the sub-20ms p95 latency threshold. Note: the original claim statement in the registry says 'sub-10ms' but the source says 'sub-20ms p95' — the slide correctly uses the source's 'sub-20ms' figure rather than the claim registry's 'sub-10ms.' Verified.",
+      "suggested_fix": "None required."
+    }
+  ],
+  "summary": "All 10 items verified against sources. No CRITICAL or MAJOR issues found. Three MINOR issues identified: (1) the SLO framing for HNSW efSearch is editorial but reasonable; (2) the chunking bullet recommends choosing by 'dominant query pattern' whereas the source recommends multi-scale indexing; (3) the PSI threshold of 0.25 is supported but the more commonly cited threshold is 0.2. None of these change the substantive accuracy of the slides. Batch verdict: VERIFIED."
+}

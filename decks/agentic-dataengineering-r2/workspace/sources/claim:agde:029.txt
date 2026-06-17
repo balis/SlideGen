@@ -1,0 +1,40 @@
+SOURCE FILE — claim:agde:data-contracts-limits:005
+
+PRIMARY URL: https://medium.com/@manik.ruet08/drift-detection-monitoring-schema-logic-and-metric-changes-in-real-time-a2398428ccc1
+Title: Drift Detection: Monitoring Schema, Logic, and Metric Changes in Real-Time — Medium (Manik Hossain)
+Retrieved: 2026-06-15
+
+FULL EXCERPT (from search result content):
+"Schema drift breaks pipelines, logic drift invalidates business reports, and metric drift
+silently corrupts models and decisions."
+
+"Schema validation catches structural drift but only that — not statistical or conceptual changes."
+
+"Many silent failures pass structural checks — the schema remains intact, but the data shifts
+in ways that don't match real-world dynamics, while distributional monitoring catches these
+subtle degradations early."
+
+SPECIFIC EXAMPLE OF SILENT DISTRIBUTIONAL SHIFT:
+"A feature like device_type might suddenly start emitting new values like 'unknown_device_v3' —
+technically remaining a string so nothing broke structurally, but the model started seeing a new
+bucket that never existed in training."
+
+SUPPORTING SOURCE — Data Contracts and Structural vs. Distributional Validation:
+URL: https://dzone.com/articles/prevent-ml-failures-with-data-contracts
+"The sweet spot is using both: contracts to prevent structural and rule-based breaks,
+and observability to catch freshness, volume, and distribution drift."
+
+"Schema validation is one of the most critical features of data contracts, ensuring that the
+structure of data aligns with what a model or pipeline expects."
+
+GREAT EXPECTATIONS SPECIFIC NOTE:
+Great Expectations provides `ExpectColumnKLDivergenceToBeLessThan` to compare current data
+distribution with a reference distribution and detect drift — but this expectation must be
+explicitly configured; it is not part of default schema validation. Schema expectations
+(ExpectColumnToExist, ExpectColumnValuesToBeOfType) only verify structure.
+Source: https://docs.greatexpectations.io/docs/reference/learn/data_quality_use_cases/distribution/
+
+SCHEMA DRIFT DEFINITION (corroborating the structural-only scope):
+"Schema drift occurs when your data source changes its metadata. On the fly, fields, columns,
+and types can be added, removed, or changed."
+Source: Matillion Docs — https://docs.matillion.com/data-productivity-cloud/cdc/docs/cdc-schema-drift/

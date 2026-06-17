@@ -1,0 +1,25 @@
+CLAIM ID: claim:agde:idempotent-reembedding:005
+
+SOURCE
+Title: Building a Production-Grade RAG System (Not Just a Demo) — DEV Community
+URL: https://dev.to/ritwikareddykancharla/building-a-production-grade-rag-system-not-just-a-demo-2l0p
+Type: web
+Retrieved: 2026-06-15
+
+EXCERPT
+"Re-running your ingestion pipeline shouldn't create duplicates. Embedding is where your API costs live. Two habits that pay off immediately: batching and caching. The implementation stores embeddings keyed by text hash to avoid re-computing duplicates. The sweet spot for batch size is 100–500 texts per API call."
+
+SUPPORTING CONTEXT
+Additional corroboration from search results across multiple production RAG guides:
+- "The worker checks content_hash before embedding, so duplicate queue entries are harmless, making the pipeline idempotent." (From RAG Architecture: Best Practice → Vector Database Ingestion, Medium)
+- "Content hashing makes ingestion idempotent, so you can run it in CI, in a cron job, or on every git commit without paying twice for unchanged files." (From I built a production RAG pipeline — DEV Community)
+- "SHA-256 hashing of text content to cache embeddings for identical content and reduce costs." (Multiple sources)
+
+PATTERN DESCRIPTION
+The idempotent embedding pattern consists of:
+1. Compute SHA-256 (or MD5) of the source text chunk at ingestion time.
+2. Query the embedding store for an existing record with the same hash AND same model version.
+3. If found: skip the API call, reuse the stored vector.
+4. If not found: call the embedding API, store vector alongside (hash, model_id, model_version).
+
+Note: idempotency keying MUST include the model version, not just the content hash — a document already embedded with model v1 must be re-embedded when switching to model v2.

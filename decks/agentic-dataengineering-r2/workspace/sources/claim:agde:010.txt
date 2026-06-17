@@ -1,0 +1,29 @@
+SOURCE: Point-in-Time Joins — Feast: the Open Source Feature Store (official documentation)
+URL: https://docs.feast.dev/getting-started/concepts/point-in-time-joins
+Retrieved: 2026-06-15
+
+EXCERPT (supporting claim:agde:temporal-leak-naive-join:004):
+"Feast is able to join features from one or more feature views onto an entity dataframe in a point-in-time correct way. For each row within the entity dataframe, Feast will scan backward in time from the entity dataframe timestamp up to a maximum of the TTL time specified. The last row in the entity dataframe was outside of the TTL window (the event happened 11 hours after the feature row) and also couldn't be joined."
+
+ADDITIONAL CONTEXT — what a naive join does wrong:
+The Feast documentation implies the naive join problem: without backward time scanning, a standard SQL equi-join between a transactions table, a customer dimension table, and a labels table (all keyed on customer_id without timestamp constraint) will pick up the latest available customer attributes regardless of whether they were available at transaction time. If a customer's credit tier, lifetime value, or aggregate fraud count was updated after the labeled event, the training row will reflect that updated (future) state rather than the state at prediction time.
+
+SUPPORTING QUOTES from secondary sources:
+
+From Kumo.ai Data Leakage documentation (from search results):
+URL: https://kumo.ai/pyg/concepts/data-leakage/
+"Temporal leakage occurs when the model can see edges, features, or events from the future, such as an order placed after the prediction date revealing that the customer did not churn."
+
+From MLOps antipatterns search results (re: arxiv 2107.00079):
+"Failing to account for the temporal dimension when constructing training datasets leads to data leakage or time travel, where information unavailable at the time of the prediction event inadvertently influences the model training process."
+
+From fraud detection search results:
+"A churn model that includes transactions from the month after the prediction window was computed, or a fraud model that includes a customer's total fraud count including future incidents. These features require knowledge of the future that a real-time model cannot have."
+
+From dotData:
+"A feature is computed by joining a table that is only populated after the event of interest occurs, with fields like account closure date, refund timestamp, and complaint resolution status being populated downstream of the event the model is trying to predict."
+
+NOTES:
+- The Feast documentation provides the authoritative point-in-time join mechanism.
+- The naive join failure pattern (joining transactions + customer dimension + labels by customer_id without timestamp constraint) is implied by the Feast mechanism and corroborated by multiple practitioner sources.
+- HIGH confidence for the mechanism; the specific schema (transactions + customer dimension + timestamped labels) is a standard pedagogical framing consistent with all sources found.

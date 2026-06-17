@@ -1,0 +1,11 @@
+Source for claim:agentic-de:hybrid-retrieval:001
+
+Title: Hybrid Search Done Right: Fixing RAG Retrieval Failures using BM25 + HNSW + Reciprocal Rank Fusion in Elasticsearch
+URL: https://ashutoshkumars1ngh.medium.com/hybrid-search-done-right-fixing-rag-retrieval-failures-using-bm25-hnsw-reciprocal-rank-fusion-a73596652d22
+Retrieved: 2026-06-14
+
+Excerpt:
+"In real systems that handle logs, docs, and configuration snippets, vectors alone regularly return answers that sound plausible but are wrong because they miss short, literal tokens like IPs, error codes, and config flags."
+
+Additional context from search results:
+"This approach ensures you don't miss a document just because the user used a perfect keyword (sparse) or just because they used synonyms (dense)."

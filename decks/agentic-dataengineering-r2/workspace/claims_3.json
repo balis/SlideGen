@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of AI — Lecture 7",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:pit-join:001",
+      "statement": "A point-in-time (as-of) join prevents temporal leakage by retrieving, for each training example, only feature values whose timestamp is at or before the label's event_timestamp — ensuring that no future information is used during model training.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Feature Retrieval Concepts — Feast: the Open Source Feature Store",
+        "url_or_doi": "https://docs.feast.dev/getting-started/concepts/feature-retrieval",
+        "section": "Point-in-time joins",
+        "excerpt": "Feast performs a point-in-time join (also called a 'last known good value' temporal join): for each entity row, it retrieves the latest feature values with a timestamp at or before the entity row's event_timestamp. Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models."
+      }
+    },
+    {
+      "id": "claim:agde:feature-store-arch:002",
+      "statement": "A feature store's offline/online/shared-transformation-definition pattern eliminates training-serving skew by enforcing that both the historical training path and the real-time serving path execute the same feature computation logic, declared once in a shared feature view registry.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Feature Stores: Architecture and Online/Offline Storage — DragonflyDB Blog",
+        "url_or_doi": "https://www.dragonflydb.io/blog/feature-store-architecture-and-storage",
+        "section": "Offline/Online Architecture",
+        "excerpt": "Training requires reproducible historical features with time-travel capabilities (scanning terabytes across months), while serving demands sub-10ms access to the latest values—workloads so divergent that single-database solutions inevitably caused training-serving skew, unsustainable costs, or both. Feature stores are essentially dual-database systems, containing a columnar data store for historical (offline) feature data and an online (low-latency) row-oriented data store for serving precomputed features to online applications."
+      }
+    },
+    {
+      "id": "claim:agde:feature-store-consistency:003",
+      "statement": "The offline/online store split in a feature store introduces a second consistency problem: the online store must be periodically materialized from the offline store, creating a window of staleness during which the two stores diverge; if materialization writes to only one store, eventual consistency breaks.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Online-Offline Feature Store Consistency — Hopsworks MLOps Dictionary",
+        "url_or_doi": "https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency",
+        "section": "Consistency guarantees",
+        "excerpt": "Every time a materialization job runs (backfill or scheduled), it generates a new dataframe of the corresponding feature window. If customers enable both online and offline store, that same table must be merged into both online and offline store. If the dataframe is only merged into one but not the other, it will break the eventual consistency. A replication protocol with consistency guarantees (strong consistency, eventual consistency,...) is needed so that the feature data that should be stored in both online and offline stores is kept in sync."
+      }
+    },
+    {
+      "id": "claim:agde:asof-join-dialects:004",
+      "statement": "Dialect-specific ASOF JOIN syntax exists in DuckDB, ClickHouse, and kdb+; the concept originates from kdb+'s aj (as-of join) operator used extensively in quantitative finance; ClickHouse adopted it in 2019 with the constraint that an equality condition must accompany the inequality; DuckDB's implementation hash-partitions and sorts the right-hand side and benchmarks several orders of magnitude faster than equivalent window-function queries.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "DuckDB AsOf Joins: Fuzzy Temporal Lookups — DuckDB Blog; Altinity ClickHouse ASOF blog",
+        "url_or_doi": "https://duckdb.org/2023/09/15/asof-joins-fuzzy-temporal-lookups",
+        "section": "Implementation and comparison",
+        "excerpt": "AsOf joins match rows based on nearby values rather than exact equality, making them ideal for temporal analytics. They find the value of a property as of a specific point in time by locating the most recent matching record before a given timestamp. ASOF was originally implemented in ClickHouse in 2019 but is now in a few more database engines. ClickHouse's ASOF implementation was based on the kdb+ asof operator. KDB has its infamous and extremely useful asof join (aj, aj0, afj, afj0), which is in absolute ubiquitous use in particular in finance."
+      }
+    },
+    {
+      "id": "claim:agde:ansi-window-pit:005",
+      "statement": "Point-in-time joins can be implemented in standard ANSI SQL using window functions (added in SQL:2003/2008) or LATERAL correlated subqueries; these portable approaches are functionally equivalent to dialect-specific ASOF JOIN but typically execute more slowly because the optimizer cannot apply the same merge-join strategy.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "Window Functions in ANSI SQL (AWS Migration Playbook); LATERAL as Advanced SQL Feature (Medium)",
+        "url_or_doi": "https://docs.aws.amazon.com/dms/latest/sql-server-to-aurora-postgresql-migration-playbook/chap-sql-server-aurora-pg.sql.windowfunctions.html",
+        "section": "ANSI SQL window functions and LATERAL joins",
+        "excerpt": "Windowing functions were added to the ANSI/ISO Standard SQL:2003 and then extended in ANSI/ISO Standard SQL:2008. Window functions use an OVER clause to define the window and frame for a data set to be processed. LATERAL is a term and concept that originates with ANSI SQL standards and is a valuable construct for performing correlated subqueries with applications in data analysis and query optimization."
+      }
+    },
+    {
+      "id": "claim:agde:feature-store-when-not:006",
+      "statement": "A feature store is not warranted for a single-model, single-team, batch-only inference use case: when feature engineering, model training, and serving all run on a fixed batch schedule with no real-time latency requirements, the online store and materialization infrastructure add operational cost with no benefit, and simpler alternatives (SQL tables with versioned transformation scripts) suffice.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Feature Store — Made With ML by Anyscale; Do You Really Need a Feature Store? (Substack)",
+        "url_or_doi": "https://madewithml.com/courses/mlops/feature-store/",
+        "section": "When not to use a feature store",
+        "excerpt": "In batch feature engineering + batch inference scenarios where feature engineering, model training and model serving are all conducted at a fixed interval with no need for streaming features and low model serving latency requirements, you do not need an online feature store. If you don't have too many ML applications/models, you don't really need to add the additional complexity of a feature store to manage transformations, as all the feature transformations can be done directly inside the model processing or as a separate function."
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+Claim ID: claim:agentic-de:asof-join:001
+Statement: A point-in-time (as-of) join retrieves, for each training example with a timestamp, the latest feature value that existed at or before that moment, thereby preventing temporal leakage -- the use of feature values that were not yet available when the label was recorded.
+
+Source excerpt:
+"In SQL, a PiT Join is an ASOF LEFT JOIN -- a point-in-time correct join is a temporal join between two tables where the output reflects the state of both tables at a specific point in time defined by timestamps from the left table (containing the labels). ASOF LEFT JOINS start with a table containing both the labels/observations (for training) and a timestamp column, and join feature values from another table with every row in the output table containing the feature AS OF the value of the point in time of timestamp value from the label table."
+
+"Avoiding label leakage ensures that the features used for training are only derived from data available at the point in time corresponding to the label, which prevents label leakage."
+
+URL: https://www.hopsworks.ai/dictionary/point-in-time-correct-joins
+Retrieved: 2026-06-14

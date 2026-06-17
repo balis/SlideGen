@@ -1,0 +1,28 @@
+SOURCE FILE FOR claim:agde:vecdb:006
+=====================================
+
+CLAIM: Metadata filtering interacts poorly with ANN indexes: post-filtering (ANN first, then apply predicate) can return zero results when a selective filter eliminates all ANN candidates; pre-filtering (apply predicate first, then ANN on the subset) degrades to brute force when the subset is large. Tight filters cause tail latencies of 200–300 ms in post-filter fallback engines. Modern dedicated vector databases (Qdrant, Weaviate) address this by integrating filters inside HNSW graph traversal, whereas pgvector performs post-filter on a candidate set, making selective queries scan hundreds of thousands of candidates.
+
+SOURCE 1:
+TITLE: The Achilles Heel of Vector Search: Filters — Bits & Backprops
+URL / DOI: https://yudhiesh.github.io/2025/05/09/the-achilles-heel-of-vector-search-filters/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Unlike a traditional RDBMS, adding a filter to a vector search often slows it down, not speeds it up. Pre-filtering ('filter-then-search') guarantees correctness, but if that subset is large you end up doing a near-linear scan. Post-filtering ('search-then-filter') is fast when filters are loose, but restrictive filters require oversampling (searching many more neighbors) to avoid missing matches — and when only 10% of records match a filter, engines relying on post-filter fallbacks can spike to 200–300 ms under filtering in tail latencies. ANN indexes optimize for proximity, not boolean predicates — no native 'category' tree. Graph-based indexes (HNSW) face 'Graph Disconnects' when filtered nodes are removed, fragmenting search traversals in ways relational B-trees never experience."
+
+SOURCE 2:
+TITLE: Pre-filtering vs Post-filtering in Vector Search — apxml.com
+URL / DOI: https://apxml.com/courses/advanced-vector-search-llms/chapter-2-optimizing-vector-search-performance/advanced-filtering-strategies
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"In post-filtering scenarios, none of the nearest documents may match the filter, resulting in 0% recall regardless of vector index performance. Determining an appropriate size for the candidate set can be challenging, as filter selectivity is typically unknown beforehand — if the size is too large, the search becomes costly; if too small, the result set may contain fewer items than expected. Modern vector databases often employ sophisticated indexing techniques that allow for efficient pre-filtering or tightly integrate filtering into the ANN search graph traversal (in algorithms like HNSW), eliminating intermediate k selection but requiring explicit algorithmic support."
+
+SOURCE 3:
+TITLE: pgvector vs Pinecone vs Qdrant vs Weaviate (2026): Which We Actually Use in Production — Kalvium Labs
+URL / DOI: https://www.kalviumlabs.ai/blog/vector-databases-compared-pgvector-pinecone-qdrant-weaviate/
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Qdrant indexes payload fields and runs filters inside the HNSW graph traversal, outperforming pgvector's post-filter approach for selective queries. pgvector: post-filter on candidate set; selective queries (10% selectivity on 5M vectors) scan 500K candidates. All four implement HNSW and achieve similar recall at comparable efSearch settings. The database choice affects accuracy in one specific case: selective metadata filtering."

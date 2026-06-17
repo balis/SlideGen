@@ -1,0 +1,17 @@
+Source for claim:agentic-de:skew-vs-drift:002
+
+Title: Concept drift — Wikipedia
+URL: https://en.wikipedia.org/wiki/Concept_drift
+Section: Definition
+
+Excerpt:
+"In predictive analytics, data science, machine learning and related fields, concept drift is an evolution of data that invalidates the data model. It happens when the statistical properties of the target variable, which the model is trying to predict, change over time in unforeseen ways."
+
+Formal definition: Concept drift is a change in the joint probability distribution P(X,Y) between two time instances t and t+w.
+
+Additional supporting source:
+Title: Machine Learning Monitoring, Part 5: Why You Should Care About Data and Concept Drift
+URL: https://www.evidentlyai.com/blog/machine-learning-monitoring-data-and-concept-drift
+Summary: The article distinguishes data drift (change in input distributions P(X)) from concept drift (change in the relationship P(Y|X)), noting that concept drift can occur even when input distributions remain stable.
+
+Retrieved: 2026-06-14

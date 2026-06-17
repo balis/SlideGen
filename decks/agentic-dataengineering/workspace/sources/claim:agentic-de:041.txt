@@ -1,0 +1,5 @@
+Source excerpt:
+"pgvector is the better choice when you already run Postgres. Adding vector search is one migration, not a new service. Choose Qdrant when you need to scale beyond what a single Postgres instance handles or require advanced quantization features. A dedicated vector database provides real horizontal scaling across clusters and better performance for pure vector workloads, though this comes with the operational cost of maintaining a separate service."
+
+URL: https://encore.dev/articles/pgvector-vs-qdrant
+Retrieved: 2026-06-14

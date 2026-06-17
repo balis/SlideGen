@@ -1,0 +1,8 @@
+Source for claim:agentic-de:gdpr-embeddings:001
+
+Title: From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models
+URL: https://arxiv.org/abs/2411.17126
+Retrieved: 2026-06-14
+
+Excerpt:
+In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model. GDPR grants data subjects the Right to Be Forgotten, mandating companies fulfill data erasure requests, particularly when asked to erase specific training data from their well-trained predictive models. The SISA (Sharded, Isolated, Sliced, and Aggregated) training method divides training data into disjoint subsets with independently trained submodels; when deletion is requested, only the affected submodel requires retraining, significantly reducing computational overhead while achieving identical results to full retraining.

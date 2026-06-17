@@ -1,0 +1,21 @@
+Source excerpt for claim:agentic-de:agent-maturity:004
+
+Title: The 8 Levels of Agentic Engineering: AI Maturity Model
+Source: getunblocked.com
+
+Excerpt:
+"Teams at Level 6 build verifiable environments with sandboxes and eval harnesses."
+
+"If you want autonomy, you need backpressure. Otherwise you end up with a slop machine."
+
+"Without harnesses autonomy compounds errors instead of work."
+
+Additional context from related search (vellum.ai, Six Maturity Levels of AI Agents):
+The maturity framework defines levels from L0 (None) through L5 (Full), with progressively
+increasing autonomy and changing human roles from Integrating (L1) to Supervising (L3) to
+Onlooker (L4). Most enterprise AI systems still sit at L1 and L2 with focus on orchestration,
+while L3 and L4 are still hard for general-purpose agents because most production workflows
+still need a human in the loop somewhere.
+
+URL: https://getunblocked.com/blog/8-levels-of-agentic-engineering/
+Retrieved: 2026-06-14

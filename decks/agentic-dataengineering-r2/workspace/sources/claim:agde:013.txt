@@ -1,0 +1,11 @@
+SOURCE: Feast Feature Store Documentation — Feature Retrieval Concepts
+URL: https://docs.feast.dev/getting-started/concepts/feature-retrieval
+Retrieved: 2026-06-15
+
+EXCERPT (from Feast official documentation, confirmed via web search):
+"Feast solves several common issues in this flow: Training-serving skew and complex data joins: Feature values often exist across multiple tables. Feast joins these tables with battle-tested logic that ensures point-in-time correctness so future feature values do not leak to models."
+
+"Feast performs a point-in-time join (also called a 'last known good value' temporal join): for each entity row, it retrieves the latest feature values with a timestamp at or before the entity row's event_timestamp."
+
+Additional context from search results (docs.feast.dev):
+"The offline store provides the compute layer to process historical data (for generating training data & feature values for serving). The online store is a low latency store of the latest feature values (for powering real-time inference)."

@@ -1,0 +1,253 @@
+{
+  "total": 62,
+  "citations": [
+    {
+      "slide": "The Data Science Hierarchy of Needs",
+      "claim_id": "claim:agentic-de:004"
+    },
+    {
+      "slide": "What Is Training-Serving Skew?",
+      "claim_id": "claim:agentic-de:007"
+    },
+    {
+      "slide": "What Is Training-Serving Skew?",
+      "claim_id": "claim:agentic-de:008"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:009"
+    },
+    {
+      "slide": "Temporal Leakage \u2014 The Naive Join Trap",
+      "claim_id": "claim:agentic-de:010"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:011"
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Don't Conflate Them",
+      "claim_id": "claim:agentic-de:012"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023"
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agentic-de:023"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:018"
+    },
+    {
+      "slide": "Lakehouse Time Travel \u2014 Delta Lake and Iceberg",
+      "claim_id": "claim:agentic-de:019"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:020"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:021"
+    },
+    {
+      "slide": "Content-Addressable Versioning \u2014 DVC and lakeFS",
+      "claim_id": "claim:agentic-de:022"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024"
+    },
+    {
+      "slide": "Three Kinds of Drift",
+      "claim_id": "claim:agentic-de:024"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:025"
+    },
+    {
+      "slide": "Distributional Validation \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agentic-de:026"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:027"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:028"
+    },
+    {
+      "slide": "When Contracts Are Not Enough",
+      "claim_id": "claim:agentic-de:029"
+    },
+    {
+      "slide": "Embedding Model Selection \u2014 Dimensions, Quality, Cost",
+      "claim_id": "claim:agentic-de:031"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036"
+    },
+    {
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "claim_id": "claim:agentic-de:036"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:037"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:038"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039"
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF-PQ, DiskANN",
+      "claim_id": "claim:agentic-de:039"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:040"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042"
+    },
+    {
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "claim_id": "claim:agentic-de:042"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041"
+    },
+    {
+      "slide": "pgvector vs. Dedicated Vector DB",
+      "claim_id": "claim:agentic-de:041"
+    },
+    {
+      "slide": "Hybrid Search, RRF, and Re-Ranking",
+      "claim_id": "claim:agentic-de:045"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:055"
+    },
+    {
+      "slide": "GDPR Propagation to Derived Data",
+      "claim_id": "claim:agentic-de:056"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:057"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:058"
+    },
+    {
+      "slide": "Pipeline Security \u2014 Prompt Injection and Data Poisoning",
+      "claim_id": "claim:agentic-de:059"
+    },
+    {
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "claim_id": "claim:agentic-de:060"
+    },
+    {
+      "slide": "Evaluating AI-Assisted Workflows \u2014 Reliability, Cost, Latency",
+      "claim_id": "claim:agentic-de:060"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:001"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:007"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:015"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:023"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:033"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:042"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:049"
+    },
+    {
+      "slide": "Recap and Key Takeaways",
+      "claim_id": "claim:agentic-de:051"
+    }
+  ]
+}

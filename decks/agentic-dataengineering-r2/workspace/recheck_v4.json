@@ -1,0 +1,28 @@
+{
+  "version": 4,
+  "batch": 1,
+  "batch_verdict": "VERIFIED",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "HNSW is a graph-based ANN index achieving polylogarithmic search complexity O(log^k n) via a multi-layer navigable small-world structure",
+      "source_excerpt": "HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales. Navigable small world graphs have polylogarithmic search complexity of O(log^k n). Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Google addresses skew mitigation in Rules 29, 31, and 32 of its ML engineering guide, covering code reuse and data consistency between training and serving pipelines",
+      "source_excerpt": "Rule #29: \"The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time.\" Rule #31: \"If you join data from a table at training and serving time, the data in the table may change\" between those phases, causing prediction discrepancies. Rule #32: \"Reuse code between your training pipeline and your serving pipeline whenever possible. This eliminates a source of training-serving skew.\"",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "2 claims checked in this batch. 2 verified, 0 misrepresented, 0 unverified."
+}

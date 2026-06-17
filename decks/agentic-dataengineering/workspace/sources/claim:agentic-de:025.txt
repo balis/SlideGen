@@ -1,0 +1,20 @@
+Source for claim:agentic-de:psi-kl-divergence:001
+
+Title: Population Stability Index (PSI): What You Need To Know
+Publisher: Arize AI
+URL: https://arize.com/blog-course/population-stability-index-psi/
+Retrieved: 2026-06-14
+
+Excerpt:
+"Population stability index (PSI) is a statistical measure with a basis in information theory that quantifies the difference between one probability distribution from a reference probability distribution."
+
+"PSI can actually be viewed as a special form of KL divergence."
+
+PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = Σ (p_i - q_i) * ln(p_i / q_i)
+
+Standard interpretation thresholds:
+- PSI < 0.1: No significant change
+- 0.1 ≤ PSI < 0.25: Minor shift, requires attention
+- PSI ≥ 0.25: Major shift, requires investigation and likely action
+
+"PSI doesn't care about your model's accuracy. It only cares about one thing: Is the data coming in today different from the data used during training?"

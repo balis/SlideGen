@@ -1,0 +1,36 @@
+SOURCE FILE — claim:agde:kl-divergence:004
+
+PRIMARY URL: https://medium.com/@mumbaiyachori/difference-between-kl-divergence-and-psi-e7d9aa0ade12
+Title: Difference between KL Divergence and PSI — Medium (Shrutika Poyrekar)
+Retrieved: 2026-06-15
+
+FULL EXCERPT (from search result content):
+"KL divergence is a non-symmetric measure of the difference between two distributions:
+if you swap the baseline distribution p(x) and sample distribution q(x), you will get a
+different number."
+
+"PSI is a symmetric derivation of KL Divergence, mathematically equivalent to
+KL(P||Q) + KL(Q||P)."
+
+"KL Divergence and PSI are the two metrics which are commonly used to monitor data drift
+in model monitoring."
+
+KL DIVERGENCE FORMULA (from separate search result):
+"D(P || Q) = Σ P(x) log[P(x)/Q(x)]
+where P and Q are the two probability distributions being compared, and x is a particular
+value that the distributions can take on."
+Source: https://codefinity.com/courses/v2/2d11c1e0-dd26-403e-815e-482ea0267eb4/...
+
+ADDITIONAL CONTEXT ON PRODUCTION USE:
+"In model monitoring, we almost exclusively use the discrete form of KL divergence and obtain
+the discrete distributions by binning data."
+"KL divergence is typically applied to each feature independently; it is not designed as a
+covariant feature measure but rather a metric that shows how each feature has diverged
+independently from the baseline values."
+"The most common baselines are either a trailing window of production data or the training datasets."
+Source: Arize AI blog on KL Divergence (https://arize.com/blog-course/kl-divergence/)
+
+ASYMMETRY NOTE:
+"There are times when teams want to swap comparison baselines, and having a metric where A/B
+differs from B/A can make comparing results difficult. This is why tools like Arize often use
+PSI, a symmetric variant of KL divergence, for monitoring distribution changes."

@@ -1,0 +1,9 @@
+Source for claim:agentic-de:agent-security:005
+
+Title: ALARA for Agents: Least-Privilege Context Engineering Through Portable Composable Multi-Agent Teams
+URL: https://arxiv.org/abs/2603.20380
+Authors: Christopher J. Agostino and Nayan D'Souza
+Retrieved: 2026-06-14
+
+Excerpt:
+The framework adapts ALARA (As Low As Reasonably Achievable) principles — borrowed from nuclear safety regulations — to the design of multi-agent AI systems, emphasizing minimal necessary permissions and controlled autonomy. The paper references the NIST Principle of Least Privilege, advocating that agents should operate with "the minimum access required to accomplish their designated tasks." The work bridges safety engineering disciplines with contemporary AI agent development practices, focusing on Composable Multi-Agent Teams (CATs) with well-defined permission boundaries, and references frameworks like LangChain, AutoGen, and CrewAI.

@@ -1,0 +1,5 @@
+Source excerpt:
+"Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems."
+
+URL: https://aws.amazon.com/blogs/big-data/choose-the-k-nn-algorithm-for-your-billion-scale-use-case-with-opensearch/
+Retrieved: 2026-06-14

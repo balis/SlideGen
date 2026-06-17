@@ -1,0 +1,14 @@
+Source for claim:agentic-de:embedding-model-lock:005
+
+Title: Why Vector Migration Matters More Than You Think — Schift Blog
+URL: https://schift.io/blog/why-vector-migration-matters/
+Retrieved: 2026-06-14
+
+Excerpt:
+"100 million tokens at OpenAI's text-embedding-3-large pricing costs around $1,300."
+
+"Teams often run old and new embedding pipelines simultaneously during migration — doubling infrastructure costs."
+
+"A 10M document corpus takes hours to re-embed, even with parallelism."
+
+"Most teams pick one embedding model early in a project and never change it. Not because it is the best model for their use case — because the switching cost is too high. That is vendor lock-in."

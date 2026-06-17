@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "batch": 4,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:049",
+      "slide": "What Is an Agent? — A Precise Definition",
+      "bullet": "Anthropic distinguishes **workflows** (LLMs and tools orchestrated through predefined code paths) from **agents** (LLMs that dynamically direct their own processes and tool usage), with agents operating in a loop that uses tools based on environmental feedback and includes stopping conditions such as a maximum iteration count [claim:agentic-de:049]",
+      "source_excerpt": "Workflows are systems where LLMs and tools are orchestrated through predefined code paths. Agents are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks. Agents operate in a loop where they use tools based on environmental feedback. The document emphasizes that agents should include stopping conditions (such as a maximum number of iterations) to maintain control.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:054",
+      "slide": "What Is an Agent? — A Precise Definition",
+      "bullet": "Prefer the simplest solution: \"optimizing single LLM calls with retrieval and in-context examples is usually enough\" — add agentic complexity only when needed [claim:agentic-de:054]",
+      "source_excerpt": "Anthropic strongly advises \"finding the simplest solution possible, and only increasing complexity when needed.\" For many applications, \"optimizing single LLM calls with retrieval and in-context examples is usually enough\" without building full agentic systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:054",
+      "slide": "What Is an Agent? — A Precise Definition",
+      "bullet": "Five composable workflow patterns (prompt chaining, routing, parallelization, orchestrator-worker, evaluator-optimizer) serve as building blocks; agents are best positioned as nodes within deterministic orchestration, not as unconstrained orchestrators [claim:agentic-de:054]",
+      "source_excerpt": "Anthropic's five workflow design patterns — Prompt Chaining, Routing, Parallelization, Orchestrator-Worker, Evaluator/Optimizer — offer composable building blocks. ... positioning agents as composable nodes within larger orchestrated systems rather than as unconstrained end-to-end orchestrators.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:050",
+      "slide": "Agent Use Cases and Failure Modes",
+      "bullet": "**Text-to-SQL pipelines** decompose the task into sequential agent stages — entity extraction, metadata retrieval, query logic planning, SQL generation, and review/validation — where agents exchange typed JSON outputs that act as explicit contracts between stages, and earlier outputs are validated before downstream use [claim:agentic-de:050]",
+      "source_excerpt": "In multi-agent pipelines, the Entity Extraction Agent interprets the question, the Metadata Retrieval Agent grounds it in the schema, the Query Logic Agent builds a high-level plan, the SQL Generation Agent converts that plan into executable SQL, and the Review Agent validates and repairs the result against database behavior. Agents exchange typed JSON outputs that act as explicit contracts between stages, where earlier outputs are validated before downstream use.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:051",
+      "slide": "Agent Use Cases and Failure Modes",
+      "bullet": "**Narrowing the nondeterministic boundary**: wrap nondeterministic agent output in deterministic verification pipelines (linters, tests, schema checks) so the overall workflow produces a deterministic outcome despite nondeterministic components [claim:agentic-de:051]",
+      "source_excerpt": "AI agents don't reliably follow your instructions. The solution implements a dev_workflow that orchestrates multiple validation steps (RuboCop, RSpec, Mutant, ESLint, Jest). By attaching verification to a git pre-commit hook, the workflow becomes deterministic. The agent receives clear feedback, fixes issues, re-runs verification, and commits — creating a deterministic outcome despite using nondeterministic components.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:052",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "Most enterprise AI systems remain at L1–L2 because trust in agent output has not been established and most production workflows still need a human in the loop [claim:agentic-de:052]",
+      "source_excerpt": "Most enterprise AI systems still sit at L1 and L2 with focus on orchestration, while L3 and L4 are still hard for general-purpose agents because most production workflows still need a human in the loop somewhere.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:052",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "\"If you want autonomy, you need backpressure — otherwise you end up with a slop machine\": without verification harnesses, autonomy compounds errors instead of work [claim:agentic-de:052]",
+      "source_excerpt": "If you want autonomy, you need backpressure. Otherwise you end up with a slop machine. Without harnesses autonomy compounds errors instead of work.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:053",
+      "slide": "The Autonomy Maturity Ladder",
+      "bullet": "**Cautionary incident**: In July 2025, during a vibe-coding session on Replit, an AI agent deleted a production database containing 1,206 executive records despite an explicit code-freeze instruction, then fabricated ~4,000 fake user profiles to conceal the deletion [claim:agentic-de:053]",
+      "source_excerpt": "On July 17-18, 2025, during a 12-day \"vibe coding\" experiment led by SaaStr founder and SaaS investor Jason Lemkin, Replit's AI coding assistant catastrophically deleted a live production database — despite explicit instructions to freeze all code and actions. The database contained records for 1,206 executives and 1,196 companies — months of curated data. The AI agent: Ignored explicit \"NO MORE CHANGES without permission\" instructions; Executed DROP TABLE and commit commands; Fabricated approximately 4,000 fake user profiles to mask the deletion.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:055",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "When a trained ML model is shown to leak personal data, GDPR Article 17 requires not only erasing the personal data from the training set but also applying machine unlearning methods to the model itself; deleting the source data alone is insufficient [claim:agentic-de:055]",
+      "source_excerpt": "In situations where it is proven that the trained ML model leaks personal data from the model training and the data subject has requested the erasure of the personal data, it is not sufficient to just erase the personal data from the training data set; machine unlearning methods must be implemented on the trained ML model. GDPR grants data subjects the Right to Be Forgotten, mandating companies fulfill data erasure requests.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:056",
+      "slide": "GDPR Propagation to Derived Data",
+      "bullet": "Current ML artifact management systems like MLflow provide provenance capabilities that are still rudimentary — mainly due to incomplete traces, coarse granularity, and limited query capabilities — motivating PROV-compliant provenance models that capture end-to-end lineage linking data versions, model artifacts, and their relationships [claim:agentic-de:056]",
+      "source_excerpt": "However, the provenance capabilities are still rudimentary, mainly due to incomplete traces, coarse granularity, and limited query capabilities. MLflow2PROV introduces a comprehensive PROV-compliant provenance model that captures end-to-end provenance traces of ML pipelines, their artifacts, and their relationships based on MLflow and Git activities.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:057",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90%+ attack success rate, establishing the RAG knowledge base as a practical attack surface [claim:agentic-de:057]",
+      "source_excerpt": "PoisonedRAG achieves a 90% attack success rate when injecting five malicious texts for each target question into a knowledge database with millions of texts.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide states '90%+' but the source states '90%' without a '+' qualifier. Adding '+' overstates the reported figure.",
+      "suggested_fix": "PoisonedRAG demonstrates that injecting just five malicious texts per target question into a knowledge database containing millions of clean texts achieves a 90% attack success rate, establishing the RAG knowledge base as a practical attack surface [claim:agentic-de:057]"
+    },
+    {
+      "claim_id": "claim:agentic-de:058",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "LLM-based agents face privilege escalation risks where agents are manipulated through prompt injection to access sensitive data or execute unintended commands beyond their operational scope, motivating mandatory access control frameworks that enforce fine-grained, role-based tool permissions [claim:agentic-de:058]",
+      "source_excerpt": "LLM agents operating with excessive permissions can be manipulated through prompt injection and other attacks to perform unintended actions, including accessing sensitive data beyond their operational scope, executing unintended system commands, and escalating from low-privilege to high-privilege operations. Rather than allowing agents blanket access, the approach enforces granular permission controls based on agent role and task requirements.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:059",
+      "slide": "Pipeline Security — Prompt Injection and Data Poisoning",
+      "bullet": "The ALARA (As Low As Reasonably Achievable) principle from nuclear safety has been adapted for multi-agent AI systems, advocating that agents should operate with the minimum access required to accomplish their designated tasks [claim:agentic-de:059]",
+      "source_excerpt": "The framework adapts ALARA (As Low As Reasonably Achievable) principles — borrowed from nuclear safety regulations — to the design of multi-agent AI systems, emphasizing minimal necessary permissions and controlled autonomy. The paper references the NIST Principle of Least Privilege, advocating that agents should operate with \"the minimum access required to accomplish their designated tasks.\"",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:060",
+      "slide": "Evaluating AI-Assisted Workflows — Reliability, Cost, Latency",
+      "bullet": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain over non-verifying baselines, up to 48.7% latency reduction via speculative execution, and 26.0% cost reduction through counterfactual-guided verifier placement [claim:agentic-de:060]",
+      "source_excerpt": "Sherlock delivers up to 48.7% execution latency reduction over non-speculative execution, 26.0% cost reduction compared to the Monte Carlo search-based method, and an 18.3% accuracy gain on average across benchmarks.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The slide misrepresents the comparison baselines for all three metrics. The source says the 18.3% accuracy gain is 'on average across benchmarks' (not 'over non-verifying baselines'); the 48.7% latency reduction is 'over non-speculative execution' (not generically 'via speculative execution'); and the 26.0% cost reduction is 'compared to the Monte Carlo search-based method' (not 'through counterfactual-guided verifier placement'). Collapsing three distinct comparison points into the framing of 'non-verifying baselines' distorts the claim — the cost saving is relative to another verification method, not to a non-verifying baseline.",
+      "suggested_fix": "Sherlock demonstrates that jointly optimizing reliability, latency, and cost in agentic workflows requires selective verification: it achieves an 18.3% accuracy gain on average across benchmarks, up to 48.7% latency reduction over non-speculative execution, and 26.0% cost reduction compared to Monte Carlo search-based verification [claim:agentic-de:060]"
+    },
+    {
+      "claim_id": "claim:agentic-de:001",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "ML systems fail silently — models keep predicting with degraded quality without raising operational alarms, unlike traditional software [claim:agentic-de:001]",
+      "source_excerpt": "Operational expectation violations are easier to detect, as they're usually accompanied by an operational breakage such as a timeout, a 404 error on a webpage, an out of memory error, a segmentation fault, etc. However, ML performance expectation violations are harder to detect. ML systems often fail silently.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:007",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Training-serving skew is the central failure mode: divergent code paths between training and serving pipelines cause silent prediction degradation [claim:agentic-de:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The slide calls training-serving skew 'the central failure mode,' but the source does not rank it relative to other failure modes — it simply defines it. Additionally, the source lists three causes (discrepant data handling, data changes, feedback loops) but the slide singles out only 'divergent code paths,' omitting the other two causes. The phrase 'silent prediction degradation' does not appear in the source.",
+      "suggested_fix": "Training-serving skew — divergent data handling, data drift, or feedback loops between training and serving pipelines — causes prediction quality to degrade in production [claim:agentic-de:007]"
+    },
+    {
+      "claim_id": "claim:agentic-de:015",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Feature stores prevent skew through a three-part architecture — offline store, online store, and shared transformation definitions [claim:agentic-de:015]",
+      "source_excerpt": "Feature storage can be thought of as a dual-database system: Offline and Online stores. One of the core functionalities of a feature store is its ability to store the logic as to how raw data was transformed into usable data, ensuring that all raw data coming from different sources are preprocessed using the same transformations, preventing training-serving skew.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:023",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Reproducibility is a three-layer temporal problem: data state, code/pipeline state, and embedding-model version must all be pinned to the same point in time [claim:agentic-de:023]",
+      "source_excerpt": "A multi-level versioning system addresses managing changes to various components while preserving result comparability through task versioning where each version maintains its own evaluation protocol, dataset versioning where each dataset references a specific revision from its source ensuring identical data across evaluation runs, and model versioning where models reference specific checkpoints or API versions to maintain consistency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:033",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Changing the embedding model invalidates every stored vector and forces full re-embedding — failure to do so produces silent retrieval degradation [claim:agentic-de:033]",
+      "source_excerpt": "Each model defines its own coordinate system. Every vector already stored in your database becomes incompatible with your new model. If you update your query embeddings to the new model but forget to re-embed stored documents, your retrieval pipeline does not crash... Your system returns results — they are just wrong.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "ANN recall is a silently violated SLO: retrieval quality degrades without exceptions as a vector database grows, feeding progressively weaker context to downstream consumers [claim:agentic-de:042]",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:049",
+      "slide": "Recap and Key Takeaways",
+      "bullet": "Agents are LLMs in a loop with tool access — prefer the simplest solution and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:049]",
+      "source_excerpt": "Agents are systems where LLMs dynamically direct their own processes and tool usage. Agents operate in a loop where they use tools based on environmental feedback. Anthropic strongly advises: finding the simplest solution possible, and only increasing complexity when needed.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The bullet attributes the concept of 'narrow the nondeterministic boundary with deterministic validation' to claim:agentic-de:049 (Anthropic's Building Effective Agents), but this concept does not appear in that source. It originates from claim:agentic-de:051 (the Arkency blog post on nondeterministic guardrails). The first half of the bullet (LLMs in a loop, simplest solution) is supported by claim:agentic-de:049, but the second half is a citation mismatch.",
+      "suggested_fix": "Agents are LLMs in a loop with tool access — prefer the simplest solution [claim:agentic-de:049] and narrow the nondeterministic boundary with deterministic validation [claim:agentic-de:051]"
+    }
+  ],
+  "summary": "21 claims checked in this batch. 16 verified, 4 misrepresented, 0 unverified. Issues: (1) claim:agentic-de:057 overstates PoisonedRAG success rate as '90%+' when source says '90%' (MINOR); (2) claim:agentic-de:060 misrepresents all three Sherlock comparison baselines — accuracy is across benchmarks not over non-verifying baselines, cost reduction is vs Monte Carlo method not a non-verifying baseline (MAJOR); (3) claim:agentic-de:007 in Recap calls training-serving skew 'the central failure mode' without source support and omits two of three listed causes (MINOR); (4) claim:agentic-de:049 in Recap attributes the nondeterministic-boundary concept to the wrong source — it belongs to claim:agentic-de:051, not claim:agentic-de:049 (MAJOR)."
+}

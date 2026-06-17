@@ -1,0 +1,38 @@
+SOURCE: What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog
+URL: https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025
+Retrieved: 2026-06-15
+
+SUPPORTING SECONDARY SOURCE: GetOnStack: Production Deployment Challenges and Infrastructure Gaps for Multi-Agent AI Systems — ZenML LLMOps Database
+URL: https://www.zenml.io/llmops-database/production-deployment-challenges-and-infrastructure-gaps-for-multi-agent-ai-systems
+
+SUPPORTING SECONDARY SOURCE: "Our $47,000 AI Agent Production Lesson: The Reality of A2A and MCP"
+URL: https://medium.com/@theabhishek.040/our-47-000-ai-agent-production-lesson-the-reality-of-a2a-and-mcp-60c2c000d904
+
+ADDITIONAL COVERAGE:
+- "The $47,000 Agent Loop: Why Token Budget Alerts Aren't Budget Enforcement" (DEV Community)
+  URL: https://dev.to/waxell/the-47000-agent-loop-why-token-budget-alerts-arent-budget-enforcement-389i
+- "How an AI Agent Ran Up a $47,000 Bill in 11 Days" (DEV Community)
+  URL: https://dev.to/dingdawg/how-an-ai-agent-ran-up-a-47000-bill-in-11-days-and-how-to-stop-it-1fk
+- "The $47,000 AI Agent Loop: A Case Study in Multi-Agent Observability" (earezki.com)
+  URL: https://earezki.com/ai-news/2026-03-23-the-ai-agent-that-cost-47000-while-everyone-thought-it-was-working/
+- "Infinite Agent Loop: when an AI agent does not stop" (agentpatterns.tech)
+  URL: https://www.agentpatterns.tech/en/failures/infinite-loop
+
+FULL EXCERPT (from ZenML 1,200 deployments analysis):
+"GetOnStack experienced catastrophic cost escalation: 'their multi-agent system for market data research escalated from $127 in weekly costs to $47,000 over four weeks due to an infinite conversation loop between agents running undetected for 11 days.' The failure mechanism: 'Agent A requested help from Agent B, which in turn asked Agent A for clarification, creating a recursive pattern that neither agent had the logic to break.'"
+
+COST ESCALATION TIMELINE (from multiple corroborating sources):
+- Week 1: $127
+- Week 2: $891
+- Week 3: $6,240
+- Week 4: $18,400
+- Total: ~$47,000
+
+ROOT CAUSES IDENTIFIED IN POST-MORTEM:
+1. No per-agent budget ceiling
+2. No enforcement mechanism that would have terminated the session before the next API call
+
+NOTES:
+- This incident is widely reported across multiple independent sources (Medium, DEV Community, ZenML), confirming its factual basis.
+- The incident directly illustrates the "expensive nondeterministic cron job" failure mode: the agent system ran continuously, consuming resources without producing value, with no stopping condition.
+- This is the specific documented production-incident case study referenced in learning objective 9.

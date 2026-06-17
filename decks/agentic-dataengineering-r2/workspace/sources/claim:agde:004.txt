@@ -1,0 +1,18 @@
+CLAIM ID: claim:agde:ml-contract:004
+STATEMENT: According to the CrowdFlower 2016 Data Science Survey, 80% of data scientists' work consists of data preparation: 60% of respondents spent most of their time cleaning and organizing data, and 19% spent most of their time collecting data sets.
+
+SOURCE URL: https://www.kdnuggets.com/2016/04/crowdflower-2016-data-science-repost.html
+PRIMARY REPORT URL: https://www2.cs.uh.edu/~ceick/UDM/CFDS16.pdf
+TITLE: CrowdFlower 2016 Data Science Report
+PUBLISHER: CrowdFlower (now Figure Eight / Appen); summary at KDnuggets
+PUBLISHED: 2016
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"According to a 2016 survey by CrowdFlower, as much as 80% of the work of data scientists consists of data preparation, including 19% of time spent on collecting data sets and 60% on cleaning and organising data. 3 out of every 5 data scientists surveyed actually spend the most time cleaning and organizing data."
+
+CORROBORATING EVIDENCE:
+The Anaconda State of Data Science 2021 survey found data scientists reported spending 39% of their time specifically on data preparation and data cleansing — more than on model training, model selection, and deployment combined (source: https://www.anaconda.com/state-of-data-science-2021). The 2022 Anaconda survey found 37.75% on data prep vs 26.44% on model work. The decline from ~80% to ~39% reflects improved tooling, but data tasks still dominate.
+
+CAVEAT:
+The 80% figure is the most widely cited (from CrowdFlower 2016) but the precise split between "data layer" tasks depends on definition. More recent surveys show lower figures (39-45% per Anaconda 2020-2022), suggesting the "70-80%" framing in the objective is best attributed to the CrowdFlower-era surveys and should be qualified as a commonly-cited historical benchmark rather than a current measurement.

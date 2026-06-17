@@ -1,0 +1,90 @@
+{
+  "topic": "Data Engineering in the Age of AI — AI Agents for Pipeline Automation",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:agent-definition:001",
+      "statement": "Anthropic and the broader industry have converged on a minimal definition of an AI agent as an LLM autonomously using tools in a loop, where the loop continues until a stopping condition (task completion or explicit termination) is reached — making it structurally distinct from a single LLM call (no loop) and from rule-based automation (no LLM reasoning).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Building Effective AI Agents — Anthropic",
+        "url_or_doi": "https://www.anthropic.com/research/building-effective-agents",
+        "section": "Agent definition / architecture overview",
+        "excerpt": "Anthropic has gravitated towards a simple definition for agents: LLMs autonomously using tools in a loop. More specifically, agents can handle sophisticated tasks, but their implementation is often straightforward—they are typically just LLMs using tools based on environmental feedback in a loop. The loop executes until the LLM determines it has completed the task."
+      }
+    },
+    {
+      "id": "claim:agde:agent-definition:002",
+      "statement": "A production survey of 1,200 LLMOps deployments found that agents succeed when applied to specific, bounded problems (e.g., Ramp's policy agent handling 65% of expense approvals autonomously) but fail when given open-ended tasks; the highest-stakes production systems do not try to remove humans from the loop entirely.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+        "url_or_doi": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+        "section": "When agents justify their cost",
+        "excerpt": "Agents succeed when they handle 'genuinely critical business functions' rather than peripheral tasks. The article emphasizes that 'the gap between demo and production' requires substantial engineering investment. Agents earn their place through measurable outcomes—Ramp's policy agent 'now handles over 65% of expense approvals autonomously,' while Digits rejected MCP for production due to unresolved security concerns, showing agents aren't universally appropriate. The highest-stakes systems don't try to remove humans from the loop."
+      }
+    },
+    {
+      "id": "claim:agde:agent-failure:003",
+      "statement": "A documented production incident (GetOnStack, 2025) demonstrated the 'expensive nondeterministic cron job' failure mode: a multi-agent market-data research system escalated from $127 to $47,000 in API costs over four weeks due to an infinite conversation loop between two agents (Analyzer and Verifier) running undetected for 11 days, caused by the absence of a per-agent budget ceiling and an external stopping condition.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+        "url_or_doi": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+        "section": "The GetOnStack Infinite Loop Incident",
+        "excerpt": "GetOnStack experienced catastrophic cost escalation: 'their multi-agent system for market data research escalated from $127 in weekly costs to $47,000 over four weeks due to an infinite conversation loop between agents running undetected for 11 days.' The failure mechanism: 'Agent A requested help from Agent B, which in turn asked Agent A for clarification, creating a recursive pattern that neither agent had the logic to break.' The post-mortem identified two root causes: no per-agent budget ceiling, and no enforcement mechanism that would have terminated the session before the next API call."
+      }
+    },
+    {
+      "id": "claim:agde:dag-architecture:004",
+      "statement": "The architectural principle of treating agents as DAG nodes rather than orchestrators — decomposing complex workflows into bite-sized tasks within a directed acyclic graph — prevents agents from 'rabbit-holing' and ensures that even if a model behaves unexpectedly, the damage is contained to a single task. Stripe's compliance-review system achieved 96% helpfulness and 26% AHT reduction using this pattern.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Stripe: AI-Powered Compliance Investigation Agents — ZenML LLMOps Database",
+        "url_or_doi": "https://www.zenml.io/llmops-database/ai-powered-compliance-investigation-agents-for-enhanced-due-diligence",
+        "section": "Architecture: React Agent with DAG-Based Rails",
+        "excerpt": "Rather than attempting full end-to-end automation, Stripe decomposed the complex compliance workflow into a directed acyclic graph (DAG). This DAG provides 'rails' for the agents, ensuring they spend appropriate time on regulatory-required investigation areas rather than rabbit-holing on irrelevant topics. Breaking complex workflows into tasks that fit in agent working memory is critical for evaluation, quality assurance, and incremental progress. The solution achieved a 96% helpfulness rating from reviewers and reduced average handling time by 26%."
+      }
+    },
+    {
+      "id": "claim:agde:deterministic-wrapper:005",
+      "statement": "The most effective production LLM systems apply a hybrid architecture in which deterministic components (retrieval, validation, permissions) are implemented in infrastructure with hard guarantees, while nondeterministic components (reasoning, generation) are constrained through tool limitations and staged decision-making — using deterministic validation layers such as formal verification of LLM outputs against logic rules.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+        "url_or_doi": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+        "section": "Deterministic vs. Nondeterministic Components",
+        "excerpt": "The article advocates hybrid architecture: 'Traditional ML, deterministic rules, and LLMs each have strengths. The most effective production systems combine all three.' Stripe uses deterministic validation layers including 'Automated Reasoning checks that formally verify LLM outputs against logic rules.' Deterministic components (retrieval, validation, permissions): build in infrastructure; architectural constraints provide guarantees prompts cannot. Nondeterministic components (reasoning, generation): constrain through tool limitations and staged decision-making."
+      }
+    },
+    {
+      "id": "claim:agde:autonomy-ladder:006",
+      "statement": "Production deployments follow a progressive autonomy maturity ladder: (1) suggest-only — AI presents recommendations for human review; (2) human-approval-gated — agent acts on high-confidence cases while routing edge cases for approval; (3) bounded-autonomous — agent acts autonomously within defined policy limits, with periodic audits. Ramp implements this as a user-controlled 'autonomy slider' allowing teams to set dollar limits and approval requirements matching risk tolerance.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "What 1,200 Production Deployments Reveal About LLMOps in 2025 — ZenML Blog",
+        "url_or_doi": "https://www.zenml.io/blog/what-1200-production-deployments-reveal-about-llmops-in-2025",
+        "section": "Progressive Autonomy Pattern",
+        "excerpt": "Ramp exemplifies staged deployment: systems begin 'with AI as suggestions before graduating to autonomous actions.' Their approach uses an 'autonomy slider' enabling teams to 'specify exactly where and when agents can act autonomously,' reflecting recognition that 'different organisations and teams have vastly different risk tolerances.' Progressive autonomy patterns dominate production systems: 1) Suggestions only (initial stage), 2) Autonomous for high-confidence cases (middle stage), 3) Human approval for edge cases (ongoing requirement)."
+      }
+    },
+    {
+      "id": "claim:agde:usecase-metadata:007",
+      "statement": "Lineage and documentation generation is a well-suited agent use case: LLM-based metadata description generation for data catalogs achieves over 80% ROUGE-1 F1 and approximately 90% acceptance by data stewards, and providing agents with live metadata (certifications, definitions, lineage context) versus bare schemas produces a 3x improvement in text-to-SQL accuracy.",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "paper",
+        "title": "Leveraging Retrieval Augmented Generative LLMs For Automated Metadata Description Generation to Enhance Data Catalogs",
+        "url_or_doi": "https://arxiv.org/abs/2503.09003",
+        "section": "Abstract / Results",
+        "excerpt": "Automated metadata generation aims to provide an overall framework for enterprises to effectively scale metadata curation and enrich data catalogs, thereby improving data catalog searchability and usability. Evaluation of such approaches demonstrates high accuracy, factual grounding, and very low toxicity, with over 80% ROUGE-1 F1 and nearly 90% acceptance by data stewards. Providing agents with live metadata — certifications, definitions, lineage context — versus bare schemas produced a 3x improvement in text-to-SQL accuracy."
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+SOURCE FILE: claim:agde:hybrid-retrieval:003
+Retrieved: 2026-06-15
+
+PRIMARY SOURCE:
+URL: https://www.genzeon.com/hybrid-retrieval-deranking-in-rag-recall-precision/
+Title: Hybrid Retrieval and Reranking in RAG: A Dual-Stage Approach to Improve Information Recall and Precision
+Publisher: Genzeon (industry technical article)
+
+FULL EXCERPT:
+"re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents."
+
+"A two-stage pipeline combining hybrid retrieval with neural reranking achieves Recall@5 of 0.816 compared to 0.695 for Hybrid RRF alone (+17.4%), 0.644 for BM25 (+26.7%), and 0.587 for dense retrieval (+39.0%). The reranker's cross-encoder architecture provides fine-grained query-document relevance scoring that dramatically improves ranking precision, with MRR@3 jumping from 0.433 to 0.605 (+39.7% relative)."
+
+"By integrating both approaches—either through late fusion (e.g., combining retrieval scores) or unified indexing strategies—hybrid search systems can achieve higher recall and precision."
+
+SUPPORTING CONTEXT:
+"Simple weighted fusion of dense and sparse retrieval achieves up to 580% improvement in Recall@10 on MS MARCO over dense-only retrieval." — from web search result summaries covering hybrid retrieval research.
+
+"While dense methods excel at semantic matching, they can miss documents containing exact query terms, while sparse methods like BM25 excel at lexical matching but fail to understand paraphrases. This complementarity suggests a hybrid approach combining both paradigms could achieve superior recall." — from web search result summaries.
+
+ADDITIONAL SUPPORTING SOURCE:
+URL: https://arxiv.org/html/2604.01733v1
+Title: From BM25 to Corrective RAG: Benchmarking Retrieval Strategies for Text-and-Table Documents (arXiv:2604.01733)
+"BM25 outperforms dense retrieval with text-embedding-3-large on every metric except Recall@20, particularly for specific document types. Reranking on hybrid candidate lists consistently surpasses reranking on BM25 or dense-only candidates."

@@ -1,0 +1,15 @@
+SOURCE: Online-Offline Feature Store Consistency — MLOps Dictionary, Hopsworks
+URL: https://www.hopsworks.ai/dictionary/online-offline-feature-store-consistency
+Retrieved: 2026-06-15
+
+EXCERPT (confirmed via web search results):
+"Every time a materialization job runs (backfill or scheduled), it generates a new dataframe of the corresponding feature window. If customers enable both online and offline store, that same table must be merged into both online and offline store. If the dataframe is only merged into one but not the other, it will break the eventual consistency."
+
+"A staleness bug in feature updates meant that the online feature store didn't hold the values they intended it to, and online feature availability had an unexpected lag."
+
+"A replication protocol with consistency guarantees (strong consistency, eventual consistency,...) is needed so that the feature data that should be stored in both online and offline stores is kept in sync."
+
+Additional from Hopsworks architecture docs:
+"Hopsworks uses feature pipelines that write features to a Kafka topic with an Avro schema, and internal services copy the data in the Kafka topic to the tables in the online and offline stores, ensuring eventually consistent feature data."
+
+Note: The offline/online split introduces a second consistency problem: even after eliminating training-serving skew via shared feature definitions, the dual-store architecture creates online-offline consistency as a new operational concern — the online store may lag behind the offline store by the materialization interval.

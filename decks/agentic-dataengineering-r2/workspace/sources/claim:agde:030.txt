@@ -1,0 +1,43 @@
+SOURCE FILE — claim:agde:offline-online-gap:006
+
+PRIMARY URL: https://arxiv.org/abs/2011.07931
+Title: Do Offline Metrics Predict Online Performance in Recommender Systems?
+Authors: Kristen Jamieson, Lalit Jain (and collaborators)
+Published: 2020
+Retrieved: 2026-06-15
+
+FULL EXCERPT (from fetched abstract):
+"Improvements in offline metrics lead to diminishing returns in online performance."
+
+"The ranking of recommenders varies depending on the amount of initial offline data available."
+
+"Offline metrics are correlated with online performance over a range of environments,
+but the relationship is not straightforward."
+
+"The effectiveness of exploration methods, when compared to greedy recommendation, is highly
+dependent on the recommendation algorithm." (indicating offline ranking does not translate
+reliably to online)
+
+ADDITIONAL SUPPORTING SOURCE:
+URL: https://dl.acm.org/doi/10.1145/3705328.3748111
+Title: Identifying Offline Metrics that Predict Online Impact — RecSys 2025
+"A gap remains between offline metrics and real-world KPIs."
+"'Metric Mismatch' is frequently observed in industrial applications, where gains in offline
+validation metrics fail to translate into online performance."
+
+MECHANISM EXPLANATION:
+URL: https://labelstud.io/learningcenter/offline-evaluation-vs-online-evaluation-when-to-use-each/
+"Offline evaluation catches known failure modes before deployment, while online evaluation
+detects novel failures and distribution shifts that offline suites did not anticipate."
+"Disagreement between offline and online metrics usually signals distribution shift, UX issues,
+or system-level effects that offline datasets didn't capture."
+
+WHY THE GAP OCCURS:
+"Static accuracy metrics won't catch this because the offline test doesn't simulate the model
+interacting with the real world, and your test set didn't change in response to the model —
+but real users or downstream systems do."
+Source: https://medium.com/codetodeploy/7-ways-your-ml-system-can-fail-even-with-a-great-model-9f440a30eb5e
+
+"Training-serving skew occurs when there's a mismatch between how data is processed in
+training versus in production serving, so the features or input distributions your model sees
+online are different from what it saw offline during training."

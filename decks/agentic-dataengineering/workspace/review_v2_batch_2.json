@@ -1,0 +1,218 @@
+{
+  "version": 2,
+  "batch": 2,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agentic-de:025",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "PSI quantifies distributional shift: PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = sum of (p_i - q_i) * ln(p_i / q_i) [claim:agentic-de:025]",
+      "source_excerpt": "PSI(P,Q) = D_KL(P||Q) + D_KL(Q||P) = Σ (p_i - q_i) * ln(p_i / q_i)",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:025",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "Industry thresholds: PSI < 0.1 no significant change; 0.1 <= PSI < 0.25 minor shift; PSI >= 0.25 major shift [claim:agentic-de:025]",
+      "source_excerpt": "PSI < 0.1: No significant change; 0.1 ≤ PSI < 0.25: Minor shift, requires attention; PSI ≥ 0.25: Major shift, requires investigation and likely action",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:026",
+      "slide": "Distributional Validation — PSI and KL Divergence",
+      "bullet": "PSI is preferred over raw KL divergence because PSI is symmetric — swapping baseline p(x) and sample q(x) yields the same value, whereas KL divergence is asymmetric [claim:agentic-de:026]",
+      "source_excerpt": "PSI has a number of advantages compared to KL divergence for troubleshooting data model comparisons because if you swap the baseline distribution p(x) and sample distribution q(x), you will get the same number.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Data contracts catch structural breaks (missing columns, type mismatches, null violations) but cannot detect silent distributional shift in feature values [claim:agentic-de:027]",
+      "source_excerpt": "Schema validation prevents incompatible data from entering your pipeline but only catches structural drift, not statistical or conceptual changes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:027",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Detecting distributional drift requires statistical monitoring (PSI, KL divergence, KS test) layered on top of contract enforcement [claim:agentic-de:027]",
+      "source_excerpt": "Forward-looking organizations are extending data contracts beyond basic schema validation to encompass advanced data contracts that now include AI-specific quality parameters such as feature drift detection, bias metrics, and explainability requirements.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The source states that organizations extend contracts to include 'feature drift detection' as a quality parameter, but does not name PSI, KL divergence, or KS test as the specific tools. The bullet attributes specific tool names (PSI, KL divergence, KS test) to this source, but those names are not present in the excerpt.",
+      "suggested_fix": "Detecting distributional drift requires statistical monitoring layered on top of contract enforcement — forward-looking organizations extend data contracts to include AI-specific quality parameters such as feature drift detection alongside schema validation [claim:agentic-de:027]"
+    },
+    {
+      "claim_id": "claim:agentic-de:028",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "Offline metric improvements show diminishing returns in online performance — the ranking of models can change depending on available offline data, so offline improvements do not reliably predict proportional online gains [claim:agentic-de:028]",
+      "source_excerpt": "Offline metrics are correlated with online performance over a range of environments. However, improvements in offline metrics lead to diminishing returns in online performance. The ranking of recommenders varies depending on the amount of initial offline data available.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:029",
+      "slide": "When Contracts Are Not Enough",
+      "bullet": "The offline-online metric gap arises when a model overfits to historical patterns and offline datasets that underrepresent edge cases — e.g., temporal leakage in offline features or latency regressions invisible to accuracy metrics [claim:agentic-de:029]",
+      "source_excerpt": "A model that looked great offline can mask a latency regression that drives users away. In fraud detection, offline recall improves dramatically when risky transactions come with confirmed fraud signals, but in production, the model is supposed to never see the future. Offline datasets are always approximations of production. They may underrepresent edge cases, omit new user behaviors, or reflect historical patterns that have already shifted.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:031",
+      "slide": "Embedding Model Selection — Dimensions, Quality, Cost",
+      "bullet": "The Batch API processes embedding requests asynchronously within a 24-hour window at a 50 % cost discount, with dedicated TPD quotas separate from synchronous TPM/RPM limits, allowing up to 50 000 inputs per batch submission without consuming real-time capacity [claim:agentic-de:031]",
+      "source_excerpt": "Price Discount: -50%. Request Limit per Batch: 50,000 requests. Split into multiple batches if exceeded. Completion Window: 24 hours. Only '24h' is currently supported. Rate Limits: Dedicated. Batch interfaces have their own TPD (Tokens Per Day) quota, which is completely separate from standard TPM/RPM limits. Does not consume synchronous TPM.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:036",
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "bullet": "Exact k-NN search requires O(N * D) distance computations per query, where N is the dataset size and D is the dimensionality [claim:agentic-de:036]",
+      "source_excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:036",
+      "slide": "Why Exact k-NN Doesn't Scale",
+      "bullet": "At million- or billion-scale datasets, brute-force exact search becomes computationally impractical for real-time systems [claim:agentic-de:036]",
+      "source_excerpt": "Exact k-NN search using exhaustive search requires O(N * D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale, making exact k-NN search impractical to implement in real-time systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:037",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "**HNSW** — navigable small-world graph kept in memory; tuned via M (connectivity), efConstruction (build quality), and efSearch (query exploration depth) [claim:agentic-de:037]",
+      "source_excerpt": "A higher efSearch (e.g., 500 vs. 100) increases recall by exploring more neighbors, but it slows down queries due to additional distance calculations. In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency. efSearch and efConstruction have no effect on the memory usage. A higher M (e.g., 24 vs. 12) increases the graph's connectivity, improving recall by reducing the chance of search getting trapped in local minima. However, more connections also expand the index size (memory usage) and slow down build time.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:037",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "Increasing efSearch from 100 to 500 raises recall from ~85% to ~98% but increases latency from ~1 ms to ~5 ms on a 10 M-vector dataset [claim:agentic-de:037]",
+      "source_excerpt": "In a 10-million-vector dataset, efSearch=500 might achieve 98% recall but take 5ms per query, while efSearch=100 might drop to 85% recall with 1ms latency.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:038",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "**IVF-PQ** — cluster-based partitioning (IVF) combined with product quantization for compression; nprobe controls how many clusters are searched [claim:agentic-de:038]",
+      "source_excerpt": "With nprobe values ranging from 1 to 256, recall ranges from 70% to 99%, with query throughput decreasing from 50,000 QPS to 300 QPS and latency increasing from 0.02ms to 3.3ms respectively. By adjusting nprobe, you can often reach ~90-95% of the recall of an exact search while being orders of magnitude faster.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:038",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "Sweeping nprobe from 1 to 256 moves recall from ~70% to ~99% while throughput drops from 50,000 QPS to 300 QPS [claim:agentic-de:038]",
+      "source_excerpt": "With nprobe values ranging from 1 to 256, recall ranges from 70% to 99%, with query throughput decreasing from 50,000 QPS to 300 QPS and latency increasing from 0.02ms to 3.3ms respectively.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:039",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "**DiskANN** — SSD-resident graph index with compressed representation in RAM, enabling billion-point search on a single node with 64 GB RAM [claim:agentic-de:039]",
+      "source_excerpt": "On the billion point SIFT1B bigann dataset, DiskANN serves > 5000 queries a second with < 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine with 64GB RAM and an SSD.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:039",
+      "slide": "ANN Index Families — HNSW, IVF-PQ, DiskANN",
+      "bullet": "On SIFT-1B: >5,000 QPS at 95%+ 1-recall@1 with <3 ms mean latency [claim:agentic-de:039]",
+      "source_excerpt": "On the billion point SIFT1B bigann dataset, DiskANN serves > 5000 queries a second with < 3ms mean latency and 95%+ 1-recall@1 on a 16 core machine with 64GB RAM and an SSD.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "Metadata filtering interacts destructively with ANN graph traversal [claim:agentic-de:040]",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**Pre-filtering** (skip non-matching nodes): recall plateaus at ~57% because filtered-out nodes serve as routing states connecting graph regions [claim:agentic-de:040]",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**Post-filtering** (search first, filter results): preserves >99% recall but wastes compute on discarded results [claim:agentic-de:040]",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agentic-de:040",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "**In-algorithm filtering** modifies traversal to maintain both recall and efficiency [claim:agentic-de:040]",
+      "source_excerpt": "Naive pre-filtering achieves much lower recall than post-filtering, with maximum recall plateauing at ~57% compared to >99% for post-filtering. Non-matching nodes are not only poor result candidates, but also routing states that connect the search to other regions of the graph. Skipping their expansion prevents the search from reaching their neighbors, even when those neighbors match the predicate.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source file for claim:agentic-de:040 discusses only naive pre-filtering and post-filtering; it does not mention in-algorithm filtering, graph traversal modification approaches, or any hybrid technique that maintains both recall and efficiency. The bullet attributes this third approach to the same claim ID whose source does not support it.",
+      "suggested_fix": "Remove or retag the in-algorithm filtering bullet to a separate claim ID backed by a source that describes it (e.g., the Qdrant ACORN or Pinecone documentation). Alternatively, remove the in-algorithm filtering bullet entirely if no supporting source is available, and limit the claim:agentic-de:040 citation to the pre-filtering and post-filtering contrast."
+    },
+    {
+      "claim_id": "claim:agentic-de:042",
+      "slide": "Metadata Filtering, Consistency, and Silent Recall Loss",
+      "bullet": "ANN recall is a silently violated SLO: as a vector database grows or parameters drift, retrieval quality degrades without generating exceptions [claim:agentic-de:042]",
+      "source_excerpt": "As vector databases grow, retrieval quality deteriorates quietly—especially under approximate search—while latency metrics remain deceptively stable. This is a critical issue because a system that appears healthy from an infrastructure perspective gradually feeds weaker context to the LLM, increasing hallucinations and reducing answer quality. Going from 0.8 to 0.95 recall increased HNSW latency by roughly 31%, while IVF latency roughly tripled over the same recall range.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": null,
+      "suggested_fix": null
+    }
+  ],
+  "summary": "21 claims checked in this batch. 20 verified, 1 misrepresented, 0 unverified. The single misrepresentation is on slide 'Metadata Filtering, Consistency, and Silent Recall Loss': the 4th bullet citing claim:agentic-de:040 asserts that in-algorithm filtering modifies traversal to maintain both recall and efficiency, but the source file for claim:agentic-de:040 covers only naive pre-filtering and post-filtering — it does not mention in-algorithm filtering at all. This is a MAJOR issue because the bullet attributes a third technical claim to a source that does not support it. A minor issue also exists on slide 'When Contracts Are Not Enough': the 2nd bullet citing claim:agentic-de:027 names specific tools (PSI, KL divergence, KS test) that do not appear in the source excerpt, which only mentions 'feature drift detection' generically."
+}

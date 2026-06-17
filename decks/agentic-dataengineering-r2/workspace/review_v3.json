@@ -1,0 +1,1116 @@
+{
+  "version": 3,
+  "total_checked": 149,
+  "rechecked_count": 20,
+  "misrepresented_count": 5,
+  "critical_count": 0,
+  "major_count": 1,
+  "minor_count": 4,
+  "blocking_count": 1,
+  "verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "slide": "The Silent Failure Problem",
+      "claim_id": "claim:agde:001",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The AI Hierarchy of Needs",
+      "claim_id": "claim:agde:003",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The AI Hierarchy of Needs",
+      "claim_id": "claim:agde:004",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "BI vs. ML \u2014 A Different Contract on the Pipeline",
+      "claim_id": "claim:agde:001",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "BI vs. ML \u2014 A Different Contract on the Pipeline",
+      "claim_id": "claim:agde:005",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Data as a Versioned, Time-Aware Artifact",
+      "claim_id": "claim:agde:005",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Feature Engineering as a Stateful Pipeline Stage",
+      "claim_id": "claim:agde:006",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Stateful sklearn Pipeline \u2014 Fit vs. Transform",
+      "claim_id": "claim:agde:006",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Is Training/Serving Skew?",
+      "claim_id": "claim:agde:002",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Is Training/Serving Skew?",
+      "claim_id": "claim:agde:002",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Two Root Causes of Skew",
+      "claim_id": "claim:agde:008",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Two Root Causes of Skew",
+      "claim_id": "claim:agde:009",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Temporal Leak (Naive Join)",
+      "claim_id": "claim:agde:010",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Do Not Conflate Them",
+      "claim_id": "claim:agde:011",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Do Not Conflate Them",
+      "claim_id": "claim:agde:012",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Skew vs. Drift \u2014 Do Not Conflate Them",
+      "claim_id": "claim:agde:011",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Section Checkpoint \u2014 Skew Diagnosis Heuristic",
+      "claim_id": "claim:agde:002",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Point-in-Time Joins \u2014 The Mechanism",
+      "claim_id": "claim:agde:013",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Point-in-Time Join in SQL (ANSI Window Function)",
+      "claim_id": "claim:agde:017",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ASOF JOIN \u2014 Dialect-Specific Fast Path",
+      "claim_id": "claim:agde:016",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Feature Store Architecture \u2014 The Three-Part Pattern",
+      "claim_id": "claim:agde:014",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Second Consistency Problem \u2014 Offline/Online Staleness",
+      "claim_id": "claim:agde:015",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "When NOT to Adopt a Feature Store",
+      "claim_id": "claim:agde:018",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agde:005",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Reproducibility as a Three-Layer Temporal Problem",
+      "claim_id": "claim:agde:023",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lakehouse Time-Travel \u2014 Delta and Iceberg Snapshots",
+      "claim_id": "claim:agde:019",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lakehouse Time-Travel \u2014 Delta and Iceberg Snapshots",
+      "claim_id": "claim:agde:020",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lakehouse Time-Travel \u2014 Delta and Iceberg Snapshots",
+      "claim_id": "claim:agde:020",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "DVC \u2014 Content-Addressable Dataset Versioning",
+      "claim_id": "claim:agde:021",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "DVC \u2014 Content-Addressable Dataset Versioning",
+      "claim_id": "claim:agde:021",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "lakeFS \u2014 Git Semantics Over Object Storage",
+      "claim_id": "claim:agde:022",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "lakeFS \u2014 Git Semantics Over Object Storage",
+      "claim_id": "claim:agde:022",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Comparison \u2014 Three Reproducibility Strategies",
+      "claim_id": "claim:agde:020",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Comparison \u2014 Three Reproducibility Strategies",
+      "claim_id": "claim:agde:021",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Comparison \u2014 Three Reproducibility Strategies",
+      "claim_id": "claim:agde:024",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Comparison \u2014 Three Reproducibility Strategies",
+      "claim_id": "claim:agde:022",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Comparison \u2014 Three Reproducibility Strategies",
+      "claim_id": "claim:agde:024",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Three Drift Types \u2014 Schema, Distribution, Concept",
+      "claim_id": "claim:agde:026",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Measuring Distribution Drift \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agde:027",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Measuring Distribution Drift \u2014 PSI and KL Divergence",
+      "claim_id": "claim:agde:028",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Data Contracts Cannot Catch",
+      "claim_id": "claim:agde:029",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Data Contracts Cannot Catch",
+      "claim_id": "claim:agde:029",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Offline-Online Metrics Trap",
+      "claim_id": "claim:agde:030",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Offline-Online Metrics Trap",
+      "claim_id": "claim:agde:030",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Observability Strategy \u2014 Layered Monitoring",
+      "claim_id": "claim:agde:029",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Observability Strategy \u2014 Layered Monitoring",
+      "claim_id": "claim:agde:027",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Observability Strategy \u2014 Layered Monitoring",
+      "claim_id": "claim:agde:030",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Embeddings in Context",
+      "claim_id": "claim:agde:023",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Embeddings in Context",
+      "claim_id": "claim:agde:023",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Model Selection \u2014 Dimension, Quality, Cost Tradeoff",
+      "claim_id": "claim:agde:031",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Model Selection \u2014 Dimension, Quality, Cost Tradeoff",
+      "claim_id": "claim:agde:032",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Model Selection \u2014 Dimension, Quality, Cost Tradeoff",
+      "claim_id": "claim:agde:031",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "claim_id": "claim:agde:033",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Batch Throughput and Rate-Limit Handling",
+      "claim_id": "claim:agde:034",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Idempotent Embedding Pipeline",
+      "claim_id": "claim:agde:035",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Idempotent Embedding Pipeline",
+      "claim_id": "claim:agde:035",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Hard Dependency \u2014 Embedding Model Versioning",
+      "claim_id": "claim:agde:023",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF, PQ, DiskANN",
+      "claim_id": "claim:agde:039",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF, PQ, DiskANN",
+      "claim_id": "claim:agde:039",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ANN Index Families \u2014 HNSW, IVF, PQ, DiskANN",
+      "claim_id": "claim:agde:040",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "IVF-PQ \u2014 The Memory Compression Case",
+      "claim_id": "claim:agde:039",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "IVF-PQ \u2014 The Memory Compression Case",
+      "claim_id": "claim:agde:039",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "IVF-PQ \u2014 The Memory Compression Case",
+      "claim_id": "claim:agde:039",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Recall as a Silently-Violated SLO",
+      "claim_id": "claim:agde:041",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Recall as a Silently-Violated SLO",
+      "claim_id": "claim:agde:041",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Recall as a Silently-Violated SLO",
+      "claim_id": "claim:agde:041",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Recall as a Silently-Violated SLO",
+      "claim_id": "claim:agde:041",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Metadata Filtering and ANN \u2014 The Interaction Problem",
+      "claim_id": "claim:agde:042",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Metadata Filtering and ANN \u2014 The Interaction Problem",
+      "claim_id": "claim:agde:042",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Metadata Filtering and ANN \u2014 The Interaction Problem",
+      "claim_id": "claim:agde:042",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Metadata Filtering and ANN \u2014 The Interaction Problem",
+      "claim_id": "claim:agde:042",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Choosing a Vector Store \u2014 pgvector vs. Dedicated Databases",
+      "claim_id": "claim:agde:043",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Choosing a Vector Store \u2014 pgvector vs. Dedicated Databases",
+      "claim_id": "claim:agde:043",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Choosing a Vector Store \u2014 pgvector vs. Dedicated Databases",
+      "claim_id": "claim:agde:043",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Choosing a Vector Store \u2014 pgvector vs. Dedicated Databases",
+      "claim_id": "claim:agde:043",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "claim_id": "claim:agde:049",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "claim_id": "claim:agde:044",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "RAG Is Not a Single Similarity Lookup",
+      "claim_id": "claim:agde:044",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Hybrid Retrieval \u2014 BM25 + Dense ANN",
+      "claim_id": "claim:agde:046",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Hybrid Retrieval \u2014 BM25 + Dense ANN",
+      "claim_id": "claim:agde:046",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Hybrid Retrieval \u2014 BM25 + Dense ANN",
+      "claim_id": "claim:agde:047",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Code \u2014 Reciprocal Rank Fusion",
+      "claim_id": "claim:agde:047",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "claim_id": "claim:agde:048",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "claim_id": "claim:agde:048",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "How Hybrid Retrieval Improves Recall",
+      "claim_id": "claim:agde:048",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Cross-Encoder Reranking \u2014 What It Can and Cannot Do",
+      "claim_id": "claim:agde:049",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Cross-Encoder Reranking \u2014 What It Can and Cannot Do",
+      "claim_id": "claim:agde:049",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Cross-Encoder Reranking \u2014 What It Can and Cannot Do",
+      "claim_id": "claim:agde:049",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Canonical Failure \u2014 Recall Ceiling of the First Stage",
+      "claim_id": "claim:agde:050",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Canonical Failure \u2014 Recall Ceiling of the First Stage",
+      "claim_id": "claim:agde:050",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Canonical Failure \u2014 Recall Ceiling of the First Stage",
+      "claim_id": "claim:agde:050",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Is an Agent? (Precise Definition)",
+      "claim_id": "claim:agde:051",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "What Is an Agent? (Precise Definition)",
+      "claim_id": "claim:agde:051",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Production Case Study \u2014 The Expensive Nondeterministic Cron Job",
+      "claim_id": "claim:agde:053",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Production Case Study \u2014 The Expensive Nondeterministic Cron Job",
+      "claim_id": "claim:agde:053",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Where Agents Earn Their Place \u2014 Bounded Problems",
+      "claim_id": "claim:agde:052",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Where Agents Earn Their Place \u2014 Bounded Problems",
+      "claim_id": "claim:agde:052",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Data Engineering Agent Use Cases and Their Failure Modes",
+      "claim_id": "claim:agde:057",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Data Engineering Agent Use Cases and Their Failure Modes",
+      "claim_id": "claim:agde:055",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Architectural Principle \u2014 Narrowing the Nondeterministic Boundary",
+      "claim_id": "claim:agde:055",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Architectural Principle \u2014 Narrowing the Nondeterministic Boundary",
+      "claim_id": "claim:agde:054",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Agents as DAG Nodes, Not Orchestrators",
+      "claim_id": "claim:agde:054",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agde:056",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "The Autonomy Maturity Ladder",
+      "claim_id": "claim:agde:056",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Embeddings Are Derived Personal Data \u2014 GDPR Obligations",
+      "claim_id": "claim:agde:058",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Embeddings Are Derived Personal Data \u2014 GDPR Obligations",
+      "claim_id": "claim:agde:058",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Embeddings Are Derived Personal Data \u2014 GDPR Obligations",
+      "claim_id": "claim:agde:059",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ML Lineage Extended to Artifacts",
+      "claim_id": "claim:agde:060",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "ML Lineage Extended to Artifacts",
+      "claim_id": "claim:agde:060",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Least-Privilege Tool Scoping for Agents (OWASP LLM06)",
+      "claim_id": "claim:agde:061",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Least-Privilege Tool Scoping for Agents (OWASP LLM06)",
+      "claim_id": "claim:agde:061",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Data Poisoning and Prompt Injection as Pipeline Security Surfaces",
+      "claim_id": "claim:agde:062",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Data Poisoning and Prompt Injection as Pipeline Security Surfaces",
+      "claim_id": "claim:agde:062",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Joint Evaluation \u2014 Reliability, Cost, and Latency",
+      "claim_id": "claim:agde:063",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Joint Evaluation \u2014 Reliability, Cost, and Latency",
+      "claim_id": "claim:agde:063",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Joint Evaluation \u2014 Reliability, Cost, and Latency",
+      "claim_id": "claim:agde:063",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:001",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:007",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:013",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:019",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:021",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:022",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:020",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:036",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:037",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:051",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "claim_id": "claim:agde:058",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Further Reading and Tooling Landscape",
+      "claim_id": "claim:agde:018",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "slide": "Further Reading and Tooling Landscape",
+      "claim_id": "claim:agde:021",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "carried_forward": true
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Training-serving skew is defined as a difference between model performance during training and performance during serving, caused by discrepancies in data handling, changes in data between training and serving time, or feedback loops between the model and its algorithm [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet accurately paraphrases the three-part taxonomy from Google's ML guide. No distortion.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Google identifies it as a central ML production failure mode and codifies these three root causes in Rules 29, 31, and 32 of its ML engineering guide [claim:agde:007]",
+      "source_excerpt": "Rule #29: 'The best way to make sure that you train like you serve is to save the set of features used at serving time...' Rule #31: 'If you join data from a table at training and serving time, the data in the table may change...' Rule #32: 'Reuse code between your training pipeline and your serving pipeline whenever possible.'",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The bullet says Rules 29, 31, and 32 'codify these three root causes,' implying a 1-to-1 mapping between rules and the three root causes (data handling discrepancy, data change, feedback loops). In reality, Rules 29/31/32 address mitigation strategies for the first two causes; none of them codifies the feedback-loop root cause. The third root cause (feedback loops) is not addressed by any of these three rules. The claim overstates the scope of these rules.",
+      "suggested_fix": "Reword to: 'Google addresses skew mitigation in Rules 29, 31, and 32 of its ML engineering guide, covering code reuse and data consistency between training and serving pipelines [claim:agde:007]' \u2014 do not claim these three rules map to the three root causes."
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Section Checkpoint \u2014 Skew Diagnosis Heuristic",
+      "bullet": "Training-serving skew is defined as a difference between model performance during training and performance during serving, caused by discrepancies in data handling, changes in data between training and serving time, or feedback loops between the model and its algorithm [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Identical to item 1; accurately paraphrases the source definition and three causes.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:025",
+      "slide": "Three Drift Types \u2014 Schema, Distribution, Concept",
+      "bullet": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) remains the same [claim:agde:025]",
+      "source_excerpt": "Covariate shift: when P(X) changes, but P(Y|X) remains the same. Concept drift: when P(Y|X) changes, but P(X) remains the same. Schema drift (structural change such as a column being added, removed, or retyped) is categorised separately from statistical distributional shift.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet matches the source definitions precisely for all three drift types. No distortion.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency \u2014 Embedding Model Versioning",
+      "bullet": "Changing an embedding model typically requires re-encoding the entire corpus and rebuilding the ANN index from scratch: a query vector from the new model cannot be meaningfully compared to corpus vectors from the old model, even when both models share the same output dimensionality [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index... When that model is upgraded, the stored vectors become incompatible with queries encoded by the new model. Vectors from different models live in incompatible vector spaces \u2014 you cannot mix old and new vectors in the same index. When models have the same dimension but are different models, there's no crash, but search returns garbage results.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet accurately captures the core claim and the same-dimensionality caveat. Supported by both the paper and corroborating sources.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency \u2014 Embedding Model Versioning",
+      "bullet": "For a 1-million-item database, a full re-index amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks [claim:agde:036]",
+      "source_excerpt": "Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet is a close paraphrase of the source. Numbers match exactly.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "Exact k-NN requires O(n\u00b7d) work per query \u2014 every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N\u00b7D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet matches the source statement on complexity and scale threshold.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "A dataset of 10\u2079 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory; scanning it at SSD throughput of 512 MB/s would require 1,000 seconds to answer a single query [claim:agde:037]",
+      "source_excerpt": "A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds \u2014 answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "All numbers (10^9 vectors, 128 dims, 512 GB, 512 MB/s, 1000 seconds) match the source exactly.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "ANN indexes are necessary at million- or billion-vector scale because exact k-NN becomes computationally infeasible at those sizes [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N\u00b7D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "This is a straightforward inference from the source's statement that exact search is 'computationally inefficient' at million/billion scale. The conclusion that ANN is therefore 'necessary' is directly supported.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families \u2014 HNSW, IVF, PQ, DiskANN",
+      "bullet": "HNSW is a graph-based ANN index achieving O(log n) search complexity via a multi-layer navigable small-world structure [claim:agde:038]",
+      "source_excerpt": "Navigable small world graphs have polylogarithmic search complexity of O(log^k n). HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MAJOR",
+      "issue": "The source file contains two statements in tension: it says 'polylogarithmic search complexity of O(log^k n)' for NSW graphs generally, then says HNSW achieves 'logarithmic search complexity' (implying k=1). The slide states O(log n), which matches the 'logarithmic' phrasing but not the 'polylogarithmic O(log^k n)' phrasing. The original HNSW paper (Malkov & Yashunin) characterises NSW complexity as polylogarithmic O(log^k n) and describes HNSW as improving the scaling constant rather than reducing it to O(log n). Stating O(log n) without qualification drops the exponent k, which overstates the complexity guarantee. This is a real distortion of the algorithmic bound.",
+      "suggested_fix": "Change to: 'HNSW is a graph-based ANN index achieving polylogarithmic search complexity O(log^k n) via a multi-layer navigable small-world structure [claim:agde:038]' \u2014 or if simplification is desired, say 'near-logarithmic' rather than asserting O(log n)."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth \u2014 Parameters and Recall/Latency Tradeoff",
+      "bullet": "HNSW build-time parameters M (connections per node) and efConstruction (beam width) set the ceiling on achievable recall; they cannot be changed after index construction without a full rebuild [claim:agde:038]",
+      "source_excerpt": "Build-time parameters M and efConstruction determine graph connectivity and quality, setting the ceiling on achievable recall. The query-time parameter efSearch expands or contracts the candidate set explored during traversal.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "The clause 'cannot be changed after index construction without a full rebuild' is not explicitly stated in the source, but is a correct implication of the term 'build-time parameters' and standard HNSW behavior. No factual error.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth \u2014 Parameters and Recall/Latency Tradeoff",
+      "bullet": "The query-time parameter efSearch is the operational dial: increasing it from 10 to 640 can improve recall@1 from ~0.56 to ~0.97, while latency rises from ~5 ms to ~68 ms [claim:agde:038]",
+      "source_excerpt": "The empirical data demonstrates efSearch's direct impact: increasing k from 10 to 640 improved recall@1 from 0.56 to 0.97, but latency jumped from 5.31ms to 68.28ms.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "The source says 'increasing k from 10 to 640' in the context of demonstrating 'efSearch's direct impact.' The slide correctly attributes the effect to efSearch. Numbers match exactly (0.56, 0.97, ~5ms, ~68ms). Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "HNSW in Depth \u2014 Parameters and Recall/Latency Tradeoff",
+      "bullet": "The recall-latency tradeoff should be treated as a tuned SLO, not a fixed property \u2014 the right efSearch value depends on the latency budget and the recall requirement for the application [claim:agde:038]",
+      "source_excerpt": "Typical efSearch values range from slightly above k (e.g., 40) to several hundreds, depending on the desired recall. Doubling efSearch from 200 to 400 might only improve recall by 5% while doubling search time.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The SLO framing is editorial interpretation, not a direct quote from the source. However, the source data clearly shows a tunable recall-latency tradeoff dependent on application requirements, which substantively supports the claim. The 'SLO' label is pedagogical framing, not a factual assertion.",
+      "suggested_fix": "None required \u2014 the framing is a reasonable inference from the data."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy \u2014 A Schema Design Decision",
+      "bullet": "Large chunks can exceed token limits or include irrelevant content, reducing precision; small chunks may lack surrounding context needed for accurate generation [claim:agde:045]",
+      "source_excerpt": "Large chunks can exceed token limits or retrieve irrelevant information, reducing retrieval precision, while small chunks might miss the context necessary for effective generation.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Near-verbatim match with the source. The slide says 'include irrelevant content' where the source says 'retrieve irrelevant information' \u2014 semantically identical. Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy \u2014 A Schema Design Decision",
+      "bullet": "Chunk size is a design tradeoff: increasing it improves context availability but dilutes specificity; decreasing it sharpens specificity but loses context [claim:agde:045]",
+      "source_excerpt": "As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Accurately paraphrases the source. The slide's 'dilutes specificity' corresponds to the source's 'losing fine-grained details'; the slide's 'loses context' corresponds to the source's 'sacrifice the surrounding context.' Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:045",
+      "slide": "Chunking Strategy \u2014 A Schema Design Decision",
+      "bullet": "The best-performing chunk size varies substantially across queries \u2014 making this a decision that should be driven by the dominant query pattern rather than treated as a fixed one-time tuning parameter [claim:agde:045]",
+      "source_excerpt": "the best-performing chunk size varies substantially across queries, even when querying the same corpus. Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The first half ('varies substantially across queries') is a near-verbatim match. The second half ('driven by the dominant query pattern') is an editorial inference. The source's actual recommendation is multi-scale indexing (indexing at multiple chunk sizes and aggregating), not selecting a single size based on dominant query pattern. The slide's framing is not contradicted but omits the source's preferred solution.",
+      "suggested_fix": "Consider adding a note that multi-scale chunking (indexing at multiple sizes) is the source's recommended approach, rather than implying a single size should be chosen based on the dominant query type."
+    },
+    {
+      "claim_id": "claim:agde:027",
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "bullet": "PSI quantifies distributional shift per feature \u2014 values above 0.25 indicate a major population shift requiring model review (LO5) [claim:agde:027]",
+      "source_excerpt": "Greater than 0.25: major shift in population, need to delve deeper. NOTE: The original threshold commonly cited is PSI < 0.1 (no change), 0.1\u20130.2 (moderate), > 0.2 (significant). The 0.25 upper boundary also appears in some industry sources. Both sets of thresholds are rule-of-thumb conventions.",
+      "verdict": "MISREPRESENTED",
+      "severity": "MINOR",
+      "issue": "The 0.25 threshold is supported by the GeeksforGeeks source, but the source note acknowledges that > 0.2 is the more commonly cited threshold for 'significant' shift. Using 0.25 is defensible but represents the less common convention. No factual error \u2014 both thresholds appear in industry practice.",
+      "suggested_fix": "Consider noting that 0.2 is an alternative common threshold, or use '> 0.2' as the more widely cited convention."
+    },
+    {
+      "claim_id": "claim:agde:047",
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "bullet": "Hybrid BM25 + dense retrieval fused via RRF is the production baseline [claim:agde:047]",
+      "source_excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system. Because RRF operates on rank positions instead of raw scores, it has become the default hybrid search ranking method in OpenSearch, Elasticsearch, Azure AI Search, MongoDB Atlas, and Weaviate.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "The source confirms RRF is 'the default hybrid search ranking method' across major search platforms, which directly supports calling it the 'production baseline.' Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:049",
+      "slide": "Lecture Summary \u2014 Ten Key Takeaways",
+      "bullet": "a cross-encoder reranker improves precision within the retrieved set but cannot recover recall lost at stage 1 (LO8) [claim:agde:049]",
+      "source_excerpt": "a dual encoder retrieves the top 50 to 100 candidates, with high recall mattering here because any relevant document that misses this cut is permanently gone. the paradigm involves stage 1 (retrieve broadly to achieve high recall) and stage 2 (use a more powerful, query-aware model to score and reorder candidates). The reranker reorders the list, with only the top 5 to 10 results reaching the user or the LLM.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "The source explicitly states that any document missing from the stage-1 retrieval is 'permanently gone' and that the reranker 'reorders the list' \u2014 directly supporting the claim that a reranker cannot recover recall lost at stage 1. Verified.",
+      "suggested_fix": "None required."
+    },
+    {
+      "claim_id": "claim:agde:043",
+      "slide": "Further Reading and Tooling Landscape",
+      "bullet": "Vector stores: pgvector for under ~2M vectors in an existing Postgres stack; Qdrant, Pinecone, or Milvus for larger scale or sub-20ms p95 latency requirements [claim:agde:043]",
+      "source_excerpt": "pgvector is the default choice for RAG systems under 2M vectors. For 5M+ vectors and sub-20ms p95 latency, Pinecone delivers with no configuration but at 3-8x cost vs Supabase Postgres. Qdrant indexes payload fields and runs filters inside the HNSW graph traversal. Use Milvus if you're working at billion-vector scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "All specifics match the source: pgvector under 2M vectors, the three named alternatives (Qdrant, Pinecone, Milvus), and the sub-20ms p95 latency threshold. Note: the original claim statement in the registry says 'sub-10ms' but the source says 'sub-20ms p95' \u2014 the slide correctly uses the source's 'sub-20ms' figure rather than the claim registry's 'sub-10ms.' Verified.",
+      "suggested_fix": "None required."
+    }
+  ]
+}

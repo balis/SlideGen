@@ -1,0 +1,12 @@
+Source for claim:agentic-de:recall-precision-separation:001
+
+Title: Retrieval Reranking in RAG Systems
+URL: https://stackviv.ai/blog/retrieval-reranking-rag-systems
+Retrieved: 2026-06-14
+
+Excerpt:
+"Two-stage retrieval separates candidate generation (fast, broad search) from ranking (slow, precise evaluation). Your initial retrieval needs to be fast and cast a wide net. Your reranker needs to be accurate and selective."
+
+"Cross-encoders process query and document together, capturing interactions between them for more accurate relevance scoring."
+
+Supporting source (Pinecone): "A reranking model — also known as a cross-encoder — is a type of model that, given a query and document pair, will output a similarity score. A reranker is used to rerank those documents retrieved by the first-stage model." (https://www.pinecone.io/learn/series/rag/rerankers/)

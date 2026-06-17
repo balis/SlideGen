@@ -1,0 +1,90 @@
+{
+  "topic": "Data Engineering in the Age of AI — RAG Retrieval as a Two-Stage Data Pipeline",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:rag-chunking:001",
+      "statement": "Chunking strategy is a foundational design decision in RAG pipelines: chunk size, boundary policy, and structure determine which information units are indexed and retrieved, and there is no universal optimal size — smaller chunks (64–128 tokens) favor fact-based queries while larger chunks (512–1024 tokens) favor contextual queries.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation",
+        "url_or_doi": "https://arxiv.org/abs/2406.00456",
+        "section": "Abstract",
+        "excerpt": "Retrieving from multiple knowledge sources with one fixed strategy usually leads to under-exploitation of information. To mitigate this drawback, inspired by Mix-of-Expert, the authors introduce Mix-of-Granularity (MoG), a method that dynamically determines the optimal granularity of a knowledge source based on input queries using a router. Experiments demonstrate that MoG and MoGG effectively predict optimal granularity levels, significantly enhancing the performance of the RAG system in downstream tasks."
+      }
+    },
+    {
+      "id": "claim:agde:rag-chunking:002",
+      "statement": "Chunking strategy affects retrieval precision and recall in opposing directions: large chunks can exceed token limits or include irrelevant content, reducing precision, while small chunks may lack the surrounding context needed for accurate generation — making chunk size a design tradeoff analogous to a schema-design decision.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Chunk size is query-dependent: a simple multi-scale approach to RAG retrieval",
+        "url_or_doi": "https://www.ai21.com/blog/query-dependent-chunking/",
+        "section": "Introduction",
+        "excerpt": "smaller chunks preserve fine-grained details but lose context; larger chunks capture broader meaning but dilute specific facts. As chunk size grows, a fixed-size vector must compress increasingly diverse information, inevitably losing fine-grained details. Conversely, smaller chunks preserve specificity but sacrifice the surrounding context needed to understand meaning. Standard practice treats chunk size as a one-time tuning parameter: choose a value, measure average performance, iterate until satisfied, then deploy."
+      }
+    },
+    {
+      "id": "claim:agde:hybrid-retrieval:001",
+      "statement": "BM25 sparse retrieval and dense ANN retrieval fail in complementary ways: BM25 excels at exact-match queries (product codes, error codes, rare identifiers) but has no semantic understanding, while dense retrieval handles paraphrase and conceptual queries but may assign low scores to exact rare-term matches — making hybrid retrieval the recommended baseline for production RAG.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "BM25 vs Dense Retrieval for RAG: What Actually Breaks in Production",
+        "url_or_doi": "https://ranjankumar.in/bm25-vs-dense-retrieval-for-rag-engineers",
+        "section": "Core Tradeoffs",
+        "excerpt": "You can't pick between BM25 and dense retrieval. You need both. They fail in opposite ways. BM25 is precise but brittle...Dense retrieval is robust but vague. Exact identifiers survive [in BM25]. Error codes, ticket IDs, API endpoints, function names, configuration keys—anything that needs to be precisely correct rather than semantically similar. It [dense retrieval] treats symbols as noise. Embedding models...treat tokens like 'E4392' or '/api/v2/users' as less important than readable text."
+      }
+    },
+    {
+      "id": "claim:agde:hybrid-retrieval:002",
+      "statement": "Reciprocal Rank Fusion (RRF), introduced by Cormack, Clarke, and Büttcher at SIGIR 2009, is the standard algorithm for fusing BM25 and dense ANN ranked lists in hybrid search. RRF computes RRF(c) = Σ 1/(rank_i(c) + k) with k=60 as the smoothing constant; it operates on rank positions rather than raw scores, avoiding the score-incompatibility problem between sparse and dense systems, and has been shown to outperform Condorcet Fuse, CombMNZ, and individual learning-to-rank methods.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Reciprocal rank fusion outperforms condorcet and individual rank learning methods",
+        "url_or_doi": "https://dl.acm.org/doi/10.1145/1571941.1572114",
+        "section": "Abstract",
+        "excerpt": "Reciprocal Rank Fusion (RRF), a simple method for combining the document rankings from multiple IR systems, consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse. [Published at: Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval, pages 758–759, Boston MA USA, July 2009. Authors: Gordon V. Cormack, Charles L A Clarke, Stefan Büttcher.]"
+      }
+    },
+    {
+      "id": "claim:agde:hybrid-retrieval:003",
+      "statement": "Hybrid retrieval (BM25 + dense ANN fused via RRF) improves recall relative to either method alone because each retriever surface relevant documents the other misses: a two-stage pipeline of hybrid retrieval followed by neural reranking achieves Recall@5 of 0.816 versus 0.695 for hybrid RRF alone, 0.644 for BM25, and 0.587 for dense-only retrieval. The hybrid recall improvement is attributable to BM25 pulling in relevant documents that the dense retriever ranked too low.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Hybrid Retrieval and Reranking in RAG: A Dual-Stage Approach to Improve Information Recall and Precision",
+        "url_or_doi": "https://www.genzeon.com/hybrid-retrieval-deranking-in-rag-recall-precision/",
+        "section": "Results and Analysis",
+        "excerpt": "re-ranking does not help recall because it works within the already-retrieved set. The hybrid improvement on recall was the BM25 component pulling in the additional relevant documents. A two-stage pipeline combining hybrid retrieval with neural reranking achieves Recall@5 of 0.816 compared to 0.695 for Hybrid RRF alone (+17.4%), 0.644 for BM25 (+26.7%), and 0.587 for dense retrieval (+39.0%)."
+      }
+    },
+    {
+      "id": "claim:agde:reranking:001",
+      "statement": "Cross-encoder reranking is a second-stage operation that improves precision but cannot improve recall: a cross-encoder jointly encodes the query and each candidate passage through a shared transformer to produce a finer relevance score, but it operates only on the candidate set already retrieved by the first stage. Any relevant document not retrieved by the first-stage retriever is permanently lost; a reranker cannot recover it. The recall ceiling is set entirely by the first stage.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Issue #115 — Reranking in your RAG pipeline (ML Pills)",
+        "url_or_doi": "https://mlpills.substack.com/p/issue-115-reranking-in-your-rag-pipeline",
+        "section": "Two-Stage Pipeline Architecture",
+        "excerpt": "Stage 1: Retrieval (Recall)...cast a wide net. Stage 2: Reranking (Precision)...sort the pile...use a Cross-Encoder to read the top 50 candidates and push the best ones to the top. If you send an LLM 20 documents, and the one correct answer is buried in the middle of 19 irrelevant ones, the LLM often misses it."
+      }
+    },
+    {
+      "id": "claim:agde:reranking:002",
+      "statement": "The canonical failure mode of the two-stage RAG retrieval pipeline is a relevant chunk that was retrieved by the first stage but ranked just outside the top-k cutoff passed to the reranker or LLM. Because the reranker cannot access documents outside its input set, this chunk — though present in the corpus and even in the initial retrieval — is silently dropped. Increasing the first-stage retrieval window (higher k) mitigates this at the cost of reranking latency; the tradeoff must be explicitly set.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Drowning in Documents: Consequences of Scaling Reranker Inference",
+        "url_or_doi": "https://arxiv.org/abs/2411.11767",
+        "section": "Abstract / Key Findings",
+        "excerpt": "while rerankers initially help with small values for K, reranking with large K decreases recall precipitously, often dropping beneath the quality of standalone retrievers. In some cases, when evaluated in a fair competition—ranking the full dataset—rerankers are less accurate than retrievers. The efficacy of two-stage retrieval pipelines is limited by the recall ceiling of the first stage, as no amount of sophisticated reranking can recover relevant documents that the initial bi-encoder failed to retrieve. [Accepted to ReNeuIR 2025 Workshop at SIGIR 2025.]"
+      }
+    }
+  ]
+}

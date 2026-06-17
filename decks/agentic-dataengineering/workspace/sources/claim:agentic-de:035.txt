@@ -1,0 +1,12 @@
+Source for claim:agentic-de:embedding-pipeline:006
+
+Title: Idempotency in Data Pipelines — apxml.com
+URL: https://apxml.com/courses/building-scalable-data-warehouses/chapter-3-high-throughput-ingestion/idempotency-pipelines
+Retrieved: 2026-06-14
+
+Excerpt:
+"On document ingestion, all chunk hashes are computed for new versions, compared against stored hashes, and chunks are classified as new, modified, deleted, or unchanged, with only new and modified chunks processed for embedding."
+
+"Deduplication in staging areas can use deterministic hashing, such as computing MD5 hashes of event identifiers combined with timestamps as idempotency keys."
+
+Note: This source describes general idempotent pipeline patterns applied to embedding workloads. The content-hash approach is a well-established data engineering pattern; the source describes it in the context of data warehouse ingestion but the principle applies directly to embedding pipelines.

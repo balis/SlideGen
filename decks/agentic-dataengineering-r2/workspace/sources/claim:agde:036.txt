@@ -1,0 +1,28 @@
+CLAIM ID: claim:agde:embedding-model-invalidates-index:006
+
+SOURCE
+Title: Drift-Adapter: A Practical Approach to Near Zero-Downtime Embedding Model Upgrades in Vector Databases
+URL: https://arxiv.org/abs/2509.23471 (also https://arxiv.org/html/2509.23471v1)
+Type: paper (arXiv preprint, 2025)
+Retrieved: 2026-06-15
+
+EXCERPT
+"Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index, leading to significant operational disruption. Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems. Downtime: Typical interruption periods range from 4–8 hours."
+
+SUPPORTING CONTEXT
+The paper identifies the root cause as a fundamental geometric incompatibility:
+- "When that model is upgraded, the stored vectors become incompatible with queries encoded by the new model."
+- "Vectors from different models live in incompatible vector spaces — you cannot mix old and new vectors in the same index."
+- "When models have the same dimension but are different models, there's no crash, but search returns garbage results because vectors from different models occupy incompatible semantic spaces." (From community search results corroborating this claim)
+
+The paper proposes Drift-Adapter (a lightweight learned projection layer) as a workaround that maps new query embeddings into the legacy embedding space, reducing recompute costs by over 100× while maintaining 95–99% retrieval recall. The existence of this workaround further confirms the severity of the default full-reindex requirement.
+
+CORROBORATING SOURCE
+Title: Embedding Models in Production: Selection, Versioning, and the Index Drift Problem
+URL: https://tianpan.co/blog/2026-04-09-embedding-models-production-versioning-index-drift
+Excerpt (from search results): "Different embedding models produce incompatible embedding spaces, not interchangeable representations. When you change the model, the coordinate system changes. A vector from model v1 and a vector from model v2 are not comparable, even for the same text."
+
+ADDITIONAL CORROBORATING SOURCE
+Title: Why Embedding Pipelines Break at Scale — DZone
+URL: https://dzone.com/articles/why-embedding-pipelines-break-at-scale
+Excerpt: "Embedding models change frequently and when they do, pipelines typically recompute everything. Without version awareness, teams cannot identify which documents need re-embedding, resulting in unnecessary computational waste."

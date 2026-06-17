@@ -1,0 +1,34 @@
+SOURCE: OWASP Top 10 LLM, Updated 2025: Examples & Mitigation Strategies
+URL: https://www.oligo.security/academy/owasp-top-10-llm-updated-2025-examples-and-mitigation-strategies
+Retrieved: 2026-06-15
+Publisher: Oligo Security (summarizing OWASP LLM Top 10 2025)
+
+EXCERPTS:
+"Limit Functionality: Restrict available extensions and features to the minimum required for the application."
+
+"Granular Permissions: Assign minimal and role-specific permissions to LLM extensions interacting with other systems."
+
+"Data poisoning involves malicious or accidental contamination of training, fine-tuning, or embedding data, leading to biased, erroneous, or harmful model behavior."
+
+"Vector and Embedding Weaknesses arise when data stored in embeddings or vector databases is accessed or manipulated improperly."
+
+"Access Controls: Implement fine-grained access permissions for embeddings and vector databases."
+
+ADDITIONAL CONTEXT (from OWASP LLM06 search summaries):
+OWASP breaks LLM06 Excessive Agency into three root causes:
+1. Excessive functionality — agents can reach tools beyond their task scope
+2. Excessive permissions — tools operate with broader privileges than necessary
+3. Excessive autonomy — high-impact actions proceed without human oversight
+
+"Extensions having permissions on downstream systems that are not needed, such as an extension intended to read data connecting with UPDATE, INSERT and DELETE permissions."
+
+"Applications failing to independently verify and approve high-impact actions."
+
+SOURCE 2: Progent: Programmable Privilege Control for LLM Agents
+URL: https://arxiv.org/pdf/2504.11703
+Year: 2025
+Context: Provides formal privilege control framework for LLM agents, validating that least-privilege is an active research and engineering priority.
+
+SOURCE 3: OWASP Agentic Security Initiative Top 10 (2025)
+Context: "The first systematic threat taxonomy for AI agent applications."
+Referenced at: https://www.gravitee.io/blog/owasp-top-10-for-llm-applications-2025-a-practical-guide

@@ -1,0 +1,13 @@
+Claim ID: claim:agentic-de:iceberg-snapshots:002
+Source: The Dark Side of Apache Iceberg's Data Time Travel Feature
+URL: https://dzone.com/articles/apache-iceberg-data-time-travel
+Retrieved: 2026-06-14
+
+Excerpt:
+"Even small changes in the data can result in the creation of new versions of data and metadata files. Storing multiple snapshots and versions of data files increases the storage usage."
+
+"Over the period, snapshots accumulate, and metadata files grow larger. The content of metadata files becomes complex, hence it increases memory requirements for query planning."
+
+"More metadata and data files need to be identified, expired, and cleaned up on a regular basis. Also, requires careful configurations to avoid accidental deletion and over retention."
+
+"Time travel queries may be slower, especially if many snapshots are presented for a specified range in the query. Also, cleaning up the snapshots and old data files consumes the computers, which can further degrade the overall system performance."

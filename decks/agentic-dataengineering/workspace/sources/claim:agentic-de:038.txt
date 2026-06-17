@@ -1,0 +1,5 @@
+Source excerpt:
+"With nprobe values ranging from 1 to 256, recall ranges from 70% to 99%, with query throughput decreasing from 50,000 QPS to 300 QPS and latency increasing from 0.02ms to 3.3ms respectively. By adjusting nprobe, you can often reach ~90-95% of the recall of an exact search while being orders of magnitude faster."
+
+URL: https://milvus.io/blog/understanding-ivf-vector-index-how-It-works-and-when-to-choose-it-over-hnsw.md
+Retrieved: 2026-06-14

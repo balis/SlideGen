@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of Artificial Intelligence",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:ml-contract:001",
+      "statement": "ML systems fail silently: unlike traditional software that raises exceptions or dashboards that display visibly-wrong numbers, an ML model will continue returning predictions even when input data is incorrect or significantly shifted, producing low-quality outputs without raising any alarm.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Model monitoring for ML in production: a comprehensive guide",
+        "url_or_doi": "https://www.evidentlyai.com/ml-in-production/model-monitoring",
+        "section": "Silent failure mode",
+        "excerpt": "Software errors are usually visible: if things don't work, you will get an error message. With machine learning, you may encounter different types of errors: a model returning an unreliable or biased prediction. Such errors are 'silent': a model will typically respond as long as it can process the incoming data inputs. Even if the input data is incorrect or significantly different – the model will make a potentially low-quality prediction without raising an alarm."
+      }
+    },
+    {
+      "id": "claim:agde:ml-contract:002",
+      "statement": "Training-serving skew is a silent killer of ML model performance: the model still runs without errors, produces predictions, but those predictions are based on incorrect inputs and accuracy degrades silently—unlike data drift which develops gradually, skew can exist from day one and go unnoticed.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Training-Serving Skew. The Silent Model Killer",
+        "url_or_doi": "https://dev.to/timeai/training-serving-skew-the-silent-model-killer-2abl",
+        "section": "Overview",
+        "excerpt": "Training-serving skew is a silent killer of ML model performance. Training-serving skew happens when the data, feature logic, preprocessing, or assumptions used during training differ from what the model sees in production. The insidious part is your model still runs without errors. It produces predictions. But those predictions are based on incorrect inputs. Accuracy degrades silently. Unlike data drift, which develops gradually, skew can exist from day one and go unnoticed until someone digs into why the model is underperforming."
+      }
+    },
+    {
+      "id": "claim:agde:ml-contract:003",
+      "statement": "Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI as the top of a pyramid: before deploying ML, organizations must first have data literacy, collection, and infrastructure in place, just as Maslow's hierarchy requires food and shelter before self-actualization.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "The AI Hierarchy of Needs",
+        "url_or_doi": "https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007",
+        "section": "Introduction",
+        "excerpt": "Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI) is great, but you first need food, water, and shelter (data literacy, collection, and infrastructure). Companies that have not yet built the infrastructure to implement the most basic data science algorithms and operations should not be thinking about AI."
+      }
+    },
+    {
+      "id": "claim:agde:ml-contract:004",
+      "statement": "According to the CrowdFlower 2016 Data Science Survey, 80% of data scientists' work consists of data preparation: 60% of respondents spent most of their time cleaning and organizing data, and 19% spent most of their time collecting data sets.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "CrowdFlower 2016 Data Science Report",
+        "url_or_doi": "https://www.kdnuggets.com/2016/04/crowdflower-2016-data-science-repost.html",
+        "section": "Key findings",
+        "excerpt": "According to a 2016 survey by CrowdFlower, as much as 80% of the work of data scientists consists of data preparation, including 19% of time spent on collecting data sets and 60% on cleaning and organising data. 3 out of every 5 data scientists surveyed actually spend the most time cleaning and organizing data."
+      }
+    },
+    {
+      "id": "claim:agde:ml-contract:005",
+      "statement": "ML treats datasets as versioned, time-aware artifacts—immutable snapshots tied to a specific point in time—rather than as query targets. This is because ML reproducibility requires knowing exactly what data state produced a given model or index, a requirement absent in BI/analytics where the latest snapshot is always the correct answer.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Understanding AI version control for dataset and model versioning",
+        "url_or_doi": "https://wandb.ai/site/articles/intro-to-mlops-data-and-model-versioning/",
+        "section": "Data as artifacts",
+        "excerpt": "Data and models are important artifacts in ML that need to be versioned, similar to how source code is versioned in traditional software development. An artifact is a versioned object where each version is an immutable snapshot of files and assets. The principles behind data version control are simple: treat data as immutable, keep a full history of changes, and preserve lineage, so every version is auditable."
+      }
+    },
+    {
+      "id": "claim:agde:ml-contract:006",
+      "statement": "Feature engineering is a stateful pipeline stage: transformation functions that normalize or encode features require statistics (means, standard deviations, vocabularies) computed solely on the training set ('fit-time statistics'), which must be stored and then reapplied identically during inference to prevent training-serving skew.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Consistent Transformations — Hopsworks Documentation",
+        "url_or_doi": "https://docs.hopsworks.ai/latest/concepts/fs/feature_view/training_inference_pipelines/",
+        "section": "Stateful transformations",
+        "excerpt": "Transformation functions take as input a single value (or small number of values), they often require state (such as the mean value of a feature to normalize the input), and they output a single value or a list of values. It is crucial that the transformations performed when creating features (for training or serving) are consistent - use the same code - to avoid training/serving skew. Any state required to compute the transformation, such as the arithmetic mean of a numerical feature in the train set, is also stored with the function, enabling consistent transformations during inference."
+      }
+    }
+  ]
+}

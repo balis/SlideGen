@@ -1,0 +1,23 @@
+SOURCE: The Right to Be Forgotten — But Can AI Forget?
+URL: https://cloudsecurityalliance.org/blog/2025/04/11/the-right-to-be-forgotten-but-can-ai-forget
+Retrieved: 2026-06-15
+Publisher: Cloud Security Alliance
+
+EXCERPTS:
+"Once personal data is used to train an AI model, is deletion even possible?"
+
+"LLMs don't store data in tidy, retrievable rows and columns...the data becomes deeply embedded in its architecture—not easily traceable or deletable."
+
+"For models that have already been trained, there are no proven, scalable solutions to guarantee compliance with the right to erasure."
+
+"Organizations may find themselves unintentionally non-compliant—even with the best intentions."
+
+SUPPORTING CONTEXT (from web search summary citing supervisory authority guidance):
+"According to supervisory authorities, if a trained model stores personal information or makes it reproducible, the model is subject to the obligation to delete."
+
+ADDITIONAL CONTEXT (from Milvus/vector DB compliance documentation, web search summary):
+"Erasure compliance requires knowing what personal data was processed, in which sessions, and in what form — including data pulled into context windows, passed to tool calls, or used to generate embeddings. For RAG architectures using vector stores, embeddings derived from personal data require targeted vector store management as part of any erasure process."
+
+RELATED REGULATORY CONTEXT:
+The European Data Protection Board launched its Coordinated Enforcement Framework (CEF) action for 2025, focusing on the right to erasure (GDPR Art. 17).
+Source: https://www.edpb.europa.eu/news/news/2025/cef-2025-launch-coordinated-enforcement-right-erasure_en

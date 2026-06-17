@@ -1,0 +1,12 @@
+Claim ID: claim:agentic-de:dvc:003
+Source: Internal Files | Data Version Control - DVC
+URL: https://dvc.org/doc/user-guide/project-structure/internal-files
+Retrieved: 2026-06-14
+
+Excerpt:
+"The cache uses content-addressable storage, meaning files are stored based on their hash. This prevents data duplication; if you have multiple copies of the same file (even with different names or locations), DVC stores only one copy in the cache."
+
+"DVC calculates the file hash, a 32 characters long string (usually MD5). The first two characters are used to name the directory inside the cache, and the rest become the file name of the cached file."
+
+Additional context from search results (apxml.com DVC introduction):
+"Instead of storing large files directly in your Git repository, DVC stores lightweight metadata files (called .dvc files) that act as pointers to the actual data. These .dvc files are tracked by Git. Since the metafile is versioned by Git, DVC ties data to specific code versions. A change to our dataset would constitute an updated DVC metafile and thus a new commit in our Git history."

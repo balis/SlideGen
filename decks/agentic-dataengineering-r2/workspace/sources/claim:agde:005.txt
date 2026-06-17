@@ -1,0 +1,18 @@
+CLAIM ID: claim:agde:ml-contract:005
+STATEMENT: ML treats datasets as versioned, time-aware artifacts—immutable snapshots tied to a specific point in time—rather than as query targets. This is because ML reproducibility requires knowing exactly what data state produced a given model or index, a requirement absent in BI/analytics where the latest snapshot is always the correct answer.
+
+SOURCE URL: https://wandb.ai/site/articles/intro-to-mlops-data-and-model-versioning/
+TITLE: Understanding AI version control for dataset and model versioning
+PUBLISHER: Weights & Biases (wandb.ai)
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Data and models are important artifacts in ML that need to be versioned, similar to how source code is versioned in traditional software development. An artifact is a versioned object where each version is an immutable snapshot of files and assets. The principles behind data version control are simple: treat data as immutable, keep a full history of changes, and preserve lineage, so every version is auditable."
+
+ADDITIONAL CONTEXT:
+ML platforms such as MLflow, DVC, Michelangelo, and TFX all support versioning models and tracking the data versions used to produce them. This is a fundamental shift from BI/analytics systems where the expectation is that a query always returns current state — for ML, a model trained on a particular snapshot must be re-evaluable against that exact snapshot for debugging, auditing, and reproducibility.
+
+SUPPORTING SOURCE:
+URL: https://arxiv.org/pdf/2112.06439
+Title: "What can Data-Centric AI Learn from Data and ML Engineering?" (2021)
+Note: Discusses the distinction between ML's artifact-centric view of data versus analytics' query-centric view, supporting the claim that versioning and point-in-time correctness are first-class requirements in ML data engineering.

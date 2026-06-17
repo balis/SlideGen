@@ -1,0 +1,108 @@
+{
+  "version": 3,
+  "batch": 1,
+  "batch_verdict": "NEEDS_REVISION",
+  "claim_verdicts": [
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Training-serving skew is defined as a difference between model performance during training and performance during serving, caused by discrepancies in data handling, changes in data between training and serving time, or feedback loops between the model and its algorithm [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet accurately paraphrases the three-part taxonomy from Google's ML guide. No distortion.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "What Is Training/Serving Skew?",
+      "bullet": "Google identifies it as a central ML production failure mode and codifies these three root causes in Rules 29, 31, and 32 of its ML engineering guide [claim:agde:007]",
+      "source_excerpt": "Rule #29: 'The best way to make sure that you train like you serve is to save the set of features used at serving time...' Rule #31: 'If you join data from a table at training and serving time, the data in the table may change...' Rule #32: 'Reuse code between your training pipeline and your serving pipeline whenever possible.'",
+      "verdict": "MINOR",
+      "severity": "MINOR",
+      "issue": "The bullet says Rules 29, 31, and 32 'codify these three root causes,' implying a 1-to-1 mapping between rules and the three root causes (data handling discrepancy, data change, feedback loops). In reality, Rules 29/31/32 address mitigation strategies for the first two causes; none of them codifies the feedback-loop root cause. The third root cause (feedback loops) is not addressed by any of these three rules. The claim overstates the scope of these rules.",
+      "suggested_fix": "Reword to: 'Google addresses skew mitigation in Rules 29, 31, and 32 of its ML engineering guide, covering code reuse and data consistency between training and serving pipelines [claim:agde:007]' — do not claim these three rules map to the three root causes."
+    },
+    {
+      "claim_id": "claim:agde:007",
+      "slide": "Section Checkpoint — Skew Diagnosis Heuristic",
+      "bullet": "Training-serving skew is defined as a difference between model performance during training and performance during serving, caused by discrepancies in data handling, changes in data between training and serving time, or feedback loops between the model and its algorithm [claim:agde:007]",
+      "source_excerpt": "Training-serving skew is a difference between performance during training and performance during serving. This skew can be caused by: A discrepancy between how you handle data in the training and serving pipelines. A change in the data between when you train and when you serve. A feedback loop between your model and your algorithm.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Identical to item 1; accurately paraphrases the source definition and three causes.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:025",
+      "slide": "Three Drift Types — Schema, Distribution, Concept",
+      "bullet": "Schema drift, distribution drift (covariate shift), and concept drift are three distinct failure modes: schema drift is a structural change (columns added, removed, or retyped); distribution drift means P(X) changes while P(Y|X) remains the same; concept drift means P(Y|X) changes while P(X) remains the same [claim:agde:025]",
+      "source_excerpt": "Covariate shift: when P(X) changes, but P(Y|X) remains the same. Concept drift: when P(Y|X) changes, but P(X) remains the same. Schema drift (structural change such as a column being added, removed, or retyped) is categorised separately from statistical distributional shift.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet matches the source definitions precisely for all three drift types. No distortion.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "Changing an embedding model typically requires re-encoding the entire corpus and rebuilding the ANN index from scratch: a query vector from the new model cannot be meaningfully compared to corpus vectors from the old model, even when both models share the same output dimensionality [claim:agde:036]",
+      "source_excerpt": "Upgrading embedding models in production vector databases typically necessitates re-encoding the entire corpus and rebuilding the Approximate Nearest Neighbor (ANN) index... When that model is upgraded, the stored vectors become incompatible with queries encoded by the new model. Vectors from different models live in incompatible vector spaces — you cannot mix old and new vectors in the same index. When models have the same dimension but are different models, there's no crash, but search returns garbage results.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet accurately captures the core claim and the same-dimensionality caveat. Supported by both the paper and corroborating sources.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:036",
+      "slide": "The Hard Dependency — Embedding Model Versioning",
+      "bullet": "For a 1-million-item database, a full re-index amounts to approximately 100 GPU-hours of recompute plus CPU-hours for index building; billion-item systems can require weeks [claim:agde:036]",
+      "source_excerpt": "Estimates indicate approximately 100 GPU-hours for embedding plus CPU-hours for index building on 1M-item databases, scaling to weeks for billion-item systems.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet is a close paraphrase of the source. Numbers match exactly.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "Exact k-NN requires O(n·d) work per query — every stored vector must be compared against the query, making it infeasible at million- or billion-vector scale [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "Bullet matches the source statement on complexity and scale threshold.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "A dataset of 10⁹ SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory; scanning it at SSD throughput of 512 MB/s would require 1,000 seconds to answer a single query [claim:agde:037]",
+      "source_excerpt": "A dataset of 10^9 SIFT descriptors (128 dimensions) stored as floats uses 512 GB of memory, and with an SSD read throughput of 512 MB/s, scanning the whole dataset would require 1000 seconds — answering a single k-NN query would require 17 minutes.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "All numbers (10^9 vectors, 128 dims, 512 GB, 512 MB/s, 1000 seconds) match the source exactly.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:037",
+      "slide": "Why Exact k-NN Fails at Scale",
+      "bullet": "ANN indexes are necessary at million- or billion-vector scale because exact k-NN becomes computationally infeasible at those sizes [claim:agde:037]",
+      "source_excerpt": "The exact k-NN search using exhaustive search requires O(N·D) complexity, thus is computationally inefficient as the data size becomes million or billion-scale.",
+      "verdict": "VERIFIED",
+      "severity": null,
+      "issue": "This is a straightforward inference from the source's statement that exact search is 'computationally inefficient' at million/billion scale. The conclusion that ANN is therefore 'necessary' is directly supported.",
+      "suggested_fix": null
+    },
+    {
+      "claim_id": "claim:agde:038",
+      "slide": "ANN Index Families — HNSW, IVF, PQ, DiskANN",
+      "bullet": "HNSW is a graph-based ANN index achieving O(log n) search complexity via a multi-layer navigable small-world structure [claim:agde:038]",
+      "source_excerpt": "Navigable small world graphs have polylogarithmic search complexity of O(log^k n). HNSW achieves logarithmic search complexity through a sophisticated multi-layer graph structure that separates connections by characteristic distance scales.",
+      "verdict": "MAJOR",
+      "severity": "MAJOR",
+      "issue": "The source file contains two statements in tension: it says 'polylogarithmic search complexity of O(log^k n)' for NSW graphs generally, then says HNSW achieves 'logarithmic search complexity' (implying k=1). The slide states O(log n), which matches the 'logarithmic' phrasing but not the 'polylogarithmic O(log^k n)' phrasing. The original HNSW paper (Malkov & Yashunin) characterises NSW complexity as polylogarithmic O(log^k n) and describes HNSW as improving the scaling constant rather than reducing it to O(log n). Stating O(log n) without qualification drops the exponent k, which overstates the complexity guarantee. This is a real distortion of the algorithmic bound.",
+      "suggested_fix": "Change to: 'HNSW is a graph-based ANN index achieving polylogarithmic search complexity O(log^k n) via a multi-layer navigable small-world structure [claim:agde:038]' — or if simplification is desired, say 'near-logarithmic' rather than asserting O(log n)."
+    }
+  ],
+  "summary": "8 of 10 items verified cleanly. One MINOR issue: slide 'What Is Training/Serving Skew?' incorrectly implies Rules 29/31/32 map 1-to-1 to the three root causes when they do not cover feedback loops. One MAJOR issue: slide 'ANN Index Families' states HNSW has O(log n) complexity, but the HNSW paper characterises it as polylogarithmic O(log^k n) — dropping the exponent k overstates the complexity guarantee."
+}

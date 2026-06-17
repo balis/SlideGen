@@ -1,0 +1,78 @@
+{
+  "topic": "Data Engineering in the Age of Artificial Intelligence",
+  "generated_at": "2026-06-15T00:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agde:gdpr-embeddings-erasure:001",
+      "statement": "Embeddings and trained model weights are derived personal data under GDPR: if a trained model stores personal information or makes it reproducible, the model is subject to deletion obligations, and erasure requests must propagate to vector stores and training sets, not only to source records.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "The Right to Be Forgotten — But Can AI Forget?",
+        "url_or_doi": "https://cloudsecurityalliance.org/blog/2025/04/11/the-right-to-be-forgotten-but-can-ai-forget",
+        "section": "Core regulatory analysis",
+        "excerpt": "According to supervisory authorities, if a trained model stores personal information or makes it reproducible, the model is subject to the obligation to delete. For models that have already been trained, there are no proven, scalable solutions to guarantee compliance with the right to erasure."
+      }
+    },
+    {
+      "id": "claim:agde:gdpr-embeddings-erasure:002",
+      "statement": "Machine unlearning — removing the influence of specific training samples from already-trained model weights — is required to satisfy GDPR right-to-be-forgotten requests for ML models, because naive deletion from the training set does not affect weights already trained on that data.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "From Machine Learning to Machine Unlearning: Complying with GDPR's Right to be Forgotten while Maintaining Business Value of Predictive Models",
+        "url_or_doi": "https://arxiv.org/abs/2411.17126",
+        "section": "Abstract / Introduction",
+        "excerpt": "Recent privacy regulations grant data subjects the Right to Be Forgotten and mandate companies fulfill data erasure requests, but companies face great challenges in complying with these regulations when asked to erase specific training data from well-trained predictive models. ML models potentially memorize training data, making it important to unlearn what they have learned from data that is to be deleted."
+      }
+    },
+    {
+      "id": "claim:agde:ml-lineage-artifacts:003",
+      "statement": "ML lineage must extend beyond source tables to include ML artifacts: each model version and each vector index must record which data version (snapshot or commit hash) and which embedding model produced it, so that any artifact can be traced back to its inputs and reproduced or invalidated.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "AI Model Versioning Best Practices: MLOps Guide for Enterprises",
+        "url_or_doi": "https://atlan.com/know/ai-model-versioning-best-practices/",
+        "section": "Lineage Tracking and Governance",
+        "excerpt": "Teams should version their document indices, embedding models, and chunking configurations, treating any retrieval pipeline change as effectively a change to the model's knowledge base. Model versioning links every prediction to the exact model version, training data snapshot, and code commit that produced it. This audit trail satisfies requirements under GDPR, the EU AI Act, HIPAA, and SOX."
+      }
+    },
+    {
+      "id": "claim:agde:agent-least-privilege:004",
+      "statement": "OWASP LLM06:2025 (Excessive Agency) identifies least-privilege tool scoping as the primary mitigation for agentic AI systems: LLM extensions should be granted only the minimum permissions necessary, should not access downstream systems with broader privileges than the task requires, and all high-impact actions must be independently authorized and logged.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "OWASP Top 10 LLM, Updated 2025: Examples & Mitigation Strategies",
+        "url_or_doi": "https://www.oligo.security/academy/owasp-top-10-llm-updated-2025-examples-and-mitigation-strategies",
+        "section": "LLM06 Excessive Agency",
+        "excerpt": "Limit Functionality: Restrict available extensions and features to the minimum required for the application. Granular Permissions: Assign minimal and role-specific permissions to LLM extensions interacting with other systems. Data poisoning involves malicious or accidental contamination of training, fine-tuning, or embedding data, leading to biased, erroneous, or harmful model behavior."
+      }
+    },
+    {
+      "id": "claim:agde:rag-data-poisoning:005",
+      "statement": "Data poisoning is a concrete attack surface for RAG-based pipelines: the PoisonedRAG attack (2024) demonstrated that injecting just five malicious documents into a knowledge database of 2.6 million texts achieves a 97% attack success rate, causing the LLM to generate attacker-chosen answers for targeted queries.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+        "url_or_doi": "https://arxiv.org/abs/2402.07867",
+        "section": "Abstract and Section 4 (Experiments)",
+        "excerpt": "The system achieves a 97% ASR by injecting 5 malicious texts for each target question into a knowledge database (with 2,681,468 clean texts) in black-box settings on the Natural Questions dataset. The knowledge database in a RAG system introduces a new and practical attack surface."
+      }
+    },
+    {
+      "id": "claim:agde:agent-eval-dimensions:006",
+      "statement": "AI-assisted pipeline workflows must be evaluated jointly on reliability, cost-per-invocation, and latency — not accuracy alone. Research on the CLEAR framework shows that optimizing for accuracy alone yields agents 4.4–10.8× more expensive than cost-aware alternatives, and that single-run accuracy metrics (60%) overstate real reliability (25% across 8 runs).",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems",
+        "url_or_doi": "https://arxiv.org/abs/2511.14136",
+        "section": "Abstract and Key Findings",
+        "excerpt": "Optimizing for accuracy alone yields agents 4.4-10.8x more expensive than cost-aware alternatives while maintaining comparable performance levels. When agents are evaluated across multiple runs rather than single executions, metrics drop substantially—from 60% accuracy in isolated runs to just 25% when assessed for 8-run consistency. Expert evaluation demonstrated that CLEAR better predicts production success (correlation ρ=0.83) compared to accuracy-focused metrics alone (ρ=0.41)."
+      }
+    }
+  ]
+}

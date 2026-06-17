@@ -1,0 +1,15 @@
+Source for claim:agentic-de:offline-online-gap:001
+
+Title: Do Offline Metrics Predict Online Performance in Recommender Systems?
+Authors: Karl Krauth, Sarah Dean, Alex Zhao, Wenshuo Guo, Mihaela Curmei, Benjamin Recht, Michael I. Jordan
+URL: https://arxiv.org/abs/2011.07931
+Retrieved: 2026-06-14
+
+Excerpt:
+"Offline metrics are correlated with online performance over a range of environments."
+
+"However, improvements in offline metrics lead to diminishing returns in online performance."
+
+"The ranking of recommenders varies depending on the amount of initial offline data available."
+
+The study evaluated eleven recommenders across six controlled simulated environments to investigate the extent to which offline metrics predict online performance. The paper was submitted November 7, 2020.

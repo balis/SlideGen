@@ -1,0 +1,13 @@
+CLAIM ID: claim:agde:ml-contract:001
+STATEMENT: ML systems fail silently: unlike traditional software that raises exceptions or dashboards that display visibly-wrong numbers, an ML model will continue returning predictions even when input data is incorrect or significantly shifted, producing low-quality outputs without raising any alarm.
+
+SOURCE URL: https://www.evidentlyai.com/ml-in-production/model-monitoring
+TITLE: Model monitoring for ML in production: a comprehensive guide
+PUBLISHER: Evidently AI
+RETRIEVED: 2026-06-15
+
+EXCERPT:
+"Software errors are usually visible: if things don't work, you will get an error message. With machine learning, you may encounter different types of errors: a model returning an unreliable or biased prediction. Such errors are 'silent': a model will typically respond as long as it can process the incoming data inputs. Even if the input data is incorrect or significantly different – the model will make a potentially low-quality prediction without raising an alarm."
+
+ADDITIONAL CONTEXT:
+The guide continues: "Model monitoring addresses a particular set of challenges, which makes it a separate field." The key insight is that ML systems fail in ways that infrastructure monitoring cannot detect—a model serving predictions with degraded accuracy produces no software errors, making traditional health monitoring (HTTP status codes, latency, memory) insufficient for production ML reliability. This is a fundamental contrast with BI dashboards where a human can notice if a number looks wrong, or with traditional software where failures surface as exceptions.

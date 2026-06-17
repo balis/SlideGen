@@ -1,0 +1,78 @@
+{
+  "topic": "agentic-de",
+  "generated_at": "2026-06-14T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:rag-chunking:001",
+      "statement": "Chunking strategy is a foundational design decision in RAG that defines retrieval quality: chunk size, overlap, and segmentation method determine the boundaries of retrievable units, and a well-tuned strategy can improve retrieval accuracy by up to 40% compared to naive approaches.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Chunking Strategies for RAG: Size, Overlap & Best Practices",
+        "url_or_doi": "https://stackviv.ai/blog/chunking-strategies-rag",
+        "section": "Impact on RAG Performance",
+        "excerpt": "In production LLM RAG pipelines, chunking is not just a preprocessing step — it defines the quality of retrieval and the effectiveness of agent memory. A well-tuned chunking strategy can improve retrieval accuracy by 40% compared to naive approaches."
+      }
+    },
+    {
+      "id": "claim:agentic-de:hybrid-retrieval:001",
+      "statement": "Hybrid retrieval runs sparse BM25 search and dense ANN search in parallel, then fuses the two ranked lists, ensuring that lexical matches the dense model ranks too low (e.g., error codes, IP addresses, config flags) are not lost.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Hybrid Search Done Right: Fixing RAG Retrieval Failures using BM25 + HNSW + Reciprocal Rank Fusion in Elasticsearch",
+        "url_or_doi": "https://ashutoshkumars1ngh.medium.com/hybrid-search-done-right-fixing-rag-retrieval-failures-using-bm25-hnsw-reciprocal-rank-fusion-a73596652d22",
+        "section": "Why Dense-Only Fails",
+        "excerpt": "In real systems that handle logs, docs, and configuration snippets, vectors alone regularly return answers that sound plausible but are wrong because they miss short, literal tokens like IPs, error codes, and config flags."
+      }
+    },
+    {
+      "id": "claim:agentic-de:rrf:001",
+      "statement": "Reciprocal Rank Fusion (RRF) combines multiple ranked lists by scoring each document d as RRFscore(d) = sum over lists of 1/(k + rank(d)), where k is a constant (typically 60). It requires no score normalisation and was shown to outperform both Condorcet Fuse and individual rank-learning methods.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning Methods",
+        "url_or_doi": "https://doi.org/10.1145/1571941.1572114",
+        "section": "Abstract / Method",
+        "excerpt": "Reciprocal Rank Fusion is a simple method for combining the document rankings from multiple IR systems. RRF consistently yields better results than any individual system, and better results than the standard method Condorcet Fuse."
+      }
+    },
+    {
+      "id": "claim:agentic-de:cross-encoder-rerank:001",
+      "statement": "Cross-encoder re-ranking is the second stage of a two-stage retrieval pipeline: a bi-encoder retrieves 50-100 candidates quickly, then a cross-encoder jointly encodes each (query, document) pair to produce a refined relevance score, reordering the candidates so that the top 5-10 passed to the LLM are the most relevant.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "New Research: Cross-Encoder Reranking Improves RAG Accuracy by 40%",
+        "url_or_doi": "https://app.ailog.fr/en/blog/news/reranking-cross-encoders-study",
+        "section": "Architecture and Optimal Configuration",
+        "excerpt": "Two-Stage (Bi-Encoder + Cross-Encoder): Query -> Embed -> Vector Search -> Top-100 -> Cross-Encoder Rerank -> Top-10 -> LLM. The study identified optimal hyperparameters: Retrieve 50-100 candidates, rerank to 10 documents, with batch size of 32 for optimal GPU performance."
+      }
+    },
+    {
+      "id": "claim:agentic-de:recall-precision-separation:001",
+      "statement": "Hybrid search improves recall (it surfaces lexical matches the dense model misses), while re-ranking improves precision (it reorders only the already-retrieved set). A re-ranker cannot fix recall because it never sees documents that were not retrieved in the first stage.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Retrieval Reranking in RAG Systems",
+        "url_or_doi": "https://stackviv.ai/blog/retrieval-reranking-rag-systems",
+        "section": "Recall vs Precision Separation",
+        "excerpt": "Two-stage retrieval separates candidate generation (fast, broad search) from ranking (slow, precise evaluation). Your initial retrieval needs to be fast and cast a wide net. Your reranker needs to be accurate and selective."
+      }
+    },
+    {
+      "id": "claim:agentic-de:recall-precision-separation:002",
+      "statement": "A canonical RAG failure mode occurs when a relevant chunk is retrieved but ranked just outside the top-k cutoff (e.g., at position 11 when k=10). The system indexed and retrieved the document but the LLM never sees it, upper-bounding generation quality by the missing evidence regardless of reasoning capacity.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Hybrid Search and Re-Ranking in Production RAG",
+        "url_or_doi": "https://towardsdatascience.com/hybrid-search-and-re-ranking-in-production-rag/",
+        "section": "Rank Truncation Failure",
+        "excerpt": "Whenever a truly relevant document has rank greater than k, the model's generation is upper-bounded by missing evidence, regardless of reasoning capacity. When a document needed sits at position eleven in the results just outside the top ten, the system had not failed to index or retrieve it but it was ranked below ten other documents."
+      }
+    }
+  ]
+}

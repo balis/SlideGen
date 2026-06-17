@@ -1,0 +1,20 @@
+Source for claim:agentic-de:hierarchy-of-needs:001
+
+Title: The AI Hierarchy of Needs
+Author: Monica Rogati
+Published: June 2017, HackerNoon / Medium
+URL: https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007
+
+Excerpt:
+"Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI)
+is great, but you first need food, water and shelter (data literacy,
+collection and infrastructure)."
+
+The pyramid has five layers from bottom to top:
+1. Data collection (instrumentation, logging, sensors, external data, user-generated content)
+2. Data flow / infrastructure (reliable ETL, pipelines, storage)
+3. Exploration / transformation (cleaning, anomaly detection, preparation)
+4. Analytics / features (A/B testing, metrics, segments, aggregates, features, training data)
+5. AI / Deep Learning (the top of the pyramid)
+
+Retrieved: 2026-06-14

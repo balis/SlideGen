@@ -1,0 +1,78 @@
+{
+  "topic": "agentic-de",
+  "generated_at": "2026-06-14T12:00:00Z",
+  "claims": [
+    {
+      "id": "claim:agentic-de:ml-pipeline-contract:001",
+      "statement": "ML systems fail silently: unlike traditional software that crashes with errors or timeouts, ML models continue producing predictions whose quality degrades without raising any operational alarm, making ML performance expectation violations harder to detect than operational expectation violations.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Data Distribution Shifts and Monitoring",
+        "url_or_doi": "https://huyenchip.com/2022/02/07/data-distribution-shifts-and-monitoring.html",
+        "section": "ML System Failures",
+        "excerpt": "Operational expectation violations are easier to detect, as they're usually accompanied by an operational breakage such as a timeout, a 404 error on a webpage, an out of memory error, a segmentation fault, etc. However, ML performance expectation violations are harder to detect."
+      }
+    },
+    {
+      "id": "claim:agentic-de:ml-pipeline-contract:002",
+      "statement": "In real-world ML systems, the actual machine learning code is only a small fraction of the total system; the surrounding infrastructure for data collection, feature extraction, configuration, monitoring, and serving dwarfs the model code, meaning most technical debt accumulates in the data and infrastructure layers.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "paper",
+        "title": "Hidden Technical Debt in Machine Learning Systems",
+        "url_or_doi": "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-syst",
+        "section": "Figure 1 / Introduction",
+        "excerpt": "Only a small fraction of real-world ML systems is composed of the ML code, as shown by the small black box in the middle of the diagram. The required surrounding infrastructure is vast and complex — data collection, data verification, feature extraction, configuration, resource management, analysis tools, process management, serving infrastructure, and monitoring."
+      }
+    },
+    {
+      "id": "claim:agentic-de:hierarchy-of-needs:001",
+      "statement": "Monica Rogati's 'AI Hierarchy of Needs' (2017) frames AI/ML as the top of a pyramid whose foundational layers are data collection, data flow/infrastructure, exploration/transformation, and analytics/features; organizations must build these data layers before they can effectively use ML, analogous to Maslow's hierarchy where basic needs precede self-actualization.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "The AI Hierarchy of Needs",
+        "url_or_doi": "https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007",
+        "section": "Main article",
+        "excerpt": "Think of AI as the top of a pyramid of needs. Yes, self-actualization (AI) is great, but you first need food, water and shelter (data literacy, collection and infrastructure)."
+      }
+    },
+    {
+      "id": "claim:agentic-de:hierarchy-of-needs:002",
+      "statement": "A 2016 CrowdFlower survey of data scientists found that 60% of their time is spent cleaning and organizing data and 19% on collecting data sets, totaling roughly 80% of effort on data preparation rather than modeling or analysis.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "web",
+        "title": "Data Scientists Spend Most of Their Time Cleaning Data",
+        "url_or_doi": "https://adtmag.com/articles/2016/03/25/data-science-report.aspx",
+        "section": "Survey findings",
+        "excerpt": "Almost the same percentage of respondents reported they spent most of their time cleaning data (60 percent) as those who reported that task to be the least enjoyable part of their job (57 percent). An additional 19 percent of time was spent collecting data sets, bringing the total data preparation effort to roughly 79 percent."
+      }
+    },
+    {
+      "id": "claim:agentic-de:data-versioned-artifact:001",
+      "statement": "ML consumption shifts data's role from 'query target' (BI: run SQL against the current state of a table) to 'versioned, time-aware artifact' (ML: the exact dataset snapshot that produced a model must be reproducible, requiring point-in-time correctness, content-addressable versioning, or lakehouse time-travel).",
+      "confidence": "MEDIUM",
+      "source": {
+        "type": "web",
+        "title": "Data Versioning: ML Best Practices Checklist 2026",
+        "url_or_doi": "https://labelyourdata.com/articles/machine-learning/data-versioning",
+        "section": "Overview",
+        "excerpt": "Managing and versioning data correctly is essential for reproducibility and traceability within ML pipelines. Modern frameworks automatically track and version every artifact — data, models, or evaluations — upon pipeline execution, adopting a data-first approach where all artifacts are versioned and identified by content hash."
+      }
+    },
+    {
+      "id": "claim:agentic-de:feature-eng-stateful:001",
+      "statement": "Feature engineering transformations that require full-pass statistics (computing mean, standard deviation, vocabulary, or quantile boundaries over the training set) are stateful: the statistics computed at training time must be persisted and reapplied identically at serving time to avoid training-serving skew.",
+      "confidence": "HIGH",
+      "source": {
+        "type": "documentation",
+        "title": "Data preprocessing for ML: options and recommendations (TensorFlow/TFX)",
+        "url_or_doi": "https://www.tensorflow.org/tfx/guide/tft_bestpractices",
+        "section": "Preprocessing operations / Full-pass transformations",
+        "excerpt": "During training, you analyze the whole body of training data to compute quantities such as minimum, maximum, mean, and variance for transforming training data, evaluation data, and new data at prediction time. ... In this scenario, transformations are stateful, because they use some precomputed statistics to perform the transformation. ... The values then have to be stored somewhere to be used during model serving for prediction to transform the new raw data points as instance-level transformations, which avoids training-serving skew."
+      }
+    }
+  ]
+}
