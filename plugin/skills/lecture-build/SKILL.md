@@ -81,8 +81,12 @@ their facts.
      Leave out the topic-mapper.
    - Give the claim-extractors `skip` = the slides whose outline entry has
      `checked: true`.
-   - Tell the fact-checkers which slides are worked examples, so they read the
-     labelled values as assumptions.
+   - After `claims merge`, run `SG claims carry` with `--from` the workspaces
+     of the decks this lecture reuses (their `workspace` in `P`) and of earlier
+     lectures. Reused text verified there is not researched again.
+   - Never drop claims by hand. Takeaway lines and stated judgements are the
+     extractor's `framing` kind, and labelled example values are
+     `assumption`.
 5. **Fixes.**
    - CRITICAL and MAJOR verdicts: change the slide.
    - MINOR verdicts: change the line, or keep it and say why in the speaker

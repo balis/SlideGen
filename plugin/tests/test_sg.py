@@ -302,25 +302,40 @@ def test_match_quote_ignores_spaces_around_links():
     assert match_quote("the result is a delta-driven dataset . CDC is an approach", text)[0]
 
 
-def test_assumptions_and_arithmetic_skip_research(tmp_path):
-    """Assumed values are listed but not checked; arithmetic is batched apart and needs no research."""
-    ws = tmp_path / "ws"
-    claim = lambda n, kind: {"id": f"claim:d:a-{n:03d}", "slide": n, "slide_title": "t", "text": f"text {n}",
-                             "statement": f"statement {n}", "kind": [kind], "from_image": False}
-    write(ws / "claims.json", {"deck": "d", "claims": [claim(1, "named"), claim(2, "assumption"),
-                                                       claim(3, "arithmetic"), claim(4, "general")]})
+def test_claims_not_researched(tmp_path):
+    """Assumptions and framing are listed but not checked; verdicts carry over from another deck's check;
+    arithmetic is batched apart; a VERIFIED verdict needs only claim_id, verdict and sources_used."""
+    ws, old = tmp_path / "ws", tmp_path / "old"
+    claim = lambda n, kind, text=None: {"id": f"claim:d:a-{n:03d}", "slide": n, "slide_title": "t",
+                                        "text": text or f"text {n}", "statement": f"statement {n}",
+                                        "kind": [kind], "from_image": False}
+    reused = "Iceberg tracks the files of a table in manifests"
+    write(ws / "claims.json", {"deck": "d", "claims": [
+        claim(1, "named"), claim(2, "assumption"), claim(3, "arithmetic"), claim(4, "general"),
+        claim(5, "framing"), claim(6, "named", reused), claim(7, "named", "Yes")]})
+    write(old / "claim_check.json", {"deck": "da", "claims": [
+        {"claim_id": "claim:da:c-010", "text": "  iceberg tracks the files of a table   in manifests",
+         "verdict": "VERIFIED"},
+        {"claim_id": "claim:da:c-011", "text": "Yes", "verdict": "VERIFIED"}]})   # too short to carry
+    r = run("claims", "carry", ws, "--from", old)
+    assert r["ok"] and r["carried"] == 1, r
     r = run("claims", "select", ws, "--batch-size", 10)
-    assert r["ok"] and r["batches"] == 1 and r["arithmetic_batches"] == 1 and r["assumptions_not_checked"] == 1, r
+    assert r["ok"] and r["batches"] == 1 and r["arithmetic_batches"] == 1 and r["carried"] == 1, r
+    assert r["not_checked"] == {"assumption": 1, "framing": 1}, r
     batches = json.loads((ws / "research" / "batches.json").read_text())
-    assert [(b["batch"], b["research"], len(b["claims"])) for b in batches["batches"]] == [("b01", True, 2), ("c01", False, 1)]
-    verified = {"verdict": "VERIFIED", "severity": None, "fix_kind": None, "outdated": None,
-                "issue": None, "suggested_fix": None, "sources_used": []}
+    assert [(b["batch"], b["research"], len(b["claims"])) for b in batches["batches"]] == [("b01", True, 3), ("c01", False, 1)]
+    verified = {"verdict": "VERIFIED", "sources_used": []}                 # the other fields may be left out
     write(ws / "checks" / "b01.json", {"batch": "b01", "verdicts": [
-        {"claim_id": "claim:d:a-001", **verified}, {"claim_id": "claim:d:a-004", **verified}]})
+        {"claim_id": f"claim:d:a-{n:03d}", **verified} for n in (1, 4, 7)]})
     r = run("claims", "summary", ws)
     assert not r["ok"] and "c01" in r["error"], r          # the arithmetic batch still needs its verdicts
     write(ws / "checks" / "c01.json", {"batch": "c01", "verdicts": [{"claim_id": "claim:d:a-003", **verified}]})
     r = run("claims", "summary", ws)
-    assert r["ok"] and r["claims"] == 3 and r["assumptions_not_checked"] == 1, r
+    assert r["ok"] and r["claims"] == 5 and r["carried"] == 1, r
+    assert r["not_checked"] == {"assumption": 1, "framing": 1}, r
     check = json.loads((ws / "claim_check.json").read_text())
-    assert [a["claim_id"] for a in check["assumptions"]] == ["claim:d:a-002"]
+    row = next(x for x in check["claims"] if x["claim_id"] == "claim:d:a-006")
+    assert row["verdict"] == "VERIFIED" and row["carried_from"] == "da:claim:da:c-010", row
+    assert [(a["claim_id"], a["reason"]) for a in check["not_checked"]] == [
+        ("claim:d:a-002", "assumption"), ("claim:d:a-005", "framing")]
+

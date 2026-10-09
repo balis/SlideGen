@@ -81,5 +81,9 @@ gives):
 ]}
 ```
 
+A VERIFIED verdict needs only `claim_id`, `verdict` and `sources_used`; the
+other fields may be left out. Every other verdict needs `severity`, `fix_kind`,
+`issue` and `suggested_fix`, and OUTDATED also needs `outdated`.
+
 Return exactly one verdict per claim in your batch: no sampling, no skipping.
 Reply with one line of JSON per batch: `{"batch": "b03", "verified": 4, "outdated": 1, "misrepresented": 1, "unverified": 0}`.

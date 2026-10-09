@@ -42,10 +42,15 @@ deck is changed.
    - **topic-mapper** with `skip` = the excluded slides.
    - **claim-extractor**, one per range of about 25 slides, with parts `a`,
      `b`, `c`, ... and the same `skip`.
-3. `SG claims merge ROOT/<id>/workspace --manifest M`, then
-   `SG claims select ROOT/<id>/workspace --batch-size 10`. Assumed values of
-   worked examples are listed but not checked; arithmetic goes to batches
-   `c01`, ... with `research: false`.
+3. `SG claims merge ROOT/<id>/workspace --manifest M`. If the deck shares
+   slides with decks already checked in this revision cycle, run
+   `SG claims carry ROOT/<id>/workspace --from <their workspaces>`: claims whose
+   text matches a VERIFIED claim there keep that verdict. Then run
+   `SG claims select ROOT/<id>/workspace --batch-size 10`.
+   - Assumptions and framing are listed in the summary but not checked.
+   - Arithmetic goes to batches `c01`, ... with `research: false`.
+   - Never drop claims by hand: these kinds and `claims carry` record every
+     claim that is not researched, so the summary can count it.
 4. **researcher**, one per batch with `research: true` in
    `research/batches.json`, with `store` = `ROOT/sources`, `content_date` = the
    deck's `last_revised`, the deck's `target_versions`, and `scratch` = a folder

@@ -23,10 +23,6 @@
         "required": [
           "claim_id",
           "verdict",
-          "severity",
-          "fix_kind",
-          "issue",
-          "suggested_fix",
           "sources_used"
         ],
         "additionalProperties": false,
@@ -196,7 +192,13 @@
                     "MINOR"
                   ]
                 }
-              }
+              },
+              "required": [
+                "severity",
+                "fix_kind",
+                "issue",
+                "suggested_fix"
+              ]
             }
           },
           {
@@ -218,7 +220,8 @@
               }
             }
           }
-        ]
+        ],
+        "description": "A VERIFIED verdict needs only claim_id, verdict and sources_used; missing fields read as null."
       }
     }
   }

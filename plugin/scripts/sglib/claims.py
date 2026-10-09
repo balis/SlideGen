@@ -1,4 +1,4 @@
-"""Claim bookkeeping: merge extraction parts, select research batches, summarize verdicts."""
+"""Claim bookkeeping: merge extraction parts, carry earlier verdicts, select research batches, summarize."""
 from __future__ import annotations
 
 import re
@@ -8,6 +8,8 @@ from pathlib import Path
 from .util import SgError, excluded_slides, load_json, load_manifest, manifest_deck, write_json
 
 SEVERITY_ORDER = {"CRITICAL": 0, "MAJOR": 1, "MINOR": 2, None: 3}
+NOT_CHECKED = ("assumption", "framing")   # kinds listed for the author, never researched
+MIN_CARRY_CHARS = 25                       # shorter texts (table cells, labels) match by accident
 
 
 def _deck_cfg(args, deck_id: str) -> dict | None:
@@ -55,19 +57,50 @@ def merge(args) -> dict:
             "from_image": sum(c["from_image"] for c in claims)}
 
 
+def carry(args) -> dict:
+    """Mark claims whose slide text equals a VERIFIED claim in another deck's check (claims_carried.json).
+
+    Used when a lecture reuses slides of a deck checked in the same revision cycle: the earlier verdict
+    stands and the claim is not researched again.
+    """
+    from .sources import _normalize
+    ws = Path(args.workspace).resolve()
+    claims = load_json(ws / "claims.json")["claims"]
+    verified: dict[str, str] = {}
+    for other in args.sources:
+        doc = load_json(Path(other).resolve() / "claim_check.json")
+        for r in doc["claims"]:
+            text = _normalize(r["text"])
+            if r["verdict"] == "VERIFIED" and len(text) >= MIN_CARRY_CHARS:
+                verified.setdefault(text, r.get("carried_from") or f"{doc['deck']}:{r['claim_id']}")
+    carried = {c["id"]: verified[_normalize(c["text"])] for c in claims
+               if not {*NOT_CHECKED, "arithmetic"} & set(c["kind"]) and _normalize(c["text"]) in verified}
+    write_json(ws / "claims_carried.json", {"generated_by": "sg claims carry",
+                                            "from": [str(Path(o).resolve()) for o in args.sources],
+                                            "claims": carried})
+    return {"ok": True, "out": str(ws / "claims_carried.json"), "claims": len(claims), "carried": len(carried)}
+
+
 def select(args) -> dict:
     """Write research/batches.json: claims grouped by slide order into batches.
 
-    Assumed values of worked examples are listed but not checked. Arithmetic on slide values goes to
-    separate batches (research false) that the fact-checker recomputes without sources.
+    Assumptions and framing are listed but not checked; claims carried from another deck's check keep
+    that verdict. Arithmetic on slide values goes to separate batches (research false) that the
+    fact-checker recomputes without sources.
     """
     ws = Path(args.workspace).resolve()
     doc = load_json(ws / "claims.json")
     size = args.batch_size
     claims = doc["claims"]
-    assumptions = [c for c in claims if "assumption" in c["kind"] and "arithmetic" not in c["kind"]]
+    carried_file = ws / "claims_carried.json"
+    carried = load_json(carried_file)["claims"] if carried_file.exists() else {}
+    not_checked = [(c, next(k for k in NOT_CHECKED if k in c["kind"])) for c in claims
+                   if set(NOT_CHECKED) & set(c["kind"]) and "arithmetic" not in c["kind"]]
+    skipped = {c["id"] for c, _ in not_checked}
+    carried = {cid: src for cid, src in carried.items() if cid not in skipped}
     arithmetic = [c for c in claims if "arithmetic" in c["kind"]]
-    research = [c for c in claims if not {"assumption", "arithmetic"} & set(c["kind"])]
+    research = [c for c in claims if c["id"] not in skipped and c["id"] not in carried
+                and "arithmetic" not in c["kind"]]
     batches = []
     for start in range(0, len(research), size):
         batches.append({
@@ -80,24 +113,27 @@ def select(args) -> dict:
         batches.append({"batch": f"c{k:02d}", "research": False,
                         "claims": [{"claim_id": c["id"], "slide": c["slide"], "search_for_change": False}
                                    for c in arithmetic[start:start + calc_size]]})
+    slide_of = {c["id"]: c["slide"] for c in claims}
     write_json(ws / "research" / "batches.json",
                {"deck": doc["deck"], "batches": batches,
-                "assumptions": [{"claim_id": c["id"], "slide": c["slide"]} for c in assumptions]})
+                "not_checked": [{"claim_id": c["id"], "slide": c["slide"], "reason": why} for c, why in not_checked],
+                "carried": [{"claim_id": cid, "slide": slide_of[cid], "from": src}
+                            for cid, src in carried.items() if cid in slide_of]})
     return {"ok": True, "out": str(ws / "research" / "batches.json"),
             "batches": sum(b["research"] for b in batches),
             "arithmetic_batches": sum(not b["research"] for b in batches),
             "claims": len(claims), "researched": len(research), "arithmetic": len(arithmetic),
-            "assumptions_not_checked": len(assumptions),
+            "not_checked": dict(Counter(why for _, why in not_checked)), "carried": len(carried),
             "search_for_change": sum(c["search_for_change"] for b in batches for c in b["claims"])}
 
 
 def _majority(verdicts: list[dict]) -> dict:
     """Majority of (verdict, severity); ties go to the lower severity."""
-    counts = Counter((v["verdict"], v["severity"]) for v in verdicts)
+    counts = Counter((v["verdict"], v.get("severity")) for v in verdicts)
     best = max(counts.items(), key=lambda kv: (kv[1], SEVERITY_ORDER[kv[0][1]]))[0]
-    chosen = next(v for v in verdicts if (v["verdict"], v["severity"]) == best)
+    chosen = next(v for v in verdicts if (v["verdict"], v.get("severity")) == best)
     return {**chosen, "second_checked": True,
-            "votes": [f"{v['verdict']}/{v['severity']}" for v in verdicts]}
+            "votes": [f"{v['verdict']}/{v.get('severity')}" for v in verdicts]}
 
 
 def summary(args) -> dict:
@@ -107,8 +143,10 @@ def summary(args) -> dict:
     batch_doc = load_json(ws / "research" / "batches.json")
     batches = batch_doc["batches"]
     assigned = {c["claim_id"]: b["batch"] for b in batches for c in b["claims"]}
-    assumed = {a["claim_id"] for a in batch_doc.get("assumptions", [])}
-    unplaced = sorted(set(claims) - set(assigned) - assumed)
+    not_checked = {a["claim_id"]: a["reason"] for a in batch_doc.get("not_checked", [])}
+    not_checked.update({a["claim_id"]: "assumption" for a in batch_doc.get("assumptions", [])})  # older files
+    carried = {a["claim_id"]: a["from"] for a in batch_doc.get("carried", [])}
+    unplaced = sorted(set(claims) - set(assigned) - set(not_checked) - set(carried))
     if unplaced:
         raise SgError(f"{len(unplaced)} claims are in no batch; re-run `sg claims select`: {unplaced[:8]}")
     quotes = load_json(ws / "quotes.json")["results"] if (ws / "quotes.json").exists() else []
@@ -136,7 +174,7 @@ def summary(args) -> dict:
 
     final, needs_second = {}, []
     for cid, v in primary.items():
-        if v["severity"] == "CRITICAL" and len(second.get(cid, [])) < 2:
+        if v.get("severity") == "CRITICAL" and len(second.get(cid, [])) < 2:
             needs_second.append(cid)
         final[cid] = _majority([v] + second[cid][:2]) if len(second.get(cid, [])) >= 2 else v
 
@@ -147,15 +185,16 @@ def summary(args) -> dict:
 
     rows = []
     for cid, c in claims.items():
-        if cid in assumed:
+        if cid in not_checked:
             continue
-        v = final[cid]
+        v = final.get(cid) or {"verdict": "VERIFIED", "sources_used": [], "batch": None,
+                               "carried_from": carried[cid]}   # verified in another deck's check
         rows.append({"claim_id": cid, "slide": c["slide"], "slide_title": c.get("slide_title"),
                      "text": c["text"], "statement": c["statement"], "kind": c["kind"],
-                     "verdict": v["verdict"], "severity": v["severity"], "fix_kind": v["fix_kind"],
-                     "outdated": v.get("outdated"), "issue": v["issue"],
-                     "suggested_fix": v["suggested_fix"], "sources_used": v["sources_used"],
-                     "batch": v["batch"],
+                     "verdict": v["verdict"], "severity": v.get("severity"), "fix_kind": v.get("fix_kind"),
+                     "outdated": v.get("outdated"), "issue": v.get("issue"),
+                     "suggested_fix": v.get("suggested_fix"), "sources_used": v["sources_used"],
+                     "batch": v["batch"], "carried_from": v.get("carried_from"),
                      "second_checked": v.get("second_checked", False), "votes": v.get("votes"),
                      "quote_not_found": cid in unmatched_claims})
     rows.sort(key=lambda r: (r["slide"], r["claim_id"]))
@@ -168,10 +207,12 @@ def summary(args) -> dict:
                          "outdated_labels": dict(outdated_labels),
                          "quotes": dict(quote_status),
                          "claims_with_unmatched_quote": len(unmatched_claims),
-                         "assumptions_not_checked": len(assumed)},
+                         "carried": sum(1 for r in rows if r["carried_from"]),
+                         "not_checked": dict(Counter(not_checked.values()))},
               "needs_second_check": needs_second, "claims": rows,
-              "assumptions": [{"claim_id": cid, "slide": claims[cid]["slide"], "text": claims[cid]["text"]}
-                              for cid in sorted(assumed, key=lambda x: (claims[x]["slide"], x))]}
+              "not_checked": [{"claim_id": cid, "slide": claims[cid]["slide"], "reason": why,
+                               "text": claims[cid]["text"]}
+                              for cid, why in sorted(not_checked.items(), key=lambda x: (claims[x[0]]["slide"], x[0]))]}
     write_json(ws / "claim_check.json", result)
     return {"ok": not needs_second, "out": str(ws / "claim_check.json"), **result["counts"],
             "needs_second_check": needs_second}

@@ -12,6 +12,7 @@ course manifest (course.yaml); deck workspaces then live in
   sg.py fetch (URL | --file PATH) --store DIR [--force]
   sg.py quotes WS --store DIR
   sg.py claims merge WS [--manifest M]
+  sg.py claims carry WS --from OTHER_WS [--from ...]
   sg.py claims select WS [--batch-size N]
   sg.py claims summary WS
   sg.py findings clusters --manifest M
@@ -67,6 +68,11 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("workspace")
     p.add_argument("--manifest", help="course.yaml, for hidden and out-of-scope slides")
     p.set_defaults(func=claims.merge)
+    p = group.add_parser("carry", help="keep verdicts of claims verified in another deck's check")
+    p.add_argument("workspace")
+    p.add_argument("--from", dest="sources", action="append", required=True,
+                   help="workspace of a checked deck (repeatable)")
+    p.set_defaults(func=claims.carry)
     p = group.add_parser("select", help="claims.json -> research/batches.json")
     p.add_argument("workspace")
     p.add_argument("--batch-size", type=int, default=6)

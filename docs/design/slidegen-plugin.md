@@ -473,10 +473,12 @@ Two safeguards protect the files `sg` owns:
 - `general`: describes an algorithm or concept without naming a system;
 - `assumption`: a value a worked example assumes ("Assumed: 1 million orders a
   day");
-- `arithmetic`: a result computed from values on the slide.
+- `arithmetic`: a result computed from values on the slide;
+- `framing`: a takeaway line, subtitle or recommendation that states the
+  lecturer's view rather than a fact about the world.
 
-A claim can be both `named` and `numeric`. `assumption` and `arithmetic` stand
-alone.
+A claim can be both `named` and `numeric`. `assumption`, `arithmetic` and
+`framing` stand alone.
 
 **Selection.** Every claim is checked for correctness. `named` and `numeric`
 claims are also checked for later change; `general` claims are not. In a later
@@ -485,13 +487,22 @@ VERIFIED verdict keeps that verdict, unless it is `named` or `numeric`. Last
 year's decks have no provenance, so this year every claim is researched. Each
 researcher gets a batch of 10 claims, and each fact-checker up to three batches.
 
-Two kinds skip research:
-- **Assumptions** are listed in the summary for the author and not checked.
-  Labelled example values are not facts about the world; researching them only
-  produces UNVERIFIED noise. In one lecture they made up half of the minor
-  findings.
+Some claims skip research, and `sg` records each of them so the summary counts
+it:
+- **Assumptions and framing** are listed in the summary for the author and not
+  checked. Labelled example values and stated opinions are not facts about the
+  world; researching them only produces UNVERIFIED noise. In one lecture,
+  assumptions made up half of the minor findings.
 - **Arithmetic** goes to separate batches that the fact-checker recomputes
   without sources. Inputs that are facts, such as a price, are separate claims.
+- **Carried claims.** `sg claims carry` keeps the verdict of a claim whose slide
+  text matches a VERIFIED claim in another deck checked in the same revision
+  cycle, as when a lecture reuses slides of an older deck. Texts shorter than 25
+  characters are not matched, because table cells and labels repeat by accident.
+
+Orchestrators do not drop claims by hand. In one run, claims dropped outside
+`sg` were missing from the summary, and comparison rows that state facts were
+dropped as opinion.
 
 **Untagged facts.** `sg claims untagged` lists the bullets without a claim tag,
 and the claim-extractor classifies each as a fact or not. In deck-create, an

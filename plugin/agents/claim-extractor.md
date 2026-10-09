@@ -85,7 +85,13 @@ Write `claims/extract_<part>.json` in the workspace:
     a conversion). Put the computation in `statement` ("1 million rows × 50
     columns × 8 bytes = 400 MB") and use the kind alone. Extract any input that
     is a fact about the world (a price, a default) as its own claim. The
-    fact-checker recomputes arithmetic; it is not researched.
+    fact-checker recomputes arithmetic; it is not researched;
+  - `framing`: a takeaway line, section subtitle or recommendation that states
+    the lecturer's view, not a fact about the world ("Choose the latency the
+    use case needs"). Use it alone. Framing is listed for the author but not
+    researched. If a line mixes a recommendation with a checkable fact, split
+    it and give the fact its own kind. A table row that states properties of
+    systems is not framing, even in a comparison the lecturer wrote.
 
 When done, run `<sg> claims merge <workspace>` only if your prompt says you are
 the last part; otherwise just return. Reply with one line of JSON:
