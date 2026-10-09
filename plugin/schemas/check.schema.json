@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:check",
+  "title": "Verdicts for one research batch (fact-checker output)",
+  "type": "object",
+  "required": [
+    "batch",
+    "verdicts"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "batch": {
+      "type": "string"
+    },
+    "second_check": {
+      "type": "boolean",
+      "default": false
+    },
+    "verdicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "verdict",
+          "severity",
+          "fix_kind",
+          "issue",
+          "suggested_fix",
+          "sources_used"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "verdict": {
+            "enum": [
+              "VERIFIED",
+              "MISREPRESENTED",
+              "UNVERIFIED",
+              "OUTDATED"
+            ]
+          },
+          "severity": {
+            "enum": [
+              null,
+              "CRITICAL",
+              "MAJOR",
+              "MINOR"
+            ]
+          },
+          "fix_kind": {
+            "enum": [
+              null,
+              "line-edit",
+              "new-content"
+            ]
+          },
+          "outdated": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "label",
+              "change_date",
+              "supporting_source",
+              "changing_source",
+              "beyond_target_versions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "enum": [
+                  "changed-since",
+                  "stale-when-written"
+                ]
+              },
+              "change_date": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "supporting_source": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "index into the claim's sources"
+              },
+              "changing_source": {
+                "type": "integer",
+                "description": "index into the claim's sources"
+              },
+              "beyond_target_versions": {
+                "type": "boolean"
+              }
+            }
+          },
+          "issue": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "suggested_fix": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sources_used": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "evidence_from": {
+            "description": "evidence attached to another claim of the same batch (same source page)",
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "claim_id",
+                  "source"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "claim_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "claim_id",
+                    "source"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "claim_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verdict": {
+                  "const": "VERIFIED"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "severity": {
+                  "const": null
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "verdict": {
+                  "enum": [
+                    "MISREPRESENTED",
+                    "UNVERIFIED",
+                    "OUTDATED"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "severity": {
+                  "enum": [
+                    "CRITICAL",
+                    "MAJOR",
+                    "MINOR"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "verdict": {
+                  "const": "OUTDATED"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "outdated"
+              ],
+              "properties": {
+                "outdated": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

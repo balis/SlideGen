@@ -1,0 +1,40 @@
+# Example manifest for /slidegen:deck-modernize (decks of an existing course).
+# Copied from the repository the plugin was developed in; file paths in it point there.
+
+# Pilot set for deck-modernize: two lectures from the ADZD courses.
+# The decks belong to different courses but share one developments survey.
+
+name: ADZD pilot
+audience: graduate students, computer science (AGH University of Krakow)
+syllabus: null
+
+decks:
+  - id: data-architectures
+    path: ../../ADZD-02-Data-Architectures.pptx
+    course: Big data analysis
+    minutes: 90
+    last_revised: 2022              # "probably 3-4 years ago"
+    hidden_slides: skip             # listed in the report, not checked
+    recreate:
+      - slides: 36-49
+        topic: Parquet
+        output: pptx                # native slides on the deck's own slide master
+        reason: >
+          Ten of these slides are screenshots of Databricks slides (2019 examples)
+          and one is the Apache Parquet documentation diagram. Recreate them as
+          original slides and bring the content up to date.
+    target_versions:
+      spark: latest
+
+  - id: spark
+    path: ../../ADZD_PD-02-Spark-v2026-r3.pptx
+    course: Big data engineering
+    minutes: 90
+    last_revised: 2025              # late 2025
+    hidden_slides: skip
+    out_of_scope:
+      - slides: "53"
+        topic: Spark Streaming / Structured Streaming preview
+        reason: A separate lecture covers Structured Streaming.
+    target_versions:
+      spark: latest                 # labs can use the newest release (e.g. in Colab)

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:clusters",
+  "title": "Survey clusters: groups of deck sections surveyed together",
+  "type": "object",
+  "required": ["clusters"],
+  "additionalProperties": false,
+  "properties": {
+    "clusters": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "scope", "sections"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^C[0-9]+$"},
+          "title": {"type": "string"},
+          "scope": {"type": "string", "description": "what the survey of this cluster covers"},
+          "sections": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["deck", "section"],
+              "additionalProperties": false,
+              "properties": {"deck": {"type": "string"}, "section": {"type": "string"}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

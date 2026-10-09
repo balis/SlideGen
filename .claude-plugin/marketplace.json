@@ -1,0 +1,12 @@
+{
+  "name": "slidegen-marketplace",
+  "owner": {"name": "Bartosz Baliś"},
+  "description": "Skills for planning courses and creating, checking and modernizing lecture decks.",
+  "plugins": [
+    {
+      "name": "slidegen",
+      "source": "./plugin",
+      "description": "Field trends, course plans, lecture decks built on your template, and fact-checked deck modernization."
+    }
+  ]
+}

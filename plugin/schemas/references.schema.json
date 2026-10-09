@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:references",
+  "title": "Reference curricula of one kind (reference-scout output)",
+  "type": "object",
+  "required": [
+    "kind",
+    "searched",
+    "references"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "enum": [
+        "syllabus",
+        "textbook",
+        "paper",
+        "professional"
+      ]
+    },
+    "searched": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "url",
+          "org",
+          "year",
+          "level",
+          "vendor",
+          "fetched",
+          "topics"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "kind": {
+            "enum": [
+              "syllabus",
+              "textbook",
+              "paper",
+              "professional"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1
+          },
+          "org": {
+            "type": "string",
+            "minLength": 1,
+            "description": "university, publisher, or company"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1990
+          },
+          "level": {
+            "enum": [
+              "bachelor",
+              "master",
+              "mixed",
+              "professional",
+              "general"
+            ]
+          },
+          "vendor": {
+            "type": "boolean",
+            "description": "true if the publisher sells the technology it teaches"
+          },
+          "fetched": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "content id printed by sg fetch"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "quote",
+                "weight"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "short English label"
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "verbatim text from the downloaded page"
+                },
+                "weight": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "description": "hours, sessions, or chapters"
+                },
+                "matched": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "scope": {
+            "enum": [
+              "curriculum",
+              "specialist"
+            ],
+            "description": "curriculum: a whole course, programme or general textbook; specialist: a paper or a book about one technology. Default: specialist for papers, curriculum otherwise."
+          }
+        }
+      }
+    }
+  }
+}

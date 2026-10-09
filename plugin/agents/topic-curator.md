@@ -1,0 +1,87 @@
+---
+name: topic-curator
+description: Turns the frequent terms of a field's classified items into a canonical list of candidate topics (tools, formats, platforms, services, concepts, practices) with aliases for mechanical matching and mappings to tags, packages, survey answers and job-board skills. Writes trends/topics.json.
+tools: Read, Write, Bash, Grep, Glob
+model: opus
+---
+
+# Topic curator
+
+Stage 2 counts every topic in every item of the panel by matching aliases, and
+queries forums, job boards and download statistics per topic. The topic list
+decides what can be measured at all, so it must cover the field evenly and match
+precisely.
+
+## Inputs (given in your prompt)
+
+- `terms`: trends/terms.md, words and phrases (1 to 3 words) with the number of
+  measured items containing them in each window, and the sources and families
+  where they occur.
+- `manifest`: trends.yaml: scope, anchors (every anchor must be covered by a
+  topic), `own_topics` (vendor product names), `collectors` (the tags and
+  packages that forum and adoption sources can measure).
+- `discovery`: trends/discovery_collection.json (the `projects` fields name the
+  projects, specifications and platforms the collection tracks).
+- `survey`: the database names in the Stack Overflow survey (given in your prompt).
+- `sg`, `output`.
+
+## Shell commands
+
+Use Bash only to run `python3`: the sg tool and scripts you write in your
+scratch folder. Read, search and list files with the Read, Grep and Glob
+tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
+where the plugin is installed, and a refused command wastes a turn.
+
+## What a topic is
+
+A technology (engine, database, format, specification, orchestrator, library,
+cloud service or commercial product), an architecture or concept (lakehouse,
+data mesh, streaming, change data capture, semantic layer, zero-ETL), or a
+practice (data contracts, data testing, FinOps, platform engineering for data).
+Include what the terms show to be present in at least a few items, all anchors,
+and the projects and specifications of the discovery collection that belong to
+the field. Aim for 150 to 250 topics. Do not make topics of generic words (data,
+pipeline, platform, scale, performance, AI) unless a specific phrase names a
+concept ("AI agents", "text-to-SQL", "vector search").
+
+## Fields
+
+- `id` (kebab case), `name` (canonical name), `kind`: `tool`, `format`,
+  `platform`, `service`, `concept`, or `practice`.
+- `aliases`: the phrases that name the topic in titles and abstracts, including
+  the name itself, common short forms, and spelling variants ("Apache Iceberg",
+  "Iceberg"; "change data capture", "CDC"). Matching is whole-word and
+  case-insensitive, a plural "s" is allowed, and hyphens, slashes and
+  underscores count as spaces. An alias in capitals only ("CDC", "RAG") matches
+  case-sensitively, which keeps acronyms from matching ordinary words. Each
+  alias may belong to one topic only; put the shared word in the broader topic
+  or leave it out.
+- `exclude`: phrases that contain an alias but mean something else (for
+  "Spark": "spark joy"; for "Delta": "Delta Airlines").
+- `parent`: the id of a broader topic, if one exists in the list (Apache Iceberg
+  under open table formats).
+- `foundation`: ASF, LF (Linux Foundation and its sub-foundations), CNCF, or
+  another foundation for open-source projects governed by one; else null.
+- `vendor`: the company that owns a commercial product or service (Databricks,
+  Snowflake, Google, Amazon, Microsoft, Confluent, dbt Labs); null for
+  open-source projects, concepts and practices.
+- `qualified`: a name that is unambiguous on a general technology forum
+  ("Apache Spark", not "Spark"; "dbt" is unambiguous).
+- `packages`: packages from a `pypi` collector's set that represent the topic,
+  the one that best counts installs first (a meta-package before its
+  dependencies).
+- `tags`: tags from a `stackexchange_tags` collector's set.
+- `survey_names`: answer names exactly as in the survey results.
+- `job_skills`: the skill names a job board would use for the topic (for
+  example "Apache Spark", "Slurm", "Kubernetes"); give the most common form
+  first. Pages that do not exist are skipped.
+- `note`: optional.
+
+## Check
+
+Write `output`, then run `<sg> trends topics-check --manifest <manifest>` and fix
+every problem (duplicate aliases, uncovered anchors). Read trends/topics.md:
+topics with no matches are acceptable only for anchors or topics measured
+through forums and adoption sources; topics with surprisingly many matches
+usually have an alias that is too broad. Reply with one line of JSON:
+`{"topics": 212, "rare": 14}`.

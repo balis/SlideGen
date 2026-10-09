@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:course_review",
+  "title": "Independent review of references, taxonomy and proposal (course-reviewer output)",
+  "type": "object",
+  "required": [
+    "summary",
+    "issues"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "severity",
+          "target",
+          "issue",
+          "suggestion"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "severity": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "target": {
+            "enum": [
+              "references",
+              "taxonomy",
+              "trends",
+              "proposal",
+              "sources"
+            ]
+          },
+          "issue": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

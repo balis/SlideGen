@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:trend_labels",
+  "title": "Relevance labels for one blinded batch of items (item-classifier output)",
+  "type": "object",
+  "required": [
+    "batch",
+    "labels"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "batch": {
+      "type": "string"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "in_scope",
+          "sponsored"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "in_scope": {
+            "type": "boolean"
+          },
+          "sponsored": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

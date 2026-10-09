@@ -1,0 +1,51 @@
+# Example manifest for /slidegen:course-plan and /slidegen:lecture-build.
+# Copied from the repository the plugin was developed in; file paths in it point there.
+
+# Course plan manifest for /slidegen:course-plan.
+
+name: Inżynieria danych dużej skali v2
+name_en: Large-scale data engineering
+level: bachelor
+audience: bachelor students of computer science, AGH University of Krakow
+lecture_language: en       # slides, briefs and lecture titles
+curriculum_language: pl    # the official curriculum document (title_local in the proposal)
+
+lectures:
+  count: 7
+  hours: 1.5        # "2 h" in the curriculum = two 45-minute teaching hours = 90 minutes
+  slides: [50, 60]  # the author's expected slide count per lecture
+
+themes:             # ideas that return in every lecture (/slidegen:lecture-build)
+  - "There are no solutions, only trade-offs: every design choice names what it gives up."
+  - "Data engineering at scale needs scalability at different levels: infrastructure, formats, metadata, engines, pipelines."
+
+current:            # the curriculum as it stands; lecture 5 had no hours listed, assumed 2
+  - {n: 1, hours: 2, title: "Wstęp do inżynierii big data"}
+  - {n: 2, hours: 2, title: "Architektury danych - hurtownia, jezioro danych, lakehouse"}
+  - {n: 3, hours: 2, title: "Rozproszone składowanie danych (HDFS, S3, GCS, rozproszone systemy plików), formaty danych i tabel (Parquet, Avro, ORC + Iceberg, Hudi, Delta)"}
+  - {n: 4, hours: 2, title: "Silniki przetwarzania i zapytań: Spark, Trino, Presto, Athena"}
+  - {n: 5, hours: 2, title: "Procesy ELT, orkiestracja, data quality i observability (dbt, Airflow)"}
+  - {n: 6, hours: 2, title: "Streaming, przetwarzanie w czasie prawie rzeczywistym: Kafka, Flink, Spark structured streaming"}
+  - {n: 7, hours: 2, title: "Inżynieria danych w erze Agentic AI"}
+
+decks:              # existing decks whose slides can be reused
+  - id: data-architectures
+    path: ../../ADZD-02-Data-Architectures.pptx
+    workspace: ../adzd-pilot/data-architectures/workspace
+    covers: [2, 3]
+  - id: spark
+    path: ../../ADZD_PD-02-Spark-v2026-r3.pptx
+    workspace: ../adzd-pilot/spark/workspace
+    covers: [4]
+
+# What is current in the field: the output folder of /slidegen:field-trends
+# (attention.json, profiles.json), relative to this file.
+trends: ../trends-de/trends
+
+references:         # quotas of accepted references per kind
+  syllabus: 6
+  textbook: 3
+  paper: 3
+  professional: 2
+  recent_years: 3     # syllabi, papers and programmes from the last 3 years
+  max_vendor_share: 0.3

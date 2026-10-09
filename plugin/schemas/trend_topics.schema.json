@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:trend_topics",
+  "title": "Canonical candidate topics with aliases (topic-curator output)",
+  "type": "object",
+  "required": [
+    "topics"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "aliases",
+          "foundation",
+          "vendor",
+          "qualified"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "tool",
+              "format",
+              "platform",
+              "service",
+              "concept",
+              "practice"
+            ]
+          },
+          "aliases": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 2
+            },
+            "description": "phrases that name the topic in item text; ALL-CAPS aliases match case-sensitively"
+          },
+          "exclude": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "phrases that contain an alias but mean something else"
+          },
+          "foundation": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "e.g. ASF, LF, CNCF, for open-source projects under a foundation"
+          },
+          "vendor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "company that owns the product, for commercial products"
+          },
+          "qualified": {
+            "type": "string",
+            "description": "unambiguous name for general-forum queries, e.g. Apache Iceberg"
+          },
+          "parent": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "id of a broader topic, if any"
+          },
+          "packages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "PyPI packages; the first is the representative one"
+          },
+          "survey_names": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Q&A tags (Stack Exchange) that represent the topic"
+          },
+          "job_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "skill names on job boards, most common form first"
+          }
+        }
+      }
+    }
+  }
+}

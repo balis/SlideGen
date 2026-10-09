@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:finding_review",
+  "title": "Independent review of one cluster's findings (findings-reviewer output)",
+  "type": "object",
+  "required": ["cluster", "reviews"],
+  "additionalProperties": false,
+  "properties": {
+    "cluster": {"type": "string"},
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "decision", "reason", "corrections", "already_covered"],
+        "additionalProperties": false,
+        "properties": {
+          "key": {"type": "string"},
+          "decision": {"enum": ["keep", "correct", "drop"]},
+          "reason": {"type": "string"},
+          "corrections": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "statement": {"type": "string"},
+              "date": {"type": ["string", "null"]},
+              "maturity": {"enum": ["announced", "preview", "ga", "widely_adopted"]},
+              "objectives": {"type": "array", "items": {"type": "string"}},
+              "invalidates": {"type": "array", "items": {"type": "string"}},
+              "sections": {"type": "array", "items": {"type": "object"}},
+              "teaching_signals": {"type": "array", "items": {"type": "object"}}
+            }
+          },
+          "already_covered": {
+            "type": ["object", "null"],
+            "required": ["deck", "slides", "note"],
+            "additionalProperties": false,
+            "properties": {
+              "deck": {"type": "string"},
+              "slides": {"type": "array", "items": {"type": "integer"}},
+              "note": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

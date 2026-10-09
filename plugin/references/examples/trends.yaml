@@ -1,0 +1,256 @@
+# Example manifest for /slidegen:field-trends (the data engineering field).
+# Copied from the repository the plugin was developed in; file paths in it point there.
+
+# Field trends manifest: which topics in data engineering gain attention and use.
+field: data engineering
+scope: >-
+  Building and running systems that collect, store, transform, and serve data at
+  scale: storage and file/table formats, batch and stream processing, query
+  engines, pipelines and orchestration, data modeling, data quality and
+  governance, platform architecture, and the use of AI in and on data platforms.
+  Excludes pure machine-learning research, BI dashboard design, and general
+  software engineering.
+as_of: "2026-10-08"
+windows:
+  current: ["2025-10-08", "2026-10-08"]
+  previous: ["2024-10-08", "2025-10-07"]
+
+# The measurement panel. A family is one kind of evidence; stage 2 measures each
+# topic in every family separately, so a topic gains standing only when several
+# kinds of evidence agree. Stage 1 classifies every item of every edition as in
+# scope or not, and only in-scope items are measured.
+#
+# min_items is the minimum of in-scope items per edition. With 20 items, a topic
+# must move by about four items between editions before the change can be told
+# from sampling noise, so smaller sources add cost without adding evidence.
+# Scope fit is estimated from a sample; min_scope_fit (default 0.1) only excludes
+# sources that are barely about the field.
+#
+# role says how a family is measured: items (harvested item lists, classified and
+# matched), forum (posts collected per window and matched like items), adoption
+# (use signals reported source by source). label is the family's column heading.
+#
+# item_kind says what one item is. Selection represents every kind of item in a
+# family before any kind gets a second source (item_kinds overrides it per source).
+families:
+  practitioner_talks:
+    role: items
+    label: Pract.
+    sponsor_filter: true
+    quota: 6
+    min_items: 20
+    item_kind: talk
+    vendor: false
+    description: >-
+      Independent conferences where practitioners present their own systems
+      (programme with talk titles or abstracts). Not run by a company that sells
+      data products. Sponsor-presented sessions are dropped in stage 1, so the
+      item list must show who presents each session.
+  vendor_talks:
+    role: items
+    label: Vendor
+    quota: 5
+    min_items: 20
+    item_kind: talk
+    vendor: true
+    description: >-
+      Conferences run by data-platform vendors. They show what vendors push and
+      what their customers build; their weight in ranking is lower, and each
+      source's own products (own_topics) are not counted from it.
+  research:
+    role: items
+    label: Research
+    quota: 5
+    min_items: 20
+    item_kind: paper
+    vendor: false
+    description: >-
+      Peer-reviewed database and data-systems venues (accepted papers, industry
+      track included in both editions or in neither).
+  community:
+    role: forum
+    label: Forums
+    quota: 3
+    min_items: 20
+    item_kind: post
+    vendor: false
+    description: >-
+      Public discussion forums of practitioners, measured through a public API or
+      searchable archive (posts and comments per keyword per window).
+  adoption:
+    role: adoption
+    label: Adoption
+    quota: 4
+    min_items: 5
+    item_kind: survey_answer
+    vendor: false
+    description: >-
+      Evidence of use: developer surveys (reported use), job postings (demand for
+      skills), and package downloads (software distribution). The three are
+      reported separately under production use, not combined into one vote.
+  curation:
+    role: items
+    label: Curation
+    quota: 4
+    min_items: 10
+    item_kind: post
+    vendor: false
+    description: >-
+      Editors who select what matters: newsletters, link roundups and podcasts
+      with dated issues or episodes in both windows. Not run by a company that
+      sells data products.
+
+item_kinds:
+  hn-who-is-hiring: job_post
+  it-jobs-watch: job_post
+  pypi-downloads: package
+  data-engineering-weekly: link
+  rmoff-interesting-links: link
+  data-engineering-podcast: episode
+  datatalks-club-podcast: episode
+
+# Topics a source cannot vote for: the organiser's own products and the
+# technology a single-technology event is dedicated to.
+own_topics:
+  data-ai-summit: [Databricks, Apache Spark, Spark Declarative Pipelines, Delta Lake, Delta Sharing, Unity Catalog,
+                   MLflow, Lakebase, Lakeflow, Delta Live Tables, Photon, Mosaic AI, Agent Bricks, Databricks SQL,
+                   Genie, Databricks Apps, Lakewatch, Zerobus, Metric Views]
+  current: [Confluent, Apache Kafka, Apache Flink, Tableflow, Confluent Cloud, WarpStream, ksqlDB]
+  coalesce: [dbt, dbt Cloud, dbt Fusion, MetricFlow, dbt Semantic Layer, dbt Mesh, SDF, dbt MCP Server,
+             dbt Catalog, dbt Copilot, Fivetran, Census, SQLMesh]   # dbt Labs and Fivetran agreed to merge in Oct 2025
+  snowflake-summit: [Snowflake, Snowpark, Snowflake Cortex, Snowflake Horizon, Openflow, Unistore, Streamlit]
+  fabcon: [Microsoft Fabric, Power BI, OneLake, Azure Synapse, Microsoft Copilot]
+  data-streaming-summit: [StreamNative, Apache Pulsar, Ursa]
+  ray-summit: [Ray, Anyscale]
+  nodes: [Neo4j, Cypher]
+  azure-cosmos-db-conf: [Azure Cosmos DB]
+  aws-reinvent: [AWS, Amazon Redshift, Amazon S3, S3 Tables, AWS Glue, Amazon EMR, Amazon Athena, Amazon Kinesis,
+                 Amazon MSK, Amazon SageMaker, Amazon Bedrock, AWS Lake Formation, Amazon Q]
+  google-cloud-next: [Google Cloud, BigQuery, BigLake, Dataflow, Dataproc, Pub/Sub, Looker, Vertex AI, Gemini,
+                      AlloyDB, Spanner, Dataplex]
+
+# How stage 2 measures each forum and adoption source (collector type and its
+# parameters). Topics outside a source's tags or packages are not measured there.
+collectors:
+  hacker-news: {type: hn_stories, min_points: 5, label: HN}
+  reddit-dataengineering: {type: reddit, subreddit: dataengineering, label: Reddit}
+  stack-overflow:
+    type: stackexchange_tags
+    site: stackoverflow
+    label: SO
+    tags: [apache-spark, pyspark, apache-kafka, apache-flink, airflow, dbt, snowflake-cloud-data-platform,
+                   databricks, google-bigquery, amazon-redshift, etl, data-warehouse, apache-beam, delta-lake,
+                   apache-iceberg, duckdb, azure-data-factory, hive, hadoop, data-lake]
+  hn-who-is-hiring: {type: hn_hiring, label: Jobs (HN)}
+  it-jobs-watch: {type: itjobswatch, label: Jobs (UK)}
+  stack-overflow-developer-survey: {type: stackoverflow_survey, label: Survey}
+  pypi-downloads:
+    type: pypi
+    label: Downloads
+    packages: [pyspark, apache-flink, pyflink, apache-beam, dask, ray, polars, duckdb, pyarrow, daft, ibis-framework,
+                   modin, datafusion, deltalake, delta-spark, pyiceberg, apache-airflow, apache-airflow-core, dagster,
+                   prefect, luigi, mage-ai, kestra, dbt-core, sqlmesh, dlt, meltano, airbyte-cdk, great-expectations,
+                   soda-core, pandera, confluent-kafka, kafka-python, aiokafka, faust-streaming, pulsar-client, bytewax,
+                   trino, clickhouse-connect, snowflake-connector-python, databricks-sql-connector,
+                   google-cloud-bigquery, redshift-connector, pymilvus, qdrant-client, chromadb, lancedb, acryl-datahub,
+                   openmetadata-ingestion, openlineage-python, lakefs, pinotdb]
+
+# Sources that can see only part of the field. A topic outside that part is not
+# measured at the source (missing), which is different from a count of zero.
+# At vendor events the same holds for competitors' products.
+sees_only:
+  community-over-code: {text: Apache Software Foundation projects, foundation: ASF}
+  stack-overflow: the 20 tags in its collector
+  pypi-downloads: the Python packages in its collector
+  hn-who-is-hiring: job postings on Hacker News, mostly US startups
+
+# Discovery routes for the measurement panel. Each route is one scout; the number
+# of routes that found a source breaks ties between otherwise equal sources.
+routes:
+  curated-lists: >-
+    Published lists and directories: awesome lists, conference directories,
+    "best newsletters/podcasts/conferences for data engineers" pages, community
+    wikis and resource pages.
+  practitioner-recommendations: >-
+    What practitioners say they follow: forum threads, Q&A answers, blog posts
+    and talks by working data engineers recommending conferences, newsletters,
+    podcasts, surveys.
+  web-search: >-
+    Open web search with neutral queries per family (e.g. "data engineering
+    conference 2026 agenda", "state of data engineering survey 2026"); take what
+    the results name, not what you already know.
+  formal-rankings: >-
+    Formal and institutional signals: conference rankings (CORE, Google Scholar
+    Metrics, CSRankings), professional societies (ACM SIGMOD, VLDB Endowment,
+    IEEE), analyst and foundation reports (Linux Foundation, Apache Software
+    Foundation, CNCF), and survey publishers.
+
+# The discovery collection: sources that find candidate topics and explain them
+# (technical maturity, production use, benefits and limitations) without being
+# compared year over year. Targets per kind of source; engineering blogs must
+# span sectors and organization sizes, so that practices of a few very large
+# technology companies do not look universal.
+discovery:
+  engineering_blog: {min: 15, min_sectors: 6, min_non_tech: 5, min_not_large: 4}
+  project_proposals: {min: 6}
+  specification: {min: 3}
+  platform_release_notes: {min: 5}
+  survey: {min: 3}
+  radar: {min: 1}
+
+# Anchors test whether the panel can see the field at all: every anchor should
+# appear in the current edition of at least one selected source. They do not
+# affect ranking, and they cover practices and concerns as well as named tools.
+anchors:
+  - {name: Apache Spark, aliases: [Spark, PySpark]}
+  - {name: Apache Kafka, aliases: [Kafka]}
+  - {name: Apache Flink, aliases: [Flink]}
+  - {name: Apache Iceberg, aliases: [Iceberg]}
+  - {name: Delta Lake}
+  - {name: dbt}
+  - {name: Apache Airflow, aliases: [Airflow]}
+  - {name: DuckDB}
+  - {name: data contract}
+  - {name: data mesh}
+  - {name: lakehouse}
+  - {name: semantic layer}
+  - {name: change data capture, aliases: [CDC]}
+  - {name: data observability}
+  - {name: vector database, aliases: [vector search, vector store]}
+  - {name: data modeling, aliases: [data modelling, data model, dimensional model, data vault, star schema]}
+  - {name: data quality, aliases: [data testing, data validation]}
+  - {name: data lineage, aliases: [lineage, data catalog, metadata management, OpenLineage]}
+  - {name: data governance, aliases: [access control, data privacy, compliance]}
+  - {name: platform operations, aliases: [incident, on-call, reliability, monitoring]}
+  - {name: cost, aliases: [FinOps, cost optimization, cost optimisation, cost efficiency]}
+  - {name: data team, aliases: [data platform team, analytics engineer, data product]}
+  - name: AI assisting data engineering
+    aliases: [text-to-SQL, text to SQL, AI-assisted, AI assisted, coding assistant, copilot, agentic pipeline,
+              AI agents for data, LLM-generated SQL]
+  - name: data engineering supporting AI
+    aliases: [RAG, retrieval-augmented, retrieval augmented, feature store, training data, embeddings,
+              unstructured data, AI-ready data, data for AI]
+
+# Keys that name the same source (canonical key: [other keys]), filled in after
+# reading trends/source_candidates.md.
+same_source:
+  vldb: [pvldb]
+  practical-data-state-of-data-engineering: [state-of-data-engineering-survey]
+  big-data-conference-europe: [big-data-europe]
+
+# Changes to the panel: sources to exclude (key: reason) and sources to select
+# regardless of the rules (keys).
+exclude:
+  big-data-ldn: >-
+    sponsor-presented sessions cannot be identified: the stored list has titles
+    only (no speakers or companies), and titles naming one sponsor rose from 5 to 14
+  data-council: >-
+    renamed AI Council and refocused on AI in 2026, and its 2025 programme was
+    stored only in part, so the two editions measure a change of programme
+  thoughtworks-technology-radar: >-
+    a qualitative source (assessments from project experience, including "hold"
+    warnings), so it belongs in the discovery collection, not in mention counts
+  data-streaming-summit: >-
+    incomplete lists (2026 day 1 only, 2025 recorded talks only), and a second
+    streaming vendor next to Current would double the weight of streaming
+include: [data-ai-warsaw-tech-summit]   # Central European source; 2 talks short of the minimum in its current edition

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:research",
+  "title": "Sources found for one research batch of claims (researcher output)",
+  "type": "object",
+  "required": ["batch", "claims"],
+  "additionalProperties": false,
+  "properties": {
+    "batch": {"type": "string"},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim_id", "searched", "sources"],
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {"type": "string"},
+          "searched": {"type": "array", "items": {"type": "string"}, "description": "queries and places searched"},
+          "note": {"type": "string", "description": "the researcher's remark for the orchestrator; not evidence"},
+          "sources": {
+            "type": "array",
+            "items": {
+              "allOf": [{"$ref": "urn:slidegen:source"}],
+              "required": ["role"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

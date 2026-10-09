@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:source",
+  "title": "Source record: one cited source with its verbatim quote",
+  "type": "object",
+  "required": ["url", "title", "published", "retrieved", "fetched", "quote"],
+  "additionalProperties": false,
+  "properties": {
+    "url": {"type": "string", "minLength": 1},
+    "title": {"type": ["string", "null"]},
+    "published": {"type": ["string", "null"], "description": "YYYY, YYYY-MM or YYYY-MM-DD"},
+    "published_evidence": {"type": ["string", "null"], "description": "where the publication date comes from"},
+    "retrieved": {"type": "string"},
+    "fetched": {"type": ["string", "null"], "description": "content id printed by `sg fetch`, or null if the source could not be fetched"},
+    "quote": {"type": "string", "minLength": 1, "description": "verbatim text from the source"},
+    "context": {"type": ["string", "null"], "description": "the researcher's own summary, never shown to the fact-checker"},
+    "role": {"enum": ["supports", "contradicts", "later_state"]}
+  }
+}

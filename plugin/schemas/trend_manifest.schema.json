@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:trend_manifest",
+  "title": "Field trends manifest (trends.yaml)",
+  "type": "object",
+  "required": [
+    "field",
+    "scope",
+    "windows",
+    "families",
+    "routes",
+    "anchors"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "field": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "as_of": {
+      "type": "string"
+    },
+    "course": {
+      "type": "string",
+      "description": "the course the field is studied for, if any"
+    },
+    "windows": {
+      "type": "object",
+      "required": [
+        "current",
+        "previous"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "current": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        },
+        "previous": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      }
+    },
+    "families": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "role",
+          "quota"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "items",
+              "forum",
+              "adoption"
+            ],
+            "description": "items: harvested item lists (talks, papers, posts, links); forum: posts measured through a collector and combined like items; adoption: use signals reported source by source"
+          },
+          "quota": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "min_items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "min_scope_fit": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "item_kind": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "boolean",
+            "description": "true: vendor sources only; false: independent sources only"
+          },
+          "sponsor_filter": {
+            "type": "boolean",
+            "description": "drop sponsor-presented items before measuring"
+          },
+          "needs_previous": {
+            "type": "boolean"
+          },
+          "label": {
+            "type": "string",
+            "description": "short column label in reports"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "item_kinds": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "own_topics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "collectors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "enum": [
+              "hn_stories",
+              "reddit",
+              "stackexchange_tags",
+              "hn_hiring",
+              "pypi",
+              "itjobswatch",
+              "stackoverflow_survey",
+              "survey_table"
+            ],
+            "description": "stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table)"
+          },
+          "subreddit": {
+            "type": "string"
+          },
+          "site": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "packages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "min_points": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "how stage 2 measures each forum or adoption source; overrides the verification record"
+    },
+    "sees_only": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "foundation": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "routes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "same_source": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "exclude": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "include": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

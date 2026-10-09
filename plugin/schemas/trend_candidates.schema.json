@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:trend_candidates",
+  "title": "Sources nominated by one discovery route (source-scout output)",
+  "type": "object",
+  "required": [
+    "route",
+    "searched",
+    "candidates"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "route": {
+      "type": "string"
+    },
+    "searched": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "family",
+          "homepage",
+          "organiser",
+          "vendor",
+          "single_technology",
+          "evidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "stable id; defaults to the name in kebab case"
+          },
+          "name": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "homepage": {
+            "type": "string"
+          },
+          "organiser": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "boolean",
+            "description": "run by a company that sells data products"
+          },
+          "single_technology": {
+            "type": "boolean",
+            "description": "dedicated to one technology or product (Iceberg Summit, Airflow Summit, DuckCon); a vendor event covering a broad portfolio is not"
+          },
+          "evidence": {
+            "type": "object",
+            "required": [
+              "url",
+              "fetched",
+              "quote"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "the page that nominated the source"
+              },
+              "fetched": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "quote": {
+                "type": "string",
+                "description": "verbatim text from that page naming the source"
+              }
+            }
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

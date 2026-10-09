@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:extract",
+  "title": "Claims extracted from one slide range of a deck (claim-extractor output)",
+  "type": "object",
+  "required": ["deck", "part", "slides", "claims"],
+  "additionalProperties": false,
+  "properties": {
+    "deck": {"type": "string"},
+    "part": {"type": "string", "pattern": "^[a-z]$"},
+    "slides": {"type": "array", "items": {"type": "integer"}, "minItems": 2, "maxItems": 2},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "slide", "text", "statement", "kind", "from_image"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^claim:[a-z0-9-]+:[a-z]-[0-9]{3}$"},
+          "slide": {"type": "integer", "minimum": 1},
+          "slide_title": {"type": ["string", "null"]},
+          "text": {"type": "string", "minLength": 1, "description": "the slide text as written (or as read from the image)"},
+          "statement": {"type": "string", "minLength": 1, "description": "self-contained factual claim"},
+          "kind": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"enum": ["named", "numeric", "general", "assumption", "arithmetic"]}
+          },
+          "from_image": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

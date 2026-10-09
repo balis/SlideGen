@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:trend_evidence",
+  "title": "Maturity, production use and limitations of shortlisted topics (evidence-researcher output)",
+  "type": "object",
+  "required": [
+    "batch",
+    "topics"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "batch": {
+      "type": "string"
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "topic",
+          "status",
+          "status_note",
+          "platforms_ga",
+          "platforms_preview",
+          "production_note",
+          "limitations_note",
+          "evidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "proposal",
+              "in development",
+              "preview",
+              "generally available",
+              "mature",
+              "emerging practice",
+              "established practice",
+              "unclear"
+            ]
+          },
+          "status_note": {
+            "type": "string",
+            "description": "why, citing evidence ids"
+          },
+          "platforms_ga": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "platforms_preview": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "production_note": {
+            "type": "string"
+          },
+          "limitations_note": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "dimension",
+                "source",
+                "url",
+                "fetched",
+                "date",
+                "quote",
+                "claim"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "dimension": {
+                  "enum": [
+                    "maturity",
+                    "production_use",
+                    "benefits",
+                    "limitations"
+                  ]
+                },
+                "source": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "discovery collection key, or null for another page"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "fetched": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^\\d{4}-\\d{2}(-\\d{2})?$"
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 20,
+                  "description": "verbatim from the downloaded page"
+                },
+                "claim": {
+                  "type": "string",
+                  "description": "one sentence: what the quote shows"
+                },
+                "organization": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sector": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "org_size": {
+                  "enum": [
+                    "large",
+                    "medium",
+                    "small",
+                    null
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

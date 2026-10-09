@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:findings",
+  "title": "Developments found by surveying one cluster (developments-researcher output)",
+  "type": "object",
+  "required": ["cluster", "searched", "findings"],
+  "additionalProperties": false,
+  "properties": {
+    "cluster": {"type": "string"},
+    "searched": {"type": "array", "items": {"type": "string"}},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "statement", "date", "primary_source", "maturity", "sections",
+                     "objectives", "invalidates", "teaching_signals", "relevance"],
+        "additionalProperties": false,
+        "properties": {
+          "key": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "stable kebab-case id, e.g. parquet-page-index"},
+          "statement": {"type": "string", "minLength": 1},
+          "date": {"type": ["string", "null"], "description": "YYYY, YYYY-MM or YYYY-MM-DD of the development"},
+          "primary_source": {"$ref": "urn:slidegen:source"},
+          "maturity": {"enum": ["announced", "preview", "ga", "widely_adopted"]},
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["deck", "section"],
+              "additionalProperties": false,
+              "properties": {"deck": {"type": "string"}, "section": {"type": "string"}}
+            }
+          },
+          "objectives": {"type": "array", "items": {"type": "string"}},
+          "invalidates": {"type": "array", "items": {"type": "string"}, "description": "claim ids this development makes outdated"},
+          "teaching_signals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["url", "title", "kind", "vendor"],
+              "additionalProperties": false,
+              "properties": {
+                "url": {"type": "string"},
+                "title": {"type": "string"},
+                "kind": {"enum": ["docs", "textbook", "survey", "syllabus", "cloud_service", "other"]},
+                "vendor": {"type": "boolean", "description": "true if published by the vendor of the development"},
+                "fetched": {"type": ["string", "null"]}
+              }
+            }
+          },
+          "relevance": {"type": "string", "description": "why this matters for the sections it maps to"}
+        }
+      }
+    }
+  }
+}

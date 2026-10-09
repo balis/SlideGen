@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:plan",
+  "title": "Change plan for one deck (change-planner output)",
+  "type": "object",
+  "required": ["deck", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "deck": {"type": "string"},
+    "notes": {"type": ["string", "null"]},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "slides", "current_text", "proposed", "reason", "claims", "findings", "slides_delta"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^P[0-9]{3}$"},
+          "type": {"enum": ["EDIT", "REPLACE", "REMOVE", "MERGE", "COMPRESS", "INSERT", "REBUILD"]},
+          "slides": {"type": "array", "items": {"type": "integer"}, "minItems": 1,
+                     "description": "affected slides; for INSERT, the slide the new slides follow"},
+          "current_text": {"type": ["string", "null"]},
+          "proposed": {"type": "string", "minLength": 1, "description": "new text, or an outline for new slides"},
+          "reason": {"type": "string", "minLength": 1},
+          "claims": {"type": "array", "items": {"type": "string"}},
+          "findings": {"type": "array", "items": {"type": "string"}},
+          "slides_delta": {"type": "integer", "description": "net change in slide count if applied"}
+        }
+      }
+    }
+  }
+}

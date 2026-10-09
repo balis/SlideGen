@@ -1,0 +1,6 @@
+{
+  "name": "slidegen",
+  "version": "0.1.0",
+  "description": "Create, review, and modernize lecture decks with claims checked against downloaded sources.",
+  "author": {"name": "Bartosz Baliś"}
+}

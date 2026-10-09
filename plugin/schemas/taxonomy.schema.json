@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:slidegen:taxonomy",
+  "title": "Canonical topics of a field, with every reference topic mapped to one of them (taxonomist output)",
+  "type": "object",
+  "required": ["areas", "topics", "mapping"],
+  "additionalProperties": false,
+  "properties": {
+    "areas": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "object", "required": ["id", "title"], "additionalProperties": false,
+                "properties": {"id": {"type": "string", "pattern": "^A[0-9]+$"}, "title": {"type": "string"}}}
+    },
+    "topics": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "area", "description", "depends_on"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^T[0-9]+$"},
+          "title": {"type": "string"},
+          "area": {"type": "string"},
+          "description": {"type": "string", "description": "what the topic covers, in one or two sentences"},
+          "depends_on": {"type": "array", "items": {"type": "string"},
+                         "description": "topics a student must know first"}
+        }
+      }
+    },
+    "mapping": {
+      "type": "array",
+      "items": {"type": "object", "required": ["ref", "label", "topic"], "additionalProperties": false,
+                "properties": {"ref": {"type": "string"}, "label": {"type": "string"}, "topic": {"type": "string"}}}
+    }
+  }
+}
