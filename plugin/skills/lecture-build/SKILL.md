@@ -115,3 +115,7 @@ cost. Ways to lower it:
 - Label worked-example assumptions (they are not researched).
 - Use research batches of 10 claims, and give each fact-checker up to three
   batches.
+
+Never lower the cost by changing an agent's model: the fact-checker runs on the
+model its definition names. If the budget will not cover the fact check, stop
+before it and tell the author what is left and what it would cost.

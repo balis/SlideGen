@@ -339,3 +339,15 @@ def test_claims_not_researched(tmp_path):
     assert [(a["claim_id"], a["reason"]) for a in check["not_checked"]] == [
         ("claim:d:a-002", "assumption"), ("claim:d:a-005", "framing")]
 
+
+
+def test_match_quote_code_comments_ellipsis_dots_and_trademarks():
+    """Quotes still match across comment leaders, a sentence end before an ellipsis, and a trademark sign."""
+    code = ("  /**\n   * Stages are separated by shuffle\n   * boundaries; they occur right before each shuffle.\n"
+            "   */\n// Failed tasks are retried up to spark.task.maxFailures times\n")
+    assert match_quote("Stages are separated by shuffle boundaries; they occur right before each shuffle", code)[0]
+    assert match_quote("// Failed tasks are retried up to spark.task.maxFailures times", code)[0]
+    assert match_quote("before each shuffle. Failed tasks are retried", code)[0]   # across the closing */
+    text = "Wide transformations such as a join. Later stages reshuffle the data in the next step of the job."
+    assert match_quote("Wide transformations such as a join.... reshuffle the data in the next step", text)[0]
+    assert match_quote("Apache Spark is a multi-language engine", "Apache Spark™ is a multi-language engine for data")[0]

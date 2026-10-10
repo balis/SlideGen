@@ -36,7 +36,8 @@ SHAPES = {"rect": MSO_SHAPE.RECTANGLE, "rounded": MSO_SHAPE.ROUNDED_RECTANGLE, "
           "can": MSO_SHAPE.CAN, "chevron": MSO_SHAPE.CHEVRON, "pentagon": MSO_SHAPE.PENTAGON,
           "triangle": MSO_SHAPE.ISOSCELES_TRIANGLE}
 ALIGN = {"left": PP_ALIGN.LEFT, "center": PP_ALIGN.CENTER, "right": PP_ALIGN.RIGHT}
-MARKUP = re.compile(r"\*\*(.+?)\*\*|\*(.+?)\*")   # **bold**, *italic*
+MARKUP = re.compile(r"\*\*(.+?)\*\*|\*(.+?)\*")   # **bold**, *italic*; \\* is a literal asterisk
+LITERAL_STAR = "\x00"
 
 
 def _rgb(name: str | None, palette: dict) -> RGBColor | None:
@@ -49,7 +50,8 @@ def _rgb(name: str | None, palette: dict) -> RGBColor | None:
 
 
 def _runs(paragraph, text: str, size=None, color=None, bold=False, italic=False) -> None:
-    """Fill a paragraph with text, where **...** marks bold and *...* italic runs."""
+    """Fill a paragraph with text, where **...** marks bold, *...* italic runs and \\* a literal asterisk."""
+    text = text.replace("\\*", LITERAL_STAR)
     pos = 0
     parts = []
     for m in MARKUP.finditer(text):
@@ -61,7 +63,7 @@ def _runs(paragraph, text: str, size=None, color=None, bold=False, italic=False)
         parts.append((text[pos:], bold, italic))
     for chunk, b, it in parts or [("", bold, italic)]:
         run = paragraph.add_run()
-        run.text = chunk
+        run.text = chunk.replace(LITERAL_STAR, "*")
         run.font.bold = b or None
         run.font.italic = it or None
         if size:

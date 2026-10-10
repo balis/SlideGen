@@ -10,7 +10,7 @@ Run:
 
 The layout names used here ("Title Only", "Title and Content", "Section Header") must exist in the
 template. Coordinates are in inches; keep shapes inside the template's slide size and below its title.
-Bold and italic use **text** and *text*.
+Bold and italic use **text** and *text*; write \\* for a literal asterisk (as in a path like orders/\\*.parquet).
 """
 import argparse
 import json

@@ -191,7 +191,7 @@ def fetch(args) -> dict:
 _CHAR_MAP = {"‘": "'", "’": "'", "‚": "'", "‛": "'", "′": "'",
              "“": '"', "”": '"', "„": '"', "″": '"', "`": "'",
              "‐": "-", "‑": "-", "‒": "-", "–": "-", "—": "-",
-             "―": "-", "−": "-", "­": ""}
+             "―": "-", "−": "-", "­": "", "™": "", "®": "", "©": ""}
 _ELLIPSIS = re.compile(r"\s*(?:\.\.\.|…|\[\s*\.\.\.\s*\]|\[…\])\s*")
 _CLOSE = set(".,;:!?)]}")
 _OPEN = set("([{")
@@ -202,7 +202,16 @@ def _normalize_with_map(text: str) -> tuple[str, list[int]]:
     out: list[str] = []
     index: list[int] = []
     prev_space = True
+    line_start = True
     for i, ch in enumerate(text):
+        # comment leaders of source files (" * text", "// text", "# text") are not part of a quote
+        if line_start and (ch in "*#" or (ch == "/" and text[i + 1:i + 2] in ("/", "*"))
+                           or (ch == "/" and i > 0 and text[i - 1] in "/*")):
+            ch = " "
+        elif ch == "\n":
+            line_start = True
+        elif not ch.isspace():
+            line_start = False
         ch = _CHAR_MAP.get(ch, ch)
         for c in unicodedata.normalize("NFKC", ch).casefold():
             if c.isspace():
@@ -227,7 +236,7 @@ def _normalize(text: str) -> str:
 def match_quote(quote: str, text: str, min_chars: int = MIN_MATCH_CHARS) -> tuple[bool, int, int]:
     """Return (matched, start, end) in the original text; parts split at ellipses match in order."""
     norm_text, index = _normalize_with_map(text)
-    parts = [_normalize(p).strip(" \"'") for p in _ELLIPSIS.split(quote)]
+    parts = [_normalize(p).strip(" \"'.,;:") for p in _ELLIPSIS.split(quote)]
     parts = [p for p in parts if p]
     if sum(len(p) for p in parts) < min_chars:
         return False, -1, -1

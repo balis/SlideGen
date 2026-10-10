@@ -30,6 +30,8 @@ deck is changed.
   absolute paths, and the expanded `SG` command.
 - Run independent agents in parallel, at most 10 at a time. Pass today's date
   explicitly.
+- Start every agent with the model its definition names. If the budget will not
+  cover a step, stop and report instead of switching to a smaller model.
 - Skip any step whose output already exists and is valid; this makes the run
   resumable.
 

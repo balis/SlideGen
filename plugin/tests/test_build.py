@@ -52,3 +52,14 @@ def test_spec_example_builds(tmp_path):
                    check=True, capture_output=True)
     r = run("pptx", "build", "--spec", tmp_path / "L01" / "deck.json")
     assert r["ok"] and r["slides"] == 5 and not r["problems"], r
+
+
+def test_literal_asterisk(tmp_path):
+    """\\* in slide text is a literal asterisk, not italic markup."""
+    from pptx import Presentation
+    make_pptx(tmp_path / "base.pptx", ["Intro"])
+    spec = write(tmp_path / "deck.json", {"base": "base.pptx", "output": "out.pptx", "slides": [
+        {"layout": "Title and Content", "title": "Paths", "bullets": ["read orders/\\*/\\*.parquet and *this*"]}]})
+    assert run("pptx", "build", "--spec", spec)["ok"]
+    para = Presentation(str(tmp_path / "out.pptx")).slides[0].placeholders[1].text_frame.paragraphs[0]
+    assert para.text == "read orders/*/*.parquet and this" and para.runs[-1].font.italic
