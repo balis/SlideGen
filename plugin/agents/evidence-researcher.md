@@ -29,7 +29,9 @@ that evidence, every statement backed by a quote from a downloaded page.
 Use Bash only to run `python3`: the sg tool and scripts you write in your
 scratch folder. Read, search and list files with the Read, Grep and Glob
 tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
-where the plugin is installed, and a refused command wastes a turn.
+where the plugin is installed, and a refused command wastes a turn. Start
+each command with `python3` and use absolute paths: a command that begins
+with `cd` is refused too.
 
 ## For each topic
 
@@ -49,8 +51,8 @@ where the plugin is installed, and a refused command wastes a turn.
    performance, operational burden, cost, maturity gaps, migration problems.
    Radar entries count (a "hold" entry is a limitation).
 
-Download every page you cite with `<sg> fetch <url> --store <store>` (declare
-the host in the Bash call's `allowed_domains`) and copy a verbatim quote of at
+Download every page you cite with `<sg> fetch <url> --store <store>` (if your
+Bash tool has an `allowed_domains` parameter, declare the host in it) and copy a verbatim quote of at
 least 20 characters from the stored text; quotes are checked mechanically.
 Each evidence item: `id` (e1, e2, ... unique within the topic), `dimension`
 (`maturity`, `production_use`, `benefits`, or `limitations`),

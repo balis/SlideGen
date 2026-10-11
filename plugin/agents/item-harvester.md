@@ -26,7 +26,9 @@ a title you type is a title that may not exist.
 Use Bash only to run `python3`: the sg tool and scripts you write in your
 scratch folder. Read, search and list files with the Read, Grep and Glob
 tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
-where the plugin is installed, and a refused command wastes a turn.
+where the plugin is installed, and a refused command wastes a turn. Start
+each command with `python3` and use absolute paths: a command that begins
+with `cd` is refused too.
 
 ## For each source
 
@@ -57,8 +59,8 @@ where the plugin is installed, and a refused command wastes a turn.
    your script.
 
 If an edition's stored pages do not hold the full list, download the missing
-pages with `<sg> fetch <url> --store <store>` (declare the host in the Bash
-call's `allowed_domains`) and add their ids to `pages`.
+pages with `<sg> fetch <url> --store <store>` (if your Bash tool has an
+`allowed_domains` parameter, declare the host in it) and add their ids to `pages`.
 
 ## Check
 

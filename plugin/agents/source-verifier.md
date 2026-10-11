@@ -24,7 +24,9 @@ harvest these lists, so record exactly where they are.
 Use Bash only to run `python3`: the sg tool and scripts you write in your
 scratch folder. Read, search and list files with the Read, Grep and Glob
 tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
-where the plugin is installed, and a refused command wastes a turn.
+where the plugin is installed, and a refused command wastes a turn. Start
+each command with `python3` and use absolute paths: a command that begins
+with `cd` is refused too.
 
 ## For each candidate
 
@@ -34,7 +36,8 @@ where the plugin is installed, and a refused command wastes a turn.
    or posts within the window). Then find the **previous edition** in the
    previous window.
 2. Find a page that lists the edition's items and download it with
-   `<sg> fetch <url> --store <store>` (declare the host in `allowed_domains`).
+   `<sg> fetch <url> --store <store>` (if your Bash tool has an
+   `allowed_domains` parameter, declare the host in it).
    Read the downloaded text (`<store>/<text_file>`) and confirm the items are in
    it. Many agenda pages are rendered by JavaScript and download empty; then
    look for another page with the same list: a Sessionize or Pretalx schedule,

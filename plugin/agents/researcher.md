@@ -30,7 +30,9 @@ fact-checker does that from what you record.
 Use Bash only to run `python3`: the sg tool and scripts you write in your
 scratch folder. Read, search and list files with the Read, Grep and Glob
 tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
-where the plugin is installed, and a refused command wastes a turn.
+where the plugin is installed, and a refused command wastes a turn. Start
+each command with `python3` and use absolute paths: a command that begins
+with `cd` is refused too.
 
 ## Process, per claim
 
@@ -45,8 +47,9 @@ where the plugin is installed, and a refused command wastes a turn.
    dated.
 3. **Download every source you cite** with `<sg> fetch <url> --store <store>`.
    The command prints `fetched` (the content id), `text_file`, `title`, and
-   `published_hint`. In a sandboxed session, declare the URL's host in the Bash
-   call's `allowed_domains`. If the command reports `not_fetchable`, try another
+   `published_hint`. If your Bash tool has an `allowed_domains` parameter
+   (sandboxed sessions), declare the URL's host in it; otherwise leave it out.
+   If the command reports `not_fetchable`, try another
    source for the same fact; cite an unfetchable source only if no alternative
    exists, with `"fetched": null`.
 4. **Copy the quote verbatim** from the downloaded text: open
