@@ -81,6 +81,10 @@ gives):
 ]}
 ```
 
+`supporting_source` and `changing_source` are integer indexes into the claim's
+own sources. Evidence researched for another claim goes in `evidence_from`,
+never inside `outdated`.
+
 A VERIFIED verdict needs only `claim_id`, `verdict` and `sources_used`; the
 other fields may be left out. Every other verdict needs `severity`, `fix_kind`,
 `issue` and `suggested_fix`, and OUTDATED also needs `outdated`.
