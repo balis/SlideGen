@@ -92,7 +92,10 @@ their facts.
    - MINOR verdicts: change the line, or keep it and say why in the speaker
      notes, for example when it is the lecturer's framing.
    - Rebuild, render the changed slides again, and set `checked: true` on
-     the slides whose claims passed, so that later rebuilds skip them.
+     the slides whose claims were all VERIFIED and whose text did not change
+     after the check, so that later rebuilds skip them. A slide with any
+     other verdict stays unmarked, even after its fix, so that the next
+     build checks it again.
 6. **Report** to the author:
    - the deck path and its slide count per part;
    - the fact-check counts;
