@@ -54,6 +54,23 @@ def test_spec_example_builds(tmp_path):
     assert r["ok"] and r["slides"] == 5 and not r["problems"], r
 
 
+def test_edit_table_cell(tmp_path):
+    """Edits on a copied slide also find text in table cells."""
+    from pptx import Presentation
+    from pptx.util import Inches
+    base = make_pptx(tmp_path / "base.pptx", ["Intro", "Governance"])
+    prs = Presentation(str(base))
+    table = prs.slides[1].shapes.add_table(2, 2, Inches(1), Inches(3), Inches(6), Inches(1)).table
+    table.cell(0, 0).text, table.cell(1, 0).text = "Governance", "Sets the rules once a year"
+    prs.save(str(base))
+    spec = write(tmp_path / "deck.json", {"base": "base.pptx", "output": "out.pptx", "slides": [
+        {"copy": 2, "edits": [{"find": "once a year", "replace": "for every table"}]}]})
+    r = run("pptx", "build", "--spec", spec)
+    assert r["ok"], r
+    cells = [s for s in Presentation(str(tmp_path / "out.pptx")).slides[0].shapes if s.has_table][0].table
+    assert cells.cell(1, 0).text == "Sets the rules for every table"
+
+
 def test_literal_asterisk(tmp_path):
     """\\* in slide text is a literal asterisk, not italic markup."""
     from pptx import Presentation

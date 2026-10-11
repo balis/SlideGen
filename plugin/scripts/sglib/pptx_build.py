@@ -196,11 +196,12 @@ def _draw(slide, shp: dict, palette: dict) -> None:
 
 def _replace(slide, find: str, replace: str) -> bool:
     """Replace text on a slide, changing only the runs the found text spans: the replacement takes the formatting of
-    the run where the found text starts, and runs before and after it keep theirs."""
-    for shape in slide.shapes:
-        if not shape.has_text_frame:
-            continue
-        for p in shape.text_frame.paragraphs:
+    the run where the found text starts, and runs before and after it keep theirs. Text frames are searched before
+    table cells."""
+    frames = [s.text_frame for s in slide.shapes if s.has_text_frame]
+    frames += [cell.text_frame for s in slide.shapes if s.has_table for row in s.table.rows for cell in row.cells]
+    for frame in frames:
+        for p in frame.paragraphs:
             runs = p.runs
             full = "".join(r.text for r in runs)
             at = full.find(find)
