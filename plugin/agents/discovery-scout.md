@@ -44,7 +44,8 @@ with `cd` is refused too.
      (what exists; proposal, preview, or generally available), `production_use`
      (who runs it, at what scale), `limitations` (benefits, costs, problems
      reported);
-   - `organiser`; `vendor` (true if the organiser sells data products);
+   - `organiser`; `vendor` (true if the organiser sells products or services
+     in the field);
      `sponsorship` if someone other than the organiser funds it;
    - for engineering blogs: `sector` (the organization's industry),
      `org_size` (`large`, `medium`, `small`), `tech_company` (true if its main
@@ -75,7 +76,8 @@ Write `output`:
 ]}
 ```
 
-Validate it before replying:
-`python3 -c "import sys; sys.path.insert(0,'<plugin>/scripts'); from sglib.util import load_json; load_json(sys.argv[1],'trend_discovery'); print('valid')" <output>`
+Validate it before replying, with `<scripts>` the folder that holds the
+`sg.py` named in `sg`:
+`python3 -c "import sys; sys.path.insert(0,'<scripts>'); from sglib.util import load_json; load_json(sys.argv[1],'trend_discovery'); print('valid')" <output>`
 
 Reply with one line of JSON: `{"group": "blogs", "sources": 18}`.

@@ -28,23 +28,20 @@ with `cd` is refused too.
 
 ## Rules
 
-**in_scope** is true when the item is about building or running systems that
-collect, store, transform, or serve data: storage and file or table formats,
-batch and stream processing, query engines and databases, pipelines and
-orchestration, data modeling, data quality, governance, lineage and catalogs,
-platform architecture and operations, cost of data platforms, and data teams'
-engineering practices.
+**in_scope** is true when the item's main subject is something `scope`
+includes, and false when it is something `scope` excludes or belongs to a
+neighbouring field. Judge the main subject, not a passing mention: a talk on
+running a database in Kubernetes is about databases or about Kubernetes,
+whichever the title puts first, and `scope` decides whether that subject is in.
+Read the exclusions in `scope` as carefully as the inclusions.
 
-AI items are in scope when they are about data systems, pipelines, or data used
-by AI systems (for example retrieval pipelines, vector storage, feature stores,
-training-data pipelines, AI-ready data, governance of data for AI), or about AI
-used to build or operate data systems (for example text-to-SQL, AI agents that
-write or run pipelines). They are out of scope when they are about AI products,
-models or model training, prompting, AI strategy, careers, leadership, or
-hiring. Also out of scope: general software engineering, front-end or app
-development, BI dashboard design, and pure machine-learning research. When the
-title alone is too vague to tell (for example "Keynote" or "Lessons learned"),
-answer false.
+AI items follow the same test. They are in scope only for the part of AI that
+`scope` covers (for example AI as a workload, its infrastructure, or the data it
+uses), and out of scope when they are about AI products, models or model
+training, prompting, or AI strategy, unless `scope` names those. Careers,
+leadership, hiring, and team management are out of scope unless `scope` names
+them. When the title alone is too vague to tell (for example "Keynote" or
+"Lessons learned"), answer false.
 
 **sponsored** is true only when the item is visibly a vendor presenting its own
 product: "brought to you by", "sponsored", "partner session", "solution

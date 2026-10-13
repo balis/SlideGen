@@ -22,7 +22,8 @@ precisely.
   packages that forum and adoption sources can measure).
 - `discovery`: trends/discovery_collection.json (the `projects` fields name the
   projects, specifications and platforms the collection tracks).
-- `survey`: the database names in the Stack Overflow survey (given in your prompt).
+- `survey`: the answer names of the surveys the manifest measures, if any
+  (given in your prompt).
 - `sg`, `output`.
 
 ## Shell commands
@@ -44,7 +45,9 @@ Include what the terms show to be present in at least a few items, all anchors,
 and the projects and specifications of the discovery collection that belong to
 the field. Aim for 150 to 250 topics. Do not make topics of generic words (data,
 pipeline, platform, scale, performance, AI) unless a specific phrase names a
-concept ("AI agents", "text-to-SQL", "vector search").
+concept ("AI agents", "text-to-SQL", "vector search"). The examples in this file
+come from data engineering; for another field, take the kinds of topic from its
+own terms and `scope`.
 
 ## Fields
 
