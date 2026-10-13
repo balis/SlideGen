@@ -211,6 +211,28 @@ def _parse_itjw(page: str) -> dict | None:
             "period": period.group(1).strip() if period else None}
 
 
+def _itjw_page(skill: str, cache) -> str:
+    """The skill's IT Jobs Watch page, cached in `cache`; empty when the board has no page for the skill. A failed
+    request is not cached, so running the collector again retries it."""
+    if cache.exists():
+        return cache.read_text(encoding="utf-8")
+    time.sleep(2.0)
+    url = f"https://www.itjobswatch.co.uk/jobs/uk/{requests.utils.quote(skill.lower())}.do"
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (research)"}, timeout=60)
+    except requests.RequestException as e:
+        raise SgError(f"IT Jobs Watch request for {skill!r} failed ({type(e).__name__}); "
+                      f"run the collector again to resume") from e
+    if r.status_code in (404, 410):
+        text = ""
+    elif r.status_code == 200:
+        text = r.text
+    else:
+        raise SgError(f"IT Jobs Watch answered {r.status_code} for {skill!r}; run the collector again to resume")
+    cache.write_text(text, encoding="utf-8")
+    return text
+
+
 def _collect_itjw(cfg: dict, out, params: dict, key: str = "it-jobs-watch") -> dict:
     """IT Jobs Watch page of every skill named by a topic; per-topic results go to queries/<key>.json."""
     topics = load_json(cfg["_ws"] / "topics.json", "trend_topics")["topics"]
@@ -225,12 +247,7 @@ def _collect_itjw(cfg: dict, out, params: dict, key: str = "it-jobs-watch") -> d
                 names.append(n)
         for skill in names:
             cache = out / (re.sub(r"[^a-z0-9]+", "-", skill.lower()) + ".html")
-            if not cache.exists():
-                time.sleep(2.0)
-                r = requests.get(f"https://www.itjobswatch.co.uk/jobs/uk/{requests.utils.quote(skill.lower())}.do",
-                                 headers={"User-Agent": "Mozilla/5.0 (research)"}, timeout=60)
-                cache.write_text(r.text if r.status_code == 200 else "", encoding="utf-8")
-            parsed = _parse_itjw(cache.read_text(encoding="utf-8"))
+            parsed = _parse_itjw(_itjw_page(skill, cache))
             if parsed is None:
                 continue
             n1, n0 = parsed["current"] / parsed["share_current"], parsed["previous"] / parsed["share_previous"]

@@ -124,6 +124,42 @@ def test_parse_job_board_table():
     assert _parse_itjw("<html>No such skill</html>") is None
 
 
+def test_job_board_failures_are_retried(tmp_path, monkeypatch):
+    """A refused or failed request stops the collector without caching; a missing skill page is cached as empty."""
+    import pytest
+    import requests
+    from sglib import attention
+    from sglib.util import SgError
+
+    class Reply:
+        def __init__(self, status: int, text: str = ""):
+            self.status_code, self.text = status, text
+
+    replies = []
+
+    def fake_get(url, **kw):
+        reply = replies.pop(0)
+        if isinstance(reply, Exception):
+            raise reply
+        return reply
+
+    monkeypatch.setattr(attention.time, "sleep", lambda s: None)
+    monkeypatch.setattr(attention.requests, "get", fake_get)
+    cache = tmp_path / "slurm.html"
+    for reply in (requests.ConnectionError("proxy refused"), Reply(503)):
+        replies.append(reply)
+        with pytest.raises(SgError, match="run the collector again"):
+            attention._itjw_page("Slurm", cache)
+        assert not cache.exists()
+    replies.append(Reply(404, "not found"))
+    assert attention._itjw_page("Slurm", cache) == "" and cache.read_text() == ""
+    page = tmp_path / "kubernetes.html"
+    replies.append(Reply(200, "<html>page</html>"))
+    assert attention._itjw_page("Kubernetes", page) == "<html>page</html>"
+    assert attention._itjw_page("Kubernetes", page) == "<html>page</html>"   # served from the cache
+    assert replies == []
+
+
 def test_collectors_by_type(tmp_path):
     """Forum and adoption sources are measured by collector type, configured in the manifest or the verification."""
     from sglib.attention import COUNTERS, _adoption, collector_of
