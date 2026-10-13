@@ -12,3 +12,6 @@ decks/*/workspace/stream.jsonl
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Python virtual environment
+.venv/

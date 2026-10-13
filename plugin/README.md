@@ -50,12 +50,25 @@ shows how `lecture-build` writes a deck specification.
 
 ## Requirements
 
-- Python 3.10+ with `python-pptx`, `pymupdf`, `pillow`, `requests`,
-  `beautifulsoup4`, `lxml`, `jsonschema`, `pyyaml`.
+- Python 3.10+ with the packages in `requirements.txt`, installed in a virtual
+  environment whose `python3` comes first on PATH when Claude Code starts, since
+  the skills and agents run bare `python3`:
+
+  ```bash
+  python3 -m venv .venv && .venv/bin/pip install -r plugin/requirements.txt
+  ```
+
+  A project's `.claude/settings.json` can put the environment on PATH with
+  `"env": {"PATH": "<venv>/bin:..."}`; the value replaces PATH, so list the
+  system directories too.
 - LibreOffice (`soffice`) for `sg pptx render`, which `lecture-build` uses to
   look at every slide. It writes a profile directory, so in a sandboxed session
   the render command runs outside the sandbox.
-- Optional: `inkscape`, for vector EMF/WMF images that contain no bitmap.
+- `inkscape`, for vector EMF/WMF images that contain no bitmap. Without it,
+  `sg ingest` reports those images as failed and returns `"ok": false`.
+- The deck's fonts, or metric-compatible substitutes, for renders whose line
+  breaks match PowerPoint. On Debian and Ubuntu, `fonts-crosextra-carlito`
+  replaces Calibri and `fonts-crosextra-caladea` replaces Cambria.
 
 ## Permissions and network
 

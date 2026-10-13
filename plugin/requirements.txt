@@ -1,0 +1,15 @@
+# Python packages for scripts/sg.py and the tests. Install them into a virtual
+# environment whose python3 is first on PATH when Claude Code starts: the skills
+# run bare `python3`.
+python-pptx==1.0.2
+PyMuPDF==1.26.7
+Pillow==10.3.0
+requests==2.32.5
+beautifulsoup4>=4.12,<5
+lxml==6.0.2
+jsonschema==4.25.1
+referencing==0.37.0
+PyYAML==6.0.3
+pytest==9.0.2
+# Item harvesters list conference recordings with `python3 -m yt_dlp`.
+yt-dlp==2026.8.19
