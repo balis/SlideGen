@@ -371,7 +371,8 @@ def render(args) -> dict:
     run = subprocess.run(cmd, env=env, capture_output=True, text=True, timeout=600)
     pdf = out / "deck.pdf"
     if not pdf.exists():
-        raise SgError(f"LibreOffice did not write a PDF (run outside the sandbox?): {run.stderr[-300:]}")
+        raise SgError(f"LibreOffice did not write a PDF (in a sandboxed session, list this command in the "
+                      f"project's sandbox.excludedCommands): {run.stderr[-300:]}")
     doc = fitz.open(str(pdf))
     pages = []
     for i, page in enumerate(doc, 1):

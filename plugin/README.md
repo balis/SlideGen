@@ -62,8 +62,9 @@ shows how `lecture-build` writes a deck specification.
   `"env": {"PATH": "<venv>/bin:..."}`; the value replaces PATH, so list the
   system directories too.
 - LibreOffice (`soffice`) for `sg pptx render`, which `lecture-build` uses to
-  look at every slide. It writes a profile directory, so in a sandboxed session
-  the render command runs outside the sandbox.
+  look at every slide. LibreOffice cannot open its IPC pipe inside the Linux
+  sandbox; see "Permissions and network" for running the render command
+  outside it.
 - `inkscape`, for vector EMF/WMF images that contain no bitmap. Without it,
   `sg ingest` reports those images as failed and returns `"ok": false`.
 - The deck's fonts, or metric-compatible substitutes, for renders whose line
@@ -84,6 +85,18 @@ the project's `.claude/settings.json`:
 hosts must be reachable from Bash: either allow them in the sandbox network
 settings, or approve each host when asked. A headless `claude -p` run denies any
 call that is not allowed and continues, so set these rules before batch runs.
+Where the sandbox proxy re-signs TLS, `requests` trusts the proxy through the
+environment, but yt-dlp needs `--compat-options no-certifi` to do the same.
+
+In a sandboxed session, list the render command in the project's
+`sandbox.excludedCommands`, with the absolute path of `sg.py`, so that it runs
+outside the sandbox. This works even where `allowUnsandboxedCommands` is
+false; the command must then be called exactly in that form, without `cd`,
+pipes or redirects:
+
+```json
+{"sandbox": {"excludedCommands": ["python3 /abs/path/to/plugin/scripts/sg.py pptx render *"]}}
+```
 
 ## The sg tool
 

@@ -44,7 +44,13 @@ with `cd` is refused too.
    a printable or PDF programme, the conference's YouTube playlist, the
    proceedings table of contents on dblp, an RSS feed or archive page. Prefer
    the page with the full list; if the list spans several pages, use the first
-   and say so in `access_note`.
+   and say so in `access_note`. A YouTube playlist page downloads without its
+   list: write the playlist URL as the first line of `<scratch>/<name>.txt`,
+   append the titles with `python3 -m yt_dlp --compat-options no-certifi
+   --flat-playlist --print-to-file title <scratch>/<name>.txt <playlist url>`
+   (`no-certifi` makes yt-dlp trust the certificates the environment names,
+   which a sandbox's proxy needs), and store the file with
+   `<sg> fetch --file <scratch>/<name>.txt --store <store>`.
 3. Record for each edition:
    - `url`, `fetched` (the id sg printed);
    - `period`: the date of the event or publication (`YYYY-MM-DD`; for a

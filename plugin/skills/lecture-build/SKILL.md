@@ -69,9 +69,14 @@ their facts.
    spec must have the outline's slides and copy template slides exactly where
    the outline reuses them. If a slide changed kind while you wrote it, update
    the outline. Then run `SG pptx build --spec L/deck.json`.
-3. **Visual check.** `SG pptx render --pptx <deck> --out $TMPDIR/render-L<NN>`.
-   LibreOffice writes a profile, so in a sandboxed session run this command
-   outside the sandbox. Read every page image. Fix overflowing or overlapping
+3. **Visual check.** `SG pptx render --pptx <deck> --out L/render`, with both
+   paths absolute.
+   LibreOffice cannot open its IPC pipe inside the Linux sandbox, so in a
+   sandboxed session this command must be listed in the project's
+   `sandbox.excludedCommands` (see the plugin README); call it exactly as
+   listed, without `cd`, pipes or redirects. A deck with many images can take
+   several minutes to convert: give the Bash call a 10-minute timeout. Read
+   every page image. Fix overflowing or overlapping
    text and empty areas, then rebuild.
 4. **Fact check.**
    - Add the deck to `ROOT/lectures/course.yaml`: id `lecture<NN>`, path,
