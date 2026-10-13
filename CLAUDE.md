@@ -50,3 +50,11 @@ Invoked by `slidereview.sh`.
 
 The launcher script's prompt tells you. Read the specified pipeline .md file
 and follow its steps.
+
+## Where work runs
+
+On the VM: edits, `python3 -m pytest plugin/tests`, `sg` commands, LibreOffice
+renders, and Claude sessions that run the plugin's skills. A lecture build or a
+field-trends run is a Claude session of one to several hours that waits on the
+API and downloads sources; it is not a compute job. Nothing in this project
+needs a cluster or a GPU.
