@@ -28,6 +28,17 @@ def _clean(text: str) -> str:
     return re.sub(r"[ \t]+", " ", text.replace("\x0b", " ").replace("\xa0", " ")).strip()
 
 
+def _picture(shape) -> tuple[bytes, str]:
+    """A picture's bytes and file extension. python-pptx's Image.ext asks Pillow to identify the image, which fails
+    for some WMF and EMF files; the extension of the image's package part is used then."""
+    image = shape.image
+    try:
+        ext = image.ext
+    except Exception:   # PIL.UnidentifiedImageError and decoder errors
+        ext = shape.part.related_part(shape._element.blip_rId).partname.ext
+    return image.blob, ext.lower()
+
+
 def _sha256(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -137,7 +148,7 @@ def _read_pptx(path: Path, store: _ImageStore) -> list[dict]:
             blob = None
             try:
                 if s.shape_type == MSO_SHAPE_TYPE.PICTURE or hasattr(s, "image"):
-                    blob, ext = s.image.blob, s.image.ext
+                    blob, ext = _picture(s)
             except (AttributeError, ValueError, KeyError):
                 blob = None
             if blob:

@@ -99,6 +99,17 @@ def _is_emf(data: bytes) -> bool:
     return len(data) > 44 and struct.unpack_from("<I", data, 0)[0] == 1 and data[40:44] == b" EMF"
 
 
+def _is_wmf(data: bytes) -> bool:
+    """A placeable WMF, or a bare WMF header (type 1 or 2, 9-word header, version 1.0 or 3.0). PowerPoint sometimes
+    stores a WMF under an .emf name, so the content decides."""
+    if data[:4] == b"\xd7\xcd\xc6\x9a":
+        return True
+    if len(data) < 18:
+        return False
+    mt_type, header_words, version = struct.unpack_from("<HHH", data, 0)
+    return mt_type in (1, 2) and header_words == 9 and version in (0x0100, 0x0300)
+
+
 def _inkscape_png(data: bytes, suffix: str) -> Image.Image | None:
     exe = shutil.which("inkscape")
     if not exe:
@@ -116,7 +127,7 @@ def to_png(blob: bytes, ext: str) -> tuple[Image.Image | None, str]:
     ext = ext.lower().lstrip(".")
     if _is_emf(blob):
         images, fmt = _emf_bitmaps(blob), "emf"
-    elif ext == "wmf" or blob[:4] == b"\xd7\xcd\xc6\x9a":
+    elif ext == "wmf" or _is_wmf(blob):
         images, fmt = _wmf_bitmaps(blob), "wmf"
     else:
         try:

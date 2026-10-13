@@ -351,3 +351,33 @@ def test_match_quote_code_comments_ellipsis_dots_and_trademarks():
     text = "Wide transformations such as a join. Later stages reshuffle the data in the next step of the job."
     assert match_quote("Wide transformations such as a join.... reshuffle the data in the next step", text)[0]
     assert match_quote("Apache Spark is a multi-language engine", "Apache Spark™ is a multi-language engine for data")[0]
+
+
+def test_wmf_stored_under_emf_name_and_unidentified_pictures():
+    """A bare WMF is converted by its content, whatever its extension; a picture Pillow cannot identify keeps the
+    extension of its package part instead of stopping the ingest."""
+    import struct
+    from types import SimpleNamespace
+
+    from PIL import UnidentifiedImageError
+    from sglib import images, ingest
+
+    dib = struct.pack("<IiiHHIIiiII", 40, 1, 1, 1, 24, 0, 4, 0, 0, 0, 0) + b"\x00\x00\xff\x00"   # 1x1 red pixel
+    params = b"\x00\x00" * 11
+    record = struct.pack("<IH", (6 + len(params) + len(dib)) // 2, 0x0F43) + params + dib   # META_STRETCHDIB
+    eof = struct.pack("<IH", 3, 0)
+    header = struct.pack("<HHHIHIH", 1, 9, 0x0300, (18 + len(record) + len(eof)) // 2, 0, len(record) // 2, 0)
+    image, fmt = images.to_png(header + record + eof, "emf")
+    assert fmt == "wmf" and image.size == (1, 1) and image.getpixel((0, 0)) == (255, 0, 0)
+
+    class Unidentified:
+        blob = b"\x01\x00\x09\x00"
+
+        @property
+        def ext(self):
+            raise UnidentifiedImageError("cannot identify image file")
+
+    part = SimpleNamespace(partname=SimpleNamespace(ext="EMF"))
+    shape = SimpleNamespace(image=Unidentified(), _element=SimpleNamespace(blip_rId="rId2"),
+                            part=SimpleNamespace(related_part=lambda rid: part))
+    assert ingest._picture(shape) == (b"\x01\x00\x09\x00", "emf")
