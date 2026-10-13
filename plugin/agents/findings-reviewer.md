@@ -32,7 +32,8 @@ with `cd` is refused too.
 1. **Source.** Open the downloaded text of `primary_source`
    (`<store>/index.json` maps each URL to its `text_file`) and confirm that it
    supports `statement` and `date`. If the source was not downloaded, fetch it
-   yourself with `<sg> fetch`.
+   yourself with `<sg> fetch <url> --store <store>` (if your Bash tool has an
+   `allowed_domains` parameter, declare the host in it).
 2. **Maturity.** Confirm the maturity level from the source or the project's
    own release information. "widely_adopted" needs two independent signals that
    do not come from the vendor.

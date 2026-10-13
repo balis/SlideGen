@@ -56,8 +56,8 @@ anything the slides already cover adequately.
 
 - `primary_source`: a source record (same format as the researcher's) for a
   specification, release notes, official documentation, or the paper itself.
-  Download it with `<sg> fetch <url> --store <store>` (declare the host in
-  `allowed_domains` when sandboxed) and copy `quote` verbatim from the
+  Download it with `<sg> fetch <url> --store <store>` (if your Bash tool has an
+  `allowed_domains` parameter, declare the host in it) and copy `quote` verbatim from the
   downloaded text. Do not quote WebFetch answers.
 - `date`: when the development happened (release, specification version,
   publication).

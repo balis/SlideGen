@@ -31,8 +31,8 @@ with `cd` is refused too.
 ## For each source
 
 1. Find it, then download one recent item (a post, a proposal, a release-notes
-   entry, a report page) with `<sg> fetch <url> --store <store>` (declare the
-   host in the Bash call's `allowed_domains`). The item must be dated inside the
+   entry, a report page) with `<sg> fetch <url> --store <store>` (if your Bash
+   tool has an `allowed_domains` parameter, declare the host in it). The item must be dated inside the
    current window. Copy a verbatim quote of at least 10 characters from the
    downloaded text that identifies the item (its title is best); it is matched
    mechanically.

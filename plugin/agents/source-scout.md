@@ -38,8 +38,8 @@ with `cd` is refused too.
    sources, more if your route surfaces more strong ones. Do not pad a family
    from memory; an empty family is an acceptable result for a route.
 2. For every nomination, download the page that names it with
-   `<sg> fetch <url> --store <store>` (in a sandboxed session, declare the host
-   in the Bash call's `allowed_domains`) and use the `fetched` id it prints.
+   `<sg> fetch <url> --store <store>` (if your Bash tool has an
+   `allowed_domains` parameter, declare the host in it) and use the `fetched` id it prints.
    One list page can support many nominations. Read the downloaded text
    (`<store>/<text_file>`) and copy a verbatim quote of at least 10 characters
    that names the source. The quote is matched mechanically against the

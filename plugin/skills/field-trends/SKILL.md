@@ -53,8 +53,8 @@ Two collections:
   topics each, about seven cited items per topic. Keep a family's sources in one
   batch.
 - **Downloads.** Collectors run for minutes to an hour; start them in the
-  background with every API host in `allowed_domains`, and run them again if they
-  stop: they resume.
+  background, and run them again if they stop: they resume. If the Bash tool
+  has an `allowed_domains` parameter, list the collector's API hosts in it.
 - **Gap rounds.** Each check that finds a gap (short family, uncovered anchor,
   missing source named by a reviewer, broken file) goes back to the agent that
   can close it, once, with the gap named. A second failure goes to the author.

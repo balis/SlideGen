@@ -34,7 +34,8 @@ with `cd` is refused too.
 
 1. Read the stored pages of both editions. If the results are in charts,
    downloads or separate pages that were not stored, download them with
-   `<sg> fetch <url> --store <store>` (declare the host in `allowed_domains`); for
+   `<sg> fetch <url> --store <store>` (if your Bash tool has an
+   `allowed_domains` parameter, declare the host in it); for
    a chart, store the page or data file that holds its numbers.
 2. Extract, per edition, every answer with its percentage of respondents, from
    the same question and the same population (for example all respondents, not
