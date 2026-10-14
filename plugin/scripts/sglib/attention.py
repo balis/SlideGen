@@ -12,14 +12,20 @@ one, because surveys, job postings and downloads measure different things.
 """
 from __future__ import annotations
 
+import email.header
+import email.utils
+import gzip
 import html
 import json
+import mailbox
 import math
 import re
 import statistics
+import tempfile
 import time
 from collections import defaultdict
 from datetime import date, datetime, timezone
+from pathlib import Path
 
 import requests
 
@@ -30,8 +36,9 @@ from .util import SgError, load_json, today, write_json
 
 Z = 1.96
 UA = {"User-Agent": "slidegen-field-trends/1.0 (research; contact via repository)"}
-KIND = {"hn_stories": "posts", "reddit": "posts", "stackexchange_tags": "questions", "hn_hiring": "job_postings",
-        "itjobswatch": "job_ads", "pypi": "downloads", "stackoverflow_survey": "survey", "survey_table": "survey"}
+KIND = {"hn_stories": "posts", "reddit": "posts", "discourse": "topics", "mailman3": "threads",
+        "stackexchange_tags": "questions", "hn_hiring": "job_postings", "itjobswatch": "job_ads", "pypi": "downloads",
+        "stackoverflow_survey": "survey", "survey_table": "survey"}
 
 
 def _ts(day: str, end: bool = False) -> int:
@@ -138,6 +145,83 @@ def _collect_reddit(cfg: dict, out, params: dict) -> dict:
                 with weeks_file.open("a") as w:
                     w.write(week + "\n")
         counts[edition] = len(seen)
+    return counts
+
+
+def _collect_discourse(cfg: dict, out, params: dict) -> dict:
+    """Titles of the topics created in each window on one Discourse forum. The latest-topics list is ordered by last
+    activity, so a topic created inside the windows appears before the first unpinned topic whose last activity
+    predates them."""
+    base = (params.get("url") or "").rstrip("/")
+    if not base:
+        raise SgError("a discourse collector needs `url`, the forum's base URL")
+    windows = _windows(cfg)
+    if all((out / f"{ed}.jsonl").exists() for ed in windows):
+        return {ed: sum(1 for _ in (out / f"{ed}.jsonl").open(encoding="utf-8")) for ed in windows}
+    first = min(start for start, _ in windows.values())
+    topics, page = {}, 0
+    while True:
+        listing = _get(f"{base}/latest.json", {"no_definitions": "true", "page": page}, pause=1.0)["topic_list"]
+        for t in listing["topics"]:
+            topics[t["id"]] = t
+        recent = [t for t in listing["topics"] if not t.get("pinned") and t["bumped_at"][:10] >= first]
+        if not recent or not listing.get("more_topics_url"):
+            break
+        page += 1
+    counts = {}
+    for ed, (start, end) in windows.items():
+        rows = sorted((t for t in topics.values() if start <= t["created_at"][:10] <= end),
+                      key=lambda t: t["created_at"])
+        with (out / f"{ed}.jsonl").open("w", encoding="utf-8") as f:
+            for t in rows:
+                f.write(json.dumps({"id": t["id"], "created_at": t["created_at"], "title": t["title"]},
+                                   ensure_ascii=False) + "\n")
+        counts[ed] = len(rows)
+    return counts
+
+
+def _mail_subject(message) -> str:
+    """A message's subject, decoded and unfolded, without the list's bracketed tag."""
+    subject = str(email.header.make_header(email.header.decode_header(message["Subject"] or "")))
+    return re.sub(r"^\s*\[[^\]]*\]\s*", "", re.sub(r"\s+", " ", subject)).strip()
+
+
+def _collect_mailman3(cfg: dict, out, params: dict) -> dict:
+    """The thread-starting messages of one Mailman 3 list in each window, from HyperKitty's mbox export. A message
+    starts a thread when it answers no other message; replies repeat the subject, so they are not counted."""
+    archive = (params.get("archive") or "").rstrip("/")
+    if not re.search(r"/list/[^/@]+@[^/]+$", archive):
+        raise SgError("a mailman3 collector needs `archive`, the HyperKitty list URL ending in /list/<name>@<host>")
+    name = archive.rsplit("/", 1)[1].split("@")[0]
+    counts = {}
+    for ed, (start, end) in _windows(cfg).items():
+        path = out / f"{ed}.jsonl"
+        if not path.exists():
+            # the export's end date is exclusive
+            after = date.fromordinal(date.fromisoformat(end).toordinal() + 1).isoformat()
+            try:
+                r = requests.get(f"{archive}/export/{name}.mbox.gz", params={"start": start, "end": after},
+                                 headers=UA, timeout=300)
+            except requests.RequestException as e:
+                raise SgError(f"mbox export of {name} failed ({type(e).__name__}); run the collector again") from e
+            if r.status_code != 200:
+                raise SgError(f"mbox export of {name} answered {r.status_code}; run the collector again")
+            with tempfile.TemporaryDirectory() as tmp:
+                box_path = Path(tmp) / "list.mbox"
+                box_path.write_bytes(gzip.decompress(r.content))
+                rows = []
+                for m in mailbox.mbox(str(box_path)):
+                    sent = email.utils.parsedate_to_datetime(m["Date"]) if m["Date"] else None
+                    day = sent.astimezone(timezone.utc).date().isoformat() if sent and sent.tzinfo else None
+                    subject = _mail_subject(m)
+                    if m["In-Reply-To"] or m["References"] or re.match(r"(re|aw|sv)\s*:", subject, re.I):
+                        continue
+                    if day and start <= day <= end:
+                        rows.append({"id": (m["Message-ID"] or "").strip(), "date": day, "title": subject})
+            with path.open("w", encoding="utf-8") as f:
+                for row in rows:
+                    f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        counts[ed] = sum(1 for _ in path.open(encoding="utf-8"))
     return counts
 
 
@@ -273,7 +357,8 @@ def _collect_nothing(cfg: dict, out, params: dict) -> dict:
     return {"note": "this source is read from stored pages or an extracted table; nothing to download"}
 
 
-COLLECTORS = {"hn_stories": _collect_hn_stories, "reddit": _collect_reddit, "hn_hiring": _collect_hiring,
+COLLECTORS = {"hn_stories": _collect_hn_stories, "reddit": _collect_reddit, "discourse": _collect_discourse,
+              "mailman3": _collect_mailman3, "hn_hiring": _collect_hiring,
               "stackexchange_tags": _collect_se_tags, "pypi": _collect_pypi, "itjobswatch": _collect_itjw,
               "stackoverflow_survey": _collect_nothing, "survey_table": _collect_nothing}
 
@@ -394,7 +479,8 @@ def _count_hn_stories(cfg, key, col, topics):
     return _local_counts(texts, compiled)
 
 
-def _count_reddit(cfg, key, col, topics):
+def _count_titles(cfg, key, col, topics):
+    """Posts, topics or threads by title (reddit, discourse, mailman3), matched on every alias."""
     texts = {ed: [clean(json.loads(line)["title"]) for line in (_raw(cfg, key) / f"{ed}.jsonl").open(encoding="utf-8")]
              for ed in ("current", "previous")}
     return _local_counts(texts, compile_topics(topics))
@@ -419,7 +505,8 @@ def _count_se_tags(cfg, key, col, topics):
     return n, k
 
 
-COUNTERS = {"hn_stories": _count_hn_stories, "reddit": _count_reddit, "hn_hiring": _count_hiring,
+COUNTERS = {"hn_stories": _count_hn_stories, "reddit": _count_titles, "discourse": _count_titles,
+            "mailman3": _count_titles, "hn_hiring": _count_hiring,
             "stackexchange_tags": _count_se_tags}
 
 

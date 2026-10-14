@@ -76,7 +76,9 @@ with `cd` is refused too.
    the API response and give its id), and count items from the response.
    For every forum or adoption source, record in `collector` how stage 2 will
    measure it, with one of the known types and its parameters: `hn_stories`
-   (`min_points`), `reddit` (`subreddit`), `stackexchange_tags` (`site`,
+   (`min_points`), `reddit` (`subreddit`), `discourse` (`url`: the forum's
+   base URL), `mailman3` (`archive`: the HyperKitty list URL, ending in
+   `/list/<name>@<host>`), `stackexchange_tags` (`site`,
    `tags`: a neutral set of the field's main tags), `hn_hiring`, `itjobswatch`,
    `pypi` (`packages`: a neutral set of the field's main packages),
    `stackoverflow_survey`, or `survey_table` (a survey whose results table

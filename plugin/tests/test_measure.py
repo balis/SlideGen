@@ -160,6 +160,75 @@ def test_job_board_failures_are_retried(tmp_path, monkeypatch):
     assert replies == []
 
 
+def test_discourse_and_mailman_collectors(tmp_path, monkeypatch):
+    """A Discourse forum yields the topics created in each window, read past pinned topics until activity predates
+    the windows; a Mailman 3 list yields the messages that start a thread. Both are counted by title."""
+    import gzip
+
+    from sglib import attention
+
+    cfg = {"_ws": tmp_path, "windows": {"current": ["2025-10-09", "2026-10-09"],
+                                        "previous": ["2024-10-09", "2025-10-08"]}}
+    topic = lambda i, title, created, bumped, pinned=False: {"id": i, "title": title, "created_at": created + "T10:00:00Z",
+                                                             "bumped_at": bumped + "T10:00:00Z", "pinned": pinned}
+    pages = [[topic(1, "Read the rules", "2019-10-28", "2024-07-30", pinned=True),
+              topic(2, "Kubernetes scheduler and GPUs", "2026-01-05", "2026-02-01"),
+              topic(3, "Helm chart upgrade fails", "2025-03-01", "2026-01-10")],
+             [topic(4, "Kubernetes ingress timeouts", "2024-12-01", "2025-01-01"),
+              topic(5, "Old question", "2023-05-01", "2024-01-01")],
+             [topic(6, "Older question", "2022-05-01", "2023-01-01")]]
+    requested = []
+
+    def fake_get(url, params=None, pause=1.0, tries=8):
+        requested.append(params["page"])
+        return {"topic_list": {"topics": pages[params["page"]], "more_topics_url": "/latest?page=next"}}
+
+    monkeypatch.setattr(attention, "_get", fake_get)
+    out = tmp_path / "queries" / "raw" / "discuss-kubernetes"
+    out.mkdir(parents=True)
+    assert attention._collect_discourse(cfg, out, {"url": "https://discuss.example.org/"}) == {"current": 1, "previous": 2}
+    assert requested == [0, 1, 2]
+    assert [json.loads(line)["title"] for line in (out / "previous.jsonl").open()] == [
+        "Kubernetes ingress timeouts", "Helm chart upgrade fails"]
+    assert attention._collect_discourse(cfg, out, {"url": "https://discuss.example.org"}) == {"current": 1, "previous": 2}
+    assert requested == [0, 1, 2]   # both windows are on disk: nothing is downloaded again
+
+    mbox = "".join(f"From list@example.org Mon Jan  5 10:00:00 2026\n{headers}\n\nbody\n\n" for headers in [
+        "Subject: [slurm-users] GPU sharing with MPS\nDate: Mon, 05 Jan 2026 10:00:00 +0000\nMessage-ID: <1@x>",
+        "Subject: [slurm-users] Re: GPU sharing with MPS\nDate: Mon, 05 Jan 2026 12:00:00 +0000\nMessage-ID: <2@x>\n"
+        "In-Reply-To: <1@x>",
+        "Subject: =?utf-8?q?=5Bslurm-users=5D_Accounting_with_Slurm?=\nDate: Tue, 03 Dec 2024 09:00:00 +0100\n"
+        "Message-ID: <3@x>",
+        "Subject: [slurm-users] Slurm versions 26.05.4 and 25.11.8 are now\n available\n"
+        "Date: Wed, 02 Sep 2026 21:38:59 +0000\nMessage-ID: <4@x>"])
+
+    class Reply:
+        status_code, content = 200, gzip.compress(mbox.encode())
+
+    exports = []
+
+    def fake_requests_get(url, params=None, headers=None, timeout=None):
+        exports.append((url, params))
+        return Reply()
+
+    monkeypatch.setattr(attention.requests, "get", fake_requests_get)
+    out = tmp_path / "queries" / "raw" / "slurm-users"
+    out.mkdir(parents=True)
+    archive = "https://lists.example.org/mailman3/hyperkitty/list/slurm-users@lists.example.org"
+    assert attention._collect_mailman3(cfg, out, {"archive": archive}) == {"current": 2, "previous": 1}
+    assert exports[0] == (archive + "/export/slurm-users.mbox.gz", {"start": "2025-10-09", "end": "2026-10-10"})
+    assert [json.loads(line)["title"] for line in (out / "current.jsonl").open()] == [
+        "GPU sharing with MPS", "Slurm versions 26.05.4 and 25.11.8 are now available"]
+
+    topics = [{"id": "slurm", "name": "Slurm", "qualified": "Slurm", "aliases": ["Slurm"], "kind": "tool"},
+              {"id": "kubernetes", "name": "Kubernetes", "qualified": "Kubernetes", "aliases": ["Kubernetes"],
+               "kind": "platform"}]
+    n, k = attention.COUNTERS["mailman3"](cfg, "slurm-users", {"type": "mailman3"}, topics)
+    assert n == {"current": 2, "previous": 1} and k["slurm"] == {"current": 1, "previous": 1}
+    n, k = attention.COUNTERS["discourse"](cfg, "discuss-kubernetes", {"type": "discourse"}, topics)
+    assert n == {"current": 1, "previous": 2} and k["kubernetes"] == {"current": 1, "previous": 1}
+
+
 def test_collectors_by_type(tmp_path):
     """Forum and adoption sources are measured by collector type, configured in the manifest or the verification."""
     from sglib.attention import COUNTERS, _adoption, collector_of

@@ -53,7 +53,8 @@ with `cd` is refused too.
    for forums, 5 for adoption; an `item_kind` and a short `label` per family.
 4. **Collectors.** For forum and adoption sources you are confident exist, add a
    `collectors` entry with a known type: `hn_stories` (Hacker News, for
-   computing fields), `reddit` (`subreddit`), `stackexchange_tags` (`site`,
+   computing fields), `reddit` (`subreddit`), `discourse` (`url`, a Discourse
+   forum), `mailman3` (`archive`, a Mailman 3 list), `stackexchange_tags` (`site`,
    `tags`), `hn_hiring`, `itjobswatch` (UK IT job ads), `pypi` (`packages`),
    `stackoverflow_survey` (the databases question of that survey only),
    `survey_table` (any other survey question; a survey-extractor writes the

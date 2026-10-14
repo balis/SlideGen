@@ -87,6 +87,8 @@
                 "enum": [
                   "hn_stories",
                   "reddit",
+                  "discourse",
+                  "mailman3",
                   "stackexchange_tags",
                   "hn_hiring",
                   "pypi",
@@ -97,6 +99,14 @@
               },
               "subreddit": {
                 "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "description": "discourse: the forum's base URL"
+              },
+              "archive": {
+                "type": "string",
+                "description": "mailman3: the HyperKitty list URL, ending in /list/<name>@<host>"
               },
               "site": {
                 "type": "string"
