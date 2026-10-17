@@ -38,7 +38,8 @@ Z = 1.96
 UA = {"User-Agent": "slidegen-field-trends/1.0 (research; contact via repository)"}
 KIND = {"hn_stories": "posts", "reddit": "posts", "discourse": "topics", "mailman3": "threads",
         "stackexchange_tags": "questions", "hn_hiring": "job_postings", "itjobswatch": "job_ads", "pypi": "downloads",
-        "stackoverflow_survey": "survey", "survey_table": "survey"}
+        "stackoverflow_survey": "survey", "survey_table": "survey", "top500_list": "survey"}
+SHARE_TABLES = ("survey_table", "top500_list")   # adoption read from a table in queries/<key>.json
 
 
 def _ts(day: str, end: bool = False) -> int:
@@ -353,6 +354,60 @@ def _collect_itjw(cfg: dict, out, params: dict, key: str = "it-jobs-watch") -> d
     return {"topics": len(result), "topics_without_page": missing}
 
 
+def _top500_pages(cfg: dict, params: dict, row: dict | None) -> dict:
+    """{edition: [fetched id]} of the stored list pages: the collector's `pages`, else the verification record's
+    page and its more_pages."""
+    if params.get("pages"):
+        return {ed: list(params["pages"][ed]) for ed in ("current", "previous")}
+    v = (row or {}).get("verified") or {}
+    if not all(v.get(ed, {}).get("fetched") for ed in ("current", "previous")):
+        raise SgError("a top500_list collector needs `pages` ({current: [ids], previous: [ids]}) or a verification "
+                      "record with the fetched list pages")
+    return {ed: [v[ed]["fetched"]] + [p["fetched"] for p in v[ed].get("more_pages", [])]
+            for ed in ("current", "previous")}
+
+
+def _top500_count(cfg: dict, pages: dict) -> dict:
+    from .top500 import count
+    raw = cfg["_store"] / "raw"
+    missing = [i for ids in pages.values() for i in ids if not (raw / f"{i}.html").exists()]
+    if missing:
+        raise SgError(f"list pages not in the store: {missing}")
+    return {ed: count([(raw / f"{i}.html").read_text(encoding="utf-8") for i in ids]) for ed, ids in pages.items()}
+
+
+def _top500_table(key: str, pages: dict, counts: dict, row: dict | None) -> dict:
+    """The counts as a survey table. A list counts every system, so an answer seen in one edition only has 0
+    systems in the other, and that 0 is written."""
+    from .top500 import ANY_ACCELERATOR
+    names = sorted(set(counts["current"]["counts"]) | set(counts["previous"]["counts"]),
+                   key=lambda n: (-counts["current"]["counts"].get(n, 0), n))
+    v = (row or {}).get("verified") or {}
+    editions = {}
+    for ed, c in counts.items():
+        k = c["counts"]
+        editions[ed] = {"fetched": pages[ed], **({"period": v[ed]["period"]} if v.get(ed, {}).get("period") else {}),
+                        "systems": c["systems"], "unmapped": c["unmapped"],
+                        "rows": [{"name": n, "percent": round(100 * k.get(n, 0) / c["systems"], 1),
+                                  "count": k.get(n, 0)} for n in names]}
+    return {"source": key, "question": "Which processor, accelerator and interconnect does each listed system use?",
+            "population": f"the systems of the list; '{ANY_ACCELERATOR}' counts systems with any accelerator; a "
+                          "system with two models or families counts once for each",
+            "editions": editions}
+
+
+def _collect_top500(cfg: dict, out, params: dict, key: str, row: dict | None) -> dict:
+    """Systems per processor family, accelerator model and interconnect family in each edition's stored list
+    pages; the table goes to queries/<key>.json and `sg trends survey-check` recounts it."""
+    pages = _top500_pages(cfg, params, row)
+    counts = _top500_count(cfg, pages)
+    if any(c["systems"] == 0 for c in counts.values()):
+        raise SgError("no systems found in the stored list pages; are they TOP500 list pages?")
+    write_json(cfg["_ws"] / "queries" / f"{key}.json", _top500_table(key, pages, counts, row))
+    return {ed: {"systems": c["systems"], "answers": len(c["counts"]), "unmapped": c["unmapped"]}
+            for ed, c in counts.items()}
+
+
 def _collect_nothing(cfg: dict, out, params: dict) -> dict:
     return {"note": "this source is read from stored pages or an extracted table; nothing to download"}
 
@@ -360,6 +415,7 @@ def _collect_nothing(cfg: dict, out, params: dict) -> dict:
 COLLECTORS = {"hn_stories": _collect_hn_stories, "reddit": _collect_reddit, "discourse": _collect_discourse,
               "mailman3": _collect_mailman3, "hn_hiring": _collect_hiring,
               "stackexchange_tags": _collect_se_tags, "pypi": _collect_pypi, "itjobswatch": _collect_itjw,
+              "top500_list": _collect_top500,
               "stackoverflow_survey": _collect_nothing, "survey_table": _collect_nothing}
 
 
@@ -373,7 +429,8 @@ def collect(args) -> dict:
     out = cfg["_ws"] / "queries" / "raw" / args.source
     out.mkdir(parents=True, exist_ok=True)
     fn = COLLECTORS[col["type"]]
-    extra = {"key": args.source} if col["type"] == "itjobswatch" else {}
+    extra = {"key": args.source} if col["type"] == "itjobswatch" else \
+        {"key": args.source, "row": rows.get(args.source)} if col["type"] == "top500_list" else {}
     return {"ok": True, "source": args.source, "type": col["type"], "collected": fn(cfg, out, col, **extra)}
 
 
@@ -511,8 +568,8 @@ COUNTERS = {"hn_stories": _count_hn_stories, "reddit": _count_titles, "discourse
 
 
 def _survey_shares(cfg, key, col, row) -> tuple[dict, dict]:
-    """Share of respondents per answer in the current and previous edition."""
-    if col["type"] == "survey_table":   # extracted by a survey-extractor, checked by sg trends survey-check
+    """Share of respondents (or listed systems) per answer in the current and previous edition."""
+    if col["type"] in SHARE_TABLES:   # written by a survey-extractor or the top500_list collector; sg trends survey-check
         table = load_json(cfg["_ws"] / "queries" / f"{key}.json", "trend_survey_table")["editions"]
         return ({r["name"]: r["percent"] for r in table[ed]["rows"]} for ed in ("current", "previous"))
     texts = _texts(cfg["_store"])   # stackoverflow_survey: the survey's 'Full data' page and an extracted chart
@@ -525,15 +582,19 @@ def _survey_shares(cfg, key, col, row) -> tuple[dict, dict]:
 
 
 def _survey(cfg, key, col, row, topics):
+    """A topic's share is the sum of its answers' shares. An answer printed in one edition only was added to or
+    dropped from the survey, so it is skipped rather than counted as 0% in the other edition."""
     current, previous = _survey_shares(cfg, key, col, row)
     out = {}
     for t in topics:
-        names = [x for x in t.get("survey_names", []) if x in current or x in previous]
+        names = [x for x in t.get("survey_names", []) if x in current and x in previous]
+        skipped = [x for x in t.get("survey_names", []) if (x in current) != (x in previous)]
         if names:
-            c, p = sum(current.get(x, 0) for x in names), sum(previous.get(x, 0) for x in names)
+            c, p = round(sum(current[x] for x in names), 1), round(sum(previous[x] for x in names), 1)
             delta = c - p
             out[t["id"]] = {"current": c, "previous": p, "delta_pp": round(delta, 1),
-                            "direction": "up" if delta >= 1 else "down" if delta <= -1 else "flat"}
+                            "direction": "up" if delta >= 1 else "down" if delta <= -1 else "flat",
+                            **({"skipped": skipped} if skipped else {})}
     return out
 
 
@@ -571,7 +632,7 @@ def _pypi(cfg, key, col, topics):
 def _adoption(cfg, key, col, row, topics, counts) -> dict:
     """One adoption source's result per topic."""
     kind = KIND[col["type"]]
-    if col["type"] in ("stackoverflow_survey", "survey_table"):
+    if col["type"] in ("stackoverflow_survey",) + SHARE_TABLES:
         values = _survey(cfg, key, col, row, topics)
     elif col["type"] == "pypi":
         values = _pypi(cfg, key, col, topics)
@@ -758,11 +819,49 @@ def _number_forms(x: float) -> set[str]:
     return {text, text.replace(".", ","), str(round(x))}
 
 
+def _top500_check(cfg: dict, key: str, col: dict, row: dict | None, table: dict) -> dict:
+    """Recount the stored list pages and compare with the table: same pages, every page full, every rank once,
+    every system with a processor and an interconnect, and the same count for every answer."""
+    problems, stats = [], {}
+    pages = _top500_pages(cfg, col, row)
+    counts = _top500_count(cfg, pages)
+    expected = _top500_table(key, pages, counts, row)
+    per_page = col.get("systems_per_page", 100)
+    for ed, c in counts.items():
+        e = table["editions"][ed]
+        if e["fetched"] != pages[ed]:
+            problems.append(f"{ed}: the table was counted on pages {e['fetched']}, the source names {pages[ed]}")
+        short = [(pid, n) for pid, n in zip(pages[ed], c["per_page"]) if n != per_page]
+        if short:
+            problems.append(f"{ed}: pages without {per_page} systems: {short}")
+        if c["ranks"] != list(range(1, c["systems"] + 1)):
+            problems.append(f"{ed}: ranks are not 1 to {c['systems']}, each once")
+        for what in ("processor", "interconnect"):
+            if c[f"without_{what}"]:
+                problems.append(f"{ed}: no {what} recognised for ranks {c[f'without_{what}']}")
+        if c["unknown"]:
+            problems.append(f"{ed}: parts no rule classifies: {c['unknown']}")
+        got = {r["name"]: r.get("count") for r in e["rows"]}
+        want = {r["name"]: r["count"] for r in expected["editions"][ed]["rows"]}
+        diff = sorted(n for n in set(got) | set(want) if got.get(n) != want.get(n))
+        if diff:
+            problems.append(f"{ed}: {len(diff)} answers differ from a recount, e.g. "
+                            f"{[(n, got.get(n), want.get(n)) for n in diff[:3]]}; run `sg trends collect` again")
+        stats[ed] = {"systems": c["systems"], "answers": len(want), "differ": len(diff), "unmapped": c["unmapped"]}
+    return {"ok": not problems, "source": key, "editions": stats, "problems": problems}
+
+
 def survey_check(args) -> dict:
-    """Check an extracted survey table: every answer and its percentage appear in the edition's stored pages."""
+    """Check a survey table: every answer and its percentage appear in the edition's stored pages, or, for a
+    top500_list source, a recount of the stored list pages gives the same table."""
     cfg = _manifest(args.manifest)
     path = cfg["_ws"] / "queries" / f"{args.source}.json"
     table = load_json(path, "trend_survey_table")
+    panel = cfg["_ws"] / "sources_panel.json"
+    row = {r["key"]: r for r in load_json(panel)["sources"]}.get(args.source) if panel.exists() else None
+    col = collector_of(cfg, row, args.source) or {}
+    if col.get("type") == "top500_list":
+        return _top500_check(cfg, args.source, col, row, table)
     texts = _texts(cfg["_store"])
     problems, stats = [], {}
     for ed, e in table["editions"].items():

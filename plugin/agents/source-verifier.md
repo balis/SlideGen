@@ -82,8 +82,10 @@ with `cd` is refused too.
    `/list/<name>@<host>`), `stackexchange_tags` (`site`,
    `tags`: a neutral set of the field's main tags), `hn_hiring`, `itjobswatch`,
    `pypi` (`packages`: a neutral set of the field's main packages),
-   `stackoverflow_survey`, or `survey_table` (a survey whose results table
-   stage 2 reads from an extracted file). If none fits, say so in
+   `stackoverflow_survey`, `survey_table` (a survey whose results table
+   stage 2 reads from an extracted file), or `top500_list` (the TOP500 list:
+   record every list page of each edition in `fetched` and `more_pages`;
+   stage 2 counts the systems in them). If none fits, say so in
    `access_note`; the source cannot be measured until a collector exists.
 5. `scope_fit`: sample about 20 items of the current edition and give the share
    that falls within `scope`; `scope_note` says how (for example

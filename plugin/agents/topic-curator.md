@@ -77,7 +77,10 @@ own terms and `scope`.
   the one that best counts installs first (a meta-package before its
   dependencies).
 - `tags`: tags from a `stackexchange_tags` collector's set.
-- `survey_names`: answer names exactly as in the survey results.
+- `survey_names`: answer names exactly as in the survey results; the topic's
+  share is their sum. A TOP500 table names accelerators by model ("NVIDIA
+  H100", "AMD Instinct MI300A") and processors and interconnects by family
+  ("Intel Xeon", "InfiniBand"); list every model that belongs to the topic.
 - `job_skills`: the skill names a job board would use for the topic (for
   example "Apache Spark", "Slurm", "Kubernetes"); give the most common form
   first. Pages that do not exist are skipped.

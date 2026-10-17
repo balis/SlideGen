@@ -144,10 +144,11 @@
               "hn_hiring",
               "pypi",
               "itjobswatch",
+              "top500_list",
               "stackoverflow_survey",
               "survey_table"
             ],
-            "description": "stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table)"
+            "description": "stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table); top500_list counts systems per processor, accelerator and interconnect in stored TOP500 list pages"
           },
           "subreddit": {
             "type": "string"
@@ -181,6 +182,14 @@
           },
           "label": {
             "type": "string"
+          },
+          "pages": {
+            "type": "object",
+            "description": "top500_list: {current: [fetched ids], previous: [fetched ids]} of the list pages; default: the verification record's page and more_pages"
+          },
+          "systems_per_page": {
+            "type": "integer",
+            "description": "top500_list: systems on a full list page (default 100)"
           }
         }
       },

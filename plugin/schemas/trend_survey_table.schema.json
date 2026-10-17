@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:slidegen:trend_survey_table",
-  "title": "One survey question's results in two editions (survey-extractor output)",
+  "title": "One survey question's results in two editions (survey-extractor or top500_list collector output)",
   "type": "object",
   "required": [
     "source",
@@ -67,9 +67,26 @@
                     "type": "number",
                     "minimum": 0,
                     "maximum": 100
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "top500_list: systems with this answer"
                   }
                 }
               }
+            },
+            "systems": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "top500_list: systems counted in the edition"
+            },
+            "unmapped": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "description": "top500_list: description parts no family rule names, kept as their own answer, with their number of systems"
             }
           }
         },
@@ -111,9 +128,26 @@
                     "type": "number",
                     "minimum": 0,
                     "maximum": 100
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "top500_list: systems with this answer"
                   }
                 }
               }
+            },
+            "systems": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "top500_list: systems counted in the edition"
+            },
+            "unmapped": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "description": "top500_list: description parts no family rule names, kept as their own answer, with their number of systems"
             }
           }
         }
