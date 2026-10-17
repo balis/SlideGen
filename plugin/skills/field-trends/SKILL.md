@@ -45,9 +45,10 @@ Two collections:
 ## Running it well
 
 - **Models.** Scouts, verifiers, harvesters, discovery scouts, evidence
-  researchers, the trend mapper: the mid-size model. Item classifiers: the
-  small model, with a second classifier on the mid-size model for the check
-  samples. Field scoper, topic curator, reviewers: the largest model.
+  researchers, the trend mapper: the mid-size model. Item classifiers: start
+  them without a model so they run on the model their agent file names, and run
+  the second classifier for the check samples on the mid-size model. Field
+  scoper, topic curator, reviewers: the largest model.
 - **Batches.** Verifiers about 8 sources each; harvesters one per family;
   classifiers three to six batches of 300 items each; evidence researchers six
   topics each, about seven cited items per topic. Keep a family's sources in one
