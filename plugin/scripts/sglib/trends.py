@@ -11,6 +11,7 @@ Layout, relative to the directory of the trends manifest (trends.yaml):
 from __future__ import annotations
 
 import calendar
+import html
 import math
 import re
 from collections import defaultdict
@@ -20,7 +21,8 @@ from urllib.parse import unquote, urlparse
 
 import yaml
 
-from .sources import entries_by_id, match_quote
+from .shares import page_rows, paired
+from .sources import _normalize, entries_by_id, match_quote
 from .util import SgError, check_schema, load_json, today, write_json
 
 MIN_EVIDENCE_QUOTE = 10
@@ -73,6 +75,25 @@ def page_origin(entries: dict, content_id: str | None, url: str | None = None) -
     if url and _plain_url(url) not in {_plain_url(e["url"]), _plain_url(e.get("final_url") or e["url"])}:
         return f"page {content_id} was downloaded from {e['url']}, not from {url}"
     return None
+
+
+def _plain(text: str) -> str:
+    """Text for finding a title: entities and percent-encoding decoded, hyphens and slashes read as spaces."""
+    return re.sub(r"\s+", " ", _normalize(re.sub(r"[-_/+]", " ", unquote(html.unescape(text)))))
+
+
+def _sample_unseen(store: Path, entries: dict, edition: dict) -> list[str]:
+    """Sample rows of a verified edition that its stored pages do not print: an answer with its percentage on one
+    row (sglib.shares), or a title in the text. A source whose sample fails cannot be measured from these pages."""
+    sample = edition.get("sample") or []
+    pages = [entries[f] for f in _edition_pages(edition) if f in entries]
+    if not sample or not pages:
+        return []
+    rows = [r for p in pages for r in page_rows(store, p)]
+    text = " ".join(_plain((store / p["text_file"]).read_text(encoding="utf-8")) for p in pages)
+    names = [s["name"] for s in sample]
+    return [s["name"] + (f" {s['percent']}%" if "percent" in s else "") for s in sample
+            if not (paired(rows, s["name"], s["percent"], names) if "percent" in s else _plain(s["name"]) in text)]
 
 
 def _quote_ok(texts: dict, content_id: str | None, quote: str) -> bool:
@@ -172,7 +193,7 @@ def _window_ok(period: str | None, window: list[str]) -> bool:
 def sources_check(args) -> dict:
     """Join verification results with nominations, apply eligibility rules, select the panel."""
     cfg = _manifest(args.manifest)
-    ws, texts = cfg["_ws"], _texts(cfg["_store"])
+    ws, texts, entries = cfg["_ws"], _texts(cfg["_store"]), _entries(cfg["_store"])
     cands = {c["key"]: c for c in load_json(ws / "source_candidates.json")["candidates"]}
     verified = {}   # a later batch file (v2 after v1, v10 after v9) replaces an earlier record of the same source
     for path in sorted((ws / "sources").glob("verified_*.json"), key=_natural):
@@ -211,6 +232,10 @@ def sources_check(args) -> dict:
                     reasons.append(f"{edition} edition could not be downloaded")
                 if any(m["fetched"] is not None and m["fetched"] not in texts for m in e.get("more_pages", [])):
                     reasons.append(f"{edition} edition names a further page that is not in the store")
+                unseen = _sample_unseen(cfg["_store"], entries, e)
+                if unseen:
+                    reasons.append(f"{edition} edition is not measurable from its stored pages: sample rows "
+                                   f"{unseen} are not printed there")
                 need = fam.get("min_items", 0)
                 if exact is not None:
                     measured = len(exact[edition]["measured"])
@@ -284,11 +309,14 @@ def sources_check(args) -> dict:
     no_own = [r["key"] for r in selected if (r["vendor"] or r["single_technology"]) and not own.get(r["key"])]
     no_collector = [r["key"] for r in selected if cfg["families"][r["family"]]["role"] in ("forum", "adoption")
                     and not ((cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector"))]
-    entries, not_downloaded = _entries(cfg["_store"]), {}
+    not_downloaded, no_sample = {}, []
     for r in rows:
         if not (r.get("selected") or r.get("pending")):
             continue
         col = (cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector") or {}
+        if col.get("type") in PAGE_COLLECTORS and not all(
+                (r["verified"].get(ed) or {}).get("sample") for ed in ("current", "previous") if r["verified"].get(ed)):
+            no_sample.append(r["key"])
         if cfg["families"][r["family"]]["role"] != "items" and col.get("type") not in PAGE_COLLECTORS:
             continue   # measured on data its collector downloads, not on the stored pages
         notes = [f"{ed}: {note}" for ed in ("current", "previous") if (r["verified"] or {}).get(ed)
@@ -299,13 +327,14 @@ def sources_check(args) -> dict:
     result = {"generated_by": "sg trends sources-check", "selected": [r["key"] for r in selected],
               "pending": pending, "short_families": short, "anchor_coverage": coverage,
               "blind_anchors": blind, "not_verified": missing, "missing_own_topics": no_own,
-              "missing_collectors": no_collector, "pages_not_downloaded": not_downloaded, "sources": rows}
+              "missing_collectors": no_collector, "pages_not_downloaded": not_downloaded,
+              "missing_samples": no_sample, "sources": rows}
     write_json(ws / "sources_panel.json", result)
-    _render_panel(cfg, rows, coverage, short, not_downloaded)
+    _render_panel(cfg, rows, coverage, short, not_downloaded, no_sample)
     return {"ok": not blind and not short and not missing and not no_own and not no_collector,
             "selected": len(selected), "missing_collectors": no_collector,
             "pending": pending, "short_families": short, "blind_anchors": blind, "not_verified": missing,
-            "missing_own_topics": no_own, "pages_not_downloaded": not_downloaded,
+            "missing_own_topics": no_own, "pages_not_downloaded": not_downloaded, "missing_samples": no_sample,
             "out": str(ws / "sources_panel.md")}
 
 
@@ -368,7 +397,8 @@ def _in_scope(row: dict) -> float:
     return row["verified"]["current"]["items"] * row["verified"]["scope_fit"]
 
 
-def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict, not_downloaded: dict) -> None:
+def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict, not_downloaded: dict,
+                  no_sample: list[str]) -> None:
     ws = cfg["_ws"]
     review = load_json(ws / "sources_review.json", "course_review") if (ws / "sources_review.json").exists() else None
     lines = [f"# Source panel: {cfg['field']}", "",
@@ -436,6 +466,9 @@ def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict, not_
                   "Items and shares of these editions are checked against a file an agent made, or against a page "
                   "other than the one the record names. Store the real pages with `sg fetch` where they exist.", ""]
         lines += [f"- {key}: {'; '.join(notes)}" for key, notes in not_downloaded.items()]
+    if no_sample:
+        lines += ["", "Measured from stored pages but verified without a sample of rows, so whether the pages print "
+                  f"what stage 2 reads is not checked yet: {', '.join(no_sample)}"]
     if review:
         lines += ["", "## Reviewer notes", "", review["summary"], ""]
         lines += [f"- **{i['severity']}:** {i['issue']} *Suggestion:* {i['suggestion']}" for i in review["issues"]]

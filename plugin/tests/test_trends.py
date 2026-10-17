@@ -84,6 +84,38 @@ def test_source_panel(tmp_path):
     assert "## Pages not downloaded by sg" in md
 
 
+def test_measurability_sample(tmp_path):
+    """A verified edition's sample rows must be printed on its stored pages, or the source is not eligible."""
+    from sglib.trends import _entries, _sample_unseen
+    store = tmp_path / "store"
+    fid = run("fetch", "--file", write(tmp_path / "s.txt", "Graduated projects in production: Kubernetes 85%, "
+                                       "Helm 77%, Prometheus 73%. " * 8), "--store", store)["fetched"]
+    edition = {"fetched": fid, "sample": [{"name": "Kubernetes", "percent": 85}, {"name": "Helm", "percent": 77},
+                                          {"name": "Prometheus", "percent": 73}]}
+    assert _sample_unseen(store, _entries(store), edition) == []
+    edition["sample"][1]["percent"] = 85   # printed on the page, but for Kubernetes
+    assert _sample_unseen(store, _entries(store), edition) == ["Helm 85%"]
+
+    test_source_panel(tmp_path)
+    root = tmp_path / "trends-de"
+    path = root / "trends" / "sources" / "verified_v1.json"
+    doc = json.loads(path.read_text())
+    alpha = doc["sources"][0]
+    alpha["current"]["sample"] = [{"name": t} for t in ("Apache Iceberg at scale", "data contracts in practice",
+                                                        "streaming with apache flink at acme")]   # on the second page
+    alpha["previous"]["sample"] = [{"name": t} for t in ("Kafka streams", "Spark tuning", "Data Summit Alpha 2025")]
+    write(path, doc)
+    manifest = root / "trends.yaml"
+    run("trends", "sources-check", "--manifest", manifest)
+    assert json.loads((root / "trends" / "sources_panel.json").read_text())["selected"] == ["data-summit-alpha"]
+    alpha["previous"]["sample"][0]["name"] = "Kafka at the edge"
+    write(path, doc)
+    run("trends", "sources-check", "--manifest", manifest)
+    rows = {s["key"]: s for s in json.loads((root / "trends" / "sources_panel.json").read_text())["sources"]}
+    assert not rows["data-summit-alpha"]["eligible"]
+    assert "previous edition is not measurable from its stored pages" in rows["data-summit-alpha"]["reasons"][0]
+
+
 def test_window_midpoint():
     from sglib.trends import _window_ok
     current, previous = ["2025-10-08", "2026-10-08"], ["2024-10-08", "2025-10-08"]

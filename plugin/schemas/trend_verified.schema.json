@@ -176,6 +176,31 @@
           "type": "string",
           "description": "verbatim text from the page showing it is this edition's item list"
         },
+        "sample": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "an answer or an item title, exactly as printed"
+              },
+              "percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "a survey answer's share, exactly as printed next to it"
+              }
+            }
+          },
+          "description": "sources measured from stored pages (survey tables, lists): three rows of this edition as stage 2 will read them; sources-check finds each in the stored pages"
+        },
         "more_pages": {
           "type": "array",
           "items": {

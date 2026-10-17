@@ -104,7 +104,10 @@ Two collections:
    the panel shows its notes. Fill the gaps once: families below quota, anchors
    not covered, missing sources named in `high` or `medium` issues.
 7. **Approve.** Show the author `trends/sources_panel.md` and
-   `trends/discovery_collection.md`. Stop until the author approves. The author
+   `trends/discovery_collection.md`, and name the selected sources it lists
+   under "Pages not downloaded by sg" or as verified without a sample: their
+   numbers rest on files an agent made or on pages not yet shown to print what
+   stage 2 reads. Stop until the author approves. The author
    changes the panel through `exclude` (key: reason) and `include` (keys) in `T`;
    run `SG trends sources-check --manifest T` after each change.
 

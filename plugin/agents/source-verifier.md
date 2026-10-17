@@ -69,6 +69,17 @@ with `cd` is refused too.
      "VLDB 2026 Accepted Research Track Papers"). It is matched mechanically.
    - `more_pages` (optional): further pages of the same edition's list, for
      example an industry track on a separate page, each with `url` and `fetched`.
+   - `sample`, for a source that stage 2 measures from its stored pages
+     (collector `survey_table` or `top500_list`): three rows of the edition as
+     stage 2 will read them, copied exactly. For a survey, three answers of the
+     question to be measured with their percentages
+     (`{"name": "Slurm", "percent": 61}`); for a list, three entries
+     (`{"name": "<entry text>"}`). sources-check looks for each answer printed
+     with its percentage on one row of the stored pages (a table row, a chart
+     bar, a PDF line, a clause of prose), or for each entry in the text. If the
+     results exist only as images, no sample can pass and the source cannot be
+     measured from its pages: say so in `access_note`, and choose a question
+     whose results are printed as text, or another source.
    Use `null` for an edition that does not exist or cannot be found.
    Store comparable text for both editions: if one edition's page has abstracts
    and the other's has titles only, find abstracts for both or say in
