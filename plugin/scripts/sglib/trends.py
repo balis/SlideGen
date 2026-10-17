@@ -27,6 +27,7 @@ MIN_EVIDENCE_QUOTE = 10
 MIN_SCOPE_FIT = 0.1   # default floor: excludes sources that are barely about the field
 SCOPE_SAMPLE = 20     # items sampled for a scope estimate, unless the record says otherwise
 Z = 1.96              # 95% interval for scope estimates
+PAGE_COLLECTORS = {"survey_table", "stackoverflow_survey", "top500_list"}   # measured on the stored pages
 
 
 def _manifest(path: str) -> dict:
@@ -47,6 +48,31 @@ def _texts(store: Path) -> dict[str, str]:
     if not index_file.exists():
         return {}
     return {cid: store / e["text_file"] for cid, e in entries_by_id(load_json(index_file)["sources"]).items()}
+
+
+def _entries(store: Path) -> dict:
+    """Content id -> index entry, for every downloaded page."""
+    index_file = store / "index.json"
+    return entries_by_id(load_json(index_file)["sources"]) if index_file.exists() else {}
+
+
+def _plain_url(url: str) -> str:
+    p = urlparse(url)
+    host = p.netloc.lower().removeprefix("www.")
+    return host + p.path.rstrip("/") + (f"?{p.query}" if p.query else "")
+
+
+def page_origin(entries: dict, content_id: str | None, url: str | None = None) -> str | None:
+    """Why a stored page is not sg's download of the page a record names, or None. Items and shares are checked
+    against stored pages, so a file an agent wrote checks the agent's work against itself."""
+    e = entries.get(content_id) if content_id else None
+    if e is None:
+        return None   # a page missing from the store is reported by each check
+    if e["url"].startswith("file:"):
+        return f"page {content_id} was stored from a local file ({e['url'][5:]}), not downloaded"
+    if url and _plain_url(url) not in {_plain_url(e["url"]), _plain_url(e.get("final_url") or e["url"])}:
+        return f"page {content_id} was downloaded from {e['url']}, not from {url}"
+    return None
 
 
 def _quote_ok(texts: dict, content_id: str | None, quote: str) -> bool:
@@ -258,16 +284,29 @@ def sources_check(args) -> dict:
     no_own = [r["key"] for r in selected if (r["vendor"] or r["single_technology"]) and not own.get(r["key"])]
     no_collector = [r["key"] for r in selected if cfg["families"][r["family"]]["role"] in ("forum", "adoption")
                     and not ((cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector"))]
+    entries, not_downloaded = _entries(cfg["_store"]), {}
+    for r in rows:
+        if not (r.get("selected") or r.get("pending")):
+            continue
+        col = (cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector") or {}
+        if cfg["families"][r["family"]]["role"] != "items" and col.get("type") not in PAGE_COLLECTORS:
+            continue   # measured on data its collector downloads, not on the stored pages
+        notes = [f"{ed}: {note}" for ed in ("current", "previous") if (r["verified"] or {}).get(ed)
+                 for page in [r["verified"][ed]] + r["verified"][ed].get("more_pages", [])
+                 if (note := page_origin(entries, page.get("fetched"), page.get("url")))]
+        if notes:
+            not_downloaded[r["key"]] = notes
     result = {"generated_by": "sg trends sources-check", "selected": [r["key"] for r in selected],
               "pending": pending, "short_families": short, "anchor_coverage": coverage,
               "blind_anchors": blind, "not_verified": missing, "missing_own_topics": no_own,
-              "missing_collectors": no_collector, "sources": rows}
+              "missing_collectors": no_collector, "pages_not_downloaded": not_downloaded, "sources": rows}
     write_json(ws / "sources_panel.json", result)
-    _render_panel(cfg, rows, coverage, short)
+    _render_panel(cfg, rows, coverage, short, not_downloaded)
     return {"ok": not blind and not short and not missing and not no_own and not no_collector,
             "selected": len(selected), "missing_collectors": no_collector,
             "pending": pending, "short_families": short, "blind_anchors": blind, "not_verified": missing,
-            "missing_own_topics": no_own, "out": str(ws / "sources_panel.md")}
+            "missing_own_topics": no_own, "pages_not_downloaded": not_downloaded,
+            "out": str(ws / "sources_panel.md")}
 
 
 def _natural(path: Path) -> list:
@@ -329,7 +368,7 @@ def _in_scope(row: dict) -> float:
     return row["verified"]["current"]["items"] * row["verified"]["scope_fit"]
 
 
-def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict) -> None:
+def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict, not_downloaded: dict) -> None:
     ws = cfg["_ws"]
     review = load_json(ws / "sources_review.json", "course_review") if (ws / "sources_review.json").exists() else None
     lines = [f"# Source panel: {cfg['field']}", "",
@@ -392,6 +431,11 @@ def _render_panel(cfg: dict, rows: list[dict], coverage: dict, short: dict) -> N
               for a, fams in coverage.items()]
     if short:
         lines += ["", f"Families below quota: {short}"]
+    if not_downloaded:
+        lines += ["", "## Pages not downloaded by sg", "",
+                  "Items and shares of these editions are checked against a file an agent made, or against a page "
+                  "other than the one the record names. Store the real pages with `sg fetch` where they exist.", ""]
+        lines += [f"- {key}: {'; '.join(notes)}" for key, notes in not_downloaded.items()]
     if review:
         lines += ["", "## Reviewer notes", "", review["summary"], ""]
         lines += [f"- **{i['severity']}:** {i['issue']} *Suggestion:* {i['suggestion']}" for i in review["issues"]]

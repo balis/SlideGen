@@ -44,8 +44,11 @@ with `cd` is refused too.
    look for another page with the same list: a Sessionize or Pretalx schedule,
    a printable or PDF programme, the conference's YouTube playlist, the
    proceedings table of contents on dblp, an RSS feed or archive page. Prefer
-   the page with the full list; if the list spans several pages, use the first
-   and say so in `access_note`. A YouTube playlist page downloads without its
+   the page with the full list. If the list spans several pages (paged
+   listings, feed pages, archive months, API pages), store every page: write
+   their URLs one per line to `<scratch>/<name>.urls` and run
+   `<sg> fetch --list <scratch>/<name>.urls --store <store>`; record the first
+   as the edition's page and the others in `more_pages`. A YouTube playlist page downloads without its
    list: write the playlist URL as the first line of `<scratch>/<name>.txt`,
    append the titles with `python3 -m yt_dlp --compat-options no-certifi
    --flat-playlist --print-to-file title <scratch>/<name>.txt <playlist url>`
@@ -69,9 +72,13 @@ with `cd` is refused too.
    Use `null` for an edition that does not exist or cannot be found.
    Store comparable text for both editions: if one edition's page has abstracts
    and the other's has titles only, find abstracts for both or say in
-   `access_note` that only titles are comparable. If a list is served in a
-   format sg cannot read, decode it yourself, save the decoded list as a JSON
-   or text file, and store that file with `<sg> fetch --file <path> --store <store>`.
+   `access_note` that only titles are comparable. Store pages as the server
+   sends them, even in a format sg cannot turn into text (JSON, feeds, script
+   data): the harvester parses the raw download. Do not decode a list into a
+   file of your own: items and shares are checked against the stored pages, and
+   a file you wrote checks your work against itself; sources-check lists such
+   pages. `fetch --file` is for lists no URL returns, such as the yt-dlp output
+   above; say so in `access_note`.
 4. For sources measured through a public API (forums, package downloads), set
    `api` true, give the API query as `url`, set `fetched` to null (or download
    the API response and give its id), and count items from the response.

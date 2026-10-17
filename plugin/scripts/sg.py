@@ -9,7 +9,7 @@ course manifest (course.yaml); deck workspaces then live in
 <manifest dir>/<deck id>/workspace/ and course files in <manifest dir>/course/.
 
   sg.py ingest DECK --out WS [--pdf EXPORT] [--force]
-  sg.py fetch (URL | --file PATH) --store DIR [--force]
+  sg.py fetch (URL | --file PATH | --list URLS) --store DIR [--force]
   sg.py quotes WS --store DIR
   sg.py claims merge WS [--manifest M]
   sg.py claims carry WS --from OTHER_WS [--from ...]
@@ -54,6 +54,7 @@ def _parser() -> argparse.ArgumentParser:
     src = p.add_mutually_exclusive_group(required=True)
     src.add_argument("url", nargs="?")
     src.add_argument("--file", help="a local file supplied by the author")
+    src.add_argument("--list", help="a file of URLs, one per line, each downloaded and stored as its own page")
     p.add_argument("--store", required=True, help="source store directory")
     p.add_argument("--force", action="store_true", help="download again even if already stored")
     p.set_defaults(func=sources.fetch)

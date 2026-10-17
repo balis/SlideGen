@@ -74,8 +74,12 @@ with `cd` is refused too.
    After any change to the parser, run it again.
 
 If an edition's stored pages do not hold the full list, download the missing
-pages with `<sg> fetch <url> --store <store>` (if your Bash tool has an
-`allowed_domains` parameter, declare the host in it) and add their ids to `pages`.
+pages with `<sg> fetch <url> --store <store>`, or several at once with
+`<sg> fetch --list <file of URLs> --store <store>` (if your Bash tool has an
+`allowed_domains` parameter, declare the host in it), and add their ids to
+`pages`. Parse what the server sent; never store a list you decoded or typed
+yourself as a page, because the check would then compare your items with
+your own file.
 
 ## Check
 

@@ -21,7 +21,7 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from .sources import _normalize
-from .trends import _manifest, _texts
+from .trends import _entries, _manifest, _texts, page_origin
 from .util import SgError, load_json, today, write_json
 
 MIN_FOUND = 0.95          # share of item titles that must be found in the stored pages
@@ -84,7 +84,7 @@ def parser_check(cfg: dict, key: str, doc: dict) -> tuple[list[str], list[str]]:
 def items_check(args) -> dict:
     """Check every harvested item list against its stored pages and the verified item counts."""
     cfg = _manifest(args.manifest)
-    ws, texts = cfg["_ws"], _texts(cfg["_store"])
+    ws, texts, entries = cfg["_ws"], _texts(cfg["_store"]), _entries(cfg["_store"])
     sources = _item_sources(cfg)
     summary, problems, warnings, missing = [], [], [], []
     for key, row in sorted(sources.items()):
@@ -106,6 +106,7 @@ def items_check(args) -> dict:
             if unknown:
                 problems.append(f"{key} {edition}: pages not in the store: {unknown}")
                 continue
+            warnings += [f"{key} {edition}: {note}" for p in e["pages"] if (note := page_origin(entries, p))]
             page = " ".join(_normalize(clean(texts[p].read_text(encoding="utf-8"))) for p in e["pages"])
             ids = [i["id"] for i in e["items"]]
             if len(ids) != len(set(ids)):

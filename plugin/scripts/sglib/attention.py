@@ -31,7 +31,7 @@ import requests
 
 from .harvest import _selected_items, clean, compile_topics, families_with, topic_matches
 from .sources import _normalize
-from .trends import _manifest, _texts
+from .trends import _entries, _manifest, _texts, page_origin
 from .util import SgError, load_json, today, write_json
 
 Z = 1.96
@@ -862,13 +862,14 @@ def survey_check(args) -> dict:
     col = collector_of(cfg, row, args.source) or {}
     if col.get("type") == "top500_list":
         return _top500_check(cfg, args.source, col, row, table)
-    texts = _texts(cfg["_store"])
-    problems, stats = [], {}
+    texts, entries = _texts(cfg["_store"]), _entries(cfg["_store"])
+    problems, warnings, stats = [], [], {}
     for ed, e in table["editions"].items():
         missing = [f for f in e["fetched"] if f not in texts]
         if missing:
             problems.append(f"{ed}: pages not in the store: {missing}")
             continue
+        warnings += [f"{ed}: {note}" for f in e["fetched"] if (note := page_origin(entries, f))]
         page = _normalize(" ".join(texts[f].read_text(encoding="utf-8") for f in e["fetched"]))
         bad = [r for r in e["rows"] if _normalize(r["name"]) not in page
                or not any(n in page for n in _number_forms(r["percent"]))]
@@ -879,4 +880,5 @@ def survey_check(args) -> dict:
     names = [{r["name"] for r in table["editions"][ed]["rows"]} for ed in ("current", "previous")]
     if len(names[0] & names[1]) < 0.5 * min(len(names[0]), len(names[1])):
         problems.append("the two editions share fewer than half of their answers; is it the same question?")
-    return {"ok": not problems, "source": args.source, "editions": stats, "problems": problems}
+    return {"ok": not problems, "source": args.source, "editions": stats, "problems": problems,
+            "warnings": warnings}

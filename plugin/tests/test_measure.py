@@ -141,7 +141,8 @@ doc = {{"source": "conf", "parser": str(me.relative_to(ROOT)),
 ''')
     subprocess.run([sys.executable, str(parser)], check=True)
     r = run("trends", "items-check", "--manifest", manifest)
-    assert r["ok"] and r["warnings"] == []
+    assert r["ok"] and not [w for w in r["warnings"] if "parser" in w]
+    assert "conf current: page" in r["warnings"][0] and "stored from a local file (p.txt)" in r["warnings"][0]
     parser.write_text(parser.read_text() + "# edited\n")
     r = run("trends", "items-check", "--manifest", manifest)
     assert not r["ok"] and "changed after it wrote the items" in r["problems"][0]

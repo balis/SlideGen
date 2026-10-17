@@ -128,7 +128,37 @@ def _cached(store: Path, url: str) -> dict | None:
     return entry if entry and entry.get("status") == "fetched" else None
 
 
+LIST_PAUSE = 0.5            # seconds between downloads of a URL list
+
+
+def fetch_list(args) -> dict:
+    """Download every URL of a list file (one per line; blank lines and # comments skipped), each stored as its
+    own page: paged feeds, archive months and API pages, kept as the server sent them."""
+    import time
+    from argparse import Namespace
+    path = Path(args.list)
+    if not path.exists():
+        raise SgError(f"file not found: {path}")
+    urls = [u.strip() for u in path.read_text(encoding="utf-8").splitlines() if u.strip() and not u.startswith("#")]
+    if not urls:
+        raise SgError(f"{path} lists no URLs")
+    pages = []
+    for url in urls:
+        try:
+            r = fetch(Namespace(url=url, file=None, list=None, store=args.store, force=args.force))
+        except SgError as e:
+            r = {"ok": False, "url": url, "reason": str(e)}
+        pages.append({"url": url, "fetched": r.get("fetched") if r["ok"] else None,
+                      **({} if r["ok"] else {"reason": r.get("reason")})})
+        if not r.get("cached"):
+            time.sleep(LIST_PAUSE)
+    failed = [p for p in pages if not p["fetched"]]
+    return {"ok": not failed, "fetched": len(pages) - len(failed), "failed": len(failed), "pages": pages}
+
+
 def fetch(args) -> dict:
+    if getattr(args, "list", None):
+        return fetch_list(args)
     store = Path(args.store).resolve()
     key = f"file:{Path(args.file).name}" if args.file else args.url
     cached = _cached(store, key)

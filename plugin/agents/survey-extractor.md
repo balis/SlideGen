@@ -37,7 +37,10 @@ with `cd` is refused too.
    downloads or separate pages that were not stored, download them with
    `<sg> fetch <url> --store <store>` (if your Bash tool has an
    `allowed_domains` parameter, declare the host in it); for
-   a chart, store the page or data file that holds its numbers.
+   a chart, store the page or data file that holds its numbers, as the server
+   sends it. Never store numbers you read off a chart or decoded yourself:
+   survey-check compares the table with the stored pages, and a file you wrote
+   would only confirm itself.
 2. Extract, per edition, every answer with its percentage of respondents, from
    the same question and the same population (for example all respondents, not
    professionals in one edition and everyone in the other). Copy names and

@@ -79,6 +79,9 @@ def test_source_panel(tmp_path):
     assert sorted(r["not_verified"]) == ["gamma-vendor-conference", "iceberg-summit"]
     md = (root / "trends" / "sources_panel.md").read_text()
     assert "blind spot" in md and "Delta Vendor Forum (run by a vendor" in md
+    notes = r["pages_not_downloaded"]["data-summit-alpha"]   # pages stored with --file are listed
+    assert len(notes) == 3 and "stored from a local file (a26.txt)" in notes[0]
+    assert "## Pages not downloaded by sg" in md
 
 
 def test_window_midpoint():
@@ -109,6 +112,38 @@ def test_fetch_json(tmp_path):
     r = run("fetch", "--file", write(tmp_path / "hn.json", {"hits": hits}), "--store", tmp_path / "store")
     assert r["kind"] == "json"
     assert "worth attending in 2026" in (tmp_path / "store" / r["text_file"]).read_text()
+
+
+def test_fetch_list_and_page_origin(tmp_path, monkeypatch):
+    """A URL list stores one page per URL; a page counts as downloaded only from the URL its record names."""
+    import io
+    import time
+
+    import requests
+
+    from sglib.trends import _entries, page_origin
+
+    class Resp:
+        def __init__(self, url):
+            self.url, self.headers = url, {"content-type": "text/html"}
+            self.status_code = 404 if url.endswith("/missing") else 200
+            body = f"<html><title>{url}</title><body>{'Archive page listing posts. ' * 20}{url}</body></html>"
+            self.raw = io.BytesIO(body.encode())
+            self.raw.read = lambda n, decode_content=True, b=self.raw: io.BytesIO.read(b, n)
+
+    monkeypatch.setattr(requests, "get", lambda url, **kw: Resp(url))
+    monkeypatch.setattr(time, "sleep", lambda s: None)
+    urls = write(tmp_path / "pages.urls", "# archive months\nhttps://example.org/2026/01/\n\n"
+                                          "https://example.org/2026/02/\nhttps://example.org/missing\n")
+    store = tmp_path / "store"
+    r = run("fetch", "--list", urls, "--store", store)
+    assert not r["ok"] and r["fetched"] == 2 and r["failed"] == 1 and r["pages"][2]["reason"] == "HTTP 404"
+    jan = r["pages"][0]["fetched"]
+    entries = _entries(store)
+    assert page_origin(entries, jan, "https://www.example.org/2026/01") is None   # same page, other spelling
+    assert "not from https://example.org/2026/03/" in page_origin(entries, jan, "https://example.org/2026/03/")
+    local = run("fetch", "--file", write(tmp_path / "decoded.txt", "Decoded list. " * 30), "--store", store)["fetched"]
+    assert "stored from a local file (decoded.txt)" in page_origin(_entries(store), local)
 
 
 def test_possible_duplicates(tmp_path):
