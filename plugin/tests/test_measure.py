@@ -313,7 +313,7 @@ def test_manifest_schema(tmp_path):
 
 
 def test_survey_check(tmp_path):
-    """Every extracted answer and its percentage must appear in the edition's stored page."""
+    """Every extracted answer must be printed with its percentage on one row of the edition's stored page."""
     root = tmp_path / "t"
     store = root / "sources"
     page = lambda name, text: run("fetch", "--file", write(tmp_path / name, text * 8), "--store", store)["fetched"]
@@ -331,7 +331,50 @@ def test_survey_check(tmp_path):
     assert run("trends", "survey-check", "--manifest", manifest, "--source", "hpc-survey")["ok"]
     write(root / "trends" / "queries" / "hpc-survey.json", table([("Slurm", 66), ("PBS Pro", 20.0), ("LSF", 7.5)]))
     r = run("trends", "survey-check", "--manifest", manifest, "--source", "hpc-survey")
-    assert not r["ok"] and "1 of 3 rows not found" in r["problems"][0]
+    assert not r["ok"] and "1 of 3 answers are not printed with their percentage" in r["problems"][0]
+    # a percentage printed on the page, but for another answer, is not a pair
+    write(root / "trends" / "queries" / "hpc-survey.json", table([("Slurm", 20.0), ("PBS Pro", 20.0), ("LSF", 7.5)]))
+    r = run("trends", "survey-check", "--manifest", manifest, "--source", "hpc-survey")
+    assert not r["ok"] and "('Slurm', 20.0)" in r["problems"][0]
+
+
+def test_share_pairs_by_layout(tmp_path):
+    """Names and percentages are paired within a table row, a chart group, a PDF baseline, or a prose clause."""
+    import fitz
+
+    from sglib.shares import page_rows, paired
+    store = tmp_path / "store"
+    html = ("<html><body><p>Which cloud platforms did you use?</p><table>"
+            "<tr><td>Docker / Docker Compose</td><td>6,440</td><td>59.1%</td></tr>"
+            "<tr><td>Kubernetes</td><td>3,120</td><td>28.5%</td></tr></table>"
+            "<svg><g role='listitem'><text>Helm</text><g><rect></rect><text>12.4%</text></g></g>"
+            "<g role='listitem'><text>Docker</text><g><rect></rect><text>40.9%</text></g></g></svg>"
+            "<p>Prometheus reaches 77% production use with 12% evaluating, CoreDNS achieves 76% with 5%.</p>"
+            + "<p>filler text for the extractor</p>" * 20 + "</body></html>")
+    hid = run("fetch", "--file", write(tmp_path / "chart.html", html), "--store", store)["fetched"]
+    doc = fitz.open()
+    pg = doc.new_page()
+    for y, left, right in ((100, ("Kubernetes", "85"), ("Helm", "77")), (120, ("Prometheus", "73"), ("etcd", "70"))):
+        for x, text in ((50, left[0]), (150, left[1]), (300, right[0]), (400, right[1])):
+            pg.insert_text((x, y), text)
+    for i in range(8):
+        pg.insert_text((50, 200 + 15 * i), "Graduated CNCF projects used in production.")
+    doc.save(tmp_path / "report.pdf")
+    pid = run("fetch", "--file", tmp_path / "report.pdf", "--store", store)["fetched"]
+    from sglib.trends import _entries
+    entries = _entries(store)
+    rows = page_rows(store, entries[hid])
+    names = ["Docker / Docker Compose", "Kubernetes", "Helm", "Docker", "Prometheus", "CoreDNS"]
+    for name, pct in (("Docker / Docker Compose", 59.1), ("Kubernetes", 28.5), ("Helm", 12.4), ("Docker", 40.9),
+                      ("Prometheus", 77), ("CoreDNS", 76)):
+        assert paired(rows, name, pct, names), name
+    assert not paired(rows, "Kubernetes", 59.1, names) and not paired(rows, "Docker", 59.1, names)
+    assert not paired(rows, "Prometheus", 76, names)
+    rows = page_rows(store, entries[pid])
+    names = ["Kubernetes", "Helm", "Prometheus", "etcd"]
+    assert all(paired(rows, n, p, names) for n, p in (("Kubernetes", 85), ("Helm", 77), ("Prometheus", 73),
+                                                       ("etcd", 70)))
+    assert not paired(rows, "Kubernetes", 77, names) and not paired(rows, "Helm", 85, names)
 
 
 def test_survey_skips_answers_missing_from_one_edition(tmp_path):

@@ -44,7 +44,8 @@ with `cd` is refused too.
 2. Extract, per edition, every answer with its percentage of respondents, from
    the same question and the same population (for example all respondents, not
    professionals in one edition and everyone in the other). Copy names and
-   numbers exactly as printed; drop "Other" and "None".
+   numbers exactly as printed, without rounding (59.1, not 59); drop "Other"
+   and "None".
 3. Write `output`:
 
 ```json
@@ -54,5 +55,8 @@ with `cd` is refused too.
 ```
 
 Run `<sg> trends survey-check --manifest <manifest> --source <key>` until it
-passes: every answer and its percentage must appear in the stored pages of its
-edition. Reply with its JSON output.
+passes: each answer must be printed with its percentage on one row of its
+edition's stored pages (a table row, a chart bar, a line of a PDF page, or one
+clause of prose), and the percentage must be the number printed next to the
+name. If an answer fails, look up the row it comes from; do not adjust the
+number. Reply with its JSON output.

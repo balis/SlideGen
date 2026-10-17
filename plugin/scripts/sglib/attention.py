@@ -31,10 +31,12 @@ import requests
 
 from .harvest import _selected_items, clean, compile_topics, families_with, topic_matches
 from .sources import _normalize
+from .shares import page_rows, paired
 from .trends import _entries, _manifest, _texts, page_origin
 from .util import SgError, load_json, today, write_json
 
 Z = 1.96
+MAX_UNPAIRED = 0.1   # share of a survey table's answers that may lack a printed pair (layouts the rows miss)
 UA = {"User-Agent": "slidegen-field-trends/1.0 (research; contact via repository)"}
 KIND = {"hn_stories": "posts", "reddit": "posts", "discourse": "topics", "mailman3": "threads",
         "stackexchange_tags": "questions", "hn_hiring": "job_postings", "itjobswatch": "job_ads", "pypi": "downloads",
@@ -813,10 +815,6 @@ def _render(cfg, result, per_source, families, adoption_sources, labels):
     (ws / "attention.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _number_forms(x: float) -> set[str]:
-    """How a percentage may be printed: 57.9, 57,9, 58 (rounded)."""
-    text = f"{x:.2f}".rstrip("0").rstrip(".")
-    return {text, text.replace(".", ","), str(round(x))}
 
 
 def _top500_check(cfg: dict, key: str, col: dict, row: dict | None, table: dict) -> dict:
@@ -852,8 +850,8 @@ def _top500_check(cfg: dict, key: str, col: dict, row: dict | None, table: dict)
 
 
 def survey_check(args) -> dict:
-    """Check a survey table: every answer and its percentage appear in the edition's stored pages, or, for a
-    top500_list source, a recount of the stored list pages gives the same table."""
+    """Check a survey table: every answer is printed with its percentage on one row of the edition's stored pages
+    (sglib.shares), or, for a top500_list source, a recount of the stored list pages gives the same table."""
     cfg = _manifest(args.manifest)
     path = cfg["_ws"] / "queries" / f"{args.source}.json"
     table = load_json(path, "trend_survey_table")
@@ -870,13 +868,13 @@ def survey_check(args) -> dict:
             problems.append(f"{ed}: pages not in the store: {missing}")
             continue
         warnings += [f"{ed}: {note}" for f in e["fetched"] if (note := page_origin(entries, f))]
-        page = _normalize(" ".join(texts[f].read_text(encoding="utf-8") for f in e["fetched"]))
-        bad = [r for r in e["rows"] if _normalize(r["name"]) not in page
-               or not any(n in page for n in _number_forms(r["percent"]))]
+        rows = [r for f in e["fetched"] for r in page_rows(cfg["_store"], entries[f])]
+        names = [r["name"] for r in e["rows"]]
+        bad = [r for r in e["rows"] if not paired(rows, r["name"], r["percent"], names)]
         stats[ed] = {"rows": len(e["rows"]), "not_found": len(bad)}
-        if len(bad) > 0.1 * len(e["rows"]):
-            problems.append(f"{ed}: {len(bad)} of {len(e['rows'])} rows not found in the stored pages, e.g. "
-                            f"{[(r['name'], r['percent']) for r in bad[:3]]}")
+        if len(bad) > MAX_UNPAIRED * len(e["rows"]):
+            problems.append(f"{ed}: {len(bad)} of {len(e['rows'])} answers are not printed with their percentage "
+                            f"on one row of the stored pages, e.g. {[(r['name'], r['percent']) for r in bad[:3]]}")
     names = [{r["name"] for r in table["editions"][ed]["rows"]} for ed in ("current", "previous")]
     if len(names[0] & names[1]) < 0.5 * min(len(names[0]), len(names[1])):
         problems.append("the two editions share fewer than half of their answers; is it the same question?")
