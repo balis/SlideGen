@@ -3,6 +3,7 @@ name: survey-extractor
 description: Extracts one survey question's results (answers and their share of respondents) from the stored pages of two survey editions into a table that stage 2 of field-trends reads. Writes trends/queries/<source>.json, checked against the pages by sg trends survey-check.
 tools: WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Survey extractor

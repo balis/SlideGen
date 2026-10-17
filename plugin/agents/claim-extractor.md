@@ -3,6 +3,7 @@ name: claim-extractor
 description: Lists every verifiable factual claim in a slide range of an ingested deck, including claims shown only in screenshots. Writes claims/extract_<part>.json.
 tools: Read, Write, Bash, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Claim extractor

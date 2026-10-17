@@ -3,6 +3,7 @@ name: curriculum-mapper
 description: Expresses the course's current lectures (and existing decks, if given) as taxonomy topics with estimated hours. Writes plan/mapping.json and iterates until `sg course gaps` passes.
 tools: Read, Write, Bash, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Curriculum mapper

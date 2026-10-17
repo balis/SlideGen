@@ -3,6 +3,7 @@ name: taxonomist
 description: Turns the topic lists of accepted reference curricula into a taxonomy of canonical topics with dependencies, mapping every reference topic to exactly one canonical topic. Writes plan/taxonomy.json and iterates until `sg course taxonomy` passes.
 tools: Read, Write, Bash, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Taxonomist

@@ -3,6 +3,7 @@ name: item-harvester
 description: Extracts every item (talk, paper, episode, post, link) of both editions of assigned panel sources from their stored pages, with a parser script per source, and writes trends/items/<source>.json. Items are checked mechanically against the stored pages.
 tools: Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Item harvester

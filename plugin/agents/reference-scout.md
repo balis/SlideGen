@@ -3,6 +3,7 @@ name: reference-scout
 description: Finds current, independent reference curricula of one kind (university syllabi, textbooks, survey papers, or professional programmes) for a course's subject, downloads them, and extracts their topic lists with verbatim quotes. Writes plan/references/<kind>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Reference scout

@@ -3,6 +3,7 @@ name: evidence-researcher
 description: For a batch of shortlisted topics, finds quoted evidence of technical maturity (proposal, preview, generally available, on which platforms), production use (which organizations, sectors, scale) and reported benefits and limitations, searching the field's discovery collection first. Writes trends/evidence/<batch>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Evidence researcher

@@ -3,6 +3,7 @@ name: trend-mapper
 description: Links every trend topic of a field (from field-trends) to a topic of a course's taxonomy, proposes new course topics for current trends the taxonomy lacks, and marks trend topics outside the course's subject. Writes plan/trend_map.json.
 tools: Read, Write, Bash, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Trend mapper

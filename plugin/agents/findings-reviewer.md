@@ -3,6 +3,7 @@ name: findings-reviewer
 description: Independently checks each development a researcher reported (source, date, maturity, teaching signals) and whether the slides already cover it. Writes course/findings/review_<id>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Findings reviewer

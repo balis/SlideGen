@@ -3,6 +3,7 @@ name: sources-reviewer
 description: Independently reviews the sources chosen for studying a field's trends - the measurement panel and the discovery collection - for missing sources, wrong flags, implausible editions or counts, and biases that would distort how topics are measured or explained. Writes trends/sources_review.json.
 tools: Read, Write, Bash, WebSearch, WebFetch, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Sources reviewer

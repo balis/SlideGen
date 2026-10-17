@@ -3,6 +3,7 @@ name: discovery-scout
 description: Assembles part of a field's discovery collection - engineering blogs, project proposals and releases, specifications, platform release notes, targeted surveys, radars, reports - sources that explain trends (maturity, production use, limitations) without year-over-year comparison. Each source is shown active by a quoted item from the current window. Writes trends/discovery/<group>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Discovery scout

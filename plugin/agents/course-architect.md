@@ -3,6 +3,7 @@ name: course-architect
 description: Designs the best-fit lecture plan for a course from the reference curriculum and the gap analysis, within the course's lecture count and length. Writes plan/proposal.json and iterates until `sg course validate` passes.
 tools: Read, Write, Bash, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Course architect

@@ -3,6 +3,7 @@ name: fact-checker
 description: Judges slide claims against downloaded source text only (no web access). Assigns VERIFIED, MISREPRESENTED, UNVERIFIED or OUTDATED with a severity. Writes checks/<batch>.json.
 tools: Read, Write
 model: opus
+effort: high
 ---
 
 # Fact-checker

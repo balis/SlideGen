@@ -3,6 +3,7 @@ name: source-verifier
 description: Checks candidate trend sources one by one - finds and downloads their current and previous editions (programme, accepted papers, issue archive, survey report), counts items, and estimates how much of each source is about the field. Writes trends/sources/verified_<batch>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Source verifier

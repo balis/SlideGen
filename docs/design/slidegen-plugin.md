@@ -306,7 +306,10 @@ slidegen/                              plugin repository
 ```
 
 The table lists each agent's tools and default model. Bash access is limited to
-`sg` by allow rules, not by the agent file.
+`sg` by allow rules, not by the agent file. Every agent file sets `effort: high`,
+so an agent's effort does not depend on the session that starts it. The
+`CLAUDE_CODE_EFFORT_LEVEL` environment variable overrides that setting for all
+agents.
 
 | Agent | Tools | Default model | Used by |
 |---|---|---|---|

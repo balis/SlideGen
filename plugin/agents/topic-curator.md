@@ -3,6 +3,7 @@ name: topic-curator
 description: Turns the frequent terms of a field's classified items into a canonical list of candidate topics (tools, formats, platforms, services, concepts, practices) with aliases for mechanical matching and mappings to tags, packages, survey answers and job-board skills. Writes trends/topics.json.
 tools: Read, Write, Bash, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Topic curator

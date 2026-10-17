@@ -3,6 +3,7 @@ name: topic-mapper
 description: Divides an ingested deck into sections and records, per section, its subtopics, the systems and papers it names, the objectives it implies, and the date its content reflects. Writes topic_map.json.
 tools: Read, Write
 model: sonnet
+effort: high
 ---
 
 # Topic mapper

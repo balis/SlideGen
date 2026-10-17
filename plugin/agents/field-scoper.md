@@ -3,6 +3,7 @@ name: field-scoper
 description: Drafts the trends manifest (trends.yaml) for a new field from a short course brief - field and scope, time windows, evidence families with roles and quotas, collectors for forums and adoption data, anchors, discovery routes and targets - for the author to approve before field-trends runs. Marks every judgment the author should confirm.
 tools: Read, Write, Bash, WebSearch, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Field scoper

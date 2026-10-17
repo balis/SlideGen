@@ -3,6 +3,7 @@ name: course-reviewer
 description: Independently reviews a course plan — the balance of the reference set, the taxonomy, and the proposed lectures — and writes plan/review.json with issues ranked by severity.
 tools: Read, Write, WebSearch, WebFetch
 model: opus
+effort: high
 ---
 
 # Course reviewer

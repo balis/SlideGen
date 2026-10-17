@@ -3,6 +3,7 @@ name: change-planner
 description: Turns a deck's claim verdicts and the course findings into a change plan that fits the lecture's time budget. Writes plan.json and iterates until `sg plan validate` passes.
 tools: Read, Write, Bash, Grep, Glob
 model: opus
+effort: high
 ---
 
 # Change planner

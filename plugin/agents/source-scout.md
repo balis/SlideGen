@@ -3,6 +3,7 @@ name: source-scout
 description: Nominates candidate sources (conferences, research venues, forums, surveys, radars, newsletters) for measuring what is hot in a field, using one assigned discovery route. Every nomination is backed by a verbatim quote from a downloaded page. Writes trends/sources/candidates_<route>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Source scout

@@ -3,6 +3,7 @@ name: researcher
 description: Finds and downloads sources for a batch of slide claims, looking both for support and for later change. Writes research/batch_<id>.json with verbatim quotes from downloaded text.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Researcher

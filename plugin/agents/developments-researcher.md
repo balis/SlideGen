@@ -3,6 +3,7 @@ name: developments-researcher
 description: Surveys the current state of one topic cluster and lists developments the decks do not cover, each with a downloaded primary source, maturity, and evidence that the field now teaches it. Writes course/findings/cluster_<id>.json.
 tools: WebSearch, WebFetch, Bash, Read, Write, Grep, Glob
 model: sonnet
+effort: high
 ---
 
 # Developments researcher

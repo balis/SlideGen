@@ -3,6 +3,7 @@ name: item-classifier
 description: Labels blinded batches of conference talks, papers, posts and links as in scope for a field or not, and as sponsor-presented or not. Writes <batch>.labels.json next to each batch. Runs on a small model; a second classifier labels a sample to measure agreement.
 tools: Read, Write, Bash, Grep, Glob
 model: haiku
+effort: high
 ---
 
 # Item classifier
