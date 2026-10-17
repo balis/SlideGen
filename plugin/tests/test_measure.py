@@ -114,6 +114,50 @@ def test_items_classification_and_topics(tmp_path):
     assert att["apache-spark"]["families"]["practitioner_talks"]["direction"] == "down"
 
 
+def test_items_parser_is_kept(tmp_path):
+    """An items file names its parser inside the project with a hash; a changed, missing or outside parser fails."""
+    import subprocess
+    root = tmp_path / "t"
+    store = root / "sources"
+    titles = [f"Scaling Kubernetes clusters, part {i}" for i in range(6)]
+    pid = run("fetch", "--file", write(tmp_path / "p.txt", "Programme. " + " ".join(titles)), "--store", store)["fetched"]
+    manifest = write(root / "trends.yaml", yaml.safe_dump({
+        "field": "f", "scope": "s", "windows": {"current": ["2025-10-08", "2026-10-08"],
+                                                "previous": ["2024-10-08", "2025-10-07"]}, "routes": {"lists": "x"},
+        "families": {"talks": {"role": "items", "quota": 1}}, "anchors": [{"name": "x"}]}))
+    ws = root / "trends"
+    write(ws / "sources_panel.json", {"sources": [{"key": "conf", "family": "talks", "selected": True,
+                                                   "verified": {"current": {"items": 6}, "previous": {"items": 6}}}]})
+    parser = write(ws / "parsers" / "conf.py", f'''import hashlib, json
+from pathlib import Path
+me = Path(__file__).resolve()
+ROOT = me.parents[2]
+items = [{{"id": str(i), "title": t}} for i, t in enumerate({titles!r})]
+doc = {{"source": "conf", "parser": str(me.relative_to(ROOT)),
+       "parser_sha256": hashlib.sha256(me.read_bytes()).hexdigest(),
+       "editions": {{ed: {{"pages": ["{pid}"], "note": None, "items": items}} for ed in ("current", "previous")}}}}
+(ROOT / "trends" / "items").mkdir(exist_ok=True)
+(ROOT / "trends" / "items" / "conf.json").write_text(json.dumps(doc))
+''')
+    subprocess.run([sys.executable, str(parser)], check=True)
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert r["ok"] and r["warnings"] == []
+    parser.write_text(parser.read_text() + "# edited\n")
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert not r["ok"] and "changed after it wrote the items" in r["problems"][0]
+    parser.unlink()
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert not r["ok"] and "is missing" in r["problems"][0]
+    doc = json.loads((ws / "items" / "conf.json").read_text())
+    write(ws / "items" / "conf.json", {**doc, "parser": str(tmp_path / "scratch" / "conf.py")})
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert not r["ok"] and "outside the project" in r["problems"][0]
+    del doc["parser_sha256"]
+    write(ws / "items" / "conf.json", doc)   # written before parsers were kept: a warning only
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert r["ok"] and "not recorded with its hash" in r["warnings"][0]
+
+
 def test_parse_job_board_table():
     from sglib.attention import _parse_itjw
     page = ("<table><tr><td>6 months to</td><td>8 Oct 2026</td><td>Same period 2025</td><td>Same period 2024</td></tr>"

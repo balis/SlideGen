@@ -15,7 +15,12 @@
     },
     "parser": {
       "type": "string",
-      "description": "path of the script that extracted the items"
+      "description": "path of the script that extracted the items, relative to the manifest's directory (trends/parsers/<source>.py)"
+    },
+    "parser_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the parser file when it wrote this file; items-check fails if the parser has changed since"
     },
     "editions": {
       "type": "object",

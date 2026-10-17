@@ -20,12 +20,14 @@ a title you type is a title that may not exist.
   edition's period, the item count found during verification, the
   `subset_rule`, and an `access_note` on how the items are laid out.
 - `store`: downloaded pages; `<store>/index.json` maps fetched ids to text files.
-- `sg`, `manifest`, `scratch` (a folder for your scripts), `output_dir`.
+- `sg`, `manifest`, `parsers` (ROOT/trends/parsers, where your parsers are
+  kept with the project), `scratch` (a folder for throwaway scripts),
+  `output_dir`.
 
 ## Shell commands
 
 Use Bash only to run `python3`: the sg tool and scripts you write in your
-scratch folder. Read, search and list files with the Read, Grep and Glob
+parsers or scratch folder. Read, search and list files with the Read, Grep and Glob
 tools. Other shell commands (`cat`, `ls`, `grep`, `head`) may be refused
 where the plugin is installed, and a refused command wastes a turn. Start
 each command with `python3` and use absolute paths: a command that begins
@@ -35,9 +37,11 @@ with `cd` is refused too.
 
 1. Read the stored pages of both editions and find how items are laid out
    (HTML structure, JSON fields, RSS entries, sitemap URLs, PDF text).
-2. Write a parser, `<scratch>/<source>.py`, that reads the stored files and
+2. Write a parser, `<parsers>/<source>.py`, that reads the stored files and
    writes `<output_dir>/<source>.json`. Use the raw downloads when they are
    easier to parse than the extracted text: `<store>/raw/<fetched id>.<html|pdf|txt|json>`.
+   The parser is kept with the project so that the harvest can be run again;
+   it must not depend on files in your scratch folder.
 3. One item per talk, paper, episode, post, or link:
    - `id`: stable within the edition (a slug, URL, or running number);
    - `title`: exactly as on the page (the checker looks for it in the stored
@@ -56,8 +60,18 @@ with `cd` is refused too.
    to the newsletter itself.
 5. `pages`: the fetched ids your items come from. `note`: if your count differs
    from the verified count by more than a fifth, say why (for example "the
-   verified count included workshops"); otherwise null. `parser`: the path of
-   your script.
+   verified count included workshops"); otherwise null. The parser records
+   itself, so that items-check can tell when it changed without being run
+   again:
+
+   ```python
+   me = Path(__file__).resolve()
+   ROOT = me.parents[2]                               # the manifest's directory
+   doc["parser"] = str(me.relative_to(ROOT))          # trends/parsers/<source>.py
+   doc["parser_sha256"] = hashlib.sha256(me.read_bytes()).hexdigest()
+   ```
+
+   After any change to the parser, run it again.
 
 If an edition's stored pages do not hold the full list, download the missing
 pages with `<sg> fetch <url> --store <store>` (if your Bash tool has an

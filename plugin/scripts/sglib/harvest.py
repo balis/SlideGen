@@ -1,6 +1,7 @@
 """Field trends, stage 1: every item of every panel edition, classified as in scope or not, and candidate topics.
 
 Layout, relative to the directory of the trends manifest:
+  trends/parsers/<source>.py               the harvester's parser, kept so that the harvest can be run again
   trends/items/<source>.json               harvester output: every item of both editions
   trends/items_summary.md                  sg trends items-check
   trends/classify/<source>/batch_NN.json   blinded batches (sg trends classify-prep); map.json links them back
@@ -16,6 +17,7 @@ import html
 import random
 import re
 from collections import Counter, defaultdict
+from pathlib import Path
 from urllib.parse import unquote
 
 from .sources import _normalize
@@ -60,12 +62,31 @@ def _item_sources(cfg: dict) -> dict:
 # ---------------------------------------------------------------- items
 
 
+def parser_check(cfg: dict, key: str, doc: dict) -> tuple[list[str], list[str]]:
+    """(problems, warnings) about the parser an items file names. The parser must be stored inside the manifest's
+    directory and be unchanged since it wrote the file (`parser_sha256`). A file without a hash was written before
+    parsers were kept and only gets a warning."""
+    if not doc.get("parser_sha256"):
+        return [], [f"{key}: the parser is not recorded with its hash, so the harvest cannot be run again; "
+                    f"store it as trends/parsers/{key}.py"]
+    root = cfg["_root"].resolve()
+    path = Path(doc["parser"])
+    path = (path if path.is_absolute() else root / path).resolve()
+    if not path.is_relative_to(root):
+        return [f"{key}: parser {doc['parser']} is outside the project; store it as trends/parsers/{key}.py"], []
+    if not path.exists():
+        return [f"{key}: parser {doc['parser']} is missing"], []
+    if hashlib.sha256(path.read_bytes()).hexdigest() != doc["parser_sha256"]:
+        return [f"{key}: parser {doc['parser']} changed after it wrote the items; run it again"], []
+    return [], []
+
+
 def items_check(args) -> dict:
     """Check every harvested item list against its stored pages and the verified item counts."""
     cfg = _manifest(args.manifest)
     ws, texts = cfg["_ws"], _texts(cfg["_store"])
     sources = _item_sources(cfg)
-    summary, problems, missing = [], [], []
+    summary, problems, warnings, missing = [], [], [], []
     for key, row in sorted(sources.items()):
         path = ws / "items" / f"{key}.json"
         if not path.exists():
@@ -75,6 +96,9 @@ def items_check(args) -> dict:
         if doc["source"] != key:
             problems.append(f"{path.name}: source is {doc['source']}")
             continue
+        bad, warn = parser_check(cfg, key, doc)
+        problems += bad
+        warnings += warn
         stats = {}
         for edition in ("current", "previous"):
             e = doc["editions"][edition]
@@ -107,7 +131,7 @@ def items_check(args) -> dict:
             summary.append({"source": key, "family": row["family"], "text_comparable": comparable, **{
                 f"{ed}_{k}": v for ed, s in stats.items() for k, v in s.items()}})
     write_json(ws / "items_summary.json", {"generated_by": "sg trends items-check", "sources": summary,
-                                           "missing": missing, "problems": problems})
+                                           "missing": missing, "problems": problems, "warnings": warnings})
     lines = ["# Harvested items", "", f"Generated {today()} by `sg trends items-check`. Titles are checked against "
              "the stored pages; abstracts are used only when both editions have them.", "",
              "| Source | Family | Current | Previous | Found | Abstracts |", "|---|---|---|---|---|---|"]
@@ -120,9 +144,11 @@ def items_check(args) -> dict:
         lines += ["", f"Not harvested: {', '.join(missing)}"]
     if problems:
         lines += ["", "Problems:", *[f"- {p}" for p in problems]]
+    if warnings:
+        lines += ["", "Warnings:", *[f"- {w}" for w in warnings]]
     (ws / "items_summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return {"ok": not problems and not missing, "harvested": len(summary), "missing": missing,
-            "problems": problems[:20], "out": str(ws / "items_summary.md")}
+            "problems": problems[:20], "warnings": warnings[:20], "out": str(ws / "items_summary.md")}
 
 
 def _comparable(ws) -> dict:

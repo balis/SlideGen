@@ -38,7 +38,9 @@ Two collections:
   Pass absolute paths, the expanded `SG` command, today's date, the parts of `T`
   the agent needs (quoted, not summarized), and a scratch folder of the agent's
   own (`<scratchpad>/<agent>-<batch>/`): parallel agents that share file names
-  overwrite each other's work.
+  overwrite each other's work. The scratch folder is for throwaway work and may
+  be cleared on a restart; scripts that produce project files (item parsers)
+  go to `ROOT/trends/parsers/`.
 - Skip any step whose output already exists and is valid. Once the author has
   approved the collections, later runs reuse them.
 
@@ -109,7 +111,8 @@ Two collections:
 ## Stage 1: items, classification, topics
 
 1. **Harvest.** Start **item-harvester** agents in parallel, one per item
-   family, each writing `ROOT/trends/items/<source>.json` with a parser script,
+   family, each writing `ROOT/trends/items/<source>.json` with a parser script
+   kept as `ROOT/trends/parsers/<source>.py` (pass that folder as `parsers`),
    until `SG trends items-check --manifest T` passes.
 2. **Classify.** Run `SG trends classify-prep --manifest T` (blinded, shuffled
    batches; no edition shown). Start **item-classifier** agents for the batches
