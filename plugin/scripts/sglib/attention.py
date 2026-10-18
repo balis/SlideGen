@@ -42,7 +42,7 @@ MAX_UNPAIRED = 0.1   # share of a survey table's answers that may lack a printed
 UA = {"User-Agent": "slidegen-field-trends/1.0 (research; contact via repository)"}
 KIND = {"hn_stories": "posts", "reddit": "posts", "discourse": "topics", "mailman3": "threads",
         "stackexchange_tags": "questions", "hn_hiring": "job_postings", "itjobswatch": "job_ads", "pypi": "downloads",
-        "records": "records", "stackoverflow_survey": "survey", "survey_table": "survey"}
+        "records": "records", "survey_table": "survey"}
 
 
 def _ts(day: str, end: bool = False) -> int:
@@ -361,7 +361,7 @@ COLLECTORS = {"hn_stories": _collect_hn_stories, "reddit": _collect_reddit, "dis
               "mailman3": _collect_mailman3, "hn_hiring": _collect_hiring,
               "stackexchange_tags": _collect_se_tags, "pypi": _collect_pypi, "itjobswatch": _collect_itjw,
               "records": _collect_nothing,
-              "stackoverflow_survey": _collect_nothing, "survey_table": _collect_nothing}
+              "survey_table": _collect_nothing}
 
 
 def collect(args) -> dict:
@@ -515,24 +515,12 @@ COUNTERS = {"hn_stories": _count_hn_stories, "reddit": _count_titles, "discourse
             "stackexchange_tags": _count_se_tags}
 
 
-def _survey_shares(cfg, key, col, row) -> tuple[dict, dict]:
-    """Share of respondents (or listed systems) per answer in the current and previous edition."""
-    if col["type"] == "survey_table":   # written by a survey-extractor and checked by sg trends survey-check
-        table = load_json(cfg["_ws"] / "queries" / f"{key}.json", "trend_survey_table")["editions"]
-        return ({r["name"]: r["percent"] for r in table[ed]["rows"]} for ed in ("current", "previous"))
-    texts = _texts(cfg["_store"])   # stackoverflow_survey: the survey's 'Full data' page and an extracted chart
-    v = row["verified"]
-    block = texts[v["current"]["fetched"]].read_text(encoding="utf-8").split("Respondents\nPercent\n", 1)[-1]
-    current = {m.group(1).strip(): float(m.group(2)) for m in re.finditer(r"([^\n]+)\n[\d,]+\n([\d.]+)%", block)}
-    prev = json.loads(texts[v["previous"]["fetched"]].read_text(encoding="utf-8"))
-    previous = {d["name"]: float(d["percent"].rstrip("%")) for d in prev["databases"]}
-    return current, previous
-
-
-def _survey(cfg, key, col, row, topics):
-    """A topic's share is the sum of its answers' shares. An answer printed in one edition only was added to or
-    dropped from the survey, so it is skipped rather than counted as 0% in the other edition."""
-    current, previous = _survey_shares(cfg, key, col, row)
+def _survey(cfg, key, topics):
+    """A topic's share is the sum of its answers' shares in the survey table (written by a survey-extractor and
+    checked by sg trends survey-check). An answer printed in one edition only was added to or dropped from the
+    survey, so it is skipped rather than counted as 0% in the other edition."""
+    table = load_json(cfg["_ws"] / "queries" / f"{key}.json", "trend_survey_table")["editions"]
+    current, previous = ({r["name"]: r["percent"] for r in table[ed]["rows"]} for ed in ("current", "previous"))
     out = {}
     for t in topics:
         names = [x for x in t.get("survey_names", []) if x in current and x in previous]
@@ -577,11 +565,11 @@ def _pypi(cfg, key, col, topics):
     return out
 
 
-def _adoption(cfg, key, col, row, topics, counts) -> dict:
+def _adoption(cfg, key, col, topics, counts) -> dict:
     """One adoption source's result per topic."""
     kind = KIND[col["type"]]
-    if col["type"] in ("stackoverflow_survey", "survey_table"):
-        values = _survey(cfg, key, col, row, topics)
+    if col["type"] == "survey_table":
+        values = _survey(cfg, key, topics)
     elif col["type"] == "pypi":
         values = _pypi(cfg, key, col, topics)
     elif col["type"] == "itjobswatch":
@@ -630,7 +618,7 @@ def attention(args) -> dict:
         try:
             counts = COUNTERS[col["type"]](cfg, key, col, topics) if col["type"] in COUNTERS else None
             if key in adoption_sources:
-                adoption[key] = _adoption(cfg, key, col, row, topics, counts)
+                adoption[key] = _adoption(cfg, key, col, topics, counts)
             elif counts is None:
                 raise SgError(f"collector type {col['type']} cannot measure a {row['family']} family")
             else:

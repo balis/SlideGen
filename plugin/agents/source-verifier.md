@@ -100,8 +100,8 @@ with `cd` is refused too.
    `/list/<name>@<host>`), `stackexchange_tags` (`site`,
    `tags`: a neutral set of the field's main tags), `hn_hiring`, `itjobswatch`,
    `pypi` (`packages`: a neutral set of the field's main packages),
-   `stackoverflow_survey`, `survey_table` (a survey whose results table
-   stage 2 reads from an extracted file), or `records`. Use `records` for any
+   `survey_table` (a survey whose results table stage 2 reads from an
+   extracted file), or `records`. Use `records` for any
    forum or list whose entries are printed on pages you can store and no
    other type reads: a mailing-list or forum archive (one record per thread
    or post, with its date), a ranked list (one record per listed system or

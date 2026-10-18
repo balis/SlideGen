@@ -145,10 +145,9 @@
               "pypi",
               "itjobswatch",
               "records",
-              "stackoverflow_survey",
               "survey_table"
             ],
-            "description": "records: entries (threads, posts, listed systems, result rows) that stage 1 extracts from the source's stored pages, counted per topic; stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table)"
+            "description": "records: entries (threads, posts, listed systems, result rows) that stage 1 extracts from the source's stored pages, counted per topic; survey_table: the answer shares of one survey question, which a survey-extractor copies from the stored pages"
           },
           "subreddit": {
             "type": "string"

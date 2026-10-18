@@ -57,9 +57,8 @@ with `cd` is refused too.
    computing fields), `reddit` (`subreddit`), `discourse` (`url`, a Discourse
    forum), `mailman3` (`archive`, a Mailman 3 list), `stackexchange_tags` (`site`,
    `tags`), `hn_hiring`, `itjobswatch` (UK IT job ads), `pypi` (`packages`),
-   `stackoverflow_survey` (the databases question of that survey only),
-   `survey_table` (any other survey question; a survey-extractor writes the
-   table in stage 2), `records` (a forum archive, a ranked list such as a list
+   `survey_table` (one question of a survey whose results are printed; a
+   survey-extractor writes the table in stage 2), `records` (a forum archive, a ranked list such as a list
    of supercomputers, or a result list, whose entries stage 1 extracts from
    the stored pages; `ranked`, `unit`). Check a subreddit or Stack Exchange
    site exists before naming it (one web search is enough). Sources you are

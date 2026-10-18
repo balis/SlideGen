@@ -297,7 +297,7 @@ def test_collectors_by_type(tmp_path):
                                                "editions": {"current": {"fetched": ["a"], "rows": rows({"Slurm": 61.0, "PBS": 20.0})},
                                                             "previous": {"fetched": ["b"], "rows": rows({"Slurm": 55.5, "PBS": 24.0})}}})
     t2 = [{**t, "survey_names": [t["name"]]} for t in topics]
-    out = _adoption({"_ws": ws}, "hpc-survey", {"type": "survey_table"}, verified_col, t2, None)
+    out = _adoption({"_ws": ws}, "hpc-survey", {"type": "survey_table"}, t2, None)
     assert out == {"slurm": {"current": 61.0, "previous": 55.5, "delta_pp": 5.5, "direction": "up", "kind": "survey"}}
 
 
@@ -387,7 +387,7 @@ def test_survey_skips_answers_missing_from_one_edition(tmp_path):
         "previous": {"fetched": ["b"], "rows": rows({"Terraform": 28.0, "Prometheus": 11.8})}}})
     topics = [{"id": "iac", "survey_names": ["Terraform", "OpenTofu"]}, {"id": "tofu", "survey_names": ["OpenTofu"]},
               {"id": "prom", "survey_names": ["Prometheus"]}]
-    out = _survey({"_ws": ws}, "s", {"type": "survey_table"}, None, topics)
+    out = _survey({"_ws": ws}, "s", topics)
     assert out == {"iac": {"current": 30.0, "previous": 28.0, "delta_pp": 2.0, "direction": "up",
                            "skipped": ["OpenTofu"]}}
 

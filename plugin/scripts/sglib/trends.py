@@ -29,7 +29,7 @@ MIN_EVIDENCE_QUOTE = 10
 MIN_SCOPE_FIT = 0.1   # default floor: excludes sources that are barely about the field
 SCOPE_SAMPLE = 20     # items sampled for a scope estimate, unless the record says otherwise
 Z = 1.96              # 95% interval for scope estimates
-PAGE_COLLECTORS = {"survey_table", "records", "stackoverflow_survey"}   # measured on the stored pages
+PAGE_COLLECTORS = {"survey_table", "records"}   # measured on the stored pages
 
 
 def _manifest(path: str) -> dict:

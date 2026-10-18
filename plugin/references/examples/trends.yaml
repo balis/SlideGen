@@ -143,7 +143,7 @@ collectors:
                    apache-iceberg, duckdb, azure-data-factory, hive, hadoop, data-lake]
   hn-who-is-hiring: {type: hn_hiring, label: Jobs (HN)}
   it-jobs-watch: {type: itjobswatch, label: Jobs (UK)}
-  stack-overflow-developer-survey: {type: stackoverflow_survey, label: Survey}
+  stack-overflow-developer-survey: {type: survey_table, label: Survey}
   pypi-downloads:
     type: pypi
     label: Downloads
