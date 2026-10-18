@@ -35,29 +35,40 @@ else changes.
 
 ## Steps
 
-1. **References.** Start four **reference-scout** agents in parallel, one per
+1. **Decks** (when `P` lists `decks`; run this step alongside step 2). For
+   each deck, `W` = its `workspace` in `P`. If `W/slides.json` is missing, run
+   `SG ingest <deck path> --out W`. Then start one **topic-mapper** per deck
+   whose `W/topic_map.json` is missing, in parallel, with `workspace` = `W`,
+   `deck` = its id, and `skip` = its hidden slides (`hidden` in
+   `slides.json`). The curriculum-mapper and the course-architect read the
+   decks through these topic maps.
+2. **References.** Start four **reference-scout** agents in parallel, one per
    kind (`syllabus`, `textbook`, `paper`, `professional`), each with its quota
    from `P` and `course` = the course name in both languages, its level and
    audience, and the current lecture titles, writing
    `ROOT/plan/references/<kind>.json`. Then run
    `SG course refs --plan P`. If quotas are not met, send the scouts of the short
    kinds back for more references (once), then continue with what is accepted.
-2. **Taxonomy.** One **taxonomist** writes `plan/taxonomy.json` until
+3. **Taxonomy.** One **taxonomist** writes `plan/taxonomy.json` until
    `SG course taxonomy --plan P` passes. That command also writes
    `plan/reference_curriculum.md`.
-3. **Current curriculum.** One **curriculum-mapper** writes `plan/mapping.json`
-   until `SG course gaps --plan P` passes, which writes `plan/gap_analysis.md`.
-4. **Trends** (when `P` names a `trends` folder from /slidegen:field-trends). One
-   **trend-mapper** writes `plan/trend_map.json` until
-   `SG course trends --plan P` passes, which writes `plan/trends.json` and
-   `plan/trend_gaps.md`: attention, maturity and use per course topic, and new
-   course topics for current trends the reference curriculum lacks.
-5. **Proposal.** One **course-architect** writes `plan/proposal.json` until
+4. **Current curriculum** (after step 1). One **curriculum-mapper** writes
+   `plan/mapping.json` until `SG course gaps --plan P` passes, which writes
+   `plan/gap_analysis.md`.
+5. **Trends** (when `P` names a `trends` folder from /slidegen:field-trends;
+   after step 4, because `trend_gaps.md` uses the gap analysis to tell taught
+   topics from untaught ones). One **trend-mapper** writes
+   `plan/trend_map.json` until `SG course trends --plan P` passes, which writes
+   `plan/trends.json` and `plan/trend_gaps.md`: attention, maturity and use per
+   course topic, and new course topics for current trends the reference
+   curriculum lacks. If it warns that `gap_analysis.json` is missing, run
+   step 4 and then `SG course trends --plan P` again.
+6. **Proposal.** One **course-architect** writes `plan/proposal.json` until
    `SG course validate --plan P` passes.
-6. **Review.** One **course-reviewer** writes `plan/review.json`. If it lists
+7. **Review.** One **course-reviewer** writes `plan/review.json`. If it lists
    `high` issues about the proposal, send them to the course-architect once for
    a revision, and validate again.
-7. **Report.** `SG course report --plan P` writes `plan/curriculum_proposal.md`
+8. **Report.** `SG course report --plan P` writes `plan/curriculum_proposal.md`
    and `plan/decisions.md`.
 
 ## Finish

@@ -316,7 +316,7 @@ agents.
 | claim-extractor | Read, Write | sonnet | review, modernize, create (untagged-fact check) |
 | researcher | WebSearch, WebFetch, Bash, Read, Write | sonnet | all |
 | fact-checker | Read, Write | opus | all |
-| topic-mapper | Read, Write | sonnet | modernize |
+| topic-mapper | Read, Write | sonnet | modernize, course-plan |
 | developments-researcher | WebSearch, WebFetch, Bash, Read, Write | sonnet | modernize |
 | findings-reviewer | WebSearch, WebFetch, Bash, Read, Write | opus | modernize |
 | change-planner | Read, Write | opus | modernize |
@@ -829,8 +829,10 @@ decks (for reuse), and reference quotas.
    coverage: the share of independent references teaching each topic gives its
    tier (core, common, niche), and comparing recent with older references gives
    its trend (emerging, steady, fading).
-3. **Current curriculum.** A curriculum-mapper expresses the current lectures as
-   topics with hours. `sg course gaps` lists core and common topics not taught,
+3. **Current curriculum.** A topic-mapper divides each existing deck into
+   sections, as in `deck-modernize`. A curriculum-mapper then expresses the
+   current lectures as topics with hours. `sg course gaps` lists core and
+   common topics not taught,
    emerging topics not taught, over-weighted topics, content in no reference,
    and topics taught twice.
 4. **Proposal.** A course-architect designs the best-fit plan.
@@ -841,7 +843,9 @@ decks (for reuse), and reference quotas.
    slides: the reused slides plus the new material's minutes at the author's
    pace (the middle of the slide range divided by the lecture length). It fails
    a lecture outside the range, so that the plan sizes lectures the way the
-   author teaches them.
+   author teaches them. The same pace turns reused slides into minutes: a
+   lecture's material must fit its slot and agree with its topic hours within
+   5 minutes, since both describe the same time.
 5. **Review.** A course-reviewer judges the balance of the references, the
    taxonomy, and the proposal; high-severity issues go back to the architect once.
 6. **Report.** `sg course report` writes `curriculum_proposal.md` and

@@ -30,7 +30,9 @@ students better.
   /slidegen:field-trends; plus new course topics (tier `new`) for current trends
   the reference curriculum lacks. The profiles themselves (`profiles.md` in the
   trends folder) hold the quoted evidence.
-- `taxonomy`, `mapping`, and the existing decks' `topic_map.json` files for reuse.
+- `taxonomy`, `mapping`, and the existing decks' `topic_map.json` files for
+  reuse: each deck's sections with their slide ranges, subtopics and content
+  dates. Open a deck's `slides.json` only to check particular slides.
 - `review` (on a revision only): the reviewer's issues to address.
 - `sg`.
 
@@ -58,18 +60,25 @@ with `cd` is refused too.
   two platforms").
 - Respect dependencies: a topic comes in the same lecture as, or after, the
   topics it depends on.
-- Fit the time: topic hours in each lecture add up to between 75% and 100% of
-  the lecture's length. Give fewer, deeper topics rather than a tour; choose
-  `depth` per topic (`overview`, `core`, `deep`) for the course's level.
+- Fit the time: give fewer, deeper topics rather than a tour; choose `depth`
+  per topic (`overview`, `core`, `deep`) for the course's level. A topic's
+  `hours` is the time it takes in the lecture, so a lecture's topic hours and
+  its material (below) describe the same time.
 - Each topic is placed in one lecture. If a topic needs coverage in two
   lectures, it is too coarse: say so in the rationale.
 - Point to reusable material: for each lecture, list deck slide ranges that can
   be reused (`reuse`) and what must be newly made (`new_material`), each new
   item with the `minutes` it takes in the lecture. Size new material in
   minutes, never in slides. Reused slides and new material together fill the
-  lecture at the author's pace: `sg course validate` estimates each lecture's
-  slides as reused slides plus new-material minutes times the pace implied by
-  `lectures.slides`, and fails outside that range. Include course
+  lecture at the author's pace, the pace implied by `lectures.slides`.
+  `sg course validate` counts a reused slide as one slide's time at that pace
+  and fails when a lecture's estimated slide count falls outside
+  `lectures.slides`, when its material takes longer than the lecture, or when
+  its material and its topic hours differ by more than 5 minutes. The slide
+  range describes a full lecture, so the pace already includes the author's
+  questions and pauses: do not set time aside for them. The lower end of the
+  range sets the shortest lecture (50 slides at 55 per 90 minutes is about 82
+  minutes); the validate message gives the range in minutes. Include course
   organisation and exercises as new material when they take lecture time;
   backup slides that are not presented take 0 minutes.
 - Write `title` in the manifest's `lecture_language` (the language the lectures

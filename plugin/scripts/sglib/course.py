@@ -33,6 +33,9 @@ MAX_DECISIONS = 12        # more than this overwhelms the author; group related 
 MAX_TOPICS_PER_LABEL = 3  # a combined syllabus line may name a few distinct topics
 TIERS = ("core", "common", "niche")
 SUGGESTED_RANGE = (0.88, 1.05)  # around the median size of the author's decks
+MAX_MINUTES_OFF = 5       # a lecture's topic hours and its material must agree within this many minutes
+SLOT_SLACK = 1            # minutes of rounding allowed when a lecture's material is checked against its slot
+NAMED_STEADY = 3          # steady trend topics named per course topic in trend_gaps.md
 
 
 def _plan(path: str) -> dict:
@@ -85,6 +88,15 @@ def slide_estimate(cfg: dict, lec: dict) -> int | None:
         return None
     reused = sum(len(r["slides"]) for r in lec.get("reuse", []))
     return round(reused + sum(m["minutes"] for m in lec.get("new_material", [])) * pace)
+
+
+def material_minutes(cfg: dict, lec: dict) -> float | None:
+    """The time a lecture's material takes: reused slides at the author's pace plus the new material's minutes."""
+    pace = slides_per_minute(cfg)
+    if pace is None:
+        return None
+    reused = sum(len(r["slides"]) for r in lec.get("reuse", []))
+    return reused / pace + sum(m["minutes"] for m in lec.get("new_material", []))
 
 
 # ---------------------------------------------------------------- references
@@ -422,7 +434,8 @@ def trends(args) -> dict:
             a, pr = attention[link["trend"]], profiles.get(link["trend"], {})
             linked[link["topic"]].append({"trend": link["trend"], "name": a["name"], "verdict": a["verdict"],
                                           "maturity": pr.get("status"), "organizations": len(pr.get("organizations", [])),
-                                          "adoption": sorted(a.get("adoption", {}))})
+                                          "adoption": sorted(a.get("adoption", {})),
+                                          "mentions": sum(f.get("mentions", 0) for f in a.get("families", {}).values())})
     unlinked = sorted(set(attention) - seen)
     if unlinked:
         problems.append(f"{len(unlinked)} trend topics have no link (topic or null), e.g. {unlinked[:5]}")
@@ -451,16 +464,41 @@ def trends(args) -> dict:
                          "must_decide": r["must_decide"]})
     write_json(ws / "trends.json", {"generated_by": "sg course trends", "trends_folder": str(tdir),
                                     "topics": rows, "new_topics": new_rows, "out_of_scope_current": out_current})
-    taught = load_json(ws / "gap_analysis.json")["taught"] if (ws / "gap_analysis.json").exists() else {}
+    warnings = []
+    if (ws / "gap_analysis.json").exists():
+        taught = load_json(ws / "gap_analysis.json")["taught"]
+    else:
+        taught = {}
+        warnings.append("gap_analysis.json is missing, so trend_gaps.md lists every topic as not taught; run "
+                        "`sg course gaps`, then `sg course trends` again")
     titles = {**{k: v["title"] for k, v in taxonomy.items()}, **{k: v["title"] for k, v in new.items()}}
     lines = [f"# Trends and the course: {cfg.get('name_en') or cfg.get('name')}", "",
              f"Generated {today()} by `sg course trends` from {tdir}. Attention per course topic summarises the "
-             "verdicts of the trend topics linked to it; maturity comes from the topic profiles.", ""]
+             "verdicts of the trend topics linked to it; maturity comes from the topic profiles. Each line names "
+             "the linked trend topics that rise or fall and counts the others by verdict, naming the most "
+             "discussed steady ones.", ""]
+    lines += [f"**Warning:** {w}.\n" for w in warnings]
+
     def item(tid):
         r = rows[tid]
-        names = ", ".join(f"{x['name']} ({x['verdict']}" + (f", {x['maturity']}" if x["maturity"] else "") + ")"
-                          for x in r["linked"] if x["verdict"] in CURRENT + FALLING) or "–"
-        return f"- **{tid} {titles[tid]}**: {r['attention']}; {names}"
+        if not r["linked"]:
+            return f"- **{tid} {titles[tid]}**: {r['attention']}; no linked trend topics"
+        moving = [x for x in r["linked"] if x["verdict"] in CURRENT + FALLING]
+        parts = [f"{len(r['linked'])} linked trend topic" + ("s" if len(r["linked"]) > 1 else "")]
+        if moving:
+            parts.append("rising or falling: " + ", ".join(
+                f"{x['name']} ({x['verdict']}" + (f", {x['maturity']}" if x["maturity"] else "") + ")" for x in moving))
+        others = defaultdict(list)
+        for x in r["linked"]:
+            if x not in moving:
+                others[x["verdict"]].append(x)
+        for verdict, xs in sorted(others.items(), key=lambda kv: -len(kv[1])):
+            part = f"{verdict}: {len(xs)}"
+            if verdict == "steady":
+                top = [x["name"] for x in sorted(xs, key=lambda x: -x["mentions"])[:NAMED_STEADY]]
+                part += f" ({', '.join(top)}{', …' if len(xs) > NAMED_STEADY else ''})"
+            parts.append(part)
+        return f"- **{tid} {titles[tid]}**: {r['attention']}; " + "; ".join(parts)
     groups = [("Growing or rising, not taught now", [t for t in rows if rows[t]["attention"] in ("growing", "rising", "mixed")
                                                      and t not in taught]),
               ("New course topics proposed by the mapping", sorted(new)),
@@ -473,7 +511,7 @@ def trends(args) -> dict:
               ", ".join(out_current) or "None.", ""]
     (ws / "trend_gaps.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return {"ok": True, "new_topics": len(new), "must_decide": sum(r["must_decide"] for r in new_rows),
-            "current_out_of_scope": len(out_current), "out": str(ws / "trend_gaps.md")}
+            "current_out_of_scope": len(out_current), "out": str(ws / "trend_gaps.md"), "warnings": warnings}
 
 
 def _rows(ws: Path) -> dict:
@@ -502,7 +540,8 @@ def _check_proposal(cfg: dict) -> tuple[dict, list[str], dict]:
     if sorted(l["n"] for l in prop["lectures"]) != list(range(1, len(prop["lectures"]) + 1)):
         problems.append("lectures must be numbered 1..N")
     placed: dict[str, int] = {}
-    per_lecture, slides = {}, {}
+    per_lecture, slides, minutes = {}, {}, {}
+    slot = hours * 60
     if not slide_range(cfg):
         hint = suggested_slides(cfg)
         problems.append("plan.yaml has no lectures.slides (the expected slide count per lecture, as [min, max])"
@@ -524,14 +563,26 @@ def _check_proposal(cfg: dict) -> tuple[dict, list[str], dict]:
         for r in lec.get("reuse", []):
             if r["deck"] not in {d["id"] for d in cfg.get("decks", [])}:
                 problems.append(f"lecture {lec['n']}: reuse names unknown deck {r['deck']}")
-        est, rng = slide_estimate(cfg, lec), slide_range(cfg)
+        est, rng, pace = slide_estimate(cfg, lec), slide_range(cfg), slides_per_minute(cfg)
         slides[lec["n"]] = est
-        if rng and not rng[0] <= est <= rng[1]:
-            reused = sum(len(r["slides"]) for r in lec.get("reuse", []))
-            minutes = sum(m["minutes"] for m in lec.get("new_material", []))
-            problems.append(f"lecture {lec['n']} has about {est} slides ({reused} reused + {minutes:g} min of new "
-                            f"material); the author expects {rng[0]}-{rng[1]}: size new_material in minutes "
-                            f"so that it fills the lecture")
+        if not rng:
+            continue
+        reused = sum(len(r["slides"]) for r in lec.get("reuse", []))
+        new = sum(m["minutes"] for m in lec.get("new_material", []))
+        content = material_minutes(cfg, lec)
+        minutes[lec["n"]] = round(content)
+        if not rng[0] <= est <= rng[1]:
+            problems.append(f"lecture {lec['n']} has about {est} slides ({reused} reused + {new:g} min of new "
+                            f"material); the author expects {rng[0]}-{rng[1]}, which at the author's pace is "
+                            f"{rng[0] / pace:.0f}-{min(rng[1] / pace, slot):.0f} min of material: size "
+                            f"new_material in minutes so that it fills the lecture")
+        if content > slot + SLOT_SLACK:
+            problems.append(f"lecture {lec['n']}: its material takes about {content:.0f} min ({reused} reused "
+                            f"slides at the author's pace + {new:g} min of new material), the slot is {slot:g} min")
+        if abs(content - h * 60) > MAX_MINUTES_OFF:
+            problems.append(f"lecture {lec['n']}: its topics take {h * 60:.0f} min but its material takes about "
+                            f"{content:.0f} min ({reused} reused slides + {new:g} min of new material); make them "
+                            f"agree within {MAX_MINUTES_OFF} min")
     dropped = {d["topic"] for d in prop["dropped"]}
     assumed = set(prop["assumed_prerequisites"])
     for d in dropped | assumed:
@@ -554,7 +605,8 @@ def _check_proposal(cfg: dict) -> tuple[dict, list[str], dict]:
     ids = [d["id"] for d in prop["decisions"]]
     if len(set(ids)) != len(ids):
         problems.append("duplicate decision ids")
-    stats = {"per_lecture_hours": per_lecture, "per_lecture_slides": slides, "placed": len(placed), "dropped": len(dropped),
+    stats = {"per_lecture_hours": per_lecture, "per_lecture_slides": slides, "per_lecture_minutes": minutes,
+             "placed": len(placed), "dropped": len(dropped),
              "assumed": len(assumed), "decisions": len(prop["decisions"]),
              "core_placed": sum(rows[t]["tier"] == "core" for t in placed if t in rows),
              "core_total": sum(r["tier"] == "core" for r in rows.values())}

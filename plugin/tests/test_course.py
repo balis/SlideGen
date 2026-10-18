@@ -110,9 +110,10 @@ def test_course_plan_flow(tmp_path):
     r = run("course", "gaps", "--plan", plan)
     assert r["ok"] and r["missing"] == 2 and r["current_only"] == 1, r   # T3 and T4 are not taught
 
-    lecture = lambda n, topics, minutes=110: {"n": n, "title": f"L{n}", "summary": "s", "objectives": ["o"],
-                                              "topics": [{"topic": t, "hours": h, "depth": "core"} for t, h in topics],
-                                              "new_material": [{"what": "slides", "minutes": minutes}]}
+    lecture = lambda n, topics, minutes=120, reuse=(): {"n": n, "title": f"L{n}", "summary": "s", "objectives": ["o"],
+                                                        "topics": [{"topic": t, "hours": h, "depth": "core"} for t, h in topics],
+                                                        "reuse": list(reuse),
+                                                        "new_material": [{"what": "slides", "minutes": minutes}]}
     decisions = [{"id": f"D{i:02d}", "title": "t", "summary": "s", "lectures": [1]} for i in range(1, 14)]
     write(ws / "proposal.json", {"rationale": "r", "assumed_prerequisites": [], "dropped": [], "decisions": decisions,
                                  "lectures": [lecture(1, [("T2", 1), ("T3", 1)]), lecture(2, [("T1", 2)])]})
@@ -127,16 +128,34 @@ def test_course_plan_flow(tmp_path):
                                  "decisions": decisions[:2],
                                  "lectures": [lecture(1, [("T1", 1), ("T2", 1)]), lecture(2, [("T3", 2)], minutes=40)]})
     r = run("course", "validate", "--plan", plan)
-    assert not r["ok"] and "lecture 2 has about 17 slides" in r["error"] and "lecture 1" not in r["error"], r
+    assert not r["ok"] and "lecture 2 has about 17 slides" in r["error"] and "96-120 min of material" in r["error"], r
+    assert "lecture 2: its topics take 120 min but its material takes about 40 min" in r["error"], r
+    assert "lecture 1" not in r["error"], r
+    # the material fits the slot and agrees with the topic hours; a reused slide takes one slide's time at the pace
+    cfg["decks"] = [{"id": "old", "path": "old.pptx"}]
+    write(plan, yaml.safe_dump(cfg))
+    reuse = [{"deck": "old", "slides": list(range(1, 26)), "note": "n"}]
     write(ws / "proposal.json", {"rationale": "r", "assumed_prerequisites": [],
                                  "dropped": [{"topic": "T4", "reason": "too early for bachelors"}],
                                  "decisions": decisions[:2],
-                                 "lectures": [lecture(1, [("T1", 1), ("T2", 1)]), lecture(2, [("T3", 2)])]})
+                                 "lectures": [lecture(1, [("T1", 1), ("T2", 0.75)], minutes=60, reuse=reuse),
+                                              lecture(2, [("T3", 2)], minutes=126)]})
+    r = run("course", "validate", "--plan", plan)
+    assert not r["ok"] and "has about" not in r["error"], r   # both slide estimates are within the range
+    assert ("lecture 1: its topics take 105 min but its material takes about 120 min (25 reused slides + 60 min"
+            in r["error"]), r
+    assert "lecture 2: its material takes about 126 min" in r["error"] and "the slot is 120 min" in r["error"], r
+    write(ws / "proposal.json", {"rationale": "r", "assumed_prerequisites": [],
+                                 "dropped": [{"topic": "T4", "reason": "too early for bachelors"}],
+                                 "decisions": decisions[:2],
+                                 "lectures": [lecture(1, [("T1", 1), ("T2", 1)], minutes=60, reuse=reuse),
+                                              lecture(2, [("T3", 2)])]})
     r = run("course", "validate", "--plan", plan)
     assert r["ok"] and r["core_placed"] == 3 and r["dropped"] == 1, r
+    assert r["per_lecture_minutes"] == {"1": 120, "2": 120}, r
     r = run("course", "report", "--plan", plan)
-    assert r["ok"] and r["per_lecture_slides"] == {"1": 46, "2": 46}, r
-    assert "about 46" in (ws / "curriculum_proposal.md").read_text()
+    assert r["ok"] and r["per_lecture_slides"] == {"1": 50, "2": 50}, r
+    assert "about 50" in (ws / "curriculum_proposal.md").read_text()
     decisions_md = (ws / "decisions.md").read_text()
     assert decisions_md.count("- [x] **D0") == 2
     assert "Gaps in the current curriculum" in (ws / "curriculum_proposal.md").read_text()
@@ -151,22 +170,39 @@ def test_course_trends(tmp_path):
     cfg["trends"] = "../trends"
     write(plan, yaml.safe_dump(cfg))
     ws = root / "plan"
-    topic = lambda name, verdict: {"name": name, "kind": "concept", "verdict": verdict, "families": {}, "adoption": {}}
+    topic = lambda name, verdict, mentions=0: {"name": name, "kind": "concept", "verdict": verdict,
+                                               "families": {"talks": {"mentions": mentions}}, "adoption": {}}
     write(tmp_path / "trends" / "attention.json", {"topics": {
-        "iceberg": topic("Apache Iceberg", "steady"), "hadoop": topic("Apache Hadoop", "falling in one family"),
+        "iceberg": topic("Apache Iceberg", "steady", 5), "hadoop": topic("Apache Hadoop", "falling in one family"),
+        "delta": topic("Delta Lake", "steady", 9), "hudi": topic("Apache Hudi", "steady", 7),
+        "paimon": topic("Apache Paimon", "steady", 1), "lance": topic("Lance", "too little evidence"),
+        "orc": topic("ORC", "rising in one family"),
         "semantic-layer": topic("Semantic layer", "growing"), "power-bi": topic("Power BI", "rising in one family")}})
     write(tmp_path / "trends" / "profiles.json", {"topics": [
         {"id": "semantic-layer", "status": "generally available", "organizations": ["A", "B"]}]})
     write(ws / "trend_map.json", {"links": [
         {"trend": "iceberg", "topic": "T2"}, {"trend": "hadoop", "topic": "T1"},
+        {"trend": "delta", "topic": "T2"}, {"trend": "hudi", "topic": "T2"}, {"trend": "paimon", "topic": "T2"},
+        {"trend": "lance", "topic": "T2"}, {"trend": "orc", "topic": "T2"},
         {"trend": "semantic-layer", "topic": "N01"}, {"trend": "power-bi", "topic": None}],
         "new_topics": [{"id": "N01", "title": "Semantic layer", "area": "A1", "depends_on": ["T2"], "why": "none"}]})
+    gap_file = ws / "gap_analysis.json"
+    gap_file.rename(ws / "gap_analysis.saved")
+    r = run("course", "trends", "--plan", plan)
+    assert r["ok"] and "gap_analysis.json is missing" in r["warnings"][0], r
+    assert "**Warning:** gap_analysis.json is missing" in (ws / "trend_gaps.md").read_text()
+    (ws / "gap_analysis.saved").rename(gap_file)
     r = run("course", "trends", "--plan", plan)
     assert r["ok"] and r["new_topics"] == 1 and r["must_decide"] == 1 and r["current_out_of_scope"] == 1, r
+    assert r["warnings"] == [], r
     t = json.loads((ws / "trends.json").read_text())
     assert t["topics"]["T1"]["attention"] == "falling" and t["topics"]["N01"]["attention"] == "growing"
     gaps = (ws / "trend_gaps.md").read_text()
-    assert "N01 Semantic layer" in gaps and "Power BI" in gaps
+    assert "N01 Semantic layer" in gaps and "Power BI" in gaps and "Warning" not in gaps
+    # one rising topic among several steady ones: the line counts them and names the most discussed steady ones
+    assert ("- **T2 File formats**: rising; 6 linked trend topics; rising or falling: ORC (rising in one family); "
+            "steady: 4 (Delta Lake, Apache Hudi, Apache Iceberg, …); too little evidence: 1") in gaps, gaps
+    assert "- **T1 Distributed storage**: falling; 1 linked trend topic; rising or falling: Apache Hadoop" in gaps
     r = run("course", "validate", "--plan", plan)
     assert not r["ok"] and "new topic N01" in r["error"], r
     prop = json.loads((ws / "proposal.json").read_text())
