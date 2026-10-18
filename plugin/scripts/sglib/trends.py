@@ -29,7 +29,7 @@ MIN_EVIDENCE_QUOTE = 10
 MIN_SCOPE_FIT = 0.1   # default floor: excludes sources that are barely about the field
 SCOPE_SAMPLE = 20     # items sampled for a scope estimate, unless the record says otherwise
 Z = 1.96              # 95% interval for scope estimates
-PAGE_COLLECTORS = {"survey_table", "stackoverflow_survey", "top500_list"}   # measured on the stored pages
+PAGE_COLLECTORS = {"survey_table", "records", "stackoverflow_survey", "top500_list"}   # measured on the stored pages
 
 
 def _manifest(path: str) -> dict:
@@ -38,6 +38,11 @@ def _manifest(path: str) -> dict:
     check_schema(cfg, "trend_manifest", p)
     cfg["_root"], cfg["_ws"], cfg["_store"] = p.parent, p.parent / "trends", p.parent / "sources"
     return cfg
+
+
+def collector_of(cfg: dict, row: dict | None, key: str) -> dict | None:
+    """The collector of a source: the manifest's entry, else the one named in its verification record."""
+    return (cfg.get("collectors") or {}).get(key) or ((row or {}).get("verified") or {}).get("collector")
 
 
 def _key(name: str) -> str:
@@ -308,12 +313,12 @@ def sources_check(args) -> dict:
     own = cfg.get("own_topics") or {}
     no_own = [r["key"] for r in selected if (r["vendor"] or r["single_technology"]) and not own.get(r["key"])]
     no_collector = [r["key"] for r in selected if cfg["families"][r["family"]]["role"] in ("forum", "adoption")
-                    and not ((cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector"))]
+                    and not collector_of(cfg, r, r["key"])]
     not_downloaded, no_sample = {}, []
     for r in rows:
         if not (r.get("selected") or r.get("pending")):
             continue
-        col = (cfg.get("collectors") or {}).get(r["key"]) or (r["verified"] or {}).get("collector") or {}
+        col = collector_of(cfg, r, r["key"]) or {}
         if col.get("type") in PAGE_COLLECTORS and not all(
                 (r["verified"].get(ed) or {}).get("sample") for ed in ("current", "previous") if r["verified"].get(ed)):
             no_sample.append(r["key"])

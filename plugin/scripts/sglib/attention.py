@@ -1,8 +1,10 @@
 """Field trends, stage 2: how attention to each topic changed between the two windows, per family.
 
-Families with role `items` are measured on the classified items of stage 1. Families with role `forum` or
-`adoption` are measured on data that a collector downloads once per window from a public API; each such source names
-its collector (type and parameters) in the manifest's `collectors` or in its verification record:
+Families with role `items` are measured on the classified items of stage 1. Each source of a family with role
+`forum` or `adoption` names its collector (type and parameters) in the manifest's `collectors` or in its
+verification record. A collector either downloads data once per window from a public API, or reads what stage 1
+and the survey extractor took from the source's stored pages: records (type `records`, trends/items/<key>.json)
+or a survey's answer shares (type `survey_table`, trends/queries/<key>.json):
   sg trends collect --source <key>    raw data under trends/queries/raw/<key>/ (resumable)
   sg trends attention                 trends/attention.json|.md
 
@@ -29,10 +31,10 @@ from pathlib import Path
 
 import requests
 
-from .harvest import _selected_items, clean, compile_topics, families_with, topic_matches
+from .harvest import _selected_items, clean, compile_for, families_with, record_texts, topic_matches
 from .sources import _normalize
 from .shares import page_rows, paired
-from .trends import _entries, _manifest, _texts, page_origin
+from .trends import _entries, _manifest, _texts, collector_of, page_origin
 from .util import SgError, load_json, today, write_json
 
 Z = 1.96
@@ -40,7 +42,7 @@ MAX_UNPAIRED = 0.1   # share of a survey table's answers that may lack a printed
 UA = {"User-Agent": "slidegen-field-trends/1.0 (research; contact via repository)"}
 KIND = {"hn_stories": "posts", "reddit": "posts", "discourse": "topics", "mailman3": "threads",
         "stackexchange_tags": "questions", "hn_hiring": "job_postings", "itjobswatch": "job_ads", "pypi": "downloads",
-        "stackoverflow_survey": "survey", "survey_table": "survey", "top500_list": "survey"}
+        "records": "records", "stackoverflow_survey": "survey", "survey_table": "survey", "top500_list": "survey"}
 SHARE_TABLES = ("survey_table", "top500_list")   # adoption read from a table in queries/<key>.json
 
 
@@ -65,11 +67,6 @@ def _get(url: str, params: dict | None = None, pause: float = 1.0, tries: int = 
         wait *= 2
         time.sleep(wait)
     raise SgError(f"giving up on {url} {params}")
-
-
-def collector_of(cfg: dict, row: dict | None, key: str) -> dict | None:
-    """The collector of a source: the manifest's entry, else the one named in its verification record."""
-    return (cfg.get("collectors") or {}).get(key) or ((row or {}).get("verified") or {}).get("collector")
 
 
 # ---------------------------------------------------------------- collectors (raw data, once per window)
@@ -411,13 +408,14 @@ def _collect_top500(cfg: dict, out, params: dict, key: str, row: dict | None) ->
 
 
 def _collect_nothing(cfg: dict, out, params: dict) -> dict:
-    return {"note": "this source is read from stored pages or an extracted table; nothing to download"}
+    return {"note": "this source is read from its stored pages (records harvested in stage 1, or a survey table "
+                    "a survey-extractor writes); nothing to download"}
 
 
 COLLECTORS = {"hn_stories": _collect_hn_stories, "reddit": _collect_reddit, "discourse": _collect_discourse,
               "mailman3": _collect_mailman3, "hn_hiring": _collect_hiring,
               "stackexchange_tags": _collect_se_tags, "pypi": _collect_pypi, "itjobswatch": _collect_itjw,
-              "top500_list": _collect_top500,
+              "top500_list": _collect_top500, "records": _collect_nothing,
               "stackoverflow_survey": _collect_nothing, "survey_table": _collect_nothing}
 
 
@@ -531,24 +529,28 @@ def _raw(cfg, key):
 
 
 def _count_hn_stories(cfg, key, col, topics):
+    """Stories by title; a general forum matches each topic's qualified name unless the collector says otherwise."""
     texts = {ed: [clean(t) for line in (_raw(cfg, key) / f"{ed}.jsonl").open(encoding="utf-8")
                   for t in json.loads(line)["titles"]] for ed in ("current", "previous")}
-    # general forum: match the unambiguous qualified name only
-    compiled = compile_topics([{**t, "aliases": [t["qualified"]], "exclude": t.get("exclude", [])} for t in topics])
-    return _local_counts(texts, compiled)
+    return _local_counts(texts, compile_for(topics, col, "qualified"))
 
 
 def _count_titles(cfg, key, col, topics):
-    """Posts, topics or threads by title (reddit, discourse, mailman3), matched on every alias."""
+    """Posts, topics or threads by title (reddit, discourse, mailman3), matched on every alias by default."""
     texts = {ed: [clean(json.loads(line)["title"]) for line in (_raw(cfg, key) / f"{ed}.jsonl").open(encoding="utf-8")]
              for ed in ("current", "previous")}
-    return _local_counts(texts, compile_topics(topics))
+    return _local_counts(texts, compile_for(topics, col))
 
 
 def _count_hiring(cfg, key, col, topics):
     texts = {ed: [clean(re.sub(r"<[^>]+>", " ", html.unescape(json.loads(line)["text"])))
                   for line in (_raw(cfg, key) / f"{ed}.jsonl").open(encoding="utf-8")] for ed in ("current", "previous")}
-    return _local_counts(texts, compile_topics(topics))
+    return _local_counts(texts, compile_for(topics, col))
+
+
+def _count_records(cfg, key, col, topics):
+    """Records that a parser extracted from the source's stored pages and items-check verified."""
+    return _local_counts(record_texts(cfg, key), compile_for(topics, col))
 
 
 def _count_se_tags(cfg, key, col, topics):
@@ -565,7 +567,7 @@ def _count_se_tags(cfg, key, col, topics):
 
 
 COUNTERS = {"hn_stories": _count_hn_stories, "reddit": _count_titles, "discourse": _count_titles,
-            "mailman3": _count_titles, "hn_hiring": _count_hiring,
+            "mailman3": _count_titles, "hn_hiring": _count_hiring, "records": _count_records,
             "stackexchange_tags": _count_se_tags}
 
 
@@ -643,7 +645,8 @@ def _adoption(cfg, key, col, row, topics, counts) -> dict:
         if not path.exists():
             raise SgError(f"queries/{key}.json missing; run `sg trends collect --source {key}`")
         values = load_json(path)["topics"]
-    else:   # counts of postings or posts: log ratio of shares
+    else:   # counts of records, postings or posts: the direction from the log ratio of shares, which has an
+        # interval because every count is known; the change in percentage points for display
         n, k = counts
         values = {}
         for t in topics:
@@ -651,8 +654,12 @@ def _adoption(cfg, key, col, row, topics, counts) -> dict:
             if c["current"] + c["previous"]:
                 y, v = log_ratio(c["current"], n["current"], c["previous"], n["previous"])
                 est = {"log_ratio": y, "low": y - Z * math.sqrt(v), "high": y + Z * math.sqrt(v)}
-                values[t["id"]] = {**c, "direction": direction(est)}
-    return {tid: {**v, "kind": kind} for tid, v in values.items()}
+                pc, pp = (100 * c[ed] / max(1, n[ed]) for ed in ("current", "previous"))
+                values[t["id"]] = {**c, "n_current": n["current"], "n_previous": n["previous"],
+                                   "percent_current": round(pc, 1), "percent_previous": round(pp, 1),
+                                   "delta_pp": round(pc - pp, 1), "direction": direction(est)}
+    unit = {"unit": col.get("unit") or "records"} if kind == "records" else {}
+    return {tid: {**v, "kind": kind, **unit} for tid, v in values.items()}
 
 
 # ---------------------------------------------------------------- report
@@ -764,6 +771,9 @@ def adoption_cell(a: dict, short: bool = True) -> str:
     if a["kind"] == "survey":
         return f"{a['current']:.1f}% ({a['delta_pp']:+.1f} pp)" if short else \
             f"{a['label']} {a['current']:.1f}% of respondents ({a['delta_pp']:+.1f} pp)"
+    if a["kind"] == "records":
+        return f"{a['percent_current']:.1f}% ({a['delta_pp']:+.1f} pp) {ARROW[a['direction']]}" if short else \
+            f"{a['label']} {a['percent_current']:.1f}% of {a['unit']} ({a['delta_pp']:+.1f} pp, {a['direction']})"
     if a["kind"] == "downloads":
         return f"{a['relative_growth']}× {ARROW.get(a['direction'], '~')}" if short else \
             f"{a['label']} {a['relative_growth']}× the package set ({a['direction']})"

@@ -60,7 +60,9 @@ with `cd` is refused too.
    `stackoverflow_survey` (the databases question of that survey only),
    `survey_table` (any other survey question; a survey-extractor writes the
    table in stage 2), `top500_list` (TOP500 lists: systems per processor,
-   accelerator and interconnect, counted in the stored list pages). Check a subreddit or Stack Exchange
+   accelerator and interconnect, counted in the stored list pages), `records`
+   (a forum archive, ranked list or result list whose entries stage 1
+   extracts from the stored pages; `ranked`, `unit`). Check a subreddit or Stack Exchange
    site exists before naming it (one web search is enough). Sources you are
    unsure of are left to stage 0, whose verifiers record the collector.
 5. **Anchors.** About 20 topics any adequate panel must see: core tools,

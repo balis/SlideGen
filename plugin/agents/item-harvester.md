@@ -1,6 +1,6 @@
 ---
 name: item-harvester
-description: Extracts every item (talk, paper, episode, post, link) of both editions of assigned panel sources from their stored pages, with a parser script per source, and writes trends/items/<source>.json. Items are checked mechanically against the stored pages.
+description: Extracts every item (talk, paper, episode, post, link) or record (forum thread, listed system, result row) of both editions of assigned panel sources from their stored pages, with a parser script per source, and writes trends/items/<source>.json. Items are checked mechanically against the stored pages.
 tools: Bash, Read, Write, Grep, Glob
 model: sonnet
 effort: high
@@ -58,6 +58,15 @@ with `cd` is refused too.
    only items dated inside the edition's period; for link roundups, one item
    per external link (title = the link text), without sponsor links or links
    to the newsletter itself.
+   A forum or adoption source whose collector is `records` is harvested the
+   same way, one record per thread, post, listed entry or result row:
+   - `title`: the entry's text as printed (for a listed system, its whole
+     description: name, processor, accelerator, interconnect);
+   - a ranked list (`ranked: true`): `id` is the rank, and every rank of the
+     edition is present;
+   - a forum or archive: `date` (`YYYY-MM-DD`) on every record. sg counts each
+     record in the window its date falls in, so keep every record of the
+     stored pages and do not filter by date yourself.
 5. `pages`: the fetched ids your items come from. `note`: if your count differs
    from the verified count by more than a fifth, say why (for example "the
    verified count included workshops"); otherwise null. The parser records

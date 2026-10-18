@@ -144,11 +144,12 @@
               "hn_hiring",
               "pypi",
               "itjobswatch",
+              "records",
               "top500_list",
               "stackoverflow_survey",
               "survey_table"
             ],
-            "description": "stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table); top500_list counts systems per processor, accelerator and interconnect in stored TOP500 list pages"
+            "description": "records: entries (threads, posts, listed systems, result rows) that stage 1 extracts from the source's stored pages, counted per topic; stackoverflow_survey reads only the databases question of the Stack Overflow survey; use survey_table for any other survey question (a survey-extractor writes the table); top500_list counts systems per processor, accelerator and interconnect in stored TOP500 list pages"
           },
           "subreddit": {
             "type": "string"
@@ -190,6 +191,21 @@
           "systems_per_page": {
             "type": "integer",
             "description": "top500_list: systems on a full list page (default 100)"
+          },
+          "ranked": {
+            "type": "boolean",
+            "description": "records: the list is ranked; record ids are the ranks 1 to the verified count, each once"
+          },
+          "match": {
+            "enum": [
+              "aliases",
+              "qualified"
+            ],
+            "description": "titles counted by topic: every alias (default; hn_stories: qualified), or only each topic's qualified name, for a general forum where short aliases mean other things"
+          },
+          "unit": {
+            "type": "string",
+            "description": "records: what one record is, in the plural, for reports (systems, results, threads)"
           }
         }
       },

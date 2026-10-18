@@ -1,13 +1,18 @@
 """Field trends, stage 1: every item of every panel edition, classified as in scope or not, and candidate topics.
 
+A forum or adoption source whose collector type is `records` is harvested here too: its records (posts of an
+archive, systems of a ranked list, rows of a result list) come from its stored pages through a parser, as items
+do, and stage 2 counts the records that name each topic. Records are not classified.
+
 Layout, relative to the directory of the trends manifest:
   trends/parsers/<source>.py               the harvester's parser, kept so that the harvest can be run again
-  trends/items/<source>.json               harvester output: every item of both editions
+  trends/items/<source>.json               harvester output: every item (or record) of both editions
   trends/items_summary.md                  sg trends items-check
   trends/classify/<source>/batch_NN.json   blinded batches (sg trends classify-prep); map.json links them back
   trends/classify/<source>/batch_NN.labels.json, check.labels.json   classifier output
   trends/classified/<source>.json          in-scope and sponsored items per edition (sg trends classify-join)
-  trends/terms.json|.md                    candidate terms (sg trends terms)
+  trends/terms.json|.md                    candidate terms (sg trends terms); terms_<source>.json|.md for one
+                                           records source (sg trends terms --source)
   trends/topics.json                       topic-curator output; trends/matches.json (sg trends topics-check)
 """
 from __future__ import annotations
@@ -21,11 +26,13 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from .sources import _normalize
-from .trends import _entries, _manifest, _texts, page_origin
+from .trends import _entries, _manifest, _texts, collector_of, page_origin
 from .util import SgError, load_json, today, write_json
 
 MIN_FOUND = 0.95          # share of item titles that must be found in the stored pages
 COUNT_RANGE = (0.8, 1.25)  # harvested / verified item count, unless the edition explains the difference
+DAY = re.compile(r"^\d{4}-\d{2}-\d{2}")
+UNMATCHED_EXAMPLES = 8    # records no topic names, shown by topics-check
 MIN_TITLE = 8             # shorter titles cannot be checked against the page
 COMPARABLE_TEXT = 0.8     # abstracts count only if this share of items in both editions has one
 BATCH = 300
@@ -59,6 +66,52 @@ def _item_sources(cfg: dict) -> dict:
     return {k: r for k, r in _panel(cfg).items() if r["family"] in families_with(cfg, "items")}
 
 
+def records_sources(cfg: dict) -> dict:
+    """Forum and adoption sources of the panel measured on records that a parser extracted from their stored
+    pages (collector type `records`)."""
+    return {k: r for k, r in _panel(cfg).items() if r["family"] not in families_with(cfg, "items")
+            and (collector_of(cfg, r, k) or {}).get("type") == "records"}
+
+
+def in_window(cfg: dict, row: dict, items: list[dict], edition: str) -> list[dict]:
+    """The records of an edition that stage 2 counts. A forum's records count in the window their date falls in,
+    so an archive page that spans a window boundary can be listed in both editions; a list's records all count."""
+    if cfg["families"][row["family"]]["role"] != "forum":
+        return items
+    lo, hi = cfg["windows"][edition]
+    return [i for i in items if lo <= (i.get("date") or "")[:10] <= hi]
+
+
+def record_texts(cfg: dict, key: str) -> dict:
+    """{edition: [text]} of the records stage 2 counts for a records source: the title, with the description when
+    both editions have one."""
+    row = _panel(cfg)[key]
+    path = cfg["_ws"] / "items" / f"{key}.json"
+    if not path.exists():
+        raise SgError(f"trends/items/{key}.json is missing; harvest {key} in stage 1")
+    doc = load_json(path, "trend_items")
+    with_text = _comparable(cfg["_ws"]).get(key, False)
+    return {ed: [clean(i["title"] + (" " + i["text"] if with_text and i.get("text") else ""))
+                 for i in in_window(cfg, row, doc["editions"][ed]["items"], ed)] for ed in ("current", "previous")}
+
+
+def _records_problems(cfg: dict, key: str, row: dict, edition: str, e: dict) -> tuple[list[str], dict]:
+    """(problems, stats) of a records source's edition: a ranked list has every rank from 1 to the verified
+    count once; a forum's records carry the day they were posted."""
+    col, items, problems, stats = collector_of(cfg, row, key) or {}, e["items"], [], {}
+    if col.get("ranked"):
+        verified = ((row["verified"] or {}).get(edition) or {}).get("items")
+        if {i["id"] for i in items} != {str(n) for n in range(1, (verified or 0) + 1)} or len(items) != verified:
+            problems.append(f"{key} {edition}: a ranked list needs ids 1 to {verified}, each once; "
+                            f"the file has {len(items)} records")
+    if cfg["families"][row["family"]]["role"] == "forum":
+        undated = [i["id"] for i in items if not DAY.match(i.get("date") or "")]
+        if undated:
+            problems.append(f"{key} {edition}: {len(undated)} records without a YYYY-MM-DD date, e.g. {undated[:3]}")
+        stats["outside_window"] = len(items) - len(in_window(cfg, row, items, edition))
+    return problems, stats
+
+
 # ---------------------------------------------------------------- items
 
 
@@ -82,10 +135,11 @@ def parser_check(cfg: dict, key: str, doc: dict) -> tuple[list[str], list[str]]:
 
 
 def items_check(args) -> dict:
-    """Check every harvested item list against its stored pages and the verified item counts."""
+    """Check every harvested item and record list against its stored pages and the verified counts."""
     cfg = _manifest(args.manifest)
     ws, texts, entries = cfg["_ws"], _texts(cfg["_store"]), _entries(cfg["_store"])
-    sources = _item_sources(cfg)
+    records = records_sources(cfg)
+    sources = {**_item_sources(cfg), **records}
     summary, problems, warnings, missing = [], [], [], []
     for key, row in sorted(sources.items()):
         path = ws / "items" / f"{key}.json"
@@ -121,12 +175,17 @@ def items_check(args) -> dict:
             if found_share < MIN_FOUND:
                 problems.append(f"{key} {edition}: {len(not_found)} of {len(checkable)} titles not in the stored "
                                 f"pages, e.g. {not_found[:3]}")
-            if ratio is not None and not COUNT_RANGE[0] <= ratio <= COUNT_RANGE[1] and not e.get("note"):
+            ranked = key in records and (collector_of(cfg, row, key) or {}).get("ranked")   # counted exactly below
+            if ratio is not None and not COUNT_RANGE[0] <= ratio <= COUNT_RANGE[1] and not e.get("note") and not ranked:
                 problems.append(f"{key} {edition}: {len(e['items'])} items against {verified} verified; "
                                 f"explain the difference in the edition's note or fix the parser")
             with_text = sum(bool(clean(i.get("text"))) for i in e["items"]) / max(1, len(e["items"]))
             stats[edition] = {"items": len(e["items"]), "verified": verified, "found": round(found_share, 3),
                               "duplicate_titles": dupes, "with_text": round(with_text, 2), "note": e.get("note")}
+            if key in records:
+                bad, extra = _records_problems(cfg, key, row, edition, e)
+                problems += bad
+                stats[edition].update(extra)
         if len(stats) == 2:
             comparable = all(s["with_text"] >= COMPARABLE_TEXT for s in stats.values())
             summary.append({"source": key, "family": row["family"], "text_comparable": comparable, **{
@@ -141,6 +200,10 @@ def items_check(args) -> dict:
                      f"{s['previous_items']} (verified {s['previous_verified']}) | "
                      f"{min(s['current_found'], s['previous_found']):.0%} | "
                      f"{'both editions' if s['text_comparable'] else 'titles only'} |")
+    outside = [f"{s['source']} ({s['current_outside_window']} current, {s['previous_outside_window']} previous)"
+               for s in summary if s.get("current_outside_window") or s.get("previous_outside_window")]
+    if outside:
+        lines += ["", "Records dated outside their edition's window, not counted: " + "; ".join(outside)]
     if missing:
         lines += ["", f"Not harvested: {', '.join(missing)}"]
     if problems:
@@ -177,7 +240,7 @@ def classify_prep(args) -> dict:
         raise SgError("run `sg trends items-check` until it passes")
     comparable = _comparable(ws)
     out = {}
-    for key in sorted(comparable):
+    for key in sorted(set(comparable) & set(_item_sources(cfg))):   # records are not classified
         doc = load_json(ws / "items" / f"{key}.json", "trend_items")
         rows, mapping = [], {}
         for edition in ("current", "previous"):
@@ -311,43 +374,57 @@ def _selected_items(cfg: dict) -> dict:
     return out
 
 
+def _grams(text: str) -> set[str]:
+    """Words and phrases of 1 to 3 words that neither start nor end with a stopword."""
+    words = re.findall(r"[a-z0-9][a-z0-9.#]*[a-z0-9#]|[a-z0-9]", text.lower())
+    grams = set()
+    for n in (1, 2, 3):
+        for i in range(len(words) - n + 1):
+            g = words[i:i + n]
+            if g[0] in STOPWORDS or g[-1] in STOPWORDS or all(w.isdigit() or len(w) == 1 for w in g):
+                continue
+            grams.add(" ".join(g))
+    return grams
+
+
 def terms(args) -> dict:
-    """Frequent words and phrases (1 to 3 words) in measured items, as raw material for the topic list."""
+    """Frequent words and phrases (1 to 3 words) in measured items, as raw material for the topic list; with
+    `--source`, in the records of one records source, whose vocabulary the item sources may not share."""
     cfg = _manifest(args.manifest)
     ws = cfg["_ws"]
-    data = _selected_items(cfg)
+    source = getattr(args, "source", None)
+    if source:
+        if source not in records_sources(cfg):
+            raise SgError(f"{source} is not a records source of the panel")
+        data = {source: {"family": _panel(cfg)[source]["family"],
+                         "editions": {ed: [(None, t) for t in texts] for ed, texts in record_texts(cfg, source).items()}}}
+        name, min_sources, what = f"terms_{source}", 1, f"Records of {source}"
+    else:
+        data, name, min_sources, what = _selected_items(cfg), "terms", 2, "Measured items"
     df = defaultdict(lambda: {"current": 0, "previous": 0, "sources": set(), "families": set()})
     totals = {"current": 0, "previous": 0}
     for key, src in data.items():
         for edition, items in src["editions"].items():
             totals[edition] += len(items)
             for _, text in items:
-                words = re.findall(r"[a-z0-9][a-z0-9.#]*[a-z0-9#]|[a-z0-9]", text.lower())
-                grams = set()
-                for n in (1, 2, 3):
-                    for i in range(len(words) - n + 1):
-                        g = words[i:i + n]
-                        if g[0] in STOPWORDS or g[-1] in STOPWORDS or all(w.isdigit() or len(w) == 1 for w in g):
-                            continue
-                        grams.add(" ".join(g))
-                for g in grams:
+                for g in _grams(text):
                     d = df[g]
                     d[edition] += 1
                     d["sources"].add(key)
                     d["families"].add(src["family"])
     rows = [{"term": t, "current": d["current"], "previous": d["previous"], "sources": len(d["sources"]),
              "families": sorted(d["families"])}
-            for t, d in df.items() if d["current"] + d["previous"] >= 3 and len(d["sources"]) >= 2]
+            for t, d in df.items() if d["current"] + d["previous"] >= 3 and len(d["sources"]) >= min_sources]
     rows.sort(key=lambda r: -(r["current"] + r["previous"]))
     rows = rows[:args.limit]
-    write_json(ws / "terms.json", {"generated_by": "sg trends terms", "items": totals, "terms": rows})
-    lines = [f"# Candidate terms ({len(rows)})", "", f"Measured items: current {totals['current']}, previous "
+    write_json(ws / f"{name}.json", {"generated_by": "sg trends terms", "items": totals, "terms": rows})
+    lines = [f"# Candidate terms ({len(rows)})", "", f"{what}: current {totals['current']}, previous "
              f"{totals['previous']}. Items containing the term per edition; sources and families where it occurs.",
              "", "term | current | previous | sources | families"]
     lines += [f"{r['term']} | {r['current']} | {r['previous']} | {r['sources']} | {','.join(r['families'])}"
               for r in rows]
-    (ws / "terms.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return {"ok": True, "terms": len(rows), "items": totals, "out": str(ws / "terms.md")}
+    (ws / f"{name}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return {"ok": True, "terms": len(rows), "items": totals, "out": str(ws / f"{name}.md")}
 
 
 def _pattern(alias: str) -> re.Pattern:
@@ -362,6 +439,14 @@ def compile_topics(topics: list[dict]) -> dict:
     return {t["id"]: {"include": [_pattern(a) for a in t["aliases"]],
                       "exclude": [_pattern(x) for x in t.get("exclude", [])],
                       "literals": [clean(a).lower() for a in t["aliases"]]} for t in topics}
+
+
+def compile_for(topics: list[dict], col: dict | None, default: str = "aliases") -> dict:
+    """Patterns for the titles a collector counts: every alias, or only each topic's unambiguous qualified name
+    (`match: qualified`), which suits a general forum where short aliases mean other things."""
+    if (col or {}).get("match", default) == "qualified":
+        topics = [{**t, "aliases": [t["qualified"]]} for t in topics]
+    return compile_topics(topics)
 
 
 def topic_matches(compiled: dict, text: str) -> list[str]:
@@ -405,6 +490,15 @@ def topics_check(args) -> dict:
     totals = {t["id"]: {ed: sum(len(m[ed]) for m in matches.get(t["id"], {}).values())
                         for ed in ("current", "previous")} for t in topics}
     rare = [t["id"] for t in topics if sum(totals[t["id"]].values()) < 3]
+    unmatched = {}   # a record no topic names is not measured; a new product name shows up here
+    for key, row in sorted(records_sources(cfg).items()):
+        if not row.get("selected"):
+            continue
+        patterns = compile_for(topics, collector_of(cfg, row, key))
+        texts = record_texts(cfg, key)["current"]
+        none = [x for x in texts if not topic_matches(patterns, x)]
+        unmatched[key] = {"records": len(texts), "unmatched": len(none),
+                          "examples": [x for x, _ in Counter(none).most_common(UNMATCHED_EXAMPLES)]}
     lines = [f"# Topics ({len(topics)})", "", f"Generated {today()} by `sg trends topics-check`. Matches: measured "
              "items of the selected item sources that name the topic.", "",
              "| Topic | Kind | Aliases | Current | Previous |", "|---|---|---|---|---|"]
@@ -413,8 +507,13 @@ def topics_check(args) -> dict:
                      f"{totals[t['id']]['previous']} |")
     if rare:
         lines += ["", f"Rare (fewer than 3 matches; measured mainly through forums and adoption): {', '.join(rare)}"]
+    if unmatched:
+        lines += ["", "Records of the current edition that no topic names (records sources):"]
+        lines += [f"- {key}: {u['unmatched']} of {u['records']}" + (", e.g. " + "; ".join(u["examples"])
+                                                                    if u["examples"] else "")
+                  for key, u in unmatched.items()]
     if problems:
         lines += ["", "Problems:", *[f"- {p}" for p in problems]]
     (ws / "topics.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return {"ok": not problems, "topics": len(topics), "rare": len(rare), "problems": problems[:20],
-            "out": str(ws / "topics.md")}
+            "unmatched_records": {k: u["unmatched"] for k, u in unmatched.items()}, "out": str(ws / "topics.md")}

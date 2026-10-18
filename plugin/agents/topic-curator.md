@@ -18,6 +18,11 @@ precisely.
 - `terms`: trends/terms.md, words and phrases (1 to 3 words) with the number of
   measured items containing them in each window, and the sources and families
   where they occur.
+- `records_terms` (if any): trends/terms_<source>.md for each records source
+  (a forum archive, a ranked list, a result list measured on records taken
+  from its pages), the same table for that source's records alone. Records are
+  matched by aliases like items, so their vocabulary (product and model names,
+  for example) must appear among the aliases.
 - `manifest`: trends.yaml: scope, anchors (every anchor must be covered by a
   topic), `own_topics` (vendor product names), `collectors` (the tags and
   packages that forum and adoption sources can measure).
@@ -92,5 +97,8 @@ Write `output`, then run `<sg> trends topics-check --manifest <manifest>` and fi
 every problem (duplicate aliases, uncovered anchors). Read trends/topics.md:
 topics with no matches are acceptable only for anchors or topics measured
 through forums and adoption sources; topics with surprisingly many matches
-usually have an alias that is too broad. Reply with one line of JSON:
+usually have an alias that is too broad. topics.md also lists, per records
+source, the records no topic names: where such a record names something that
+belongs to a topic (a new model of a product line, a spelling variant), add
+the alias. Reply with one line of JSON:
 `{"topics": 212, "rare": 14}`.

@@ -114,9 +114,11 @@ Two collections:
 ## Stage 1: items, classification, topics
 
 1. **Harvest.** Start **item-harvester** agents in parallel, one per item
-   family, each writing `ROOT/trends/items/<source>.json` with a parser script
-   kept as `ROOT/trends/parsers/<source>.py` (pass that folder as `parsers`),
-   until `SG trends items-check --manifest T` passes.
+   family and one for the records sources (forum and adoption sources whose
+   collector is `records`), each writing `ROOT/trends/items/<source>.json`
+   with a parser script kept as `ROOT/trends/parsers/<source>.py` (pass that
+   folder as `parsers`), until `SG trends items-check --manifest T` passes.
+   Records are not classified.
 2. **Classify.** Run `SG trends classify-prep --manifest T` (blinded, shuffled
    batches; no edition shown). Start **item-classifier** agents for the batches
    and the second classifier for the `check.json` samples. Run
@@ -124,14 +126,17 @@ Two collections:
    goes back to a classifier on the mid-size model.
 3. **Settle the panel.** Run `SG trends sources-check --manifest T`: classified
    counts replace the estimates, so pending sources are decided.
-4. **Topics.** Run `SG trends terms --manifest T`, then one **topic-curator**
-   writes `trends/topics.json` until `SG trends topics-check --manifest T`
-   passes (it also matches topics to items).
+4. **Topics.** Run `SG trends terms --manifest T`, and
+   `SG trends terms --manifest T --source <key>` for each records source; then
+   one **topic-curator** (given both kinds of terms file) writes
+   `trends/topics.json` until `SG trends topics-check --manifest T` passes (it
+   also matches topics to items, and lists the records no topic names).
 
 ## Stage 2: attention
 
 1. Run `SG trends collect --manifest T --source <key>` for every forum and
    adoption source in the panel (job-board collectors need `topics.json`).
+   `records` sources were harvested in stage 1 and need nothing downloaded.
 2. For every `survey_table` source, one **survey-extractor** writes
    `trends/queries/<key>.json` until
    `SG trends survey-check --manifest T --source <key>` passes. For a

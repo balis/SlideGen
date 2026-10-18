@@ -70,10 +70,10 @@ with `cd` is refused too.
    - `more_pages` (optional): further pages of the same edition's list, for
      example an industry track on a separate page, each with `url` and `fetched`.
    - `sample`, for a source that stage 2 measures from its stored pages
-     (collector `survey_table` or `top500_list`): three rows of the edition as
-     stage 2 will read them, copied exactly. For a survey, three answers of the
-     question to be measured with their percentages
-     (`{"name": "Slurm", "percent": 61}`); for a list, three entries
+     (collector `survey_table`, `records` or `top500_list`): three rows of the
+     edition as stage 2 will read them, copied exactly. For a survey, three
+     answers of the question to be measured with their percentages
+     (`{"name": "Slurm", "percent": 61}`); for records, three entries
      (`{"name": "<entry text>"}`). sources-check looks for each answer printed
      with its percentage on one row of the stored pages (a table row, a chart
      bar, a PDF line, a clause of prose), or for each entry in the text. If the
@@ -101,10 +101,20 @@ with `cd` is refused too.
    `tags`: a neutral set of the field's main tags), `hn_hiring`, `itjobswatch`,
    `pypi` (`packages`: a neutral set of the field's main packages),
    `stackoverflow_survey`, `survey_table` (a survey whose results table
-   stage 2 reads from an extracted file), or `top500_list` (the TOP500 list:
+   stage 2 reads from an extracted file), `top500_list` (the TOP500 list:
    record every list page of each edition in `fetched` and `more_pages`;
-   stage 2 counts the systems in them). If none fits, say so in
-   `access_note`; the source cannot be measured until a collector exists.
+   stage 2 counts the systems in them), or `records`. Use `records` for any
+   forum or list whose entries are printed on pages you can store and no
+   other type reads: a mailing-list or forum archive (one record per thread
+   or post, with its date), a ranked list (one record per listed system or
+   entry), a benchmark's result list (one record per result row). Store
+   every page of each edition with `fetch --list`, record them in `fetched`
+   and `more_pages`, and count the edition's records in `items`. Stage 1
+   extracts the records with a parser and stage 2 counts those that name each
+   topic. Parameters: `ranked: true` when the entries are numbered 1 to N;
+   `unit`, what one record is, in the plural ("systems", "threads"). If no
+   type fits, say so in `access_note`; the source cannot be measured until a
+   collector exists.
 5. `scope_fit`: sample about 20 items of the current edition and give the share
    that falls within `scope`; `scope_note` says how (for example
    "13 of 20 sampled talks"). If the source mixes in-scope and out-of-scope

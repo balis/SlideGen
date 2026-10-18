@@ -136,6 +136,7 @@ def _parser() -> argparse.ArgumentParser:
         p.add_argument("--manifest", required=True, help="trends.yaml of the field")
         if name == "terms":
             p.add_argument("--limit", type=int, default=1500, help="number of terms to list")
+            p.add_argument("--source", help="list the terms of one records source (writes terms_<source>.md)")
         p.set_defaults(func=func)
     p = group.add_parser("collect", help="download raw data of a forum or adoption source for both windows")
     p.add_argument("--manifest", required=True, help="trends.yaml of the field")

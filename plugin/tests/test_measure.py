@@ -392,6 +392,103 @@ def test_survey_skips_answers_missing_from_one_edition(tmp_path):
                            "skipped": ["OpenTofu"]}}
 
 
+def _records_project(tmp_path, family: dict, collector: dict, editions: dict, verified_items: dict):
+    """A field with one records source: its stored pages, panel row and items file. `editions` maps an edition
+    to (page text, records)."""
+    root = tmp_path / "t"
+    store = root / "sources"
+    ids = {ed: run("fetch", "--file", write(tmp_path / f"{ed}.txt", text), "--store", store)["fetched"]
+           for ed, (text, _) in editions.items()}
+    manifest = write(root / "trends.yaml", yaml.safe_dump({
+        "field": "f", "scope": "s", "windows": {"current": ["2025-10-09", "2026-10-09"],
+                                                "previous": ["2024-10-09", "2025-10-08"]},
+        "routes": {"lists": "x"}, "families": {"talks": {"role": "items", "quota": 1}, "src": family},
+        "anchors": [{"name": "H100"}], "collectors": {"src-key": collector}}))
+    ws = root / "trends"
+    write(ws / "sources_panel.json", {"sources": [{"key": "src-key", "name": "Source", "family": "src",
+                                                   "selected": True, "verified": {
+                                                       ed: {"items": n} for ed, n in verified_items.items()}}]})
+    write(ws / "items" / "src-key.json", {"source": "src-key", "parser": "trends/parsers/src-key.py", "editions": {
+        ed: {"pages": [ids[ed]], "note": None, "items": records} for ed, (_, records) in editions.items()}})
+    return manifest, ws
+
+
+def test_ranked_list_records(tmp_path):
+    """A ranked list is measured as records: every rank once, topics matched by alias, shares with a pp change."""
+    from sglib.attention import adoption_cell
+    systems = {"current": ["Cray EX, AMD EPYC 9654, NVIDIA H100 SXM5, Slingshot-11",
+                           "ThinkSystem, Xeon Platinum 8480+, NVIDIA H200, Infiniband NDR",
+                           "Cray EX, AMD EPYC 4th Gen, AMD Instinct MI300A, Slingshot-11",
+                           "Eviden BullSequana, Grace 72C, NVIDIA GH200 Superchip, Infiniband NDR200"],
+               "previous": ["Cray EX, AMD EPYC 7763, AMD Instinct MI250X, Slingshot-11",
+                            "ThinkSystem, Xeon Platinum 8358, NVIDIA A100, Infiniband HDR",
+                            "Cray EX, AMD EPYC 7A53, AMD Instinct MI250X, Slingshot-11",
+                            "PowerEdge, Xeon Gold 6248, NVIDIA H100 PCIe, Infiniband HDR"]}
+    page = lambda ed: "\n".join(f"{r + 1} {s}" for r, s in enumerate(systems[ed])) + "\nList of systems. " * 8
+    records = lambda ed, ranks: [{"id": str(r), "title": systems[ed][r - 1]} for r in ranks]
+    manifest, ws = _records_project(
+        tmp_path, {"role": "adoption", "quota": 1}, {"type": "records", "ranked": True, "unit": "systems",
+                                                     "label": "Top list"},
+        {ed: (page(ed), records(ed, [1, 2, 4])) for ed in ("current", "previous")}, {"current": 4, "previous": 4})
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert not r["ok"] and "a ranked list needs ids 1 to 4, each once; the file has 3 records" in r["problems"][0]
+    doc = json.loads((ws / "items" / "src-key.json").read_text())
+    for ed in ("current", "previous"):
+        doc["editions"][ed]["items"] = records(ed, [1, 2, 3, 4])
+    write(ws / "items" / "src-key.json", doc)
+    assert run("trends", "items-check", "--manifest", manifest)["ok"]
+    assert run("trends", "classify-prep", "--manifest", manifest)["sources"] == {}   # records are not classified
+    terms = run("trends", "terms", "--manifest", manifest, "--source", "src-key")
+    assert terms["items"] == {"current": 4, "previous": 4}
+    assert "slingshot 11" in {t["term"] for t in json.loads((ws / "terms_src-key.json").read_text())["terms"]}
+    write(ws / "topics.json", {"topics": [
+        {"id": "nvidia-hopper", "name": "NVIDIA Hopper", "kind": "platform", "aliases": ["H100", "H200"],
+         "foundation": None, "vendor": "NVIDIA", "qualified": "NVIDIA Hopper"},
+        {"id": "amd-instinct", "name": "AMD Instinct", "kind": "platform", "aliases": ["AMD Instinct"],
+         "foundation": None, "vendor": "AMD", "qualified": "AMD Instinct"}]})
+    r = run("trends", "topics-check", "--manifest", manifest)
+    assert r["ok"] and r["unmatched_records"] == {"src-key": 1}   # GH200 is no alias yet
+    assert "src-key: 1 of 4, e.g. Eviden BullSequana, Grace 72C, NVIDIA GH200" in (ws / "topics.md").read_text()
+    assert run("trends", "attention", "--manifest", manifest)["ok"]
+    att = json.loads((ws / "attention.json").read_text())["topics"]
+    hopper = att["nvidia-hopper"]["adoption"]["src-key"]
+    assert hopper["current"] == 2 and hopper["previous"] == 1 and hopper["delta_pp"] == 25.0
+    assert hopper["direction"] == "flat"   # 2 of 4 against 1 of 4: the interval still includes no change
+    assert adoption_cell(hopper, short=False) == "Top list 50.0% of systems (+25.0 pp, flat)"
+    assert att["amd-instinct"]["adoption"]["src-key"]["percent_previous"] == 50.0
+    assert "50.0% (+25.0 pp) →" in (ws / "attention.md").read_text()
+
+
+def test_forum_records_counted_by_date(tmp_path):
+    """A forum's records count in the window their date falls in, whichever edition's pages list them."""
+    from sglib.attention import COUNTERS
+    from sglib.trends import _manifest
+    posts = [("p1", "2025-10-02", "Slurm accounting with MariaDB"), ("p2", "2025-10-20", "Slurm on Kubernetes nodes"),
+             ("p3", "2026-03-01", "MPI over Slingshot fabric"), ("p4", "2024-09-30", "Old Slurm question here")]
+    page = "October 2025 archive. " + " ".join(t for _, _, t in posts) + " Archive page of the list." * 8
+    rec = lambda ps: [{"id": i, "title": t, "date": d} for i, d, t in ps]
+    manifest, ws = _records_project(
+        tmp_path, {"role": "forum", "quota": 1}, {"type": "records"},
+        {"current": (page, rec(posts[1:3])), "previous": (page, rec([posts[0], posts[1], posts[3]]))},
+        {"current": 2, "previous": 3})
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert r["ok"]
+    summary = json.loads((ws / "items_summary.json").read_text())["sources"][0]
+    assert summary["previous_outside_window"] == 2   # p2 belongs to the current window, p4 to neither
+    topics = [{"id": "slurm", "name": "Slurm", "qualified": "Slurm Workload Manager", "aliases": ["Slurm"],
+               "kind": "tool"}]
+    cfg = _manifest(manifest)
+    n, k = COUNTERS["records"](cfg, "src-key", {"type": "records"}, topics)
+    assert n == {"current": 2, "previous": 1} and k["slurm"] == {"current": 1, "previous": 1}
+    n, k = COUNTERS["records"](cfg, "src-key", {"type": "records", "match": "qualified"}, topics)
+    assert k["slurm"] == {"current": 0, "previous": 0}
+    doc = json.loads((ws / "items" / "src-key.json").read_text())
+    doc["editions"]["current"]["items"][0]["date"] = None
+    write(ws / "items" / "src-key.json", doc)
+    r = run("trends", "items-check", "--manifest", manifest)
+    assert not r["ok"] and "1 records without a YYYY-MM-DD date" in r["problems"][0]
+
+
 def test_top500_classification():
     """Parts are classified by what they name; accelerators by model, processors and interconnects by family."""
     from sglib.top500 import classify

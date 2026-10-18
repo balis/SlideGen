@@ -93,6 +93,7 @@
                   "hn_hiring",
                   "pypi",
                   "itjobswatch",
+                  "records",
                   "top500_list",
                   "stackoverflow_survey",
                   "survey_table"
@@ -130,6 +131,21 @@
               },
               "label": {
                 "type": "string"
+              },
+              "ranked": {
+                "type": "boolean",
+                "description": "records: the list is ranked; record ids are the ranks 1 to the verified count, each once"
+              },
+              "match": {
+                "enum": [
+                  "aliases",
+                  "qualified"
+                ],
+                "description": "titles counted by topic: every alias (default; hn_stories: qualified), or only each topic's qualified name, for a general forum where short aliases mean other things"
+              },
+              "unit": {
+                "type": "string",
+                "description": "records: what one record is, in the plural, for reports (systems, results, threads)"
               }
             },
             "description": "for forum and adoption sources: how stage 2 measures the source (collector type and its parameters)"
