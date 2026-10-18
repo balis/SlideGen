@@ -918,10 +918,16 @@ scope, the two windows, the families of evidence with their roles, quotas and
 vendor flags, the collectors of forum and adoption sources, anchors, discovery
 routes and targets. Families have one of three roles: `items` (harvested item
 lists, classified and matched), `forum` (posts collected per window and matched
-like items), `adoption` (use signals reported source by source). Collectors are
-declared by type with parameters (`reddit` with a subreddit, `stackexchange_tags`
-with a site and tags, `pypi` with packages, job boards, surveys), in the
-manifest or in a source's verification record. For a new field, a field-scoper
+like items), `adoption` (use signals reported source by source). Each forum and
+adoption source declares a collector by type with parameters, in the manifest or
+in its verification record. Some types download from a public API (`reddit` with
+a subreddit, `discourse`, `mailman3`, `stackexchange_tags` with a site and tags,
+`pypi` with packages, job boards). Two types read the source's stored pages
+instead, so a new page format needs no plugin code: `records` (forum archives,
+ranked lists such as TOP500, benchmark result lists), whose entries a parser
+extracts in stage 1, and `survey_table`, a survey question's answer shares that
+a survey-extractor copies and code finds printed as name and percentage on one
+row of the page. For a new field, a field-scoper
 drafts the manifest from a course brief, marking the choices the author must
 confirm (for example how to read an ambiguous course name), and
 `sg trends manifest-check` checks the windows, roles and targets.
@@ -979,7 +985,13 @@ confirm (for example how to read an ambiguous course name), and
   abstract where both editions have one, date, presenter's organization where
   available). Normalize the text: percent-encoding is decoded, hyphens and
   underscores in URL slugs read as spaces, wrapped title lines are joined,
-  duplicate titles are removed.
+  duplicate titles are removed. Each list comes from a parser script that an
+  agent writes and that is kept with the project and its hash, and code checks
+  every title against the stored pages, which `sg fetch` downloaded. The
+  entries of `records` sources are harvested the same way, one record per
+  thread, listed system or result row; they are not classified. A ranked list
+  must hold every rank once, and a forum's records are counted in the window
+  their date falls in.
 - Classify every item as in scope or not, in one run per source with the same
   model and prompt for both editions, without showing the edition or any topic
   list, and with a written rule for borderline content (AI talks are in scope
@@ -1031,7 +1043,11 @@ confirm (for example how to read an ambiguous course name), and
 - Report the adoption sources separately, because they measure different things:
   surveys report use within a sampled population (compare ranks; changes below
   one percentage point count as no change), job postings show demand for
-  skills, and package downloads show distribution activity. For downloads,
+  skills, lists of systems or results show what the listed entries use, and
+  package downloads show distribution activity. A list reports the share of
+  its entries that name a topic through the phrases the topic gives for that
+  list (`record_names`), with the direction taken from the interval of the log
+  ratio, as for forums, and the change shown in percentage points. For downloads,
   compare each project's median monthly downloads with the median growth of
   the package set, count one representative package per project (summing a
   wrapper and its dependencies double-counts installs), and flag series that
