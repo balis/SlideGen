@@ -95,6 +95,18 @@
               "type": "string"
             }
           },
+          "record_names": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "description": "for each records source of an adoption family (a list of systems, a result list): the phrases that name the topic in its records; the topic's share there is the share of records naming any of them. Such a source reports only the topics that name it here"
+          },
           "note": {
             "type": [
               "string",

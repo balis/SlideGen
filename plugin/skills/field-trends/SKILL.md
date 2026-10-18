@@ -139,9 +139,7 @@ Two collections:
    `records` sources were harvested in stage 1 and need nothing downloaded.
 2. For every `survey_table` source, one **survey-extractor** writes
    `trends/queries/<key>.json` until
-   `SG trends survey-check --manifest T --source <key>` passes. For a
-   `top500_list` source, `collect` writes the table itself and `survey-check`
-   recounts the stored list pages; it must pass before step 3.
+   `SG trends survey-check --manifest T --source <key>` passes.
 3. Run `SG trends attention --manifest T`; it writes `trends/attention.md`.
 
 ## Stage 3: profiles

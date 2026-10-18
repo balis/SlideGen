@@ -1,6 +1,6 @@
 ---
 name: topic-curator
-description: Turns the frequent terms of a field's classified items into a canonical list of candidate topics (tools, formats, platforms, services, concepts, practices) with aliases for mechanical matching and mappings to tags, packages, survey answers and job-board skills. Writes trends/topics.json.
+description: Turns the frequent terms of a field's classified items into a canonical list of candidate topics (tools, formats, platforms, services, concepts, practices) with aliases for mechanical matching and mappings to tags, packages, survey answers, list records and job-board skills. Writes trends/topics.json.
 tools: Read, Write, Bash, Grep, Glob
 model: opus
 effort: high
@@ -20,9 +20,10 @@ precisely.
   where they occur.
 - `records_terms` (if any): trends/terms_<source>.md for each records source
   (a forum archive, a ranked list, a result list measured on records taken
-  from its pages), the same table for that source's records alone. Records are
-  matched by aliases like items, so their vocabulary (product and model names,
-  for example) must appear among the aliases.
+  from its pages), the same table for that source's records alone. A forum's
+  records are matched by aliases like items, so its vocabulary must appear
+  among the aliases; an adoption list's records are matched by
+  `record_names`.
 - `manifest`: trends.yaml: scope, anchors (every anchor must be covered by a
   topic), `own_topics` (vendor product names), `collectors` (the tags and
   packages that forum and adoption sources can measure).
@@ -83,9 +84,18 @@ own terms and `scope`.
   dependencies).
 - `tags`: tags from a `stackexchange_tags` collector's set.
 - `survey_names`: answer names exactly as in the survey results; the topic's
-  share is their sum. A TOP500 table names accelerators by model ("NVIDIA
-  H100", "AMD Instinct MI300A") and processors and interconnects by family
-  ("Intel Xeon", "InfiniBand"); list every model that belongs to the topic.
+  share is their sum.
+- `record_names`: for each records source of an adoption family (a list of
+  systems, a benchmark's result list), keyed by source, the phrases that name
+  the topic in its records, taken from that source's `records_terms` and
+  matched like aliases. The topic's share there is the share of records that
+  name any of the phrases, so give only phrases that mean an entry uses the
+  topic: a GPU model, a processor or interconnect family, not a word that
+  only some entries print or that names something else ("Linux" in the
+  operating-system field that a few systems fill in). One phrase may serve
+  several topics ("H100" for NVIDIA Hopper and for NVIDIA GPUs), and the
+  source reports only the topics that name it here. topics-check fails on a
+  phrase that occurs in no record.
 - `job_skills`: the skill names a job board would use for the topic (for
   example "Apache Spark", "Slurm", "Kubernetes"); give the most common form
   first. Pages that do not exist are skipped.
@@ -100,5 +110,7 @@ through forums and adoption sources; topics with surprisingly many matches
 usually have an alias that is too broad. topics.md also lists, per records
 source, the records no topic names: where such a record names something that
 belongs to a topic (a new model of a product line, a spelling variant), add
-the alias. Reply with one line of JSON:
+the alias or record name. A record that names one topic can still miss
+another (a system matched by its processor but not by its accelerator), so
+also read the `records_terms` for model and family names that no topic lists. Reply with one line of JSON:
 `{"topics": 212, "rare": 14}`.

@@ -449,6 +449,37 @@ def compile_for(topics: list[dict], col: dict | None, default: str = "aliases") 
     return compile_topics(topics)
 
 
+def record_patterns(cfg: dict, key: str, topics: list[dict], col: dict | None) -> dict:
+    """Patterns for the records of a records source. A forum's records are matched like the titles of any forum. An
+    adoption list's records are matched by the phrases each topic gives for that source in `record_names`: a list
+    entry names what the entry uses next to words that say nothing about use (an operating system that some entries
+    print, a product name), and one phrase may name several topics (a GPU model, its product line, its vendor's
+    GPUs)."""
+    row = _panel(cfg)[key]
+    if cfg["families"][row["family"]]["role"] == "forum":
+        return compile_for(topics, col)
+    return compile_topics([{**t, "aliases": t["record_names"][key]} for t in topics
+                           if key in (t.get("record_names") or {})])
+
+
+def _record_names_problems(cfg: dict, topics: list[dict]) -> list[str]:
+    """Record names must belong to an adoption records source of the panel and occur in its records."""
+    lists = {k for k, r in records_sources(cfg).items() if cfg["families"][r["family"]]["role"] == "adoption"}
+    texts, problems = {}, []
+    for t in topics:
+        for key, names in (t.get("record_names") or {}).items():
+            if key not in lists:
+                problems.append(f"{t['id']}: record_names names {key}, which is not a records source of an "
+                                f"adoption family")
+                continue
+            if key not in texts:
+                texts[key] = [x for ed in record_texts(cfg, key).values() for x in ed]
+            absent = [n for n in names if not any(_pattern(n).search(x) for x in texts[key])]
+            if absent:
+                problems.append(f"{t['id']}: record names {absent} occur in no record of {key}")
+    return problems
+
+
 def topic_matches(compiled: dict, text: str) -> list[str]:
     """Topics named in a cleaned text. A lowercase substring test, necessary for any alias match, skips the
     regular expressions for texts that cannot match."""
@@ -491,10 +522,11 @@ def topics_check(args) -> dict:
                         for ed in ("current", "previous")} for t in topics}
     rare = [t["id"] for t in topics if sum(totals[t["id"]].values()) < 3]
     unmatched = {}   # a record no topic names is not measured; a new product name shows up here
+    problems += _record_names_problems(cfg, topics)
     for key, row in sorted(records_sources(cfg).items()):
         if not row.get("selected"):
             continue
-        patterns = compile_for(topics, collector_of(cfg, row, key))
+        patterns = record_patterns(cfg, key, topics, collector_of(cfg, row, key))
         texts = record_texts(cfg, key)["current"]
         none = [x for x in texts if not topic_matches(patterns, x)]
         unmatched[key] = {"records": len(texts), "unmatched": len(none),

@@ -441,13 +441,20 @@ def test_ranked_list_records(tmp_path):
     terms = run("trends", "terms", "--manifest", manifest, "--source", "src-key")
     assert terms["items"] == {"current": 4, "previous": 4}
     assert "slingshot 11" in {t["term"] for t in json.loads((ws / "terms_src-key.json").read_text())["terms"]}
-    write(ws / "topics.json", {"topics": [
-        {"id": "nvidia-hopper", "name": "NVIDIA Hopper", "kind": "platform", "aliases": ["H100", "H200"],
-         "foundation": None, "vendor": "NVIDIA", "qualified": "NVIDIA Hopper"},
-        {"id": "amd-instinct", "name": "AMD Instinct", "kind": "platform", "aliases": ["AMD Instinct"],
-         "foundation": None, "vendor": "AMD", "qualified": "AMD Instinct"}]})
+    topic = lambda tid, name, aliases, names=None: {
+        "id": tid, "name": name, "kind": "platform", "aliases": aliases, "foundation": None, "vendor": None,
+        "qualified": name, **({"record_names": {"src-key": names}} if names else {})}
+    topics = [topic("nvidia-hopper", "NVIDIA Hopper", ["H100", "H200"], ["H100", "H200"]),
+              topic("nvidia-gpus", "NVIDIA GPUs", ["NVIDIA GPU"], ["H100", "H200", "A100", "B200"]),
+              topic("amd-instinct", "AMD Instinct", ["AMD Instinct"], ["AMD Instinct"]),
+              topic("cray", "HPE Cray", ["Cray"])]   # named in the entries, but not as something they use
+    write(ws / "topics.json", {"topics": topics})
     r = run("trends", "topics-check", "--manifest", manifest)
-    assert r["ok"] and r["unmatched_records"] == {"src-key": 1}   # GH200 is no alias yet
+    assert not r["ok"] and r["problems"] == ["nvidia-gpus: record names ['B200'] occur in no record of src-key"]
+    topics[1]["record_names"]["src-key"].remove("B200")
+    write(ws / "topics.json", {"topics": topics})
+    r = run("trends", "topics-check", "--manifest", manifest)
+    assert r["ok"] and r["unmatched_records"] == {"src-key": 1}   # no topic names GH200 yet
     assert "src-key: 1 of 4, e.g. Eviden BullSequana, Grace 72C, NVIDIA GH200" in (ws / "topics.md").read_text()
     assert run("trends", "attention", "--manifest", manifest)["ok"]
     att = json.loads((ws / "attention.json").read_text())["topics"]
@@ -455,7 +462,9 @@ def test_ranked_list_records(tmp_path):
     assert hopper["current"] == 2 and hopper["previous"] == 1 and hopper["delta_pp"] == 25.0
     assert hopper["direction"] == "flat"   # 2 of 4 against 1 of 4: the interval still includes no change
     assert adoption_cell(hopper, short=False) == "Top list 50.0% of systems (+25.0 pp, flat)"
+    assert att["nvidia-gpus"]["adoption"]["src-key"]["previous"] == 2   # H100 counts for both topics
     assert att["amd-instinct"]["adoption"]["src-key"]["percent_previous"] == 50.0
+    assert att["cray"]["adoption"] == {}   # a list reports only the topics that name it in record_names
     assert "50.0% (+25.0 pp) →" in (ws / "attention.md").read_text()
 
 
@@ -487,74 +496,3 @@ def test_forum_records_counted_by_date(tmp_path):
     write(ws / "items" / "src-key.json", doc)
     r = run("trends", "items-check", "--manifest", manifest)
     assert not r["ok"] and "1 records without a YYYY-MM-DD date" in r["problems"][0]
-
-
-def test_top500_classification():
-    """Parts are classified by what they name; accelerators by model, processors and interconnects by family."""
-    from sglib.top500 import classify
-    c = classify("HPE Cray EX255a, AMD 4th Gen EPYC 24C 1.8GHz, AMD Instinct MI300A, Slingshot-11, TOSS")
-    assert c["processor"] == {"AMD EPYC"} and c["accelerator"] == {"AMD Instinct MI300A"}
-    assert c["interconnect"] == {"Slingshot"} and not c["unknown"]
-    c = classify("Peano B200, Xeon 6710E 64C 2.4GHz/Xeon 6960P 72C 2.7GHz, "
-                 "NVIDIA H200 SXM5 141 GB/NVIDIA B200 SXM 180 GB, Infiniband NDR400, Ubuntu 24.04.4")
-    assert c["processor"] == {"Intel Xeon"} and c["accelerator"] == {"NVIDIA H200", "NVIDIA B200"}
-    c = classify("SGI ICE X, Xeon E5-2699v3/E5-2697 v3, Infiniband FDR, NVIDIA Tesla K40, Intel Xeon Phi 7120P")
-    assert c["accelerator"] == {"NVIDIA K40", "Intel Xeon Phi"} and c["interconnect"] == {"InfiniBand"}
-    c = classify("PowerEdge R740, Xeon 8358/6148/6248, NVIDIA Tesla A100 80G/40G, InfiniBand HDR100")
-    assert c["processor"] == {"Intel Xeon"} and c["accelerator"] == {"NVIDIA A100"}
-    c = classify("Supermicro AS-4124GQ-TNMI, AMD EPYC 7713 64C 3.7GHz, AMD Instinct MI250X, Ethernet, 4x 200Gb/s, "
-                 "Rocky Linux 8.9")
-    assert c["interconnect"] == {"Ethernet"} and not c["unknown"]
-    c = classify("InfiniBand XDR (800 Gb/s, 4X) box, NVIDIA Grace 72C 3.1GHz, NVIDIA GB200 Superchip, "
-                 "InfiniBand XDR (800 Gb/s, 4X), Rocky Linux 9.8")
-    assert c["processor"] == {"NVIDIA Grace"} and c["accelerator"] == {"NVIDIA GB200"}
-    c = classify("Sunway MPP, Sunway SW26010 260C 1.45GHz, Sunway")   # interconnect taken from its position
-    assert c["processor"] == {"Sunway"} and c["interconnect"] == {"Sunway network"}
-    c = classify("LingKun, LX2 304C 1.55GHz, LingQi, Kylin OS")
-    assert c["processor"] == {"LX2"} and c["interconnect"] == {"LingQi"} and len(c["unmapped"]) == 2
-
-
-def _list_page(systems: list[tuple[int, str]]) -> str:
-    rows = "".join(f'<tr>\n<td>{rank}</td>\n<td>\n<a href="/system/{1000 + rank}">\n<b>S{rank}</b> - {desc},\n'
-                   f'</a> Vendor<br/></td><td>1</td></tr>' for rank, desc in systems)
-    return f'<table class="table">{rows}</table>'
-
-
-def test_top500_collect_and_recount(tmp_path):
-    """The collector counts systems per answer in the stored list pages; survey-check recounts them."""
-    root = tmp_path / "t"
-    gpu, cpu = "Cray EX, AMD EPYC 9654 96C 2.4GHz, NVIDIA H100 SXM5 80GB, Slingshot-11", \
-        "ThinkSystem, Xeon Platinum 8480+ 56C 2GHz, Infiniband NDR"
-    pages = {"c1": [(1, gpu), (2, cpu)], "c2": [(3, gpu), (4, gpu)],
-             "p1": [(1, cpu), (2, cpu)], "p2": [(3, gpu), (4, "Cray EX, AMD EPYC 7763 64C 2.45GHz, "
-                                                          "NVIDIA B200 SXM 180GB, Slingshot-11")]}
-    for pid, systems in pages.items():
-        write(root / "sources" / "raw" / f"{pid}.html", _list_page(systems))
-    verified = {"collector": {"type": "top500_list"},
-                "current": {"fetched": "c1", "period": "2026-06", "more_pages": [{"fetched": "c2"}]},
-                "previous": {"fetched": "p1", "period": "2025-06", "more_pages": [{"fetched": "p2"}]}}
-    write(root / "trends" / "sources_panel.json", {"sources": [{"key": "top500", "family": "adoption",
-                                                                "verified": verified, "selected": True}]})
-    manifest = write(root / "trends.yaml", yaml.safe_dump({
-        "field": "f", "scope": "s", "windows": {"current": ["2025-10-09", "2026-10-09"],
-                                                "previous": ["2024-10-09", "2025-10-08"]},
-        "routes": {"lists": "x"}, "families": {"talks": {"role": "items", "quota": 1}}, "anchors": [{"name": "x"}],
-        "collectors": {"top500": {"type": "top500_list", "systems_per_page": 2}}}))
-    r = run("trends", "collect", "--manifest", manifest, "--source", "top500")
-    assert r["ok"] and r["collected"]["current"]["systems"] == 4
-    table = json.loads((root / "trends" / "queries" / "top500.json").read_text())
-    cur = {x["name"]: x for x in table["editions"]["current"]["rows"]}
-    prev = {x["name"]: x for x in table["editions"]["previous"]["rows"]}
-    assert cur["NVIDIA H100"] == {"name": "NVIDIA H100", "percent": 75.0, "count": 3}
-    assert cur["Systems with accelerators"]["count"] == 3 and cur["Intel Xeon"]["count"] == 1
-    assert prev["NVIDIA B200"]["count"] == 1 and cur["NVIDIA B200"]["count"] == 0   # a list counts every system
-    assert run("trends", "survey-check", "--manifest", manifest, "--source", "top500")["ok"]
-    cur["NVIDIA H100"]["count"] = 2
-    table["editions"]["current"]["rows"] = list(cur.values())
-    write(root / "trends" / "queries" / "top500.json", table)
-    r = run("trends", "survey-check", "--manifest", manifest, "--source", "top500")
-    assert not r["ok"] and "1 answers differ from a recount" in r["problems"][0]
-    write(root / "sources" / "raw" / "c2.html", _list_page([(3, gpu)]))
-    r = run("trends", "collect", "--manifest", manifest, "--source", "top500")
-    r = run("trends", "survey-check", "--manifest", manifest, "--source", "top500")
-    assert not r["ok"] and any("pages without 2 systems" in p for p in r["problems"])

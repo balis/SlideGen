@@ -70,8 +70,8 @@ with `cd` is refused too.
    - `more_pages` (optional): further pages of the same edition's list, for
      example an industry track on a separate page, each with `url` and `fetched`.
    - `sample`, for a source that stage 2 measures from its stored pages
-     (collector `survey_table`, `records` or `top500_list`): three rows of the
-     edition as stage 2 will read them, copied exactly. For a survey, three
+     (collector `survey_table` or `records`): three rows of the edition as
+     stage 2 will read them, copied exactly. For a survey, three
      answers of the question to be measured with their percentages
      (`{"name": "Slurm", "percent": 61}`); for records, three entries
      (`{"name": "<entry text>"}`). sources-check looks for each answer printed
@@ -101,9 +101,7 @@ with `cd` is refused too.
    `tags`: a neutral set of the field's main tags), `hn_hiring`, `itjobswatch`,
    `pypi` (`packages`: a neutral set of the field's main packages),
    `stackoverflow_survey`, `survey_table` (a survey whose results table
-   stage 2 reads from an extracted file), `top500_list` (the TOP500 list:
-   record every list page of each edition in `fetched` and `more_pages`;
-   stage 2 counts the systems in them), or `records`. Use `records` for any
+   stage 2 reads from an extracted file), or `records`. Use `records` for any
    forum or list whose entries are printed on pages you can store and no
    other type reads: a mailing-list or forum archive (one record per thread
    or post, with its date), a ranked list (one record per listed system or
